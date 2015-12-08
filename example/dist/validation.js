@@ -58,38 +58,26 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _index = __webpack_require__(159);
+	var _index = __webpack_require__(357);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	var columns = [{ text: '表头1', dataIndex: 'a', colSpan: 2, width: 100 }, { id: '123', text: '表头2', dataIndex: 'b', colSpan: 0, width: 500, renderer: function renderer(o, row, index) {
-	    var obj = {
-	      content: o,
-	      props: {}
-	    };
-	    if (index === 0) {
-	      obj.props.rowSpan = 2;
-	    }
-	    if (index === 1) {
-	      obj.props.rowSpan = 0;
-	    }
-	    return obj;
-	  } }, { text: '表头3', dataIndex: 'c', width: 200 }, {
-	  text: '操作', dataIndex: '', renderer: function renderer() {
-	    return _react2.default.createElement(
-	      "a",
-	      { href: "#" },
-	      "操作"
-	    );
-	  }
-	}]; /**
-	     * Grid demo
-	     */
+	function run(v, trigger) {
+	    _reactDom2.default.render(_react2.default.createElement(
+	        "form",
+	        { action: "#" },
+	        _react2.default.createElement("input", { type: "text", value: v, onChange: function onChange(evt) {
+	                run(evt.target.value, true);
+	            } }),
+	        _react2.default.createElement(_index2.default, { value: v, rule: ["money"], failMsg: "不符合金额格式", trigger: trigger })
+	    ), document.getElementById("container"));
+	} /**
+	   * Validation demo
+	   */
 	
-	var data = [{ a: '123' }, { a: 'cdd', b: 'edd' }, { a: '1333', c: 'eee', d: 2 }];
-	_reactDom2.default.render(_react2.default.createElement(_index2.default, { columns: columns, data: data, useFixedHeader: true }), document.getElementById("container"));
+	run(1.111, false);
 
 /***/ },
 /* 1 */
@@ -19679,157 +19667,7 @@
 
 
 /***/ },
-/* 159 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	Object.defineProperty(exports, "__esModule", {
-	    value: true
-	});
-	
-	var _component = __webpack_require__(160);
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _GridRow = __webpack_require__(356);
-	
-	var _GridRow2 = _interopRequireDefault(_GridRow);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Grid组件实现
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-	
-	var Grid = (function (_Widget) {
-	    _inherits(Grid, _Widget);
-	
-	    function Grid(props) {
-	        _classCallCheck(this, Grid);
-	
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Grid).call(this, props));
-	    }
-	
-	    _createClass(Grid, [{
-	        key: 'getThs',
-	        value: function getThs() {
-	            return this.props.columns.map(function (c, i) {
-	                return _react2.default.createElement(
-	                    'th',
-	                    { key: i, className: c.className || '' },
-	                    c.text
-	                );
-	            });
-	        }
-	    }, {
-	        key: 'getRowsByData',
-	        value: function getRowsByData(data) {
-	            var props = this.props;
-	            var columns = props.columns;
-	            var rst = [];
-	            for (var i = 0; i < data.length; i++) {
-	                var record = data[i];
-	                rst.push(_react2.default.createElement(_GridRow2.default, {
-	                    record: record,
-	                    index: i,
-	                    prefixCls: props.prefixCls + '-row',
-	                    columns: columns,
-	                    key: i }));
-	            }
-	            return rst;
-	        }
-	    }, {
-	        key: 'getColGroup',
-	        value: function getColGroup() {
-	            var cols = [];
-	            cols = cols.concat(this.props.columns.map(function (c, i) {
-	                return _react2.default.createElement('col', { key: i, style: { width: c.width } });
-	            }));
-	            return _react2.default.createElement(
-	                'colgroup',
-	                null,
-	                cols
-	            );
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var props = this.props;
-	            var prefixCls = props.prefixCls;
-	            var ths = this.getThs();
-	            var rows = this.getRowsByData(props.data);
-	            var className = props.prefixCls;
-	            if (props.className) {
-	                className += ' ' + props.className;
-	            }
-	            var headerTable = null;
-	            var thead = _react2.default.createElement(
-	                'thead',
-	                { className: prefixCls + '-thead' },
-	                _react2.default.createElement(
-	                    'tr',
-	                    null,
-	                    ths
-	                )
-	            );
-	            if (props.useFixedHeader) {
-	                headerTable = _react2.default.createElement(
-	                    'div',
-	                    { className: prefixCls + '-header' },
-	                    _react2.default.createElement(
-	                        'table',
-	                        null,
-	                        this.getColGroup(),
-	                        thead
-	                    )
-	                );
-	                thead = null;
-	            }
-	            return _react2.default.createElement(
-	                'div',
-	                { className: className },
-	                headerTable,
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: prefixCls + '-body' },
-	                    _react2.default.createElement(
-	                        'table',
-	                        null,
-	                        this.getColGroup(),
-	                        thead,
-	                        _react2.default.createElement(
-	                            'tbody',
-	                            { className: prefixCls + '-tbody' },
-	                            rows
-	                        )
-	                    )
-	                )
-	            );
-	        }
-	    }]);
-	
-	    return Grid;
-	})(_component.Widget);
-	
-	Grid.defaultProps = {
-	    data: [],
-	    useFixedHeader: false,
-	    columns: [],
-	    prefixCls: 'ui-grid'
-	};
-	
-	exports.default = Grid;
-
-/***/ },
+/* 159 */,
 /* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -25523,10 +25361,11 @@
 
 
 /***/ },
-/* 356 */
+/* 356 */,
+/* 357 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
+	"use strict";
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
@@ -25534,97 +25373,113 @@
 	    value: true
 	});
 	
+	var _component = __webpack_require__(160);
+	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _component = __webpack_require__(160);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 验证组件，多用于表单
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
-	var GridRow = (function (_Widget) {
-	    _inherits(GridRow, _Widget);
+	var Validation = (function (_Widget) {
+	    _inherits(Validation, _Widget);
 	
-	    function GridRow() {
-	        _classCallCheck(this, GridRow);
+	    function Validation(props) {
+	        _classCallCheck(this, Validation);
 	
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(GridRow).apply(this, arguments));
+	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Validation).call(this, props));
 	    }
 	
-	    _createClass(GridRow, [{
-	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	            this.props.onBeforeDestroy(this.props.record);
+	    _createClass(Validation, [{
+	        key: "applyRule",
+	        value: function applyRule() {
+	            var props = this.props,
+	                rule = [].concat(props.rule),
+	                failMsg = [].concat(props.failMsg),
+	                value = props.value,
+	                tipMsg = "",
+	                result;
+	            if (rule.some(function (ruleItem, i) {
+	                if (typeof ruleItem === "string") {
+	                    if (Validation.defaultRule[ruleItem] && !Validation.defaultRule[ruleItem](value)) {
+	                        tipMsg = failMsg[i];
+	                        return true;
+	                    }
+	                }
+	                if (ruleItem instanceof RegExp) {
+	                    if (!ruleItem.test(value)) {
+	                        tipMsg = failMsg[i];
+	                        return true;
+	                    }
+	                }
+	                if (typeof ruleItem === "function") {
+	                    if (ruleItem(value) === false) {
+	                        tipMsg = failMsg[i];
+	                        return true;
+	                    }
+	                }
+	                return false;
+	            })) {
+	                result = {
+	                    isPassed: false,
+	                    tipMsg: tipMsg
+	                };
+	            } else {
+	                result = true;
+	            }
+	            props.onAfterValidate(result);
+	            return result;
 	        }
 	    }, {
-	        key: 'render',
+	        key: "render",
 	        value: function render() {
-	            var props = this.props;
-	            var prefixCls = props.prefixCls;
-	            var columns = props.columns;
-	            var record = props.record;
-	            var index = props.index;
-	            var cells = [];
-	
-	            for (var i = 0; i < columns.length; i++) {
-	                var col = columns[i];
-	                var colCls = col.className || '';
-	                var renderer = col.renderer;
-	                var text = record[col.dataIndex];
-	
-	                var tdProps = undefined;
-	                var colSpan = undefined;
-	                var rowSpan = undefined;
-	                var notRender = false;
-	
-	                if (renderer) {
-	                    text = renderer(text, record, index) || {};
-	                    tdProps = text.props || {};
-	                    if (!_react2.default.isValidElement(text) && 'content' in text) {
-	                        text = text.content;
-	                    }
-	                    rowSpan = tdProps.rowSpan;
-	                    colSpan = tdProps.colSpan;
-	                }
-	                if (rowSpan === 0 || colSpan === 0) {
-	                    notRender = true;
-	                }
-	                if (!notRender) {
-	                    cells.push(_react2.default.createElement(
-	                        'td',
-	                        { key: i, colSpan: colSpan, rowSpan: rowSpan, className: '' + colCls },
-	                        text
-	                    ));
+	            var props = this.props,
+	                trigger = props.trigger,
+	                result;
+	            if (trigger) {
+	                result = this.applyRule();
+	                if (result !== true) {
+	                    return _react2.default.createElement(
+	                        "div",
+	                        { className: "" + (props.prefixCls + ' ' + props.className) },
+	                        result.tipMsg
+	                    );
 	                }
 	            }
-	            return _react2.default.createElement(
-	                'tr',
-	                { className: prefixCls + ' ' + (props.className || '') },
-	                cells
-	            );
+	            return null;
 	        }
 	    }]);
 	
-	    return GridRow;
+	    return Validation;
 	})(_component.Widget);
 	
-	GridRow.propTypes = {
-	    onBeforeDestroy: _react2.default.PropTypes.func,
-	    record: _react2.default.PropTypes.object,
-	    prefixCls: _react2.default.PropTypes.string
+	Validation.defaultProps = {
+	    rule: [], //验证规则, 支持预设字符串，正则表达式，自定义函数
+	    failMsg: [], //验证失败提示
+	    value: "", //待验证的值
+	    trigger: false, //是否启动
+	    onAfterValidate: function onAfterValidate() {},
+	    prefixCls: 'ui-validation'
 	};
-	GridRow.defaultProps = {
-	    onBeforeDestroy: function onBeforeDestroy() {}
+	Validation.defaultRule = {
+	    "money": function money(v) {
+	        if (!/^(0|[1-9]([0-9]{0,1}){1,})(\.[0-9]{1,2})?$/.test(v)) {
+	            return false;
+	        } else {
+	            return true;
+	        }
+	    }
 	};
-	
-	exports.default = GridRow;
+	exports.default = Validation;
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=grid.js.map
+//# sourceMappingURL=validation.js.map

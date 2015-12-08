@@ -35,7 +35,8 @@ function main() {
     let config = {
         context: SRC_PATH,
         entry: {
-            "grid": "./grid.js"
+            "grid": "./grid.js",
+            "validation": "./validation.js"
         },
         output: {
             path: OUTPUT_PATH,
