@@ -1,0 +1,19 @@
+{
+  "libs": [
+    "browser",
+    "jquery"
+  ],
+  "loadEagerly": [],
+  "dontLoad": ["node_modules/**/*.js", "dist/**/*.js"],
+  "plugins": {
+    "complete_strings": {},
+    "node": {},
+    "lint": {},
+    "angular": {},
+    "requirejs": {},
+    "es_modules": {},
+    "doc_comment": {
+      "fullDocs": true
+    }
+  }
+}

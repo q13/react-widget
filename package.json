@@ -1,0 +1,61 @@
+{
+    "name": "react-component",
+    "version": "1.0.0",
+    "description": "Some component base on React framework.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "server": "node ./bin/server.js",
+        "example": "node ./bin/example.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/q13/react-component.git"
+    },
+    "keywords": [
+        "ui",
+        "component",
+        "react"
+    ],
+    "dependencies": {
+        "react": "latest",
+        "react-dom": "latest",
+        "react-addons-pure-render-mixin": "latest",
+        "react-addons-css-transition-group": "latest",
+        "react-mixin": "3.0.3",
+        "immutable": "latest",
+        "babel-polyfill": "latest"
+    },
+    "devDependencies": {
+        "connect": "~3.4.0",
+        "serve-static": "~1.10.0",
+        "webpack": "1.12.9",
+        "babel-loader": "latest",
+        "babel-core": "latest",
+        "babel-preset-es2015": "latest",
+        "babel-preset-react": "latest",
+        "babel-preset-stage-0": "latest",
+        "babel-plugin-transform-es3-property-literals": "latest",
+        "babel-plugin-transform-es3-member-expression-literals": "latest",
+        "style-loader": "latest",
+        "css-loader": "latest",
+        "cssnext-loader": "latest",
+        "postcss-loader": "latest",
+        "cssnext": "latest",
+        "autoprefixer": "latest",
+        "file-loader": "latest",
+        "url-loader": "latest",
+        "postcss-import": "latest",
+        "walk": "2.3.9",
+        "commander": "2.9.0",
+        "fs-extra": "0.26.2",
+        "memory-fs": "0.3.0",
+        "uglify-js": "2.5.0"
+    },
+    "author": "13",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/q13/react-component/issues"
+    },
+    "homepage": "https://github.com/q13/react-component#readme"
+}
