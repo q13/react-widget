@@ -6,6 +6,7 @@ import {
 } from "../component.js";
 import React from 'react';
 import moment from "moment";
+import style from "./calendar.css";
 class Calendar extends Widget {
     constructor(props) {
         super(props);
@@ -35,7 +36,7 @@ class Calendar extends Widget {
         let i = 0;
         while (i < 42) {
             tmpDate = beginDate.clone();
-            tmpDate.add('d', i);
+            tmpDate.add(i, 'd');
             isOutDate = false;
             isToday = false;
             //区分className
@@ -69,14 +70,6 @@ class Calendar extends Widget {
                     isOutDate = true;
                 }
             }
-            result[firstLevelIndex].push({
-                text: tmpDate.format('D'),
-                value: tmpDate._d,
-                className: tmpCls,
-                isFocus: date.isSame(tmpDate, 'day'),
-                isOutDate: isOutDate,
-                isToday: isToday
-            });
             if (i % 7 === 0) { //模7加tr
                 if (i === 0) {
                     firstLevelIndex = 0;
@@ -85,19 +78,27 @@ class Calendar extends Widget {
                     firstLevelIndex++;
                 }
             }
+            result[firstLevelIndex].push({
+                text: tmpDate.format('D'),
+                value: tmpDate._d,
+                className: tmpCls,
+                isFocus: date.isSame(tmpDate, 'day'),
+                isOutDate: isOutDate,
+                isToday: isToday
+            });
             i++; //自增1
         }
         return result;
     }
-    getYearList(year) {
+    getYearList(date) {
         let result = [];
-        year = parseInt(year, 10);
+        let year = parseInt(moment(date).format("YYYY"), 10);
         result.push({
             text: year,
             value: year,
             isFocus: true
         });
-        Array(59).keys().map((i) => {
+        for (let i of Array(59).keys()) {
             result.push({
                 text: year + i + 1,
                 value: year + i + 1,
@@ -108,23 +109,23 @@ class Calendar extends Widget {
                 value: year - i - 1,
                 isFocus: false
             });
-        });
+        }
         return result;
     }
-    getMonthList(month) {
+    getMonthList(date) {
         let result = [];
-        month = parseInt(month, 10);
-        Array(12).keys().map((i) => {
-            let isRefer = false;
+        let month = parseInt(moment(date).format("M"), 10);
+        for (let i of Array(12).keys()) {
+            let isFocus = false;
             if (i + 1 == month) {
-                isRefer = true;
+                isFocus = true;
             }
             result.push({
                 text: i + 1,
                 value: i + 1,
-                isRefer: isRefer
+                isFocus: isFocus
             });
-        });
+        }
         return result;
     }
     /*
@@ -134,7 +135,7 @@ class Calendar extends Widget {
         this.setState(({
             focusDate
         }) => ({
-            focusDate: moment(focusDate).subtract('months', 1)._d,
+            focusDate: moment(focusDate).subtract(1, 'months')._d,
             panelState: "date"
         }));
     }
@@ -145,7 +146,7 @@ class Calendar extends Widget {
         this.setState(({
             focusDate
         }) => ({
-            focusDate: moment(focusDate).add('months', 1)._d,
+            focusDate: moment(focusDate).add(1, 'months')._d,
             panelState: "date"
         }));
     }
@@ -181,6 +182,24 @@ class Calendar extends Widget {
             this.props.onClickDate.call(this, v.value);
         }
     }
+    onChangeYear(evt) {
+        var target = evt.target;
+        this.setState(({
+            focusDate
+        }) => ({
+            focusDate: moment(focusDate).set("year", target.value / 1)._d,
+            panelState: "date"
+        }));
+    }
+    onChangeMonth(evt) {
+        var target = evt.target;
+        this.setState(({
+            focusDate
+        }) => ({
+            focusDate: moment(focusDate).set("month", target.value / 1)._d,
+            panelState: "date"
+        }));
+    }
     render() {
         var props = this.props,
             state = this.state,
@@ -190,29 +209,47 @@ class Calendar extends Widget {
             focusDate = state.focusDate,
             panelState = state.panelState;
         let currentDateList = this.getDateList(focusDate);
-        return (<div className={`${prefixCls}` + ' ' +  className}>
+        let currentYearList = this.getYearList(focusDate);
+        let currentMonthList = this.getMonthList(focusDate);
+        return (<div className={`${prefixCls}` + ' ' +  (className || '')}>
                 <div className={`${prefixCls}-header`}>
                 <div className={`${prefixCls}-nav-prev`} style={{
                     "display": enableYearMonthChange ? "block": "none" 
-                }} onClick={this.onClickNavPrev}>&#9668;</div>
+                }} onClick={this.onClickNavPrev.bind(this)}>&#9668;</div>
                 <div className={`${prefixCls}-title`}>
                 <span className={`${prefixCls}-label-year`} style={{
-                    "display": panelState !== "year" ? "block": "none" 
-                }} onClick={this.onClickLabelYear}>{moment(focusDate).format("YYYY")}</span><select
+                    "display": panelState !== "year" ? "inline-block": "none" 
+                }} onClick={this.onClickLabelYear.bind(this)}>{moment(focusDate).format("YYYY")}</span><select
                 className={`${prefixCls}-year-selector`} style={{
-                    "display": panelState === "year" ? "block": "none" 
-                }} onChange={this.onChangeYear}></select>年<span
+                    "display": panelState === "year" ? "inline-block": "none" 
+                }} onChange={this.onChangeYear.bind(this)} value={currentYearList.filter((v) => {
+                    return v.isFocus;
+                })[0].value}>
+                {
+                    currentYearList.map((v, i) => {
+                        return (<option key={i} value={v.value}>{v.text}</option>);
+                    })
+                }
+                </select>年<span
                 className={`${prefixCls}-label-month`} style={{
-                    "display": panelState !== "month" ? "block": "none" 
-                }} onClick={this.onClickLabelMonth}>{moment(focusDate).format("MM")}</span><select className={`${prefixCls}-month-selector`} style={{
-                    "display": panelState === "month" ? "block": "none" 
-                }} onChange={this.onChangeMonth}></select>月
+                    "display": panelState !== "month" ? "inline-block": "none" 
+                }} onClick={this.onClickLabelMonth.bind(this)}>{moment(focusDate).format("MM")}</span><select className={`${prefixCls}-month-selector`} style={{
+                    "display": panelState === "month" ? "inline-block": "none" 
+                }} onChange={this.onChangeMonth.bind(this)} value={currentMonthList.filter((v) => {
+                    return v.isFocus;
+                })[0].value}>
+                {
+                    currentMonthList.map((v, i) => {
+                        return (<option key={i} value={v.value}>{v.text}</option>);
+                    })
+                }
+                </select>月
                 </div>
                 <div className={`${prefixCls}-nav-next`} style={{
                     "display": enableYearMonthChange ? "block": "none" 
-                }} onClick={this.onClickNavNext}>&#9658;</div>
+                }} onClick={this.onClickNavNext.bind(this)}>&#9658;</div>
                 </div>
-                    <table cellPadding="0" cellSpacing="0">
+                    <table cellPadding="0" cellSpacing="0" className={`${prefixCls}-date-panel`}>
                     <thead className={`${prefixCls}-week-header`}>
                     <tr>
                     <th><span className={`${prefixCls}-date-cell`}>日</span></th>
@@ -230,15 +267,15 @@ class Calendar extends Widget {
                             return (<tr key={i}>
                                 { 
                                     arr.map((v, j) => {
-                                        return (<td key={j} className={`${prefixCls}-date-cell ` + v.className} onClick={this.onClickDateCell.bind(this, v)}>{v.text}</td>);
+                                        return (<td key={j} onClick={this.onClickDateCell.bind(this, v)}><span className={`${prefixCls}-date-cell ` + v.className}>{v.text}</span></td>);
                                     })
                                 }
                                 </tr>);
                         })
                     }
                 </tbody>
-                    </table>
-                    </div>);
+            </table>
+        </div>);
     }
 }
 Calendar.defaultProps = {
