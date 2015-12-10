@@ -131,7 +131,7 @@ class Calendar extends Widget {
     /*
      * 月导航减1
      */
-    onClickNavPrev() {
+    handleClickNavPrev() {
         this.setState(({
             focusDate
         }) => ({
@@ -142,7 +142,7 @@ class Calendar extends Widget {
     /**
      * 月导航加1
      */
-    onClickNavNext() {
+    handleClickNavNext() {
         this.setState(({
             focusDate
         }) => ({
@@ -154,7 +154,7 @@ class Calendar extends Widget {
      * 点击year label切换到年份选择面板
      * @private
      */
-    onClickLabelYear() {
+    handleClickLabelYear() {
         this.setState(({
             panelState
         }) => ({
@@ -165,14 +165,14 @@ class Calendar extends Widget {
      * 点击month label切换到月份选择面板
      * @private
      */
-    onClickLabelMonth() {
+    handleClickLabelMonth() {
         this.setState(({
             panelState
         }) => ({
             panelState: panelState === "month" ? "date" : "month"
         }));
     }
-    onClickDateCell(v) {
+    handleClickDateCell(v) {
         if (!v.isOutDate) {
             if (this.props.focusChangeWithClick) {
                 this.setState(() => ({
@@ -182,7 +182,7 @@ class Calendar extends Widget {
             this.props.onClickDate.call(this, v.value);
         }
     }
-    onChangeYear(evt) {
+    handleChangeYear(evt) {
         var target = evt.target;
         this.setState(({
             focusDate
@@ -191,7 +191,7 @@ class Calendar extends Widget {
             panelState: "date"
         }));
     }
-    onChangeMonth(evt) {
+    handleChangeMonth(evt) {
         var target = evt.target;
         this.setState(({
             focusDate
@@ -215,14 +215,14 @@ class Calendar extends Widget {
                 <div className={`${prefixCls}-header`}>
                 <div className={`${prefixCls}-nav-prev`} style={{
                     "display": enableYearMonthChange ? "block": "none" 
-                }} onClick={this.onClickNavPrev.bind(this)}>&#9668;</div>
+                }} onClick={this.handleClickNavPrev.bind(this)}>&#9668;</div>
                 <div className={`${prefixCls}-title`}>
                 <span className={`${prefixCls}-label-year`} style={{
                     "display": panelState !== "year" ? "inline-block": "none" 
-                }} onClick={this.onClickLabelYear.bind(this)}>{moment(focusDate).format("YYYY")}</span><select
+                }} onClick={this.handleClickLabelYear.bind(this)}>{moment(focusDate).format("YYYY")}</span><select
                 className={`${prefixCls}-year-selector`} style={{
                     "display": panelState === "year" ? "inline-block": "none" 
-                }} onChange={this.onChangeYear.bind(this)} value={currentYearList.filter((v) => {
+                }} onChange={this.handleChangeYear.bind(this)} value={currentYearList.filter((v) => {
                     return v.isFocus;
                 })[0].value}>
                 {
@@ -233,9 +233,9 @@ class Calendar extends Widget {
                 </select>年<span
                 className={`${prefixCls}-label-month`} style={{
                     "display": panelState !== "month" ? "inline-block": "none" 
-                }} onClick={this.onClickLabelMonth.bind(this)}>{moment(focusDate).format("MM")}</span><select className={`${prefixCls}-month-selector`} style={{
+                }} onClick={this.handleClickLabelMonth.bind(this)}>{moment(focusDate).format("MM")}</span><select className={`${prefixCls}-month-selector`} style={{
                     "display": panelState === "month" ? "inline-block": "none" 
-                }} onChange={this.onChangeMonth.bind(this)} value={currentMonthList.filter((v) => {
+                }} onChange={this.handleChangeMonth.bind(this)} value={currentMonthList.filter((v) => {
                     return v.isFocus;
                 })[0].value}>
                 {
@@ -247,7 +247,7 @@ class Calendar extends Widget {
                 </div>
                 <div className={`${prefixCls}-nav-next`} style={{
                     "display": enableYearMonthChange ? "block": "none" 
-                }} onClick={this.onClickNavNext.bind(this)}>&#9658;</div>
+                }} onClick={this.handleClickNavNext.bind(this)}>&#9658;</div>
                 </div>
                     <table cellPadding="0" cellSpacing="0" className={`${prefixCls}-date-panel`}>
                     <thead className={`${prefixCls}-week-header`}>
@@ -267,7 +267,7 @@ class Calendar extends Widget {
                             return (<tr key={i}>
                                 { 
                                     arr.map((v, j) => {
-                                        return (<td key={j} onClick={this.onClickDateCell.bind(this, v)}><span className={`${prefixCls}-date-cell ` + v.className}>{v.text}</span></td>);
+                                        return (<td key={j} onClick={this.handleClickDateCell.bind(this, v)}><span className={`${prefixCls}-date-cell ` + v.className}>{v.text}</span></td>);
                                     })
                                 }
                                 </tr>);

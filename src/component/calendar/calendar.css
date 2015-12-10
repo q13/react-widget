@@ -1,6 +1,7 @@
 @import "../../asset/base.css";
 .ui-calendar {
     width: 300px;
+    height: 220px;
 }
 .ui-calendar-header {
     position: relative;
