@@ -24,7 +24,8 @@
         "react-addons-css-transition-group": "latest",
         "react-mixin": "3.0.3",
         "immutable": "latest",
-        "babel-polyfill": "latest"
+        "babel-polyfill": "latest",
+        "moment": "~2.10.6"
     },
     "devDependencies": {
         "connect": "~3.4.0",
