@@ -1,0 +1,123 @@
+:root {
+  --topZIndex: 9999;
+  --barHeight: 28px;
+  --cmdbtnSize: 16px;
+}
+
+.disable-select {
+  user-select: none;
+}
+
+.box-bordersizing {
+  box-sizing: border-box;
+}
+.box-contentsizing {
+  box-sizing: content-box;
+}
+
+.float-right {
+  float: right;
+}
+
+
+.cmdbutton {
+  /*.box-contentsizing;*/
+  box-sizing: content-box;
+  width: var(--cmdbtnSize);
+  height: var(--cmdbtnSize);
+  border: solid 1px;
+  font-size: var(--cmdbtnSize);
+  text-align: center;
+  cursor: pointer;
+
+  &:hover {
+    color: #f00;
+  }
+}
+
+.ui-modal-outer {
+  position: fixed;
+  z-index: var(--topZIndex);
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+  .ui-mask-outer {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .6);
+  }
+
+  .ui-dialog-outer {
+    position: fixed;
+    left: 25%;
+    top: 25%;
+    right: 25%;
+    bottom: 25%;
+    background: rgba(255, 255, 255, 1);
+  }
+
+  .ui-popup-outer {
+    position: fixed;
+    left: 10%;
+    top: 20%;
+    right: 10%;
+    bottom: 50%;
+    background: rgba(255, 255, 255, 1);
+  }
+
+    .ui-titlebar-outer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: var(--barHeight);
+      background: #ddd;
+      overflow: hidden;
+      /*.disable-select;*/
+      user-select: none;
+      cursor: default;
+    }
+
+    .ui-actionbar-outer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--barHeight);
+      background: #ddd;
+      overflow: hidden;
+    }
+
+    .ui-pane-outer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow: auto;
+    }
+
+    .ui-popup-pane-outer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      bottom: 0;
+      overflow: auto;
+    }
+
+    .ui-dialog-pane-outer {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: var(--barHeight);
+      bottom: var(--barHeight);
+      overflow: auto;
+    }
+
