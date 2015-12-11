@@ -1,0 +1,73 @@
+:root {
+  --topZIndex: 9999;
+  --barHeight: 28px;
+}
+
+.ui-modal-outer-2 {
+  position: fixed;
+  z-index: var(--topZIndex);
+  left: 0;
+  top: 0;
+  right: 0;
+  bottom: 0;
+}
+
+  .ui-mask-outer-2 {
+    position: fixed;
+    left: 0;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(0, 0, 0, .6);
+  }
+
+    .ui-titlebar-outer-2 {
+      position: absolute;
+      left: 0;
+      right: 0;
+      top: 0;
+      height: var(--barHeight);
+      background: #069;
+      overflow: hidden;
+      /*.disable-select;*/
+      user-select: none;
+      cursor: default;
+    }
+
+    .ui-actionbar-outer-2 {
+      position: absolute;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      height: var(--barHeight);
+      background: #069;
+      overflow: hidden;
+    }
+
+  .ui-popup-outer-2 {
+    position: fixed;
+    left: 20%;
+    top: 30%;
+    right: 20%;
+    bottom: 20%;
+    background: rgba(255, 255, 255, 1);
+  }
+
+  .ui-dialog-outer-2 {
+    position: fixed;
+    left: 10%;
+    top: 40%;
+    right: 10%;
+    bottom: 30%;
+    background: rgba(255, 255, 255, 1);
+  }
+
+    .ui-pane-outer-2 {
+      position: absolute;
+      left: 100px;
+      right: 100px;
+      top: var(--barHeight);
+      bottom: var(--barHeight);
+      overflow: auto;
+    }
+
