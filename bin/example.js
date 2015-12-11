@@ -55,7 +55,9 @@ function main() {
         });
     }(SRC_PATH, function(err, results) {
         let entry = {};
-        results.forEach(function (filePath) {
+        results.filter(function (filePath) {
+            return path.extname(filePath) === ".js";
+        }).forEach(function (filePath) {
             entry[path.basename(filePath, ".js")] = path.resolve(SRC_PATH, filePath); 
         });
         let config = {
