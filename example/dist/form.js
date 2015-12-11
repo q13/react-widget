@@ -1,5 +1,5 @@
 /*!
- * Build at Fri Dec 11 2015 11:13:18 GMT+0800 (China Standard Time)
+ * Build at Fri Dec 11 2015 13:28:59 GMT+0800 (CST)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -37383,7 +37383,7 @@
 	
 	
 	// module
-	exports.push([module.id, "/**\r\n * 最小样式功能集\r\n */\r\n.clearfix:before, .clearfix:after {\r\n  content: \"\";\r\n  display: table;\r\n}\r\n\r\n.clearfix:after {\r\n  clear: both;\r\n}\r\n\r\n.clearfix {\r\n  zoom: 1;\r\n}\r\n.ui-calendar {\r\n    width: 300px;\r\n    height: 220px;\r\n}\r\n.ui-calendar-header {\r\n    position: relative;\r\n}\r\n.ui-calendar-header .ui-calendar-nav-prev,\r\n.ui-calendar-header .ui-calendar-nav-next {\r\n    position: absolute;\r\n}\r\n.ui-calendar-header .ui-calendar-nav-prev {\r\n    top: 0;\r\n    left: 0;\r\n}\r\n.ui-calendar-header .ui-calendar-nav-next {\r\n    top: 0;\r\n    right: 0;\r\n}\r\n.ui-calendar-header .ui-calendar-title {\r\n    text-align: center;\r\n}\r\n.ui-calendar-date-panel {\r\n    width: 100%;\r\n}\r\n.ui-calendar-date-cell {\r\n    display: block;\r\n    text-align: center;\r\n    line-height: 1.8em;\r\n}\r\n", "", {"version":3,"sources":["/../../src/asset/base.css","/../../src/component/calendar/calendar.css"],"names":[],"mappings":"AAAA;;GAEG;AACH;EACE,YAAY;EACZ,eAAe;CAChB;;AAED;EACE,YAAY;CACb;;AAED;EACE,QAAQ;CACT;ACbD;IACI,aAAa;IACb,cAAc;CACjB;AACD;IACI,mBAAmB;CACtB;AACD;;IAEI,mBAAmB;CACtB;AACD;IACI,OAAO;IACP,QAAQ;CACX;AACD;IACI,OAAO;IACP,SAAS;CACZ;AACD;IACI,mBAAmB;CACtB;AACD;IACI,YAAY;CACf;AACD;IACI,eAAe;IACf,mBAAmB;IACnB,mBAAmB;CACtB","file":"calendar.css","sourcesContent":["/**\r\n * 最小样式功能集\r\n */\r\n.clearfix:before, .clearfix:after {\r\n  content: \"\";\r\n  display: table;\r\n}\r\n\r\n.clearfix:after {\r\n  clear: both;\r\n}\r\n\r\n.clearfix {\r\n  zoom: 1;\r\n}\r\n","@import \"../../asset/base.css\";\r\n.ui-calendar {\r\n    width: 300px;\r\n    height: 220px;\r\n}\r\n.ui-calendar-header {\r\n    position: relative;\r\n}\r\n.ui-calendar-header .ui-calendar-nav-prev,\r\n.ui-calendar-header .ui-calendar-nav-next {\r\n    position: absolute;\r\n}\r\n.ui-calendar-header .ui-calendar-nav-prev {\r\n    top: 0;\r\n    left: 0;\r\n}\r\n.ui-calendar-header .ui-calendar-nav-next {\r\n    top: 0;\r\n    right: 0;\r\n}\r\n.ui-calendar-header .ui-calendar-title {\r\n    text-align: center;\r\n}\r\n.ui-calendar-date-panel {\r\n    width: 100%;\r\n}\r\n.ui-calendar-date-cell {\r\n    display: block;\r\n    text-align: center;\r\n    line-height: 1.8em;\r\n}\r\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "/**\n * 最小样式功能集\n */\n.clearfix:before, .clearfix:after {\n  content: \"\";\n  display: table;\n}\n\n.clearfix:after {\n  clear: both;\n}\n\n.clearfix {\n  zoom: 1;\n}\n.ui-calendar {\n    width: 300px;\n    height: 220px;\n}\n.ui-calendar-header {\n    position: relative;\n}\n.ui-calendar-header .ui-calendar-nav-prev,\n.ui-calendar-header .ui-calendar-nav-next {\n    position: absolute;\n}\n.ui-calendar-header .ui-calendar-nav-prev {\n    top: 0;\n    left: 0;\n}\n.ui-calendar-header .ui-calendar-nav-next {\n    top: 0;\n    right: 0;\n}\n.ui-calendar-header .ui-calendar-title {\n    text-align: center;\n}\n.ui-calendar-date-panel {\n    width: 100%;\n}\n.ui-calendar-date-cell {\n    display: block;\n    text-align: center;\n    line-height: 1.8em;\n}\n", "", {"version":3,"sources":["/../../src/asset/base.css","/../../src/component/calendar/calendar.css"],"names":[],"mappings":"AAAA;;GAEG;AACH;EACE,YAAY;EACZ,eAAe;CAChB;;AAED;EACE,YAAY;CACb;;AAED;EACE,QAAQ;CACT;ACbD;IACI,aAAa;IACb,cAAc;CACjB;AACD;IACI,mBAAmB;CACtB;AACD;;IAEI,mBAAmB;CACtB;AACD;IACI,OAAO;IACP,QAAQ;CACX;AACD;IACI,OAAO;IACP,SAAS;CACZ;AACD;IACI,mBAAmB;CACtB;AACD;IACI,YAAY;CACf;AACD;IACI,eAAe;IACf,mBAAmB;IACnB,mBAAmB;CACtB","file":"calendar.css","sourcesContent":["/**\n * 最小样式功能集\n */\n.clearfix:before, .clearfix:after {\n  content: \"\";\n  display: table;\n}\n\n.clearfix:after {\n  clear: both;\n}\n\n.clearfix {\n  zoom: 1;\n}\n","@import \"../../asset/base.css\";\n.ui-calendar {\n    width: 300px;\n    height: 220px;\n}\n.ui-calendar-header {\n    position: relative;\n}\n.ui-calendar-header .ui-calendar-nav-prev,\n.ui-calendar-header .ui-calendar-nav-next {\n    position: absolute;\n}\n.ui-calendar-header .ui-calendar-nav-prev {\n    top: 0;\n    left: 0;\n}\n.ui-calendar-header .ui-calendar-nav-next {\n    top: 0;\n    right: 0;\n}\n.ui-calendar-header .ui-calendar-title {\n    text-align: center;\n}\n.ui-calendar-date-panel {\n    width: 100%;\n}\n.ui-calendar-date-cell {\n    display: block;\n    text-align: center;\n    line-height: 1.8em;\n}\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -37741,6 +37741,8 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @require jQuery
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
+	var cptId = 0;
+	
 	var DateInput = (function (_Widget) {
 	    _inherits(DateInput, _Widget);
 	
@@ -37750,6 +37752,7 @@
 	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(DateInput).call(this, props));
 	
 	        _this.state = {};
+	        _this.cptId = cptId++;
 	        return _this;
 	    }
 	
@@ -37762,8 +37765,19 @@
 	    }, {
 	        key: 'componentDidMount',
 	        value: function componentDidMount() {
+	            var _this2 = this;
+	
 	            this.renderCalendar({
 	                visible: false
+	            });
+	            $(document).on('mousedown.DateInput' + this.cptId, function () {
+	                _this2.renderCalendar({
+	                    visible: false
+	                });
+	            }).on('mousedown.DateInput' + this.cptId, '.' + this.props.prefixCls + '-' + this.cptId, function (evt) {
+	                evt.stopPropagation();
+	            }).on('mousedown.DateInput' + this.cptId, '.' + this.props.prefixCls + '-calendar-' + this.cptId, function (evt) {
+	                evt.stopPropagation();
 	            });
 	        }
 	    }, {
@@ -37771,7 +37785,9 @@
 	        value: function componentWillUnmount() {
 	            _reactDom2.default.unmountComponentAtNode(this.calendarContainer);
 	            document.body.removeChild(this.calendarContainer);
+	            $(document).off('mousedown.DateInput' + this.cptId);
 	            this.calendarContainer = null;
+	            this.cptId = null;
 	        }
 	    }, {
 	        key: 'handleFocus',
@@ -37781,23 +37797,9 @@
 	            });
 	        }
 	    }, {
-	        key: 'handleBlur',
-	        value: function handleBlur() {
-	            this.renderCalendar({
-	                visible: false
-	            });
-	        }
-	    }, {
-	        key: 'handleChange',
-	        value: function handleChange(evt) {
-	            this.setState({
-	                value: evt.target.value
-	            });
-	        }
-	    }, {
 	        key: 'renderCalendar',
 	        value: function renderCalendar(data) {
-	            var _this2 = this;
+	            var _this3 = this;
 	
 	            var props = this.props,
 	                state = this.state,
@@ -37862,8 +37864,11 @@
 	                        "top": top + "px",
 	                        "left": left + "px"
 	                    } },
-	                _react2.default.createElement(_index2.default, { className: prefixCls + '-calendar', focusDate: (0, _moment2.default)(state.value, "YYYY-MM-DD")._d, onClickDate: function onClickDate(date) {
-	                        props.onChange.call(_this2, {
+	                _react2.default.createElement(_index2.default, { className: prefixCls + '-calendar ' + prefixCls + '-calendar-' + this.cptId, focusDate: (0, _moment2.default)(state.value, "YYYY-MM-DD")._d, onClickDate: function onClickDate(date) {
+	                        _this3.renderCalendar({
+	                            visible: false
+	                        });
+	                        props.onChange.call(_this3, {
 	                            target: {
 	                                value: (0, _moment2.default)(date).format("YYYY-MM-DD")
 	                            }
@@ -37874,8 +37879,9 @@
 	    }, {
 	        key: 'render',
 	        value: function render() {
-	            var props = this.props;
-	            return _react2.default.createElement('input', _extends({}, props, { type: 'text', ref: 'input', value: props.value, readOnly: true, onFocus: this.handleFocus.bind(this), onBlur: this.handleBlur.bind(this), onChange: props.onChange.bind(this) }));
+	            var props = this.props,
+	                prefixCls = props.prefixCls;
+	            return _react2.default.createElement('input', _extends({}, props, { className: '' + prefixCls + (' ' + prefixCls + '-') + this.cptId + ' ' + (props.className || ''), type: 'text', ref: 'input', value: props.value, readOnly: true, onFocus: this.handleFocus.bind(this), onChange: props.onChange.bind(this) }));
 	        }
 	    }]);
 	
