@@ -1,5 +1,5 @@
 /*!
- * Build at Fri Dec 11 2015 13:28:59 GMT+0800 (CST)
+ * Build at Sat Dec 12 2015 17:30:58 GMT+0800 (CST)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -25473,7 +25473,9 @@
 
 	"use strict";
 	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })(); /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * 验证组件，多用于表单
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        */
 	
 	Object.defineProperty(exports, "__esModule", {
 	    value: true
@@ -25489,93 +25491,7 @@
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 验证组件，多用于表单
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-	
-	var Validation = (function (_Widget) {
-	    _inherits(Validation, _Widget);
-	
-	    function Validation(props) {
-	        _classCallCheck(this, Validation);
-	
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Validation).call(this, props));
-	    }
-	
-	    _createClass(Validation, [{
-	        key: "applyRule",
-	        value: function applyRule() {
-	            var props = this.props,
-	                rule = [].concat(props.rule),
-	                failMsg = [].concat(props.failMsg),
-	                value = props.value,
-	                tipMsg = "",
-	                result;
-	            if (rule.some(function (ruleItem, i) {
-	                if (typeof ruleItem === "string") {
-	                    if (Validation.defaultRule[ruleItem] && !Validation.defaultRule[ruleItem](value)) {
-	                        tipMsg = failMsg[i];
-	                        return true;
-	                    }
-	                }
-	                if (ruleItem instanceof RegExp) {
-	                    if (!ruleItem.test(value)) {
-	                        tipMsg = failMsg[i];
-	                        return true;
-	                    }
-	                }
-	                if (typeof ruleItem === "function") {
-	                    if (ruleItem(value) === false) {
-	                        tipMsg = failMsg[i];
-	                        return true;
-	                    }
-	                }
-	                return false;
-	            })) {
-	                result = {
-	                    isPassed: false,
-	                    tipMsg: tipMsg
-	                };
-	            } else {
-	                result = true;
-	            }
-	            props.onAfterValidate(result);
-	            return result;
-	        }
-	    }, {
-	        key: "render",
-	        value: function render() {
-	            var props = this.props,
-	                trigger = props.trigger,
-	                result;
-	            if (trigger) {
-	                result = this.applyRule();
-	                if (result !== true) {
-	                    return _react2.default.createElement(
-	                        "div",
-	                        { className: "" + (props.prefixCls + ' ' + props.className) },
-	                        result.tipMsg
-	                    );
-	                }
-	            }
-	            return null;
-	        }
-	    }]);
-	
-	    return Validation;
-	})(_component.Widget);
-	
-	Validation.defaultProps = {
-	    rule: [], //验证规则, 支持预设字符串，正则表达式，自定义函数
-	    failMsg: [], //验证失败提示
-	    value: "", //待验证的值
-	    trigger: false, //是否启动
-	    onAfterValidate: function onAfterValidate() {},
-	    prefixCls: 'ui-validation'
-	};
-	Validation.defaultRule = {
+	var defaultRule = {
 	    "money": function money(v) {
 	        if (!/^(0|[1-9]([0-9]{0,1}){1,})(\.[0-9]{1,2})?$/.test(v)) {
 	            return false;
@@ -25584,6 +25500,36 @@
 	        }
 	    }
 	};
+	
+	var Validation = (function () {
+	    function Validation() {
+	        _classCallCheck(this, Validation);
+	    }
+	
+	    _createClass(Validation, null, [{
+	        key: "validate",
+	        value: function validate(data) {
+	            var rule = data.rule,
+	                value = data.value;
+	            var isPassed = true;
+	            if (typeof rule === "string") {
+	                if (defaultRule[rule] && !defaultRule[rule](value)) {
+	                    isPassed = false;
+	                }
+	            } else if (rule instanceof RegExp) {
+	                if (!rule.test(value)) {
+	                    isPassed = false;
+	                }
+	            } else if (typeof rule === "function") {
+	                isPassed = rule(value);
+	            }
+	            return isPassed;
+	        }
+	    }]);
+	
+	    return Validation;
+	})();
+	
 	exports.default = Validation;
 
 /***/ }

@@ -1,5 +1,5 @@
 {
-    "name": "react-component",
+    "name": "react-widget",
     "version": "1.0.0",
     "description": "Some component base on React framework.",
     "main": "index.js",
@@ -53,7 +53,7 @@
         "memory-fs": "0.3.0",
         "uglify-js": "2.5.0"
     },
-    "author": "13",
+    "author": "q13",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/q13/react-component/issues"

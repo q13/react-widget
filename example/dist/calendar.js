@@ -1,5 +1,5 @@
 /*!
- * Build at Fri Dec 11 2015 13:28:59 GMT+0800 (CST)
+ * Build at Sat Dec 12 2015 17:30:58 GMT+0800 (CST)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -64,9 +64,12 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	_reactDom2.default.render(_react2.default.createElement(_index2.default, null), document.getElementById("container")); /**
-	                                                                                                                        * Calendar demo
-	                                                                                                                        */
+	function test() {} /**
+	                    * Calendar demo
+	                    */
+	
+	_reactDom2.default.render(_react2.default.createElement(_index2.default, { onTest: function onTest() {} }), document.getElementById("container"));
+	_reactDom2.default.render(_react2.default.createElement(_index2.default, { onTest: function onTest() {} }), document.getElementById("container"));
 
 /***/ },
 /* 1 */
