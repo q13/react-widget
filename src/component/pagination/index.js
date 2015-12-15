@@ -2,7 +2,7 @@ import React from 'react';
 import {
     Widget
 } from '../component.js';
-import style from './grid.css';
+import style from './pagination.css';
 
 class Pagination extends Widget {
     constructor(props){
