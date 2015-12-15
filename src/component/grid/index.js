@@ -6,6 +6,7 @@ import {
 } from "../component.js";
 import React from 'react';
 import GridRow from './GridRow.js';
+import Pagination from './Pagination.js';
 
 class Grid extends Widget {
     constructor(props) {
@@ -39,11 +40,19 @@ class Grid extends Widget {
         }));
         return <colgroup>{cols}</colgroup>;
     }
+    onPageChange(currentPage){
+      if (this.props.onPageChange) {
+          this.props.onPageChange({
+              currentPage: currentPage,
+              pageSize: this.props.pageSize
+          })
+      }
+    }
     render() {
         const props = this.props;
         const prefixCls = props.prefixCls;
         const ths = this.getThs();
-        const rows = this.getRowsByData(props.data);
+        const rows = this.getRowsByData(props.data.rows || []);
         let className = props.prefixCls;
         if (props.className) {
             className += ' ' + props.className;
@@ -61,6 +70,11 @@ class Grid extends Widget {
             </div>);
             thead = null;
         }
+        var paginationProps = {
+            currentPage: this.props.data.currentPage,
+            total: this.props.data.total,
+            pageSize: this.props.data.pageSize
+        }
         return (<div className={className}>
             {headerTable}
             <div className={`${prefixCls}-body`}>
@@ -72,15 +86,17 @@ class Grid extends Widget {
                     </tbody>
                 </table>
             </div>
+            <Pagination { ...paginationProps } onPageChange={ this.onPageChange.bind(this) }/>
         </div>);
     }
 }
+
 Grid.defaultProps = {
-    data: [],
+    data: {},
     useFixedHeader: false,
     columns: [],
-    prefixCls: 'ui-grid'
+    prefixCls: 'ui-grid',
+    pageSize: 10
 };
 
 export default Grid;
-
