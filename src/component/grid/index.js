@@ -6,7 +6,8 @@ import {
 } from "../component.js";
 import React from 'react';
 import GridRow from './GridRow.js';
-import Pagination from './Pagination.js';
+import Pagination from '../pagination';
+import style from './grid.css';
 
 class Grid extends Widget {
     constructor(props) {
