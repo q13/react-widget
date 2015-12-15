@@ -43,10 +43,10 @@ class App extends React.Component{
         var data = {
             pageSize: 10,
             currentPage: 1,
-            total: 58,
-            rows: [{a: '123'}, {a: 'cdd', b: 'edd'}, {a: '1333', c: 'eee', d: 2}]
+            total: 61,
+            rows: []//[{a: '123'}, {a: 'cdd', b: 'edd'}, {a: '1333', c: 'eee', d: 2}]
         }
-        data.rows[0].a = Math.random();
+        // data.rows[0].a = Math.random();
         return(
           <div>
               <Grid columns={ columns } data={ data } onPageChange={ this.onPageChange.bind(this) } useFixedHeader={true}/>

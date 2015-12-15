@@ -32,7 +32,11 @@ class Grid extends Widget {
                 key={i} />
             );
         }
-        return rst;
+        if(rst.length == 0) {
+            return <div className="ui-grid-empty">占无数据</div>
+        } else {
+            return rst;
+        }
     }
     getColGroup() {
         let cols = [];

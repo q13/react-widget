@@ -2,7 +2,7 @@
     position: relative;
     color: #666;
 }
-.ui-pagination ul{
+.ui-pagination ul {
     text-align: center;
     line-height: 34px;
 }
@@ -19,8 +19,11 @@
     background-color: #fff;
     padding: .5em .9em;
 }
-.ui-pagination .total{
+.ui-pagination .total {
     position: absolute;
     right: 0;
     line-height: 34px;
+}
+.ui-pagination-ellipsis {
+    
 }
