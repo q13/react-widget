@@ -1,0 +1,52 @@
+.ui-grid{}
+.ui-grid table{
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.ui-grid-thead {}
+.ui-grid-thead th{
+    padding: 0 14px;
+    background-color: #666;
+    color: #fff;
+    height: 54px;
+    border: 1px solid #ededed;
+}
+.ui-grid-tbody td{
+    padding: 0 14px;
+    background-color: #fff;
+    color: #666;
+    height: 54px;
+    border: 1px solid #ededed;
+}
+.ui-grid-tbody tr:hover td{
+    background-color: #f1f1f1;
+}
+
+
+.ui-pagination {
+    position: relative;
+    color: #666;
+}
+.ui-pagination ul{
+    text-align: center;
+    line-height: 34px;
+}
+.ui-pagination li {
+    display: inline-block;
+}
+.ui-pagination li.active {
+    font-weight: bold;
+}
+.ui-pagination li a {
+    cursor: pointer;
+    display: inline-block;
+    line-height: normal;
+    background-color: #fff;
+    padding: .5em .9em;
+}
+.ui-pagination .total{
+    position: absolute;
+    right: 0;
+    line-height: 34px;
+}
