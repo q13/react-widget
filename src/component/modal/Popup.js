@@ -11,7 +11,7 @@ import Pane from './Pane.js';
 class Popup extends Pane {
   static defaultProps = { ...Object.getPrototypeOf(Popup).defaultProps,
     prefixCls: 'ui-popup',
-    className : 'ui-popup-outer',
+    classPopupOuter : 'ui-popup-outer',
     classPaneOuter : 'ui-popup-pane-outer',
     // version: '2015.12.10',
   };
@@ -19,8 +19,9 @@ class Popup extends Pane {
     super(props);
   }
   jsxElementToRender() {
-    const {className, ...otherProps} = this.props;
-    return (<div name="RCZPopup" className={this.props.className} style={this.props.styleTmpl}>
+    const {classPopupOuter, ...otherProps} = this.props;
+    const classNameString = [...new Set([this.props.classPopupOuter, ...(this.props.className||'').split(' ')])].join(' ');
+    return (<div name="RCZPopup" className={classNameString} style={this.props.styleTmpl}>
       {this.renderCustom(otherProps, super.jsxElementToRender)}
     </div>);
   }
