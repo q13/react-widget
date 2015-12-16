@@ -104,6 +104,9 @@
 	        _index2.default,
 	        { ref: "jsxModal1", isMaintainedRender: false,
 	          visible: this.state.visible1,
+	          onClickSubmit: function onClickSubmit() {
+	            _this3.setState({ visible1: false });
+	          },
 	          onClickClose: function onClickClose() {
 	            _this3.setState({ visible1: false });
 	          }
@@ -128,6 +131,7 @@
 	        _index2.default,
 	        { ref: "jsxModal2", isMaintainedRender: false,
 	          prefixCls: "ui-modal",
+	          className: "class-modal-test",
 	          title: "第2个弹框的标题 by x",
 	          width: "400",
 	          height: "600",
@@ -135,6 +139,9 @@
 	          paneType: this.props.paneType2 || _index2.default.PaneType.Dialog,
 	          onClickClose: function onClickClose() {
 	            _this3.setState({ visible2: false });
+	          },
+	          onClickSubmit: function onClickSubmit() {
+	            alert('确定被点击');
 	          },
 	          onBeforeMount: function onBeforeMount(_this) {
 	            alert('即将生成弹框');
@@ -211,10 +218,16 @@
 	    value: function render() {
 	      var _this4 = this;
 	
+	      var styleTmpl = "\n      .ui-modal .class-modal-test {\n        position: fixed;\n        left: 25%;\n        top: 25%;\n        right: 25%;\n        bottom: 25%;\n        background: rgba(0, 128, 196, 1);\n      }\n    ";
 	      var myjsxModals = this.jsxModals();
 	      var jsxPage = _react2.default.createElement(
 	        "div",
 	        { style: { background: 'white' } },
+	        _react2.default.createElement(
+	          "style",
+	          null,
+	          styleTmpl
+	        ),
 	        _react2.default.createElement(
 	          "table",
 	          null,
@@ -20999,19 +21012,20 @@
 	      var visible = _props.visible;
 	      var paneType = _props.paneType;
 	      var onClickClose = _props.onClickClose;
+	      var onClickSubmit = _props.onClickSubmit;
 	      var onBeforeMount = _props.onBeforeMount;
 	      var onAfterMount = _props.onAfterMount;
 	      var onBeforeDestroy = _props.onBeforeDestroy;
 	
-	      var otherProps = _objectWithoutProperties(_props, ['prefixCls', 'width', 'height', 'visible', 'paneType', 'onClickClose', 'onBeforeMount', 'onAfterMount', 'onBeforeDestroy']);
+	      var otherProps = _objectWithoutProperties(_props, ['prefixCls', 'width', 'height', 'visible', 'paneType', 'onClickClose', 'onClickSubmit', 'onBeforeMount', 'onAfterMount', 'onBeforeDestroy']);
 	
 	      var jsxPane = null;
 	      switch (this.props.paneType) {
 	        case Modal.PaneType.Popup:
-	          jsxPane = _react2.default.createElement(_Popup2.default, _extends({}, otherProps, { styleTmpl: styleTmpl, onClose: this.props.onClickClose }));
+	          jsxPane = _react2.default.createElement(_Popup2.default, _extends({}, otherProps, { styleTmpl: styleTmpl, onClickClose: this.props.onClickClose, onClickSubmit: this.props.onClickSubmit }));
 	          break;
 	        case Modal.PaneType.Dialog:
-	          jsxPane = _react2.default.createElement(_Dialog2.default, _extends({}, otherProps, { styleTmpl: styleTmpl, onClose: this.props.onClickClose }));
+	          jsxPane = _react2.default.createElement(_Dialog2.default, _extends({}, otherProps, { styleTmpl: styleTmpl, onClickClose: this.props.onClickClose, onClickSubmit: this.props.onClickSubmit }));
 	          break;
 	        default:
 	          break;
@@ -21043,6 +21057,7 @@
 	  visible: true,
 	  paneType: Modal.PaneType.Dialog,
 	  onClickClose: function onClickClose() {},
+	  onClickSubmit: function onClickSubmit() {},
 	  onBeforeMount: function onBeforeMount() {},
 	  onAfterMount: function onAfterMount() {},
 	  onBeforeDestroy: function onBeforeDestroy() {}
@@ -21302,13 +21317,13 @@
 	    key: 'jsxElementToRender',
 	    value: function jsxElementToRender() {
 	      var _props = this.props;
-	      var classPopupOuter = _props.classPopupOuter;
+	      var className = _props.className;
 	
-	      var otherProps = _objectWithoutProperties(_props, ['classPopupOuter']);
+	      var otherProps = _objectWithoutProperties(_props, ['className']);
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { name: 'RCZPopup', className: this.props.classPopupOuter, style: this.props.styleTmpl },
+	        { name: 'RCZPopup', className: this.props.className, style: this.props.styleTmpl },
 	        this.renderCustom(otherProps, _get(Object.getPrototypeOf(Popup.prototype), 'jsxElementToRender', this))
 	      );
 	    }
@@ -21319,7 +21334,7 @@
 	
 	Popup.defaultProps = _extends({}, Object.getPrototypeOf(Popup).defaultProps, {
 	  prefixCls: 'ui-popup',
-	  classPopupOuter: 'ui-popup-outer',
+	  className: 'ui-popup-outer',
 	  classPaneOuter: 'ui-popup-pane-outer' });
 	exports.default = Popup;
 
@@ -21452,22 +21467,22 @@
 	    key: 'jsxElementToRender',
 	    value: function jsxElementToRender() {
 	      var _props = this.props;
-	      var classDialogOuter = _props.classDialogOuter;
+	      var className = _props.className;
 	      var hasTitleBar = _props.hasTitleBar;
 	      var hasActionBar = _props.hasActionBar;
 	      var title = _props.title;
 	      var actionContent = _props.actionContent;
 	
-	      var otherProps = _objectWithoutProperties(_props, ['classDialogOuter', 'hasTitleBar', 'hasActionBar', 'title', 'actionContent']);
+	      var otherProps = _objectWithoutProperties(_props, ['className', 'hasTitleBar', 'hasActionBar', 'title', 'actionContent']);
 	
 	      var jsxTitlebar = !this.props.hasTitleBar ? null : _react2.default.createElement(_TitleBar2.default, {
 	        title: this.props.title,
-	        onCloseClick: this.props.onClose });
+	        onClickClose: this.props.onClickClose });
 	      var jsxActionbar = !this.props.hasActionBar ? null : _react2.default.createElement(_ActionBar2.default, {
-	        actionContent: this.props.actionContent, onCancelClick: this.props.onClose });
+	        actionContent: this.props.actionContent, onClickClose: this.props.onClickClose, onClickSubmit: this.props.onClickSubmit });
 	      return _react2.default.createElement(
 	        'div',
-	        { name: 'RCZDialog', className: this.props.classDialogOuter, style: this.props.styleTmpl },
+	        { name: 'RCZDialog', className: this.props.className, style: this.props.styleTmpl },
 	        this.renderCustom(otherProps, _get(Object.getPrototypeOf(Dialog.prototype), 'jsxElementToRender', this)),
 	        jsxActionbar,
 	        jsxTitlebar
@@ -21480,7 +21495,7 @@
 	
 	Dialog.defaultProps = _extends({}, Object.getPrototypeOf(Dialog).defaultProps, {
 	  prefixCls: 'ui-dialog',
-	  classDialogOuter: 'ui-dialog-outer',
+	  className: 'ui-dialog-outer',
 	  classPaneOuter: 'ui-dialog-pane-outer',
 	  hasTitleBar: true,
 	  hasActionBar: true });
@@ -21541,7 +21556,7 @@
 	        { name: 'RCZTitleBar', className: this.props.classTitleBarOuter },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'cmdbutton float-right', onClick: this.props.onCloseClick },
+	          { className: 'cmdbutton float-right', onClick: this.props.onClickClose },
 	          '×'
 	        ),
 	        _react2.default.createElement(
@@ -21560,7 +21575,7 @@
 	  prefixCls: 'ui-titlebar',
 	  classTitleBarOuter: 'ui-titlebar-outer',
 	  title: '标题栏',
-	  onCloseClick: function onCloseClick() {} });
+	  onClickClose: function onClickClose() {} });
 	exports.default = TitleBar;
 
 /***/ },
@@ -21618,13 +21633,13 @@
 	        { style: { textAlign: 'center' } },
 	        _react2.default.createElement(
 	          'button',
-	          { onClick: this.props.onOKClick },
+	          { className: 'ui-modal-btn-submit', onClick: this.props.onClickSubmit },
 	          '确定'
 	        ),
-	        ' ',
+	        ' ',
 	        _react2.default.createElement(
 	          'button',
-	          { onClick: this.props.onCancelClick },
+	          { className: 'ui-modal-btn-cancel', onClick: this.props.onClickClose },
 	          '取消'
 	        )
 	      );
@@ -21645,8 +21660,8 @@
 	  classActionBarOuter: 'ui-actionbar-outer',
 	  // actionContent : '行动栏',
 	  actionContent: undefined,
-	  onOKClick: function onOKClick() {},
-	  onCancelClick: function onCancelClick() {} });
+	  onClickSubmit: function onClickSubmit() {},
+	  onClickClose: function onClickClose() {} });
 	exports.default = ActionBar;
 
 /***/ },
