@@ -22,3 +22,13 @@
 .ui-grid-tbody tr:hover td{
     background-color: #f1f1f1;
 }
+.ui-grid-empty {
+    text-align: center;
+    height: 100px;
+    line-height: 100px;
+    border: 1px solid #ededed;
+    border-top: none;
+}
+.ui-grid-empty:hover {
+
+}

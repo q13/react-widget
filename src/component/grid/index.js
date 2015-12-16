@@ -32,7 +32,11 @@ class Grid extends Widget {
                 key={i} />
             );
         }
-        return rst;
+        if(rst.length == 0) {
+            return <tr><td colSpan={ columns.length } className="ui-grid-empty">{ this.props.emptyText }</td></tr>
+        } else {
+            return rst;
+        }
     }
     getColGroup() {
         let cols = [];
@@ -97,7 +101,10 @@ Grid.defaultProps = {
     useFixedHeader: false,
     columns: [],
     prefixCls: 'ui-grid',
-    pageSize: 10
+    currentPage: 1,
+    total: 0,
+    pageSize: 10,
+    emptyText: '无数据'
 };
 
 export default Grid;

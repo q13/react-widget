@@ -13,7 +13,7 @@ class Pagination extends Widget {
         };
     }
     componentWillUnmount() {
-        this.props.onBeforeDestroy(this.props.record);
+        // this.props.onBeforeDestroy(this.props.record);
     }
     getPages(){
         let total = this.props.total,
@@ -47,14 +47,14 @@ class Pagination extends Widget {
         // add first
         if (left > 1) {
           pages.push(1)
-          pages.push(-1)
+          if(left !== 2) pages.push(-1)
         }
         for (let i = left; i < right + 1; i++) {
           pages.push(i)
         }
         // add last
         if (right < max) {
-          pages.push(-2)
+          if(right+1 != max) pages.push(-2)
           pages.push(max)
         }
         return {pages, max}
@@ -84,13 +84,13 @@ class Pagination extends Widget {
         )
         */
         items.push(
-            <li key="current">第<a>{ currentPage }</a>页</li>
+            <li className="ui-pagination-pole" key="current">第<a>{ currentPage }</a>页</li>
         );
 
         pages.forEach(function(page){
             if(page === -1 || page === -2){
                 items.push(
-                    <li key={ page }><a>...</a></li>
+                    <li className="ui-pagination-ellipsis" key={ page }><a>...</a></li>
                 )
             }else{
                 items.push(
@@ -101,7 +101,7 @@ class Pagination extends Widget {
             }
         })
         items.push(
-            <li key="total">共<a>{ this.state.max }</a>页</li>
+            <li className="ui-pagination-pole" key="total">&nbsp;共<a>{ this.state.max === 0 ? 1 : this.state.max }</a>页</li>
         );
         /*
         items.push(
@@ -114,7 +114,7 @@ class Pagination extends Widget {
                 <ul >
                     { items }
                 </ul>
-                <div className="total">共{ this.props.total }条记录</div>
+                <div className="total">共<a href="javascript:;">{ this.props.total }</a>条记录</div>
             </div>
         )
     }
@@ -130,7 +130,7 @@ Pagination.propTypes = {
 Pagination.defaultProps = {
     currentPage: 1,
     pageSize: 10,
-    pages: 4
+    pages: 6
 };
 
 export default Pagination;

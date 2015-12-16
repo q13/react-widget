@@ -35,7 +35,7 @@ class App extends React.Component{
             }},
           {text: '表头3', dataIndex: 'c',width: 200},
           {
-            text: '操作', dataIndex: '',renderer: function () {
+            text: '操作', dataIndex: '',width: 300, renderer: function () {
             return <a href="#">操作</a>
           }
           }
@@ -43,13 +43,13 @@ class App extends React.Component{
         var data = {
             pageSize: 10,
             currentPage: 1,
-            total: 58,
+            total: 61,
             rows: [{a: '123'}, {a: 'cdd', b: 'edd'}, {a: '1333', c: 'eee', d: 2}]
         }
         data.rows[0].a = Math.random();
         return(
           <div>
-              <Grid columns={ columns } data={ data } onPageChange={ this.onPageChange.bind(this) } useFixedHeader={true}/>
+              <Grid useFixedHeader={ false } columns={ columns } data={ data } onPageChange={ this.onPageChange.bind(this) } />
           </div>
         )
     }
