@@ -32840,7 +32840,7 @@
 	                        "top": top + "px",
 	                        "left": left + "px"
 	                    } },
-	                _react2.default.createElement(_index2.default, { className: prefixCls + '-calendar ' + prefixCls + '-calendar-' + this.cptId, initialDate: props.value ? (0, _moment2.default)(props.value, "YYYY-MM-DD")._d : new Date(), onClickDate: function onClickDate(date) {
+	                _react2.default.createElement(_index2.default, _extends({}, props.calendarProps, { className: prefixCls + '-calendar ' + prefixCls + '-calendar-' + this.cptId, initialDate: props.value ? (0, _moment2.default)(props.value, "YYYY-MM-DD")._d : new Date(), onClickDate: function onClickDate(date) {
 	                        _this3.renderCalendar({
 	                            visible: false
 	                        });
@@ -32849,7 +32849,7 @@
 	                                value: date
 	                            }
 	                        });
-	                    } })
+	                    } }))
 	            ), this.calendarContainer);
 	        }
 	    }, {
@@ -32867,6 +32867,7 @@
 	exports.default = DateInput;
 	
 	DateInput.defaultProps = {
+	    calendarProps: null,
 	    onChange: function onChange() {},
 	    prefixCls: "ui-form-dateinput"
 	};

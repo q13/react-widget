@@ -108,7 +108,7 @@ class DateInput extends Widget {
             "top": top + "px",
             "left": left + "px"
         }}>
-            <Calendar className={`${prefixCls}-calendar ${prefixCls}-calendar-` + this.cptId} initialDate={props.value ? moment(props.value, "YYYY-MM-DD")._d : new Date()} onClickDate={
+            <Calendar {...props.calendarProps} className={`${prefixCls}-calendar ${prefixCls}-calendar-` + this.cptId} initialDate={props.value ? moment(props.value, "YYYY-MM-DD")._d : new Date()} onClickDate={
                 (date) => {
                     this.renderCalendar({
                         visible: false
@@ -130,6 +130,7 @@ class DateInput extends Widget {
 }
 export default DateInput;
 DateInput.defaultProps = {
+    calendarProps: null,
     onChange: () => {},
     prefixCls: "ui-form-dateinput"
 };
