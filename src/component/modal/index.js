@@ -17,18 +17,35 @@ class Modal extends WidgetEx {
     Popup : Symbol(),
     Dialog : Symbol(),
   };
-  static defaultProps = { ...Object.getPrototypeOf(Modal).defaultProps,
-    classModalOuter : 'ui-modal-outer',
-    isVisibleInitial : true,
-    paneType : Modal.PaneType.Dialog,
+  // static defaultProps = { ...Object.getPrototypeOf(Modal).defaultProps,
+  //   classModalOuter : 'ui-modal-outer',
+  //   isVisibleInitial : true,
+  //   paneType : Modal.PaneType.Dialog,
+  //   onBeforeMount : ()=>{},
+  //   onAfterMount : ()=>{},
+  //   onBeforeDestroy : ()=>{},
+  //   // version: '2015.12.10',
+  // };
+  static defaultProps = {
+    prefixCls: 'ui-modal',
+    title: 'Modal对话框',
+    width: undefined,
+    height: undefined,
+    visible: true,
+    paneType: Modal.PaneType.Dialog,
+    onClickClose: ()=>{},
     onBeforeMount : ()=>{},
     onAfterMount : ()=>{},
     onBeforeDestroy : ()=>{},
-    // version: '2015.12.10',
   };
   constructor(props) {
     super(props);
-    this.state = {bIsVisible:Modal.defaultProps.isVisibleInitial};
+    const zComHelper = Modal.getZComHelper();
+    this.state = {
+      // bIsVisible: Modal.defaultProps.isVisibleInitial,
+      windowWidth: zComHelper.getWindowWidth(),
+      windowHeight: zComHelper.getWindowHeight(),
+    };
   }
   componentWillMount() {
     super.componentWillMount();
@@ -37,8 +54,10 @@ class Modal extends WidgetEx {
   }
   componentDidMount() {
     super.componentDidMount();
-    if(!this.props.isMaintainedRender)
+    if(!this.props.isMaintainedRender) {
+      window.addEventListener('resize', this.handleResize.bind(this));
       if(this.props.onAfterMount) this.props.onAfterMount(this);
+    }
     this.componentWillReceiveProps(this.props);
   }
   componentWillReceiveProps(nextProps) {
@@ -47,8 +66,10 @@ class Modal extends WidgetEx {
   }
   componentWillUnmount() {
     super.componentWillUnmount();
-    if(!this.props.isMaintainedRender)
+    if(!this.props.isMaintainedRender){
+      window.removeEventListener('resize', this.handleResize.bind(this));
       if(this.props.onBeforeDestroy) this.props.onBeforeDestroy(this);
+    }
     // 清除本组件实例所提供的遮罩存放容器
     const _this = this.getInstanceForRender();
     Mask.getStaticInstance().mapOutContainer(_this);
@@ -69,31 +90,44 @@ class Modal extends WidgetEx {
   // 获取本组件实例是否可见
   getVisibility() {
     const _this = this.getInstanceForRender();
-    return _this.state.bIsVisible;
+    return _this.props.visible;
+    // return _this.state.bIsVisible;
   }
-  handleCloseModal() {
-    const _this = this.getInstanceForRender();
-    _this && _this.setVisibility(false);
+  handleClose() {
+    this.props.onClickClose();
   }
-  handleOpenModal() {
-    const _this = this.getInstanceForRender();
-    _this && _this.setVisibility(true);
+  handleResize() {
+    const zComHelper = Modal.getZComHelper();
+    this.setState({
+      windowWidth: zComHelper.getWindowWidth(),
+      windowHeight: zComHelper.getWindowHeight(),
+    });
   }
   jsxElementToRender() {
     let resVDOM = null;
-    const {classModalOuter, bIsVisible, paneType, onBeforeMount, onAfterMount, onBeforeDestroy, ...otherProps} = this.props;
+    let styleTmpl = {};
+    if(this.props.width) {
+      styleTmpl.left = (this.state.windowWidth-this.props.width)/2;
+      styleTmpl.width = this.props.width;
+    }
+    if(this.props.height) {
+      styleTmpl.top = (this.state.windowHeight-this.props.height)/2;
+      styleTmpl.height = this.props.height;
+    }
+
+    const {prefixCls, width, height, visible, paneType, onClickClose, onBeforeMount, onAfterMount, onBeforeDestroy, ...otherProps} = this.props;
     let jsxPane = null;
     switch(this.props.paneType) {
       case Modal.PaneType.Popup:
-        jsxPane = (<Popup {...otherProps} onClose={this.handleCloseModal.bind(this)} />);
+        jsxPane = (<Popup {...otherProps} styleTmpl={styleTmpl} onClose={this.props.onClickClose} />);
         break;
       case Modal.PaneType.Dialog:
-        jsxPane = (<Dialog {...otherProps} onClose={this.handleCloseModal.bind(this)} />);
+        jsxPane = (<Dialog {...otherProps} styleTmpl={styleTmpl} onClose={this.props.onClickClose} />);
         break;
       default: break;
     }
     if(this.getVisibility()) {
-      resVDOM = (<div name="RCZModal" className={this.props.classModalOuter}>
+      resVDOM = (<div name="RCZModal" className={'ui-modal'/*'ui-modal-outer'*/}>
         <div ref="MaskReservedContainer"></div>
         {jsxPane}
       </div>)

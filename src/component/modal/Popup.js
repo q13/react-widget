@@ -20,7 +20,7 @@ class Popup extends Pane {
   }
   jsxElementToRender() {
     const {classPopupOuter, ...otherProps} = this.props;
-    return (<div name="RCZPopup" className={this.props.classPopupOuter}>
+    return (<div name="RCZPopup" className={this.props.classPopupOuter} style={this.props.styleTmpl}>
       {this.renderCustom(otherProps, super.jsxElementToRender)}
     </div>);
   }

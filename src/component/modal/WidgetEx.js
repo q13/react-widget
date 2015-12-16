@@ -5,6 +5,7 @@ import {
     Widget
 } from "../component.js";
 import React from 'react';
+import ReactDOM from 'react-dom';
 
 class ZComHelper {
   // 被管理组件实例容器的容器
@@ -27,6 +28,14 @@ class ZComHelper {
       (queryArr.filter(x=>(x=x.split('='))&&x[0]==='debug'&&x[1]==='1').length>0) &&
         console.log(`Instance of ${com.__rczid} ${com.constructor.name}: ${msg} :${info_isMaintainedRender}`);
     })(location.search.slice(1).split('&')));
+  }
+
+  static getWindowWidth() {
+    return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+  }
+  static getWindowHeight() {
+    // return "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+    return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
   }
 }
 
