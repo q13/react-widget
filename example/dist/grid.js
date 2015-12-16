@@ -1,5 +1,5 @@
 /*!
- * Build at Tue Dec 15 2015 14:24:50 GMT+0800 (CST)
+ * Build at Wed Dec 16 2015 14:19:35 GMT+0800 (CST)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -60,7 +60,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _index = __webpack_require__(260);
+	var _index = __webpack_require__(262);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
@@ -111,7 +111,7 @@
 	                    }
 	                    return obj;
 	                } }, { text: '表头3', dataIndex: 'c', width: 200 }, {
-	                text: '操作', dataIndex: '', renderer: function renderer() {
+	                text: '操作', dataIndex: '', width: 300, renderer: function renderer() {
 	                    return _react2.default.createElement(
 	                        "a",
 	                        { href: "#" },
@@ -122,14 +122,14 @@
 	            var data = {
 	                pageSize: 10,
 	                currentPage: 1,
-	                total: 58,
+	                total: 61,
 	                rows: [{ a: '123' }, { a: 'cdd', b: 'edd' }, { a: '1333', c: 'eee', d: 2 }]
 	            };
 	            data.rows[0].a = Math.random();
 	            return _react2.default.createElement(
 	                "div",
 	                null,
-	                _react2.default.createElement(_index2.default, { columns: columns, data: data, onPageChange: this.onPageChange.bind(this), useFixedHeader: true })
+	                _react2.default.createElement(_index2.default, { useFixedHeader: false, columns: columns, data: data, onPageChange: this.onPageChange.bind(this) })
 	            );
 	        }
 	    }, {
@@ -20665,7 +20665,9 @@
 
 /***/ },
 /* 259 */,
-/* 260 */
+/* 260 */,
+/* 261 */,
+/* 262 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20684,15 +20686,15 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _GridRow = __webpack_require__(261);
+	var _GridRow = __webpack_require__(263);
 	
 	var _GridRow2 = _interopRequireDefault(_GridRow);
 	
-	var _pagination = __webpack_require__(278);
+	var _pagination = __webpack_require__(264);
 	
 	var _pagination2 = _interopRequireDefault(_pagination);
 	
-	var _grid = __webpack_require__(276);
+	var _grid = __webpack_require__(267);
 	
 	var _grid2 = _interopRequireDefault(_grid);
 	
@@ -20741,7 +20743,19 @@
 	                    columns: columns,
 	                    key: i }));
 	            }
-	            return rst;
+	            if (rst.length == 0) {
+	                return _react2.default.createElement(
+	                    'tr',
+	                    null,
+	                    _react2.default.createElement(
+	                        'td',
+	                        { colSpan: columns.length, className: 'ui-grid-empty' },
+	                        this.props.emptyText
+	                    )
+	                );
+	            } else {
+	                return rst;
+	            }
 	        }
 	    }, {
 	        key: 'getColGroup',
@@ -20837,13 +20851,16 @@
 	    useFixedHeader: false,
 	    columns: [],
 	    prefixCls: 'ui-grid',
-	    pageSize: 10
+	    currentPage: 1,
+	    total: 0,
+	    pageSize: 10,
+	    emptyText: '无数据'
 	};
 	
 	exports.default = Grid;
 
 /***/ },
-/* 261 */
+/* 263 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20946,61 +20963,7 @@
 	exports.default = GridRow;
 
 /***/ },
-/* 262 */,
-/* 263 */,
-/* 264 */,
-/* 265 */,
-/* 266 */,
-/* 267 */,
-/* 268 */,
-/* 269 */,
-/* 270 */,
-/* 271 */,
-/* 272 */,
-/* 273 */,
-/* 274 */,
-/* 275 */,
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(277);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(258)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./grid.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./grid.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(257)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".ui-grid{}\n.ui-grid table{\n    width: 100%;\n    border-collapse: collapse;\n    border-spacing: 0;\n}\n.ui-grid-thead {}\n.ui-grid-thead th{\n    padding: 0 14px;\n    background-color: #666;\n    color: #fff;\n    height: 54px;\n    border: 1px solid #ededed;\n}\n.ui-grid-tbody td{\n    padding: 0 14px;\n    background-color: #fff;\n    color: #666;\n    height: 54px;\n    border: 1px solid #ededed;\n}\n.ui-grid-tbody tr:hover td{\n    background-color: #f1f1f1;\n}\n", "", {"version":3,"sources":["/../../src/component/grid/grid.css"],"names":[],"mappings":"AAAA,UAAU;AACV;IACI,YAAY;IACZ,0BAA0B;IAC1B,kBAAkB;CACrB;AACD,iBAAiB;AACjB;IACI,gBAAgB;IAChB,uBAAuB;IACvB,YAAY;IACZ,aAAa;IACb,0BAA0B;CAC7B;AACD;IACI,gBAAgB;IAChB,uBAAuB;IACvB,YAAY;IACZ,aAAa;IACb,0BAA0B;CAC7B;AACD;IACI,0BAA0B;CAC7B","file":"grid.css","sourcesContent":[".ui-grid{}\n.ui-grid table{\n    width: 100%;\n    border-collapse: collapse;\n    border-spacing: 0;\n}\n.ui-grid-thead {}\n.ui-grid-thead th{\n    padding: 0 14px;\n    background-color: #666;\n    color: #fff;\n    height: 54px;\n    border: 1px solid #ededed;\n}\n.ui-grid-tbody td{\n    padding: 0 14px;\n    background-color: #fff;\n    color: #666;\n    height: 54px;\n    border: 1px solid #ededed;\n}\n.ui-grid-tbody tr:hover td{\n    background-color: #f1f1f1;\n}\n"],"sourceRoot":"webpack://"}]);
-	
-	// exports
-
-
-/***/ },
-/* 278 */
+/* 264 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21017,7 +20980,7 @@
 	
 	var _component = __webpack_require__(160);
 	
-	var _pagination = __webpack_require__(279);
+	var _pagination = __webpack_require__(265);
 	
 	var _pagination2 = _interopRequireDefault(_pagination);
 	
@@ -21047,7 +21010,7 @@
 	    _createClass(Pagination, [{
 	        key: 'componentWillUnmount',
 	        value: function componentWillUnmount() {
-	            this.props.onBeforeDestroy(this.props.record);
+	            // this.props.onBeforeDestroy(this.props.record);
 	        }
 	    }, {
 	        key: 'getPages',
@@ -21083,14 +21046,14 @@
 	            // add first
 	            if (left > 1) {
 	                pages.push(1);
-	                pages.push(-1);
+	                if (left !== 2) pages.push(-1);
 	            }
 	            for (var i = left; i < right + 1; i++) {
 	                pages.push(i);
 	            }
 	            // add last
 	            if (right < max) {
-	                pages.push(-2);
+	                if (right + 1 != max) pages.push(-2);
 	                pages.push(max);
 	            }
 	            return { pages: pages, max: max };
@@ -21132,7 +21095,7 @@
 	            */
 	            items.push(_react2.default.createElement(
 	                'li',
-	                { key: 'current' },
+	                { className: 'ui-pagination-pole', key: 'current' },
 	                '第',
 	                _react2.default.createElement(
 	                    'a',
@@ -21146,7 +21109,7 @@
 	                if (page === -1 || page === -2) {
 	                    items.push(_react2.default.createElement(
 	                        'li',
-	                        { key: page },
+	                        { className: 'ui-pagination-ellipsis', key: page },
 	                        _react2.default.createElement(
 	                            'a',
 	                            null,
@@ -21167,12 +21130,12 @@
 	            });
 	            items.push(_react2.default.createElement(
 	                'li',
-	                { key: 'total' },
-	                '共',
+	                { className: 'ui-pagination-pole', key: 'total' },
+	                ' 共',
 	                _react2.default.createElement(
 	                    'a',
 	                    null,
-	                    this.state.max
+	                    this.state.max === 0 ? 1 : this.state.max
 	                ),
 	                '页'
 	            ));
@@ -21194,7 +21157,11 @@
 	                    'div',
 	                    { className: 'total' },
 	                    '共',
-	                    this.props.total,
+	                    _react2.default.createElement(
+	                        'a',
+	                        { href: 'javascript:;' },
+	                        this.props.total
+	                    ),
 	                    '条记录'
 	                )
 	            );
@@ -21214,19 +21181,19 @@
 	Pagination.defaultProps = {
 	    currentPage: 1,
 	    pageSize: 10,
-	    pages: 4
+	    pages: 6
 	};
 	
 	exports.default = Pagination;
 
 /***/ },
-/* 279 */
+/* 265 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(280);
+	var content = __webpack_require__(266);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(258)(content, {});
@@ -21246,7 +21213,7 @@
 	}
 
 /***/ },
-/* 280 */
+/* 266 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(257)();
@@ -21254,7 +21221,47 @@
 	
 	
 	// module
-	exports.push([module.id, ".ui-pagination {\n    position: relative;\n    color: #666;\n}\n.ui-pagination ul{\n    text-align: center;\n    line-height: 34px;\n}\n.ui-pagination li {\n    display: inline-block;\n}\n.ui-pagination li.active {\n    font-weight: bold;\n}\n.ui-pagination li a {\n    cursor: pointer;\n    display: inline-block;\n    line-height: normal;\n    background-color: #fff;\n    padding: .5em .9em;\n}\n.ui-pagination .total{\n    position: absolute;\n    right: 0;\n    line-height: 34px;\n}\n", "", {"version":3,"sources":["/../../src/component/pagination/pagination.css"],"names":[],"mappings":"AAAA;IACI,mBAAmB;IACnB,YAAY;CACf;AACD;IACI,mBAAmB;IACnB,kBAAkB;CACrB;AACD;IACI,sBAAsB;CACzB;AACD;IACI,kBAAkB;CACrB;AACD;IACI,gBAAgB;IAChB,sBAAsB;IACtB,oBAAoB;IACpB,uBAAuB;IACvB,mBAAmB;CACtB;AACD;IACI,mBAAmB;IACnB,SAAS;IACT,kBAAkB;CACrB","file":"pagination.css","sourcesContent":[".ui-pagination {\n    position: relative;\n    color: #666;\n}\n.ui-pagination ul{\n    text-align: center;\n    line-height: 34px;\n}\n.ui-pagination li {\n    display: inline-block;\n}\n.ui-pagination li.active {\n    font-weight: bold;\n}\n.ui-pagination li a {\n    cursor: pointer;\n    display: inline-block;\n    line-height: normal;\n    background-color: #fff;\n    padding: .5em .9em;\n}\n.ui-pagination .total{\n    position: absolute;\n    right: 0;\n    line-height: 34px;\n}\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".ui-pagination {\n    position: relative;\n    color: #666;\n}\n.ui-pagination ul {\n    text-align: center;\n    line-height: 34px;\n}\n.ui-pagination li {\n    display: inline-block;\n}\n.ui-pagination li.active {\n    font-weight: bold;\n}\n.ui-pagination li a {\n    cursor: pointer;\n    display: inline-block;\n    line-height: normal;\n    background-color: #fff;\n    padding: .5em .9em;\n}\n.ui-pagination .total {\n    position: absolute;\n    right: 0;\n    line-height: 34px;\n    bottom: 0;\n}\n.ui-pagination .total a {\n    padding: 0 8px;\n    color: #666;\n    text-decoration: none;\n}\n.ui-pagination-ellipsis {\n\n}\n", "", {"version":3,"sources":["/../../src/component/pagination/pagination.css"],"names":[],"mappings":"AAAA;IACI,mBAAmB;IACnB,YAAY;CACf;AACD;IACI,mBAAmB;IACnB,kBAAkB;CACrB;AACD;IACI,sBAAsB;CACzB;AACD;IACI,kBAAkB;CACrB;AACD;IACI,gBAAgB;IAChB,sBAAsB;IACtB,oBAAoB;IACpB,uBAAuB;IACvB,mBAAmB;CACtB;AACD;IACI,mBAAmB;IACnB,SAAS;IACT,kBAAkB;IAClB,UAAU;CACb;AACD;IACI,eAAe;IACf,YAAY;IACZ,sBAAsB;CACzB;AACD;;CAEC","file":"pagination.css","sourcesContent":[".ui-pagination {\n    position: relative;\n    color: #666;\n}\n.ui-pagination ul {\n    text-align: center;\n    line-height: 34px;\n}\n.ui-pagination li {\n    display: inline-block;\n}\n.ui-pagination li.active {\n    font-weight: bold;\n}\n.ui-pagination li a {\n    cursor: pointer;\n    display: inline-block;\n    line-height: normal;\n    background-color: #fff;\n    padding: .5em .9em;\n}\n.ui-pagination .total {\n    position: absolute;\n    right: 0;\n    line-height: 34px;\n    bottom: 0;\n}\n.ui-pagination .total a {\n    padding: 0 8px;\n    color: #666;\n    text-decoration: none;\n}\n.ui-pagination-ellipsis {\n\n}\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 267 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(268);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(258)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./grid.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./grid.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 268 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(257)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, ".ui-grid{}\n.ui-grid table{\n    width: 100%;\n    border-collapse: collapse;\n    border-spacing: 0;\n}\n.ui-grid-thead {}\n.ui-grid-thead th{\n    padding: 0 14px;\n    background-color: #666;\n    color: #fff;\n    height: 54px;\n    border: 1px solid #ededed;\n}\n.ui-grid-tbody td{\n    padding: 0 14px;\n    background-color: #fff;\n    color: #666;\n    height: 54px;\n    border: 1px solid #ededed;\n}\n.ui-grid-tbody tr:hover td{\n    background-color: #f1f1f1;\n}\n.ui-grid-empty {\n    text-align: center;\n    height: 100px;\n    line-height: 100px;\n    border: 1px solid #ededed;\n    border-top: none;\n}\n.ui-grid-empty:hover {\n\n}\n", "", {"version":3,"sources":["/../../src/component/grid/grid.css"],"names":[],"mappings":"AAAA,UAAU;AACV;IACI,YAAY;IACZ,0BAA0B;IAC1B,kBAAkB;CACrB;AACD,iBAAiB;AACjB;IACI,gBAAgB;IAChB,uBAAuB;IACvB,YAAY;IACZ,aAAa;IACb,0BAA0B;CAC7B;AACD;IACI,gBAAgB;IAChB,uBAAuB;IACvB,YAAY;IACZ,aAAa;IACb,0BAA0B;CAC7B;AACD;IACI,0BAA0B;CAC7B;AACD;IACI,mBAAmB;IACnB,cAAc;IACd,mBAAmB;IACnB,0BAA0B;IAC1B,iBAAiB;CACpB;AACD;;CAEC","file":"grid.css","sourcesContent":[".ui-grid{}\n.ui-grid table{\n    width: 100%;\n    border-collapse: collapse;\n    border-spacing: 0;\n}\n.ui-grid-thead {}\n.ui-grid-thead th{\n    padding: 0 14px;\n    background-color: #666;\n    color: #fff;\n    height: 54px;\n    border: 1px solid #ededed;\n}\n.ui-grid-tbody td{\n    padding: 0 14px;\n    background-color: #fff;\n    color: #666;\n    height: 54px;\n    border: 1px solid #ededed;\n}\n.ui-grid-tbody tr:hover td{\n    background-color: #f1f1f1;\n}\n.ui-grid-empty {\n    text-align: center;\n    height: 100px;\n    line-height: 100px;\n    border: 1px solid #ededed;\n    border-top: none;\n}\n.ui-grid-empty:hover {\n\n}\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 

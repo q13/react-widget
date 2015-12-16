@@ -1,5 +1,5 @@
 /*!
- * Build at Tue Dec 15 2015 14:24:50 GMT+0800 (CST)
+ * Build at Wed Dec 16 2015 14:19:35 GMT+0800 (CST)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -60,11 +60,9 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _index = __webpack_require__(262);
+	var _index = __webpack_require__(269);
 	
 	var _index2 = _interopRequireDefault(_index);
-	
-	__webpack_require__(272);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -76,6 +74,8 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Modal demo
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
+	// import "./modal.css";
+	
 	var pageContainer = document.getElementById("container");
 	// 测试页面组件
 	
@@ -85,7 +85,13 @@
 	  function Page() {
 	    _classCallCheck(this, Page);
 	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Page).apply(this, arguments));
+	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Page).call(this));
+	
+	    _this2.state = {
+	      visible1: true,
+	      visible2: false
+	    };
+	    return _this2;
 	  }
 	
 	  _createClass(Page, [{
@@ -96,18 +102,23 @@
 	      //JSX描述第一个弹框：简单调用
 	      var jsxModal1 = _react2.default.createElement(
 	        _index2.default,
-	        { ref: "jsxModal1" },
+	        { ref: "jsxModal1", isMaintainedRender: false,
+	          visible: this.state.visible1,
+	          onClickClose: function onClickClose() {
+	            _this3.setState({ visible1: false });
+	          }
+	        },
 	        "这是在弹框1内显示的内容-开始",
 	        _react2.default.createElement("br", null),
 	        _react2.default.createElement(
 	          "button",
 	          { onClick: function onClick() {
-	              _this3.refs.jsxModal2.handleOpenModal();
+	              _this3.setState({ visible2: true });
 	            } },
 	          "显示第2个弹框"
 	        ),
 	        _react2.default.createElement("hr", null),
-	        "点击右上x按钮关闭本弹框",
+	        "点击右上×按钮关闭本弹框",
 	        _react2.default.createElement("hr", null),
 	        _react2.default.createElement("br", null),
 	        "这是在弹框1内显示的内容-结束"
@@ -115,20 +126,16 @@
 	      //JSX描述第二个弹框：参数调用
 	      var jsxModal2 = _react2.default.createElement(
 	        _index2.default,
-	        { ref: "jsxModal2",
-	          classTitleBarOuter: "ui-titlebar-outer-2",
-	          titleContent: "第2个弹框的标题",
-	          classActionBarOuter: "ui-actionbar-outer-2",
-	          actionContent: "第2个弹框的行动栏",
-	          classPaneOuter: "ui-pane-outer-2",
-	          classPopupOuter: "ui-popup-outer-2",
-	          classDialogOuter: "ui-dialog-outer-2",
-	          hasTitleBar: true,
-	          hasActionBar: true,
-	          classMaskOuter: "ui-mask-outer-2",
-	          classModalOuter: "ui-modal-outer-2",
-	          isVisibleInitial: this.props.isVisibleInitial2 || false,
+	        { ref: "jsxModal2", isMaintainedRender: false,
+	          prefixCls: "ui-modal",
+	          title: "第2个弹框的标题 by x",
+	          width: "400",
+	          height: "600",
+	          visible: this.state.visible2,
 	          paneType: this.props.paneType2 || _index2.default.PaneType.Dialog,
+	          onClickClose: function onClickClose() {
+	            _this3.setState({ visible2: false });
+	          },
 	          onBeforeMount: function onBeforeMount(_this) {
 	            alert('即将生成弹框');
 	          },
@@ -160,7 +167,7 @@
 	        _react2.default.createElement(
 	          "button",
 	          { onClick: function onClick() {
-	              _this3.refs.jsxModal2.handleCloseModal();
+	              _this3.setState({ visible2: false });
 	            } },
 	          "关闭本弹框"
 	        ),
@@ -182,6 +189,22 @@
 	        )
 	      );
 	      return { jsxModal1: jsxModal1, jsxModal2: jsxModal2 };
+	      // classTitleBarOuter="ui-titlebar-outer-2"
+	      // titleContent="第2个弹框的标题"
+	      // classActionBarOuter="ui-actionbar-outer-2"
+	      // actionContent="第2个弹框的行动栏"
+	      // classPaneOuter="ui-pane-outer-2"
+	      // classPopupOuter="ui-popup-outer-2"
+	      // classDialogOuter="ui-dialog-outer-2"
+	      // hasTitleBar={true}
+	      // hasActionBar={true}
+	      // classMaskOuter="ui-mask-outer-2"
+	      // classModalOuter="ui-modal-outer-2"
+	      // isVisibleInitial={this.props.isVisibleInitial2||false}
+	      // paneType={this.props.paneType2||Modal.PaneType.Dialog}
+	      // onBeforeMount={(_this)=>{alert('即将生成弹框')}}
+	      // onAfterMount={(_this)=>{alert('弹框已生成')}}
+	      // onBeforeDestroy={(_this)=>{alert('即将销毁弹框')}}
 	    }
 	  }, {
 	    key: "render",
@@ -216,7 +239,7 @@
 	                _react2.default.createElement(
 	                  "button",
 	                  { onClick: function onClick() {
-	                      _this4.refs.jsxModal1.handleOpenModal();
+	                      _this4.setState({ visible1: true });
 	                    } },
 	                  "显示第1个弹框"
 	                ),
@@ -20796,7 +20819,14 @@
 /* 259 */,
 /* 260 */,
 /* 261 */,
-/* 262 */
+/* 262 */,
+/* 263 */,
+/* 264 */,
+/* 265 */,
+/* 266 */,
+/* 267 */,
+/* 268 */,
+/* 269 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -20817,23 +20847,23 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _WidgetEx2 = __webpack_require__(263);
+	var _WidgetEx2 = __webpack_require__(270);
 	
 	var _WidgetEx3 = _interopRequireDefault(_WidgetEx2);
 	
-	var _Popup = __webpack_require__(264);
+	var _Popup = __webpack_require__(271);
 	
 	var _Popup2 = _interopRequireDefault(_Popup);
 	
-	var _Dialog = __webpack_require__(266);
+	var _Dialog = __webpack_require__(273);
 	
 	var _Dialog2 = _interopRequireDefault(_Dialog);
 	
-	var _Mask = __webpack_require__(269);
+	var _Mask = __webpack_require__(276);
 	
 	var _Mask2 = _interopRequireDefault(_Mask);
 	
-	__webpack_require__(270);
+	__webpack_require__(277);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -20852,16 +20882,28 @@
 	var Modal = (function (_WidgetEx) {
 	  _inherits(Modal, _WidgetEx);
 	
-	  // version: '2015.12.10',
-	
 	  function Modal(props) {
 	    _classCallCheck(this, Modal);
 	
 	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Modal).call(this, props));
 	
-	    _this2.state = { bIsVisible: Modal.defaultProps.isVisibleInitial };
+	    var zComHelper = Modal.getZComHelper();
+	    _this2.state = {
+	      // bIsVisible: Modal.defaultProps.isVisibleInitial,
+	      windowWidth: zComHelper.getWindowWidth(),
+	      windowHeight: zComHelper.getWindowHeight()
+	    };
 	    return _this2;
 	  }
+	  // static defaultProps = { ...Object.getPrototypeOf(Modal).defaultProps,
+	  //   classModalOuter : 'ui-modal-outer',
+	  //   isVisibleInitial : true,
+	  //   paneType : Modal.PaneType.Dialog,
+	  //   onBeforeMount : ()=>{},
+	  //   onAfterMount : ()=>{},
+	  //   onBeforeDestroy : ()=>{},
+	  //   // version: '2015.12.10',
+	  // };
 	
 	  _createClass(Modal, [{
 	    key: 'componentWillMount',
@@ -20873,7 +20915,10 @@
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      _get(Object.getPrototypeOf(Modal.prototype), 'componentDidMount', this).call(this);
-	      if (!this.props.isMaintainedRender) if (this.props.onAfterMount) this.props.onAfterMount(this);
+	      if (!this.props.isMaintainedRender) {
+	        window.addEventListener('resize', this.handleResize.bind(this));
+	        if (this.props.onAfterMount) this.props.onAfterMount(this);
+	      }
 	      this.componentWillReceiveProps(this.props);
 	    }
 	  }, {
@@ -20886,7 +20931,10 @@
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      _get(Object.getPrototypeOf(Modal.prototype), 'componentWillUnmount', this).call(this);
-	      if (!this.props.isMaintainedRender) if (this.props.onBeforeDestroy) this.props.onBeforeDestroy(this);
+	      if (!this.props.isMaintainedRender) {
+	        window.removeEventListener('resize', this.handleResize.bind(this));
+	        if (this.props.onBeforeDestroy) this.props.onBeforeDestroy(this);
+	      }
 	      // 清除本组件实例所提供的遮罩存放容器
 	      var _this = this.getInstanceForRender();
 	      _Mask2.default.getStaticInstance().mapOutContainer(_this);
@@ -20913,41 +20961,57 @@
 	    key: 'getVisibility',
 	    value: function getVisibility() {
 	      var _this = this.getInstanceForRender();
-	      return _this.state.bIsVisible;
+	      return _this.props.visible;
+	      // return _this.state.bIsVisible;
 	    }
 	  }, {
-	    key: 'handleCloseModal',
-	    value: function handleCloseModal() {
-	      var _this = this.getInstanceForRender();
-	      _this && _this.setVisibility(false);
+	    key: 'handleClose',
+	    value: function handleClose() {
+	      this.props.onClickClose();
 	    }
 	  }, {
-	    key: 'handleOpenModal',
-	    value: function handleOpenModal() {
-	      var _this = this.getInstanceForRender();
-	      _this && _this.setVisibility(true);
+	    key: 'handleResize',
+	    value: function handleResize() {
+	      var zComHelper = Modal.getZComHelper();
+	      this.setState({
+	        windowWidth: zComHelper.getWindowWidth(),
+	        windowHeight: zComHelper.getWindowHeight()
+	      });
 	    }
 	  }, {
 	    key: 'jsxElementToRender',
 	    value: function jsxElementToRender() {
 	      var resVDOM = null;
+	      var styleTmpl = {};
+	      if (this.props.width) {
+	        styleTmpl.left = (this.state.windowWidth - this.props.width) / 2;
+	        styleTmpl.width = this.props.width;
+	      }
+	      if (this.props.height) {
+	        styleTmpl.top = (this.state.windowHeight - this.props.height) / 2;
+	        styleTmpl.height = this.props.height;
+	      }
+	
 	      var _props = this.props;
-	      var classModalOuter = _props.classModalOuter;
-	      var bIsVisible = _props.bIsVisible;
+	      var prefixCls = _props.prefixCls;
+	      var width = _props.width;
+	      var height = _props.height;
+	      var visible = _props.visible;
 	      var paneType = _props.paneType;
+	      var onClickClose = _props.onClickClose;
 	      var onBeforeMount = _props.onBeforeMount;
 	      var onAfterMount = _props.onAfterMount;
 	      var onBeforeDestroy = _props.onBeforeDestroy;
 	
-	      var otherProps = _objectWithoutProperties(_props, ['classModalOuter', 'bIsVisible', 'paneType', 'onBeforeMount', 'onAfterMount', 'onBeforeDestroy']);
+	      var otherProps = _objectWithoutProperties(_props, ['prefixCls', 'width', 'height', 'visible', 'paneType', 'onClickClose', 'onBeforeMount', 'onAfterMount', 'onBeforeDestroy']);
 	
 	      var jsxPane = null;
 	      switch (this.props.paneType) {
 	        case Modal.PaneType.Popup:
-	          jsxPane = _react2.default.createElement(_Popup2.default, _extends({}, otherProps, { onClose: this.handleCloseModal.bind(this) }));
+	          jsxPane = _react2.default.createElement(_Popup2.default, _extends({}, otherProps, { styleTmpl: styleTmpl, onClose: this.props.onClickClose }));
 	          break;
 	        case Modal.PaneType.Dialog:
-	          jsxPane = _react2.default.createElement(_Dialog2.default, _extends({}, otherProps, { onClose: this.handleCloseModal.bind(this) }));
+	          jsxPane = _react2.default.createElement(_Dialog2.default, _extends({}, otherProps, { styleTmpl: styleTmpl, onClose: this.props.onClickClose }));
 	          break;
 	        default:
 	          break;
@@ -20955,7 +21019,7 @@
 	      if (this.getVisibility()) {
 	        resVDOM = _react2.default.createElement(
 	          'div',
-	          { name: 'RCZModal', className: this.props.classModalOuter },
+	          { name: 'RCZModal', className: 'ui-modal' /*'ui-modal-outer'*/ },
 	          _react2.default.createElement('div', { ref: 'MaskReservedContainer' }),
 	          jsxPane
 	        );
@@ -20971,17 +21035,22 @@
 	  Popup: Symbol(),
 	  Dialog: Symbol()
 	};
-	Modal.defaultProps = _extends({}, Object.getPrototypeOf(Modal).defaultProps, {
-	  classModalOuter: 'ui-modal-outer',
-	  isVisibleInitial: true,
+	Modal.defaultProps = {
+	  prefixCls: 'ui-modal',
+	  title: 'Modal对话框',
+	  width: undefined,
+	  height: undefined,
+	  visible: true,
 	  paneType: Modal.PaneType.Dialog,
+	  onClickClose: function onClickClose() {},
 	  onBeforeMount: function onBeforeMount() {},
 	  onAfterMount: function onAfterMount() {},
-	  onBeforeDestroy: function onBeforeDestroy() {} });
+	  onBeforeDestroy: function onBeforeDestroy() {}
+	};
 	exports.default = Modal;
 
 /***/ },
-/* 263 */
+/* 270 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21001,6 +21070,10 @@
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(158);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -21035,6 +21108,17 @@
 	          return (x = x.split('=')) && x[0] === 'debug' && x[1] === '1';
 	        }).length > 0 && console.log('Instance of ' + com.__rczid + ' ' + com.constructor.name + ': ' + msg + ' :' + info_isMaintainedRender);
 	      })(location.search.slice(1).split('&'));
+	    }
+	  }, {
+	    key: 'getWindowWidth',
+	    value: function getWindowWidth() {
+	      return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
+	    }
+	  }, {
+	    key: 'getWindowHeight',
+	    value: function getWindowHeight() {
+	      // return "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
+	      return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
 	    }
 	  }]);
 	
@@ -21093,7 +21177,7 @@
 	    value: function componentDidUpdate() {
 	      if (this.props.isMaintainedRender) {
 	        // 渲染至被管理容器
-	        this.maintainedInstance = ReactDOM.render(_react2.default.createElement(this.constructor, _extends({}, this.props, { isMaintainedRender: false })), this.maintainedRenderContainer);
+	        this.maintainedInstance = _reactDom2.default.render(_react2.default.createElement(this.constructor, _extends({}, this.props, { isMaintainedRender: false })), this.maintainedRenderContainer);
 	      }
 	      ZComHelper.fnComLog(this, 'Updated');
 	    }
@@ -21103,7 +21187,7 @@
 	      ZComHelper.fnComLog(this, 'Unmounting');
 	      if (this.props.isMaintainedRender) {
 	        // 销毁被管理实例与被管理容器
-	        ReactDOM.unmountComponentAtNode(this.maintainedRenderContainer);
+	        _reactDom2.default.unmountComponentAtNode(this.maintainedRenderContainer);
 	        ZComHelper.GetMaintainedCOMsRenderRepo().removeChild(this.maintainedRenderContainer);
 	      }
 	    }
@@ -21164,7 +21248,7 @@
 	exports.default = WidgetEx;
 
 /***/ },
-/* 264 */
+/* 271 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21185,7 +21269,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _Pane2 = __webpack_require__(265);
+	var _Pane2 = __webpack_require__(272);
 	
 	var _Pane3 = _interopRequireDefault(_Pane2);
 	
@@ -21224,7 +21308,7 @@
 	
 	      return _react2.default.createElement(
 	        'div',
-	        { name: 'RCZPopup', className: this.props.classPopupOuter },
+	        { name: 'RCZPopup', className: this.props.classPopupOuter, style: this.props.styleTmpl },
 	        this.renderCustom(otherProps, _get(Object.getPrototypeOf(Popup.prototype), 'jsxElementToRender', this))
 	      );
 	    }
@@ -21240,7 +21324,7 @@
 	exports.default = Popup;
 
 /***/ },
-/* 265 */
+/* 272 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21259,7 +21343,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _WidgetEx2 = __webpack_require__(263);
+	var _WidgetEx2 = __webpack_require__(270);
 	
 	var _WidgetEx3 = _interopRequireDefault(_WidgetEx2);
 	
@@ -21306,7 +21390,7 @@
 	exports.default = Pane;
 
 /***/ },
-/* 266 */
+/* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21327,15 +21411,15 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _TitleBar = __webpack_require__(267);
+	var _TitleBar = __webpack_require__(274);
 	
 	var _TitleBar2 = _interopRequireDefault(_TitleBar);
 	
-	var _ActionBar = __webpack_require__(268);
+	var _ActionBar = __webpack_require__(275);
 	
 	var _ActionBar2 = _interopRequireDefault(_ActionBar);
 	
-	var _Pane2 = __webpack_require__(265);
+	var _Pane2 = __webpack_require__(272);
 	
 	var _Pane3 = _interopRequireDefault(_Pane2);
 	
@@ -21371,19 +21455,19 @@
 	      var classDialogOuter = _props.classDialogOuter;
 	      var hasTitleBar = _props.hasTitleBar;
 	      var hasActionBar = _props.hasActionBar;
-	      var titleContent = _props.titleContent;
+	      var title = _props.title;
 	      var actionContent = _props.actionContent;
 	
-	      var otherProps = _objectWithoutProperties(_props, ['classDialogOuter', 'hasTitleBar', 'hasActionBar', 'titleContent', 'actionContent']);
+	      var otherProps = _objectWithoutProperties(_props, ['classDialogOuter', 'hasTitleBar', 'hasActionBar', 'title', 'actionContent']);
 	
 	      var jsxTitlebar = !this.props.hasTitleBar ? null : _react2.default.createElement(_TitleBar2.default, {
-	        titleContent: this.props.titleContent,
-	        onClose: this.props.onClose });
+	        title: this.props.title,
+	        onCloseClick: this.props.onClose });
 	      var jsxActionbar = !this.props.hasActionBar ? null : _react2.default.createElement(_ActionBar2.default, {
-	        actionContent: this.props.actionContent });
+	        actionContent: this.props.actionContent, onCancelClick: this.props.onClose });
 	      return _react2.default.createElement(
 	        'div',
-	        { name: 'RCZDialog', className: this.props.classDialogOuter },
+	        { name: 'RCZDialog', className: this.props.classDialogOuter, style: this.props.styleTmpl },
 	        this.renderCustom(otherProps, _get(Object.getPrototypeOf(Dialog.prototype), 'jsxElementToRender', this)),
 	        jsxActionbar,
 	        jsxTitlebar
@@ -21399,11 +21483,11 @@
 	  classDialogOuter: 'ui-dialog-outer',
 	  classPaneOuter: 'ui-dialog-pane-outer',
 	  hasTitleBar: true,
-	  hasActionBar: false });
+	  hasActionBar: true });
 	exports.default = Dialog;
 
 /***/ },
-/* 267 */
+/* 274 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21422,7 +21506,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _WidgetEx2 = __webpack_require__(263);
+	var _WidgetEx2 = __webpack_require__(270);
 	
 	var _WidgetEx3 = _interopRequireDefault(_WidgetEx2);
 	
@@ -21457,13 +21541,13 @@
 	        { name: 'RCZTitleBar', className: this.props.classTitleBarOuter },
 	        _react2.default.createElement(
 	          'div',
-	          { className: 'cmdbutton float-right', onClick: this.props.onClose },
+	          { className: 'cmdbutton float-right', onClick: this.props.onCloseClick },
 	          '×'
 	        ),
 	        _react2.default.createElement(
 	          'div',
-	          null,
-	          this.props.titleContent
+	          { title: this.props.title },
+	          this.props.title
 	        )
 	      );
 	    }
@@ -21475,12 +21559,12 @@
 	TitleBar.defaultProps = _extends({}, Object.getPrototypeOf(TitleBar).defaultProps, {
 	  prefixCls: 'ui-titlebar',
 	  classTitleBarOuter: 'ui-titlebar-outer',
-	  titleContent: '标题栏',
-	  onClose: function onClose() {} });
+	  title: '标题栏',
+	  onCloseClick: function onCloseClick() {} });
 	exports.default = TitleBar;
 
 /***/ },
-/* 268 */
+/* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21499,7 +21583,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _WidgetEx2 = __webpack_require__(263);
+	var _WidgetEx2 = __webpack_require__(270);
 	
 	var _WidgetEx3 = _interopRequireDefault(_WidgetEx2);
 	
@@ -21529,10 +21613,26 @@
 	  _createClass(ActionBar, [{
 	    key: 'jsxElementToRender',
 	    value: function jsxElementToRender() {
+	      var jsxActionContent = this.props.actionContent || _react2.default.createElement(
+	        'div',
+	        { style: { textAlign: 'center' } },
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.props.onOKClick },
+	          '确定'
+	        ),
+	        ' ',
+	        _react2.default.createElement(
+	          'button',
+	          { onClick: this.props.onCancelClick },
+	          '取消'
+	        )
+	      );
+	
 	      return _react2.default.createElement(
 	        'div',
 	        { name: 'RCZActionBar', className: this.props.classActionBarOuter },
-	        this.props.actionContent
+	        jsxActionContent
 	      );
 	    }
 	  }]);
@@ -21543,11 +21643,14 @@
 	ActionBar.defaultProps = _extends({}, Object.getPrototypeOf(ActionBar).defaultProps, {
 	  prefixCls: 'ui-actionbar',
 	  classActionBarOuter: 'ui-actionbar-outer',
-	  actionContent: '行动栏' });
+	  // actionContent : '行动栏',
+	  actionContent: undefined,
+	  onOKClick: function onOKClick() {},
+	  onCancelClick: function onCancelClick() {} });
 	exports.default = ActionBar;
 
 /***/ },
-/* 269 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -21570,7 +21673,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _WidgetEx2 = __webpack_require__(263);
+	var _WidgetEx2 = __webpack_require__(270);
 	
 	var _WidgetEx3 = _interopRequireDefault(_WidgetEx2);
 	
@@ -21675,13 +21778,13 @@
 	exports.default = Mask;
 
 /***/ },
-/* 270 */
+/* 277 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(271);
+	var content = __webpack_require__(278);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(258)(content, {});
@@ -21701,7 +21804,7 @@
 	}
 
 /***/ },
-/* 271 */
+/* 278 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(257)();
@@ -21709,47 +21812,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".disable-select {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n\n.box-bordersizing {\n  box-sizing: border-box;\n}\n.box-contentsizing {\n  box-sizing: content-box;\n}\n\n.float-right {\n  float: right;\n}\n\n\n.cmdbutton {\n  /*.box-contentsizing;*/\n  box-sizing: content-box;\n  width: 16px;\n  height: 16px;\n  border: solid 1px;\n  font-size: 16px;\n  text-align: center;\n  cursor: pointer;\n\n  &:hover {\n    color: #f00;\n  }\n}\n\n.ui-modal-outer {\n  position: fixed;\n  z-index: 9999;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n}\n\n  .ui-mask-outer {\n    position: fixed;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(0, 0, 0, .6);\n  }\n\n  .ui-dialog-outer {\n    position: fixed;\n    left: 25%;\n    top: 25%;\n    right: 25%;\n    bottom: 25%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n  .ui-popup-outer {\n    position: fixed;\n    left: 10%;\n    top: 20%;\n    right: 10%;\n    bottom: 50%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n    .ui-titlebar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      height: 28px;\n      background: #ddd;\n      overflow: hidden;\n      /*.disable-select;*/\n      -webkit-user-select: none;\n         -moz-user-select: none;\n          -ms-user-select: none;\n              user-select: none;\n      cursor: default;\n    }\n\n    .ui-actionbar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      bottom: 0;\n      height: 28px;\n      background: #ddd;\n      overflow: hidden;\n    }\n\n    .ui-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-popup-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-dialog-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 28px;\n      bottom: 28px;\n      overflow: auto;\n    }\n\n", "", {"version":3,"sources":["/../../src/component/modal/index.css"],"names":[],"mappings":"AAMA;EACE,0BAAkB;KAAlB,uBAAkB;MAAlB,sBAAkB;UAAlB,kBAAkB;CACnB;;AAED;EACE,uBAAuB;CACxB;AACD;EACE,wBAAwB;CACzB;;AAED;EACE,aAAa;CACd;;;AAGD;EACE,uBAAuB;EACvB,wBAAwB;EACxB,YAAyB;EACzB,aAA0B;EAC1B,kBAAkB;EAClB,gBAA6B;EAC7B,mBAAmB;EACnB,gBAAgB;;EAEhB;IACE,YAAY;GACb;CACF;;AAED;EACE,gBAAgB;EAChB,cAA0B;EAC1B,QAAQ;EACR,OAAO;EACP,SAAS;EACT,UAAU;CACX;;EAEC;IACE,gBAAgB;IAChB,QAAQ;IACR,OAAO;IACP,SAAS;IACT,UAAU;IACV,8BAA8B;GAC/B;;EAED;IACE,gBAAgB;IAChB,UAAU;IACV,SAAS;IACT,WAAW;IACX,YAAY;IACZ,mCAAmC;GACpC;;EAED;IACE,gBAAgB;IAChB,UAAU;IACV,SAAS;IACT,WAAW;IACX,YAAY;IACZ,mCAAmC;GACpC;;IAEC;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,OAAO;MACP,aAAyB;MACzB,iBAAiB;MACjB,iBAAiB;MACjB,oBAAoB;MACpB,0BAAkB;SAAlB,uBAAkB;UAAlB,sBAAkB;cAAlB,kBAAkB;MAClB,gBAAgB;KACjB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,UAAU;MACV,aAAyB;MACzB,iBAAiB;MACjB,iBAAiB;KAClB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,OAAO;MACP,UAAU;MACV,eAAe;KAChB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,OAAO;MACP,UAAU;MACV,eAAe;KAChB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,UAAsB;MACtB,aAAyB;MACzB,eAAe;KAChB","file":"index.css","sourcesContent":[":root {\n  --topZIndex: 9999;\n  --barHeight: 28px;\n  --cmdbtnSize: 16px;\n}\n\n.disable-select {\n  user-select: none;\n}\n\n.box-bordersizing {\n  box-sizing: border-box;\n}\n.box-contentsizing {\n  box-sizing: content-box;\n}\n\n.float-right {\n  float: right;\n}\n\n\n.cmdbutton {\n  /*.box-contentsizing;*/\n  box-sizing: content-box;\n  width: var(--cmdbtnSize);\n  height: var(--cmdbtnSize);\n  border: solid 1px;\n  font-size: var(--cmdbtnSize);\n  text-align: center;\n  cursor: pointer;\n\n  &:hover {\n    color: #f00;\n  }\n}\n\n.ui-modal-outer {\n  position: fixed;\n  z-index: var(--topZIndex);\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n}\n\n  .ui-mask-outer {\n    position: fixed;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(0, 0, 0, .6);\n  }\n\n  .ui-dialog-outer {\n    position: fixed;\n    left: 25%;\n    top: 25%;\n    right: 25%;\n    bottom: 25%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n  .ui-popup-outer {\n    position: fixed;\n    left: 10%;\n    top: 20%;\n    right: 10%;\n    bottom: 50%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n    .ui-titlebar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      height: var(--barHeight);\n      background: #ddd;\n      overflow: hidden;\n      /*.disable-select;*/\n      user-select: none;\n      cursor: default;\n    }\n\n    .ui-actionbar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      bottom: 0;\n      height: var(--barHeight);\n      background: #ddd;\n      overflow: hidden;\n    }\n\n    .ui-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-popup-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-dialog-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: var(--barHeight);\n      bottom: var(--barHeight);\n      overflow: auto;\n    }\n\n"],"sourceRoot":"webpack://"}]);
-	
-	// exports
-
-
-/***/ },
-/* 272 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(273);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(258)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/postcss-loader/index.js!./modal.css", function() {
-				var newContent = require("!!./../../node_modules/css-loader/index.js?sourceMap!./../../node_modules/postcss-loader/index.js!./modal.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 273 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(257)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".ui-modal-outer-2 {\n  position: fixed;\n  z-index: 9999;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n}\n\n  .ui-mask-outer-2 {\n    position: fixed;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(0, 0, 0, .6);\n  }\n\n    .ui-titlebar-outer-2 {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      height: 28px;\n      background: #069;\n      overflow: hidden;\n      /*.disable-select;*/\n      -webkit-user-select: none;\n         -moz-user-select: none;\n          -ms-user-select: none;\n              user-select: none;\n      cursor: default;\n    }\n\n    .ui-actionbar-outer-2 {\n      position: absolute;\n      left: 0;\n      right: 0;\n      bottom: 0;\n      height: 28px;\n      background: #069;\n      overflow: hidden;\n    }\n\n  .ui-popup-outer-2 {\n    position: fixed;\n    left: 20%;\n    top: 30%;\n    right: 20%;\n    bottom: 20%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n  .ui-dialog-outer-2 {\n    position: fixed;\n    left: 10%;\n    top: 40%;\n    right: 10%;\n    bottom: 30%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n    .ui-pane-outer-2 {\n      position: absolute;\n      left: 100px;\n      right: 100px;\n      top: 28px;\n      bottom: 28px;\n      overflow: auto;\n    }\n\n", "", {"version":3,"sources":["/./modal.css"],"names":[],"mappings":"AAKA;EACE,gBAAgB;EAChB,cAA0B;EAC1B,QAAQ;EACR,OAAO;EACP,SAAS;EACT,UAAU;CACX;;EAEC;IACE,gBAAgB;IAChB,QAAQ;IACR,OAAO;IACP,SAAS;IACT,UAAU;IACV,8BAA8B;GAC/B;;IAEC;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,OAAO;MACP,aAAyB;MACzB,iBAAiB;MACjB,iBAAiB;MACjB,oBAAoB;MACpB,0BAAkB;SAAlB,uBAAkB;UAAlB,sBAAkB;cAAlB,kBAAkB;MAClB,gBAAgB;KACjB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,UAAU;MACV,aAAyB;MACzB,iBAAiB;MACjB,iBAAiB;KAClB;;EAEH;IACE,gBAAgB;IAChB,UAAU;IACV,SAAS;IACT,WAAW;IACX,YAAY;IACZ,mCAAmC;GACpC;;EAED;IACE,gBAAgB;IAChB,UAAU;IACV,SAAS;IACT,WAAW;IACX,YAAY;IACZ,mCAAmC;GACpC;;IAEC;MACE,mBAAmB;MACnB,YAAY;MACZ,aAAa;MACb,UAAsB;MACtB,aAAyB;MACzB,eAAe;KAChB","file":"modal.css","sourcesContent":[":root {\n  --topZIndex: 9999;\n  --barHeight: 28px;\n}\n\n.ui-modal-outer-2 {\n  position: fixed;\n  z-index: var(--topZIndex);\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n}\n\n  .ui-mask-outer-2 {\n    position: fixed;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(0, 0, 0, .6);\n  }\n\n    .ui-titlebar-outer-2 {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      height: var(--barHeight);\n      background: #069;\n      overflow: hidden;\n      /*.disable-select;*/\n      user-select: none;\n      cursor: default;\n    }\n\n    .ui-actionbar-outer-2 {\n      position: absolute;\n      left: 0;\n      right: 0;\n      bottom: 0;\n      height: var(--barHeight);\n      background: #069;\n      overflow: hidden;\n    }\n\n  .ui-popup-outer-2 {\n    position: fixed;\n    left: 20%;\n    top: 30%;\n    right: 20%;\n    bottom: 20%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n  .ui-dialog-outer-2 {\n    position: fixed;\n    left: 10%;\n    top: 40%;\n    right: 10%;\n    bottom: 30%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n    .ui-pane-outer-2 {\n      position: absolute;\n      left: 100px;\n      right: 100px;\n      top: var(--barHeight);\n      bottom: var(--barHeight);\n      overflow: auto;\n    }\n\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".ui-modal {\n  position: fixed;\n  z-index: 10000;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n}\n\n.ui-modal .disable-select {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n\n.ui-modal .box-bordersizing {\n  box-sizing: border-box;\n}\n.ui-modal .box-contentsizing {\n  box-sizing: content-box;\n}\n\n.ui-modal .float-right {\n  float: right;\n}\n\n\n.ui-modal .cmdbutton {\n  /*.box-contentsizing;*/\n  box-sizing: content-box;\n  width: 16px;\n  height: 16px;\n  border: solid 1px;\n  font-family: 宋体, tahoma, arial;\n  font-size: 16px;\n  text-align: center;\n  cursor: pointer;\n}\n.ui-modal .cmdbutton:hover {\n  color: #f00;\n}\n\n  .ui-modal .ui-mask-outer {\n    position: fixed;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(0, 0, 0, .6);\n  }\n\n  .ui-modal .ui-dialog-outer {\n    position: fixed;\n    left: 25%;\n    top: 25%;\n    right: 25%;\n    bottom: 25%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n  .ui-modal .ui-popup-outer {\n    position: fixed;\n    left: 10%;\n    top: 20%;\n    right: 10%;\n    bottom: 50%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n    .ui-modal .ui-titlebar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      height: 28px;\n      background: #ddd;\n      overflow: hidden;\n      /*.disable-select;*/\n      -webkit-user-select: none;\n         -moz-user-select: none;\n          -ms-user-select: none;\n              user-select: none;\n      cursor: default;\n    }\n\n    .ui-modal .ui-actionbar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      bottom: 0;\n      height: 28px;\n      background: #ddd;\n      overflow: hidden;\n    }\n\n    .ui-modal .ui-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-modal .ui-popup-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-modal .ui-dialog-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 28px;\n      bottom: 28px;\n      overflow: auto;\n    }\n\n", "", {"version":3,"sources":["/../../src/component/modal/index.css"],"names":[],"mappings":"AAMA;EACE,gBAAgB;EAChB,eAAiC;EACjC,QAAQ;EACR,OAAO;EACP,SAAS;EACT,UAAU;CACX;;AAED;EACE,0BAAkB;KAAlB,uBAAkB;MAAlB,sBAAkB;UAAlB,kBAAkB;CACnB;;AAED;EACE,uBAAuB;CACxB;AACD;EACE,wBAAwB;CACzB;;AAED;EACE,aAAa;CACd;;;AAGD;EACE,uBAAuB;EACvB,wBAAwB;EACxB,YAAgC;EAChC,aAAiC;EACjC,kBAAkB;EAClB,+BAA+B;EAC/B,gBAAoC;EACpC,mBAAmB;EACnB,gBAAgB;CACjB;AACD;EACE,YAAY;CACb;;EAEC;IACE,gBAAgB;IAChB,QAAQ;IACR,OAAO;IACP,SAAS;IACT,UAAU;IACV,8BAA8B;GAC/B;;EAED;IACE,gBAAgB;IAChB,UAAU;IACV,SAAS;IACT,WAAW;IACX,YAAY;IACZ,mCAAmC;GACpC;;EAED;IACE,gBAAgB;IAChB,UAAU;IACV,SAAS;IACT,WAAW;IACX,YAAY;IACZ,mCAAmC;GACpC;;IAEC;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,OAAO;MACP,aAAgC;MAChC,iBAAiB;MACjB,iBAAiB;MACjB,oBAAoB;MACpB,0BAAkB;SAAlB,uBAAkB;UAAlB,sBAAkB;cAAlB,kBAAkB;MAClB,gBAAgB;KACjB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,UAAU;MACV,aAAgC;MAChC,iBAAiB;MACjB,iBAAiB;KAClB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,OAAO;MACP,UAAU;MACV,eAAe;KAChB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,OAAO;MACP,UAAU;MACV,eAAe;KAChB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,UAA6B;MAC7B,aAAgC;MAChC,eAAe;KAChB","file":"index.css","sourcesContent":[":root {\n  --uiModalTopZIndex: 10000;\n  --uiModalBarHeight: 28px;\n  --uiModalCmdbtnSize: 16px;\n}\n\n.ui-modal {\n  position: fixed;\n  z-index: var(--uiModalTopZIndex);\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n}\n\n.ui-modal .disable-select {\n  user-select: none;\n}\n\n.ui-modal .box-bordersizing {\n  box-sizing: border-box;\n}\n.ui-modal .box-contentsizing {\n  box-sizing: content-box;\n}\n\n.ui-modal .float-right {\n  float: right;\n}\n\n\n.ui-modal .cmdbutton {\n  /*.box-contentsizing;*/\n  box-sizing: content-box;\n  width: var(--uiModalCmdbtnSize);\n  height: var(--uiModalCmdbtnSize);\n  border: solid 1px;\n  font-family: 宋体, tahoma, arial;\n  font-size: var(--uiModalCmdbtnSize);\n  text-align: center;\n  cursor: pointer;\n}\n.ui-modal .cmdbutton:hover {\n  color: #f00;\n}\n\n  .ui-modal .ui-mask-outer {\n    position: fixed;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(0, 0, 0, .6);\n  }\n\n  .ui-modal .ui-dialog-outer {\n    position: fixed;\n    left: 25%;\n    top: 25%;\n    right: 25%;\n    bottom: 25%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n  .ui-modal .ui-popup-outer {\n    position: fixed;\n    left: 10%;\n    top: 20%;\n    right: 10%;\n    bottom: 50%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n    .ui-modal .ui-titlebar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      height: var(--uiModalBarHeight);\n      background: #ddd;\n      overflow: hidden;\n      /*.disable-select;*/\n      user-select: none;\n      cursor: default;\n    }\n\n    .ui-modal .ui-actionbar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      bottom: 0;\n      height: var(--uiModalBarHeight);\n      background: #ddd;\n      overflow: hidden;\n    }\n\n    .ui-modal .ui-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-modal .ui-popup-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-modal .ui-dialog-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: var(--uiModalBarHeight);\n      bottom: var(--uiModalBarHeight);\n      overflow: auto;\n    }\n\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
