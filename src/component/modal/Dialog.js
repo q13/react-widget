@@ -16,20 +16,20 @@ class Dialog extends Pane {
     classDialogOuter : 'ui-dialog-outer',
     classPaneOuter : 'ui-dialog-pane-outer',
     hasTitleBar: true,
-    hasActionBar: false,
+    hasActionBar: true,
     // version: '2015.12.10',
   }
   constructor(props) {
     super(props);
   }
   jsxElementToRender() {
-    const {classDialogOuter, hasTitleBar, hasActionBar, titleContent, actionContent, ...otherProps} = this.props;
+    const {classDialogOuter, hasTitleBar, hasActionBar, title, actionContent, ...otherProps} = this.props;
     let jsxTitlebar = !this.props.hasTitleBar ? null : (<TitleBar 
-      titleContent={this.props.titleContent} 
-      onClose={this.props.onClose} />);
+      title={this.props.title} 
+      onCloseClick={this.props.onClose} />);
     let jsxActionbar = !this.props.hasActionBar ? null : (<ActionBar 
-      actionContent={this.props.actionContent} />);
-    return (<div name="RCZDialog" className={this.props.classDialogOuter}>
+      actionContent={this.props.actionContent} onCancelClick={this.props.onClose} />);
+    return (<div name="RCZDialog" className={this.props.classDialogOuter} style={this.props.styleTmpl}>
       {this.renderCustom(otherProps, super.jsxElementToRender)}
       {jsxActionbar}
       {jsxTitlebar}
