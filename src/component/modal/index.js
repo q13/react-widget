@@ -47,6 +47,7 @@ class Modal extends WidgetEx {
       windowWidth: zComHelper.getWindowWidth(),
       windowHeight: zComHelper.getWindowHeight(),
     };
+    this.eventHandlerResize = this.handleResize.bind(this);
   }
   componentWillMount() {
     super.componentWillMount();
@@ -56,7 +57,8 @@ class Modal extends WidgetEx {
   componentDidMount() {
     super.componentDidMount();
     if(!this.props.isMaintainedRender) {
-      window.addEventListener('resize', this.handleResize.bind(this));
+      window.addEventListener ? window.addEventListener('resize', this.eventHandlerResize)
+      : $(window).on('resize', this.eventHandlerResize);
       if(this.props.onAfterMount) this.props.onAfterMount(this);
     }
     this.componentWillReceiveProps(this.props);
@@ -68,7 +70,8 @@ class Modal extends WidgetEx {
   componentWillUnmount() {
     super.componentWillUnmount();
     if(!this.props.isMaintainedRender){
-      window.removeEventListener('resize', this.handleResize.bind(this));
+      window.removeEventListener ? window.removeEventListener('resize', this.eventHandlerResize)
+      : $(window).off('resize', this.eventHandlerResize);
       if(this.props.onBeforeDestroy) this.props.onBeforeDestroy(this);
     }
     // 清除本组件实例所提供的遮罩存放容器
@@ -98,6 +101,7 @@ class Modal extends WidgetEx {
     this.props.onClickClose();
   }
   handleResize() {
+    console.log(123);return;
     const zComHelper = Modal.getZComHelper();
     this.setState({
       windowWidth: zComHelper.getWindowWidth(),
