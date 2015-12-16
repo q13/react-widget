@@ -20,6 +20,7 @@ class Page extends React.Component {
     //JSX描述第一个弹框：简单调用
     var jsxModal1 = (<Modal ref="jsxModal1" isMaintainedRender={false}
        visible={this.state.visible1}
+       onClickSubmit={() => { this.setState({visible1: false}); }}
        onClickClose={() => { this.setState({visible1: false}); }}
        >
         这是在弹框1内显示的内容-开始
@@ -30,12 +31,14 @@ class Page extends React.Component {
     //JSX描述第二个弹框：参数调用
     var jsxModal2 = (<Modal ref="jsxModal2" isMaintainedRender={false}
        prefixCls='ui-modal'
+       className="class-modal-test"
        title="第2个弹框的标题 by x"
        width="400"
        height="600"
        visible={this.state.visible2}
        paneType={this.props.paneType2||Modal.PaneType.Dialog}
        onClickClose={() => { this.setState({visible2: false}); }}
+       onClickSubmit={() => { alert('确定被点击'); }}
        onBeforeMount={(_this)=>{alert('即将生成弹框')}}
        onAfterMount={(_this)=>{alert('弹框已生成')}}
        onBeforeDestroy={(_this)=>{alert('即将销毁弹框')}}
@@ -66,8 +69,21 @@ class Page extends React.Component {
        // onBeforeDestroy={(_this)=>{alert('即将销毁弹框')}}
   }
   render() {
+    let styleTmpl = `
+      .ui-modal .class-modal-test {
+        position: fixed;
+        left: 25%;
+        top: 25%;
+        right: 25%;
+        bottom: 25%;
+        background: rgba(0, 128, 196, 1);
+      }
+    `;
     var myjsxModals = this.jsxModals();
     var jsxPage = (<div style={{background:'white'}}>
+      <style>
+      {styleTmpl}
+      </style>
       <table>
         <tbody>
           <tr>
