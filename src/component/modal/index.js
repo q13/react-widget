@@ -34,6 +34,7 @@ class Modal extends WidgetEx {
     visible: true,
     paneType: Modal.PaneType.Dialog,
     onClickClose: ()=>{},
+    onClickSubmit: ()=>{},
     onBeforeMount : ()=>{},
     onAfterMount : ()=>{},
     onBeforeDestroy : ()=>{},
@@ -115,14 +116,14 @@ class Modal extends WidgetEx {
       styleTmpl.height = this.props.height;
     }
 
-    const {prefixCls, width, height, visible, paneType, onClickClose, onBeforeMount, onAfterMount, onBeforeDestroy, ...otherProps} = this.props;
+    const {prefixCls, width, height, visible, paneType, onClickClose, onClickSubmit, onBeforeMount, onAfterMount, onBeforeDestroy, ...otherProps} = this.props;
     let jsxPane = null;
     switch(this.props.paneType) {
       case Modal.PaneType.Popup:
-        jsxPane = (<Popup {...otherProps} styleTmpl={styleTmpl} onClose={this.props.onClickClose} />);
+        jsxPane = (<Popup {...otherProps} styleTmpl={styleTmpl} onClickClose={this.props.onClickClose} onClickSubmit={this.props.onClickSubmit} />);
         break;
       case Modal.PaneType.Dialog:
-        jsxPane = (<Dialog {...otherProps} styleTmpl={styleTmpl} onClose={this.props.onClickClose} />);
+        jsxPane = (<Dialog {...otherProps} styleTmpl={styleTmpl} onClickClose={this.props.onClickClose} onClickSubmit={this.props.onClickSubmit} />);
         break;
       default: break;
     }

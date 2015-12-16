@@ -13,7 +13,7 @@ class TitleBar extends WidgetEx {
     prefixCls: 'ui-titlebar',
     classTitleBarOuter : 'ui-titlebar-outer',
     title : '标题栏',
-    onCloseClick : ()=>{},
+    onClickClose : ()=>{},
     // version: '2015.12.10',
   };
   constructor(props) {
@@ -21,7 +21,7 @@ class TitleBar extends WidgetEx {
   }
   jsxElementToRender() {
     return (<div name="RCZTitleBar" className={this.props.classTitleBarOuter}>
-      <div className="cmdbutton float-right" onClick={this.props.onCloseClick}>×</div>
+      <div className="cmdbutton float-right" onClick={this.props.onClickClose}>×</div>
       <div title={this.props.title}>{this.props.title}</div>
     </div>);
   }

@@ -13,7 +13,7 @@ import Pane from './Pane.js';
 class Dialog extends Pane {
   static defaultProps = { ...Object.getPrototypeOf(Dialog).defaultProps,
     prefixCls: 'ui-dialog',
-    classDialogOuter : 'ui-dialog-outer',
+    className : 'ui-dialog-outer',
     classPaneOuter : 'ui-dialog-pane-outer',
     hasTitleBar: true,
     hasActionBar: true,
@@ -23,13 +23,13 @@ class Dialog extends Pane {
     super(props);
   }
   jsxElementToRender() {
-    const {classDialogOuter, hasTitleBar, hasActionBar, title, actionContent, ...otherProps} = this.props;
+    const {className, hasTitleBar, hasActionBar, title, actionContent, ...otherProps} = this.props;
     let jsxTitlebar = !this.props.hasTitleBar ? null : (<TitleBar 
       title={this.props.title} 
-      onCloseClick={this.props.onClose} />);
+      onClickClose={this.props.onClickClose} />);
     let jsxActionbar = !this.props.hasActionBar ? null : (<ActionBar 
-      actionContent={this.props.actionContent} onCancelClick={this.props.onClose} />);
-    return (<div name="RCZDialog" className={this.props.classDialogOuter} style={this.props.styleTmpl}>
+      actionContent={this.props.actionContent} onClickClose={this.props.onClickClose} onClickSubmit={this.props.onClickSubmit} />);
+    return (<div name="RCZDialog" className={this.props.className} style={this.props.styleTmpl}>
       {this.renderCustom(otherProps, super.jsxElementToRender)}
       {jsxActionbar}
       {jsxTitlebar}
