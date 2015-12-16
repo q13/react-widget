@@ -10,11 +10,14 @@ import moment from 'moment';
 import React from 'react';
 import ReactDom from 'react-dom';
 import Calendar from '../calendar/index.js';
+
+let cptId = 0;
 class DateInput extends Widget {
     constructor(props) {
         super(props);
         this.state = {
         };
+        this.cptId = cptId++;
     }
     componentWillMount() {
         this.calendarContainer = document.createElement("div");
@@ -24,25 +27,26 @@ class DateInput extends Widget {
         this.renderCalendar({
             visible: false
         });
+        $(document).on('mousedown.DateInput' + this.cptId, () => {
+            this.renderCalendar({
+                visible: false
+            });
+        }).on('mousedown.DateInput' + this.cptId, `.${this.props.prefixCls}-` + this.cptId, (evt) => {
+            evt.stopPropagation();
+        }).on('mousedown.DateInput' + this.cptId, `.${this.props.prefixCls}-calendar-` + this.cptId, (evt) => {
+            evt.stopPropagation();
+        });
     }
     componentWillUnmount() {
         ReactDom.unmountComponentAtNode(this.calendarContainer);
         document.body.removeChild(this.calendarContainer);
+        $(document).off('mousedown.DateInput' + this.cptId);
         this.calendarContainer = null;
+        this.cptId = null;
     }
     handleFocus() {
         this.renderCalendar({
             visible: true
-        });
-    }
-    handleBlur() {
-        this.renderCalendar({
-            visible: false
-        });
-    }
-    handleChange(evt) {
-        this.setState({
-            value: evt.target.value
         });
     }
     renderCalendar(data) {
@@ -103,8 +107,11 @@ class DateInput extends Widget {
             "top": top + "px",
             "left": left + "px"
         }}>
-            <Calendar className={`${prefixCls}-calendar`} focusDate={moment(state.value, "YYYY-MM-DD")._d} onClickDate={
+            <Calendar className={`${prefixCls}-calendar ${prefixCls}-calendar-` + this.cptId} focusDate={moment(state.value, "YYYY-MM-DD")._d} onClickDate={
                 (date) => {
+                    this.renderCalendar({
+                        visible: false
+                    });
                     props.onChange.call(this, {
                         target: {
                             value: moment(date).format("YYYY-MM-DD")
@@ -115,8 +122,9 @@ class DateInput extends Widget {
         </div>, this.calendarContainer);
     }
     render() {
-        var props = this.props;
-        return (<input {...props} type="text" ref="input" value={props.value} readOnly={true} onFocus={this.handleFocus.bind(this)} onBlur={this.handleBlur.bind(this)} onChange={props.onChange.bind(this)} />);
+        var props = this.props,
+            prefixCls = props.prefixCls;
+        return (<input {...props} className={`${prefixCls}` + ` ${prefixCls}-` + this.cptId + ' ' + (props.className || '')} type="text" ref="input" value={props.value} readOnly={true} onFocus={this.handleFocus.bind(this)} onChange={props.onChange.bind(this)} />);
     }
 }
 export default DateInput;

@@ -1,0 +1,24 @@
+.ui-grid{}
+.ui-grid table{
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+.ui-grid-thead {}
+.ui-grid-thead th{
+    padding: 0 14px;
+    background-color: #666;
+    color: #fff;
+    height: 54px;
+    border: 1px solid #ededed;
+}
+.ui-grid-tbody td{
+    padding: 0 14px;
+    background-color: #fff;
+    color: #666;
+    height: 54px;
+    border: 1px solid #ededed;
+}
+.ui-grid-tbody tr:hover td{
+    background-color: #f1f1f1;
+}

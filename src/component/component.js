@@ -1,7 +1,6 @@
 /**
  * 基础组件
  */
-import babelPolyfill from "babel-polyfill";
 import React, {
     Component
 } from 'react';
