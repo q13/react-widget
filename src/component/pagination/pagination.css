@@ -25,6 +25,11 @@
     line-height: 34px;
     bottom: 0;
 }
+.ui-pagination .total a {
+    padding: 0 8px;
+    color: #666;
+    text-decoration: none;
+}
 .ui-pagination-ellipsis {
 
 }

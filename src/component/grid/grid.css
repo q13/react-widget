@@ -24,8 +24,8 @@
 }
 .ui-grid-empty {
     text-align: center;
-    height: 50px;
-    line-height: 50px;
+    height: 100px;
+    line-height: 100px;
     border: 1px solid #ededed;
     border-top: none;
 }

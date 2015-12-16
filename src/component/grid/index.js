@@ -33,7 +33,7 @@ class Grid extends Widget {
             );
         }
         if(rst.length == 0) {
-            return <div className="ui-grid-empty">占无数据</div>
+            return <tr><td colSpan={ columns.length } className="ui-grid-empty">{ this.props.emptyText }</td></tr>
         } else {
             return rst;
         }
@@ -101,7 +101,10 @@ Grid.defaultProps = {
     useFixedHeader: false,
     columns: [],
     prefixCls: 'ui-grid',
-    pageSize: 10
+    currentPage: 1,
+    total: 0,
+    pageSize: 10,
+    emptyText: '无数据'
 };
 
 export default Grid;
