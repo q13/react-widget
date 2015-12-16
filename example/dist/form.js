@@ -20329,7 +20329,7 @@
 	    maxDate: null,
 	    minDate: null,
 	    enableYearMonthChange: true, //年份和月份面板切换
-	    showTime: true, //是否显示时间, true/false or ["hour", "minute", "second"]
+	    showTime: false, //是否显示时间, true/false or ["hour", "minute", "second"]
 	    focusChangeWithClick: true, //每次点击date cell，focusDate同时改变
 	    onClickDate: function onClickDate() {},
 	    prefixCls: 'ui-calendar'
