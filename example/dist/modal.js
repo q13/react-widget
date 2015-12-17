@@ -21644,7 +21644,7 @@
 	          { className: 'ui-modal-btn-submit', onClick: this.props.onClickSubmit },
 	          '确定'
 	        ),
-	        ' ',
+	        _react2.default.createElement('span', { className: 'btn-separater' }),
 	        _react2.default.createElement(
 	          'button',
 	          { className: 'ui-modal-btn-cancel', onClick: this.props.onClickClose },

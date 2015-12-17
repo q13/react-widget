@@ -25,7 +25,7 @@ class ActionBar extends WidgetEx {
     const jsxActionContent = this.props.actionContent ||
       <div style={{textAlign:'center'}}>
         <button className="ui-modal-btn-submit" onClick={this.props.onClickSubmit}>确定</button>
-        &nbsp;
+        <span className="btn-separater"></span>
         <button className="ui-modal-btn-cancel" onClick={this.props.onClickClose}>取消</button>
       </div>;
 
@@ -36,4 +36,3 @@ class ActionBar extends WidgetEx {
 }
 
 export default ActionBar;
-
