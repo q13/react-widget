@@ -101,7 +101,7 @@ class Pagination extends Widget {
             }
         })
         items.push(
-            <li className="ui-pagination-pole" key="total">&nbsp;共<a>{ this.state.max === 0 ? 1 : this.state.max }</a>页</li>
+            <li className="ui-pagination-pole" key="total">&nbsp;共<a>{ max === 0 ? 1 : max }</a>页</li>
         );
         /*
         items.push(

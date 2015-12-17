@@ -20906,6 +20906,7 @@
 	      windowWidth: zComHelper.getWindowWidth(),
 	      windowHeight: zComHelper.getWindowHeight()
 	    };
+	    _this2.eventHandlerResize = _this2.handleResize.bind(_this2);
 	    return _this2;
 	  }
 	  // static defaultProps = { ...Object.getPrototypeOf(Modal).defaultProps,
@@ -20929,7 +20930,7 @@
 	    value: function componentDidMount() {
 	      _get(Object.getPrototypeOf(Modal.prototype), 'componentDidMount', this).call(this);
 	      if (!this.props.isMaintainedRender) {
-	        window.addEventListener('resize', this.handleResize.bind(this));
+	        window.addEventListener ? window.addEventListener('resize', this.eventHandlerResize) : $(window).on('resize', this.eventHandlerResize);
 	        if (this.props.onAfterMount) this.props.onAfterMount(this);
 	      }
 	      this.componentWillReceiveProps(this.props);
@@ -20945,7 +20946,7 @@
 	    value: function componentWillUnmount() {
 	      _get(Object.getPrototypeOf(Modal.prototype), 'componentWillUnmount', this).call(this);
 	      if (!this.props.isMaintainedRender) {
-	        window.removeEventListener('resize', this.handleResize.bind(this));
+	        window.removeEventListener ? window.removeEventListener('resize', this.eventHandlerResize) : $(window).off('resize', this.eventHandlerResize);
 	        if (this.props.onBeforeDestroy) this.props.onBeforeDestroy(this);
 	      }
 	      // 清除本组件实例所提供的遮罩存放容器
@@ -20985,6 +20986,7 @@
 	  }, {
 	    key: 'handleResize',
 	    value: function handleResize() {
+	      console.log(123);return;
 	      var zComHelper = Modal.getZComHelper();
 	      this.setState({
 	        windowWidth: zComHelper.getWindowWidth(),
@@ -21290,6 +21292,8 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21317,13 +21321,14 @@
 	    key: 'jsxElementToRender',
 	    value: function jsxElementToRender() {
 	      var _props = this.props;
-	      var className = _props.className;
+	      var classPopupOuter = _props.classPopupOuter;
 	
-	      var otherProps = _objectWithoutProperties(_props, ['className']);
+	      var otherProps = _objectWithoutProperties(_props, ['classPopupOuter']);
 	
+	      var classNameString = [].concat(_toConsumableArray(new Set([this.props.classPopupOuter].concat(_toConsumableArray((this.props.className || '').split(' ')))))).join(' ');
 	      return _react2.default.createElement(
 	        'div',
-	        { name: 'RCZPopup', className: this.props.className, style: this.props.styleTmpl },
+	        { name: 'RCZPopup', className: classNameString, style: this.props.styleTmpl },
 	        this.renderCustom(otherProps, _get(Object.getPrototypeOf(Popup.prototype), 'jsxElementToRender', this))
 	      );
 	    }
@@ -21334,7 +21339,7 @@
 	
 	Popup.defaultProps = _extends({}, Object.getPrototypeOf(Popup).defaultProps, {
 	  prefixCls: 'ui-popup',
-	  className: 'ui-popup-outer',
+	  classPopupOuter: 'ui-popup-outer',
 	  classPaneOuter: 'ui-popup-pane-outer' });
 	exports.default = Popup;
 
@@ -21440,6 +21445,8 @@
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
 	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -21467,14 +21474,15 @@
 	    key: 'jsxElementToRender',
 	    value: function jsxElementToRender() {
 	      var _props = this.props;
-	      var className = _props.className;
+	      var classDialogOuter = _props.classDialogOuter;
 	      var hasTitleBar = _props.hasTitleBar;
 	      var hasActionBar = _props.hasActionBar;
 	      var title = _props.title;
 	      var actionContent = _props.actionContent;
 	
-	      var otherProps = _objectWithoutProperties(_props, ['className', 'hasTitleBar', 'hasActionBar', 'title', 'actionContent']);
+	      var otherProps = _objectWithoutProperties(_props, ['classDialogOuter', 'hasTitleBar', 'hasActionBar', 'title', 'actionContent']);
 	
+	      var classNameString = [].concat(_toConsumableArray(new Set([this.props.classDialogOuter].concat(_toConsumableArray((this.props.className || '').split(' ')))))).join(' ');
 	      var jsxTitlebar = !this.props.hasTitleBar ? null : _react2.default.createElement(_TitleBar2.default, {
 	        title: this.props.title,
 	        onClickClose: this.props.onClickClose });
@@ -21482,7 +21490,7 @@
 	        actionContent: this.props.actionContent, onClickClose: this.props.onClickClose, onClickSubmit: this.props.onClickSubmit });
 	      return _react2.default.createElement(
 	        'div',
-	        { name: 'RCZDialog', className: this.props.className, style: this.props.styleTmpl },
+	        { name: 'RCZDialog', className: classNameString, style: this.props.styleTmpl },
 	        this.renderCustom(otherProps, _get(Object.getPrototypeOf(Dialog.prototype), 'jsxElementToRender', this)),
 	        jsxActionbar,
 	        jsxTitlebar
@@ -21495,7 +21503,7 @@
 	
 	Dialog.defaultProps = _extends({}, Object.getPrototypeOf(Dialog).defaultProps, {
 	  prefixCls: 'ui-dialog',
-	  className: 'ui-dialog-outer',
+	  classDialogOuter: 'ui-dialog-outer',
 	  classPaneOuter: 'ui-dialog-pane-outer',
 	  hasTitleBar: true,
 	  hasActionBar: true });
@@ -21636,7 +21644,7 @@
 	          { className: 'ui-modal-btn-submit', onClick: this.props.onClickSubmit },
 	          '确定'
 	        ),
-	        ' ',
+	        _react2.default.createElement('span', { className: 'btn-separater' }),
 	        _react2.default.createElement(
 	          'button',
 	          { className: 'ui-modal-btn-cancel', onClick: this.props.onClickClose },

@@ -21135,7 +21135,7 @@
 	                _react2.default.createElement(
 	                    'a',
 	                    null,
-	                    this.state.max === 0 ? 1 : this.state.max
+	                    max === 0 ? 1 : max
 	                ),
 	                '页'
 	            ));
