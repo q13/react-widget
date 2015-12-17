@@ -33,6 +33,8 @@ class Page extends React.Component {
        prefixCls='ui-modal'
        className="class-modal-test"
        title="第2个弹框的标题 by x"
+       closeText="Close Now"
+       submitText="Submit Now"
        width="400"
        height="600"
        visible={this.state.visible2}
