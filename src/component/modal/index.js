@@ -28,7 +28,10 @@ class Modal extends WidgetEx {
   // };
   static defaultProps = {
     prefixCls: 'ui-modal',
+    className: '', // ui-dialog-outer||ui-popup-outer
     title: 'Modal对话框',
+    closeText: '取消',
+    submitText: '确定',
     width: undefined,
     height: undefined,
     visible: true,
@@ -101,7 +104,6 @@ class Modal extends WidgetEx {
     this.props.onClickClose();
   }
   handleResize() {
-    console.log(123);return;
     const zComHelper = Modal.getZComHelper();
     this.setState({
       windowWidth: zComHelper.getWindowWidth(),
@@ -110,17 +112,21 @@ class Modal extends WidgetEx {
   }
   jsxElementToRender() {
     let resVDOM = null;
+    let {prefixCls, width, height, visible, paneType, onClickClose, onClickSubmit, onBeforeMount, onAfterMount, onBeforeDestroy, ...otherProps} = this.props;
     let styleTmpl = {};
-    if(this.props.width) {
-      styleTmpl.left = (this.state.windowWidth-this.props.width)/2;
-      styleTmpl.width = this.props.width;
+    // 将组件位置居中
+    if(width) {
+      styleTmpl.left = (this.state.windowWidth-width)/2;
+      styleTmpl.width = width;
     }
-    if(this.props.height) {
-      styleTmpl.top = (this.state.windowHeight-this.props.height)/2;
-      styleTmpl.height = this.props.height;
+    if(height) {
+      // 高度不得超过window高度
+      const windowHeight = this.state.windowHeight;
+      (height<=windowHeight) || (height = windowHeight);
+      styleTmpl.top = (windowHeight-height)/2;
+      styleTmpl.height = height;
     }
 
-    const {prefixCls, width, height, visible, paneType, onClickClose, onClickSubmit, onBeforeMount, onAfterMount, onBeforeDestroy, ...otherProps} = this.props;
     let jsxPane = null;
     switch(this.props.paneType) {
       case Modal.PaneType.Popup:

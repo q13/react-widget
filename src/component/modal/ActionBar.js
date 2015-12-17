@@ -12,6 +12,8 @@ class ActionBar extends WidgetEx {
   static defaultProps = { ...Object.getPrototypeOf(ActionBar).defaultProps,
     prefixCls: 'ui-actionbar',
     classActionBarOuter : 'ui-actionbar-outer',
+    closeText: '取消',
+    submitText: '确定',
     // actionContent : '行动栏',
     actionContent : undefined,
     onClickSubmit : ()=>{},
@@ -24,9 +26,9 @@ class ActionBar extends WidgetEx {
   jsxElementToRender() {
     const jsxActionContent = this.props.actionContent ||
       <div style={{textAlign:'center'}}>
-        <button className="ui-modal-btn-submit" onClick={this.props.onClickSubmit}>确定</button>
+        <button className="ui-modal-btn-submit" onClick={this.props.onClickSubmit}>{this.props.submitText}</button>
         <span className="btn-separater"></span>
-        <button className="ui-modal-btn-cancel" onClick={this.props.onClickClose}>取消</button>
+        <button className="ui-modal-btn-cancel" onClick={this.props.onClickClose}>{this.props.closeText}</button>
       </div>;
 
     return (<div name="RCZActionBar" className={this.props.classActionBarOuter}>
