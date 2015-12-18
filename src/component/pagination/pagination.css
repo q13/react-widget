@@ -1,33 +1,22 @@
 .ui-pagination {
     position: relative;
-    color: #666;
 }
 .ui-pagination ul {
     text-align: center;
-    line-height: 34px;
 }
 .ui-pagination li {
     display: inline-block;
 }
-.ui-pagination li.active {
-    font-weight: bold;
-}
 .ui-pagination li a {
     cursor: pointer;
     display: inline-block;
-    line-height: normal;
-    background-color: #fff;
-    padding: .5em .9em;
 }
 .ui-pagination .total {
     position: absolute;
     right: 0;
-    line-height: 34px;
-    bottom: 0;
+    top: 0;
 }
 .ui-pagination .total a {
-    padding: 0 8px;
-    color: #666;
     text-decoration: none;
 }
 .ui-pagination-ellipsis {

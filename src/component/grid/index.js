@@ -75,10 +75,10 @@ class Grid extends Widget {
             </div>);
             thead = null;
         }
-        var paginationProps = {
-            currentPage: this.props.data.currentPage,
-            total: this.props.data.total,
-            pageSize: this.props.data.pageSize
+        let paginationProps = {
+            currentPage: props.data.currentPage,
+            total: props.data.total,
+            pageSize: props.data.pageSize
         }
         return (<div className={className}>
             {headerTable}
@@ -91,19 +91,26 @@ class Grid extends Widget {
                     </tbody>
                 </table>
             </div>
-            <Pagination { ...paginationProps } onPageChange={ this.onPageChange.bind(this) }/>
+            <Pagination { ...paginationProps } onPageChange={ (currentPage) => {
+                props.onPageChange.call(this, {
+                    currentPage: currentPage,
+                    pageSize: props.pageSize
+                });
+            }}/>
         </div>);
     }
 }
 
 Grid.defaultProps = {
-    data: {},
+    data: {
+        currentPage: 1,
+        total: 0,
+        pageSize: 10,
+        rows: []
+    },
     useFixedHeader: false,
     columns: [],
     prefixCls: 'ui-grid',
-    currentPage: 1,
-    total: 0,
-    pageSize: 10,
     emptyText: '无数据'
 };
 

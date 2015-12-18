@@ -16,20 +16,29 @@ class Dialog extends Pane {
     classDialogOuter : 'ui-dialog-outer',
     classPaneOuter : 'ui-dialog-pane-outer',
     hasTitleBar: true,
-    hasActionBar: false,
+    hasActionBar: true,
     // version: '2015.12.10',
   }
   constructor(props) {
     super(props);
   }
   jsxElementToRender() {
-    const {classDialogOuter, hasTitleBar, hasActionBar, titleContent, actionContent, ...otherProps} = this.props;
-    let jsxTitlebar = !this.props.hasTitleBar ? null : (<TitleBar 
-      titleContent={this.props.titleContent} 
-      onClose={this.props.onClose} />);
-    let jsxActionbar = !this.props.hasActionBar ? null : (<ActionBar 
-      actionContent={this.props.actionContent} />);
-    return (<div name="RCZDialog" className={this.props.classDialogOuter}>
+    const {classDialogOuter, hasTitleBar, hasActionBar, title, actionContent, ...otherProps} = this.props;
+    const titleBarProps = {
+      title: this.props.title,
+      onClickClose: this.props.onClickClose,
+    };
+    const actionbarProps = {
+      closeText: this.props.closeText,
+      submitText: this.props.submitText,
+      actionContent: this.props.actionContent,
+      onClickClose: this.props.onClickClose,
+      onClickSubmit: this.props.onClickSubmit,
+    };
+    let jsxTitlebar = !this.props.hasTitleBar ? null : (<TitleBar {...titleBarProps} />);
+    let jsxActionbar = !this.props.hasActionBar ? null : (<ActionBar {...actionbarProps} />);
+    const classNameString = [...new Set([this.props.classDialogOuter, ...(this.props.className||'').split(' ')])].join(' ');
+    return (<div name="RCZDialog" className={classNameString} style={this.props.styleTmpl}>
       {this.renderCustom(otherProps, super.jsxElementToRender)}
       {jsxActionbar}
       {jsxTitlebar}

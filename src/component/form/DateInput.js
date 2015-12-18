@@ -9,6 +9,7 @@ import {
 import moment from 'moment';
 import React from 'react';
 import ReactDom from 'react-dom';
+import style from './form.css';
 import Calendar from '../calendar/index.js';
 
 let cptId = 0;
@@ -27,15 +28,19 @@ class DateInput extends Widget {
         this.renderCalendar({
             visible: false
         });
-        $(document).on('mousedown.DateInput' + this.cptId, () => {
-            this.renderCalendar({
-                visible: false
-            });
-        }).on('mousedown.DateInput' + this.cptId, `.${this.props.prefixCls}-` + this.cptId, (evt) => {
-            evt.stopPropagation();
-        }).on('mousedown.DateInput' + this.cptId, `.${this.props.prefixCls}-calendar-` + this.cptId, (evt) => {
-            evt.stopPropagation();
+        $(document).on('mousedown.DateInput' + this.cptId, (evt) => {
+            let target = evt.target;
+            if (!$(target).is(`.${this.props.prefixCls}-` + this.cptId) &&
+                !$(target).closest(`.${this.props.prefixCls}-` + this.cptId).length &&
+                !$(target).is(`.${this.props.prefixCls}-calendar-` + this.cptId) &&
+                !$(target).closest(`.${this.props.prefixCls}-calendar-` + this.cptId).length) {
+                this.renderCalendar({
+                    visible: false
+                });
+            }
+            
         });
+
     }
     componentWillUnmount() {
         ReactDom.unmountComponentAtNode(this.calendarContainer);
@@ -44,7 +49,7 @@ class DateInput extends Widget {
         this.calendarContainer = null;
         this.cptId = null;
     }
-    handleFocus() {
+    handleClick() {
         this.renderCalendar({
             visible: true
         });
@@ -83,12 +88,12 @@ class DateInput extends Widget {
             winScrollLeft = winEl.scrollLeft();
             if (inputOffset.top - winScrollTop >= calendarHeight) {
                 if (winHeight - (inputOffset.top - winScrollTop) - inputHeight >= calendarHeight) {   //下面放得下优先放下面
-                    top = inputOffset.top + inputHeight;
+                    top = inputOffset.top + inputHeight - 1;
                 } else {
-                    top = inputOffset.top - calendarHeight;
+                    top = inputOffset.top - calendarHeight + 1;
                 }
             } else {    //上面放不下直接放下面
-                top = inputOffset.top + inputHeight;
+                top = inputOffset.top + inputHeight - 1;
             }
             if (inputOffset.left - winScrollLeft + inputWidth >= calendarWidth) {
                 if (winWidth - (inputOffset.left - winScrollLeft) >= calendarWidth) {   //左面放得下优先放右面
@@ -107,14 +112,14 @@ class DateInput extends Widget {
             "top": top + "px",
             "left": left + "px"
         }}>
-            <Calendar className={`${prefixCls}-calendar ${prefixCls}-calendar-` + this.cptId} focusDate={moment(state.value, "YYYY-MM-DD")._d} onClickDate={
+            <Calendar {...props.calendarProps} className={`${prefixCls}-calendar ${prefixCls}-calendar-` + this.cptId} initialDate={props.value ? moment(props.value, "YYYY-MM-DD")._d : new Date()} onClickDate={
                 (date) => {
                     this.renderCalendar({
                         visible: false
                     });
                     props.onChange.call(this, {
                         target: {
-                            value: moment(date).format("YYYY-MM-DD")
+                            value: date
                         }
                     });
                 }
@@ -124,11 +129,12 @@ class DateInput extends Widget {
     render() {
         var props = this.props,
             prefixCls = props.prefixCls;
-        return (<input {...props} className={`${prefixCls}` + ` ${prefixCls}-` + this.cptId + ' ' + (props.className || '')} type="text" ref="input" value={props.value} readOnly={true} onFocus={this.handleFocus.bind(this)} onChange={props.onChange.bind(this)} />);
+        return (<input {...props} className={`${prefixCls}` + ` ${prefixCls}-` + this.cptId + ' ' + (props.className || '')} type="text" ref="input" value={props.value} readOnly={true} onClick={this.handleClick.bind(this)} />);
     }
 }
 export default DateInput;
 DateInput.defaultProps = {
+    calendarProps: null,
     onChange: () => {},
     prefixCls: "ui-form-dateinput"
 };

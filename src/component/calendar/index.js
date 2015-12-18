@@ -1,5 +1,6 @@
 /**
  * 日期控件
+ * @require jQuery
  */
 import {
     Widget
@@ -7,6 +8,8 @@ import {
 import React from 'react';
 import moment from "moment";
 import style from "./calendar.css";
+
+let cptId = 0;
 class Calendar extends Widget {
     constructor(props) {
         super(props);
@@ -14,11 +17,24 @@ class Calendar extends Widget {
             panelState: "date", //date、month、year三个面板状态切换
             focusDate: props.initialDate //当前切换到的参考日期
         };
+        this.cptId = cptId++;
     }
     componentWillReceiveProps(nextProps) {
         this.setState(() => ({
             "focusDate": nextProps.initialDate
         }));
+    }
+    componentDidMount() {
+        $(document).on('mousedown.Calendar' + this.cptId, () => {
+            this.setState({
+                "panelState": "date"
+            });
+        }).on('mousedown.Calendar' + this.cptId, `.${this.props.prefixCls}-` + this.cptId, (evt) => {
+            evt.stopPropagation();
+        });
+    }
+    componentWillUnmount() {
+        $(document).off('mousedown.Calendar' + this.cptId);
     }
     getDateList(date) {
         date = moment(date);
@@ -41,11 +57,11 @@ class Calendar extends Widget {
             isToday = false;
             //区分className
             if (parseInt(tmpDate.format('M'), 10) < parseInt(date.format('M'), 10)) { //上一个月
-                tmpCls = `${prefixCls}-prev-month-date ${prefixCls}-inactive`;
+                tmpCls = `${prefixCls}-prev-month-date ${prefixCls}-date-inactive`;
             } else if (parseInt(tmpDate.format('M'), 10) > parseInt(date.format('M'), 10)) { //下一个月
-                tmpCls = `${prefixCls}-next-month-date ${prefixCls}-inactive`;
+                tmpCls = `${prefixCls}-next-month-date ${prefixCls}-date-inactive`;
             } else {
-                tmpCls = `${prefixCls}-current-month-date ${prefixCls}-active`;
+                tmpCls = `${prefixCls}-current-month-date ${prefixCls}-date-active`;
             }
             //当前日期标志
             if (tmpDate.format('YYYY-MM-DD') == moment().format('YYYY-MM-DD')) {
@@ -154,23 +170,25 @@ class Calendar extends Widget {
      * 点击year label切换到年份选择面板
      * @private
      */
-    handleClickLabelYear() {
+    handleClickLabelYear(evt) {
         this.setState(({
             panelState
         }) => ({
             panelState: panelState === "year" ? "date" : "year"
         }));
+        evt.stopPropagation();
     }
     /**
      * 点击month label切换到月份选择面板
      * @private
      */
-    handleClickLabelMonth() {
+    handleClickLabelMonth(evt) {
         this.setState(({
             panelState
         }) => ({
             panelState: panelState === "month" ? "date" : "month"
         }));
+        evt.stopPropagation();
     }
     handleClickDateCell(v) {
         if (!v.isOutDate) {
@@ -181,6 +199,9 @@ class Calendar extends Widget {
             }
             this.props.onClickDate.call(this, v.value);
         }
+        this.setState(() => ({
+            panelState: "date"
+        }));
     }
     handleChangeYear(evt) {
         var target = evt.target;
@@ -200,6 +221,11 @@ class Calendar extends Widget {
             panelState: "date"
         }));
     }
+    handleClickSelf() {
+        this.setState(() => ({
+            panelState: "date"
+        }));
+    }
     render() {
         var props = this.props,
             state = this.state,
@@ -211,20 +237,66 @@ class Calendar extends Widget {
         let currentDateList = this.getDateList(focusDate);
         let currentYearList = this.getYearList(focusDate);
         let currentMonthList = this.getMonthList(focusDate);
-        return (<div className={`${prefixCls}` + ' ' +  (className || '')}>
+        let timePanel = null,
+            showTime = props.showTime;
+        if (showTime) {
+            if (showTime === true) {
+                showTime = ["hour", "minute", "second"];
+            }
+            timePanel = showTime.map((v) => {
+                if (v === "hour") {
+                    return (<select className="hour" key="hour" value={moment(focusDate).hour()} onChange={(evt) => {
+                        this.setState({
+                            focusDate: moment(focusDate).hour(evt.target.value)
+                        });
+                    }}>
+                    {
+                        Array.from(Array(24).keys()).map((i) => {
+                            return (<option value={i} key={i}>{('0' + i).slice(-2)}</option>);
+                        })
+                    }
+                    </select>);
+                } else if (v === "minute") {
+                    return (<span key="minute">：<select className="minute" value={moment(focusDate).minute()} onChange={(evt) => {
+                        this.setState({
+                            focusDate: moment(focusDate).minute(evt.target.value)
+                        });
+                    }}>
+                    {
+                        Array.from(Array(60).keys()).map((i) => {
+                            return (<option value={i} key={i}>{('0' + i).slice(-2)}</option>);
+                        })
+                    }
+                </select></span>);
+                } else if (v === "second") {
+                    return (<span key="second">：<select className="second" value={moment(focusDate).second()} onChange={(evt) => {
+                        this.setState({
+                            focusDate: moment(focusDate).second(evt.target.value)
+                        });
+                    }}>
+                    {
+                        Array.from(Array(60).keys()).map((i) => {
+                            return (<option value={i} key={i}>{('0' + i).slice(-2)}</option>);
+                        })
+                    }
+                    </select></span>);
+                }
+            });
+        }
+        return (<div className={`${prefixCls}` + ` ${prefixCls}-` + this.cptId + ' ' +  (className || '')} onClick={this.handleClickSelf.bind(this)}>
                 <div className={`${prefixCls}-header`}>
                 <div className={`${prefixCls}-nav-prev`} style={{
-                    "display": enableYearMonthChange ? "block": "none" 
-                }} onClick={this.handleClickNavPrev.bind(this)}>&#9668;</div>
+                    "display": enableYearMonthChange ? "block": "none"
+                }} onClick={this.handleClickNavPrev.bind(this)}>&lt;</div>
                 <div className={`${prefixCls}-title`}>
                 <span className={`${prefixCls}-label-year`} style={{
-                    "display": panelState !== "year" ? "inline-block": "none" 
+                    "display": panelState !== "year" ? "inline-block": "none"
                 }} onClick={this.handleClickLabelYear.bind(this)}>{moment(focusDate).format("YYYY")}</span><select
                 className={`${prefixCls}-year-selector`} style={{
-                    "display": panelState === "year" ? "inline-block": "none" 
+                    "display": panelState === "year" ? "inline-block": "none"
                 }} onChange={this.handleChangeYear.bind(this)} value={currentYearList.filter((v) => {
                     return v.isFocus;
-                })[0].value}>
+                })[0].value} onClick={(evt) => evt.stopPropagation()}>
                 {
                     currentYearList.map((v, i) => {
                         return (<option key={i} value={v.value}>{v.text}</option>);
@@ -232,12 +304,12 @@ class Calendar extends Widget {
                 }
                 </select>年<span
                 className={`${prefixCls}-label-month`} style={{
-                    "display": panelState !== "month" ? "inline-block": "none" 
+                    "display": panelState !== "month" ? "inline-block": "none"
                 }} onClick={this.handleClickLabelMonth.bind(this)}>{moment(focusDate).format("MM")}</span><select className={`${prefixCls}-month-selector`} style={{
-                    "display": panelState === "month" ? "inline-block": "none" 
+                    "display": panelState === "month" ? "inline-block": "none"
                 }} onChange={this.handleChangeMonth.bind(this)} value={currentMonthList.filter((v) => {
                     return v.isFocus;
-                })[0].value}>
+                })[0].value} onClick={(evt) => evt.stopPropagation()}>
                 {
                     currentMonthList.map((v, i) => {
                         return (<option key={i} value={v.value}>{v.text}</option>);
@@ -246,8 +318,8 @@ class Calendar extends Widget {
                 </select>月
                 </div>
                 <div className={`${prefixCls}-nav-next`} style={{
-                    "display": enableYearMonthChange ? "block": "none" 
-                }} onClick={this.handleClickNavNext.bind(this)}>&#9658;</div>
+                    "display": enableYearMonthChange ? "block": "none"
+                }} onClick={this.handleClickNavNext.bind(this)}>&gt;</div>
                 </div>
                     <table cellPadding="0" cellSpacing="0" className={`${prefixCls}-date-panel`}>
                     <thead className={`${prefixCls}-week-header`}>
@@ -262,10 +334,10 @@ class Calendar extends Widget {
                     </tr>
                     </thead>
                     <tbody className={`${prefixCls}-date-body`}>
-                    { 
+                    {
                         currentDateList.map((arr, i) => {
                             return (<tr key={i}>
-                                { 
+                                {
                                     arr.map((v, j) => {
                                         return (<td key={j} onClick={this.handleClickDateCell.bind(this, v)}><span className={`${prefixCls}-date-cell ` + v.className}>{v.text}</span></td>);
                                     })
@@ -275,6 +347,18 @@ class Calendar extends Widget {
                     }
                 </tbody>
             </table>
+            <div className={`${prefixCls}-footer clearfix`}>
+                <div className={`${prefixCls}-time-panel`}>
+                    <label className={`${prefixCls}-time-label`}>时间：</label>{timePanel}
+                </div>
+                <div className={`${prefixCls}-footer-action`}>
+                    <button type="button" className={`${prefixCls}-to-today-btn`} onClick={() => {
+                        this.setState({
+                            focusDate: new Date()
+                        });
+                    }}>今天</button>
+                </div>
+            </div>
         </div>);
     }
 }
@@ -283,7 +367,7 @@ Calendar.defaultProps = {
     maxDate: null,
     minDate: null,
     enableYearMonthChange: true, //年份和月份面板切换
-    showTime: true, //是否显示时间
+    showTime: false, //是否显示时间, true/false or ["hour", "minute", "second"]
     focusChangeWithClick: true, //每次点击date cell，focusDate同时改变
     onClickDate: () => {},
     prefixCls: 'ui-calendar'

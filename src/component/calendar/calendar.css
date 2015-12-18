@@ -9,14 +9,19 @@
 .ui-calendar-header .ui-calendar-nav-prev,
 .ui-calendar-header .ui-calendar-nav-next {
     position: absolute;
+    line-height: 1em;
+    font-size: 16px;
+    cursor: pointer;
 }
 .ui-calendar-header .ui-calendar-nav-prev {
-    top: 0;
-    left: 0;
+    top: 50%;
+    left: 8px;
+    margin-top: -0.5em;
 }
 .ui-calendar-header .ui-calendar-nav-next {
-    top: 0;
-    right: 0;
+    top: 50%;
+    right: 8px;
+    margin-top: -0.5em;
 }
 .ui-calendar-header .ui-calendar-title {
     text-align: center;
@@ -28,4 +33,20 @@
     display: block;
     text-align: center;
     line-height: 1.8em;
+}
+.ui-calendar-date-body .ui-calendar-date-cell {
+    cursor: pointer;
+}
+.ui-calendar-footer {
+    padding: 8px;
+}
+.ui-calendar-time-label {
+    display: none;
+    font-size: 13px;
+}
+.ui-calendar-time-panel {
+    float: left;
+}
+.ui-calendar-footer-action {
+    float: right;
 }
