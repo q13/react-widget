@@ -8,7 +8,7 @@ class Pagination extends Widget {
     constructor(props){
         super(props);
         this.state = {
-            max: Math.ceil(this.props.total / this.props.pageSize)
+            max: Math.ceil(props.total / props.pageSize)
         };
     }
     componentWillUnmount() {
