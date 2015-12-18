@@ -14,7 +14,7 @@
 .ui-pagination .total {
     position: absolute;
     right: 0;
-    bottom: 0;
+    top: 0;
 }
 .ui-pagination .total a {
     text-decoration: none;
