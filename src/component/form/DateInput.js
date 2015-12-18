@@ -28,15 +28,19 @@ class DateInput extends Widget {
         this.renderCalendar({
             visible: false
         });
-        $(document).on('mousedown.DateInput' + this.cptId, () => {
-            this.renderCalendar({
-                visible: false
-            });
-        }).on('mousedown.DateInput' + this.cptId, `.${this.props.prefixCls}-` + this.cptId, (evt) => {
-            evt.stopPropagation();
-        }).on('mousedown.DateInput' + this.cptId, `.${this.props.prefixCls}-calendar-` + this.cptId, (evt) => {
-            evt.stopPropagation();
+        $(document).on('mousedown.DateInput' + this.cptId, (evt) => {
+            let target = evt.target;
+            if (!$(target).is(`.${this.props.prefixCls}-` + this.cptId) &&
+                !$(target).closest(`.${this.props.prefixCls}-` + this.cptId).length &&
+                !$(target).is(`.${this.props.prefixCls}-calendar-` + this.cptId) &&
+                !$(target).closest(`.${this.props.prefixCls}-calendar-` + this.cptId).length) {
+                this.renderCalendar({
+                    visible: false
+                });
+            }
+            
         });
+
     }
     componentWillUnmount() {
         ReactDom.unmountComponentAtNode(this.calendarContainer);
