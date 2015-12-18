@@ -8,7 +8,6 @@ class Pagination extends Widget {
     constructor(props){
         super(props);
         this.state = {
-            currentPage: props.currentPage,
             max: Math.ceil(this.props.total / this.props.pageSize)
         };
     }
@@ -18,7 +17,7 @@ class Pagination extends Widget {
     getPages(){
         let total = this.props.total,
         size = this.props.pageSize,
-        currentPage = this.state.currentPage,
+        currentPage = this.props.currentPage,
         span = this.props.pages,
         max = Math.ceil(total / size),
         pages = [],
@@ -72,7 +71,7 @@ class Pagination extends Widget {
         }
     }
     render(){
-        var currentPage = this.state.currentPage;
+        var currentPage = this.props.currentPage;
         var { pages, max } = this.getPages();
         var items = [];
         var self = this;
