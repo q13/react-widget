@@ -50,7 +50,10 @@
     top: 0;
     right: 0;
     bottom: 0;
-    background: rgba(0, 0, 0, .6);
+    background: #000000;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    opacity: 0.5;
   }
 
   .ui-modal .ui-dialog-outer {
@@ -59,7 +62,10 @@
     top: 25%;
     right: 25%;
     bottom: 25%;
-    background: rgba(255, 255, 255, 1);
+    background: #ffffff;
+  }
+  .ui-modal .ui-dialog-pane-outer {
+    background: #ffffff;
   }
 
   .ui-modal .ui-popup-outer {
@@ -68,7 +74,7 @@
     top: 20%;
     right: 10%;
     bottom: 50%;
-    background: rgba(255, 255, 255, 1);
+    background: #ffffff;
   }
 
     .ui-modal .ui-titlebar-outer {
@@ -120,4 +126,3 @@
       bottom: var(--uiModalBarHeight);
       overflow: auto;
     }
-
