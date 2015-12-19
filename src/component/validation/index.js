@@ -42,6 +42,32 @@ var defaultRule = {
         } else {
             return false;
         }
+    },
+    /**
+     * 字符长度判定，默认一个汉字对应2个英文字符
+     * @param  {[type]} v    [description]
+     * @param  {[type]} opts [description]
+     * @return {[type]}      [description]
+     */
+    length: function (v, opts) {
+        opts = Object.assign({
+            min: 1,
+            max: Number.POSITIVE_INFINITY
+        }, opts || {});
+        let num = v.replace(/[^\x00-\xff]/g,"01").length;
+        if (num < opts.min) {
+            return {
+                isPassed: false,
+                why: "downward"
+            };
+        }
+        if (num > opts.max) {
+            return {
+                isPassed: false,
+                why: "upper"
+            };
+        }
+        return true;
     }
 };
 class Validation {
