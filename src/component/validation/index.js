@@ -7,11 +7,40 @@ import {
 import React from 'react';
 
 var defaultRule = {
-    "money": function (v) {
+    money: function (v) {
         if (!/^(0|[1-9]([0-9]{0,1}){1,})(\.[0-9]{1,2})?$/.test(v)) {
             return false;
         } else {
             return true;
+        }
+    },
+    /**
+     * 正整数
+     * @param  {[type]} v    [description]
+     * @param  {[type]} opts [description]
+     * @return {[type]}      [description]
+     */
+    pi: function (v, opts) {
+        opts = Object.assign({
+            min: 1,
+            max: Number.POSITIVE_INFINITY
+        }, opts || {});
+        if (/^([1-9]([0-9]{0,1}){1,})?$/.test(v)) {
+            if (parseFloat(v) < opts.min) {
+                return {
+                    isPassed: false,
+                    why: "downward"
+                };
+            }
+            if (parseFloat(v) > opts.max) {
+                return {
+                    isPassed: false,
+                    why: "upper"
+                };
+            }
+            return true;
+        } else {
+            return false;
         }
     }
 };
@@ -21,7 +50,18 @@ class Validation {
             value = data.value;
         let isPassed = true;
         if (typeof rule === "string") {
-            if (defaultRule[rule] && !defaultRule[rule](value)) {
+            rule = rule.split('{');
+            let ruleName = rule[0];
+            let pattern = rule[1].slice(0, -1);
+            let opts = null;
+            if (pattern) {
+                pattern = pattern.split(',');
+                opts = {
+                    min: parseFloat(pattern[0]),
+                    max: parseFloat(pattern[1])
+                };
+            }
+            if (defaultRule[ruleName] && !defaultRule[ruleName](value, opts)) {
                 isPassed = false;
             }
         } else if (rule instanceof RegExp) {
