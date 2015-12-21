@@ -30,13 +30,13 @@ class Modal extends WidgetEx {
     prefixCls: 'ui-modal',
     className: '', // ui-dialog-outer||ui-popup-outer
     title: 'Modal对话框',
-    isMaintainedRender: true,   //默认全局遮罩
     closeText: '取消',
     submitText: '确定',
     width: undefined,
     height: undefined,
     visible: true,
     paneType: Modal.PaneType.Dialog,
+    isLocal: false, //和isMaintainedRender冲突，TODO：待整合
     onClickClose: ()=>{},
     onClickSubmit: ()=>{},
     onBeforeMount : ()=>{},
@@ -59,6 +59,7 @@ class Modal extends WidgetEx {
       if(this.props.onBeforeMount) this.props.onBeforeMount(this);
   }
   componentDidMount() {
+      console.log(this.props.isMaintainedRender + '-' + this.props.className);
     super.componentDidMount();
     if(!this.props.isMaintainedRender) {
       window.addEventListener ? window.addEventListener('resize', this.eventHandlerResize)
@@ -139,7 +140,8 @@ class Modal extends WidgetEx {
       default: break;
     }
     if(this.getVisibility()) {
-      resVDOM = (<div name="RCZModal" className={'ui-modal' + (this.props.isMaintainedRender ? "" : " ui-modal-local")/*'ui-modal-outer'*/}>
+        //console.log(this.props.isMaintainedRender);
+      resVDOM = (<div name="RCZModal" className={'ui-modal' + (this.props.isLocal ? " ui-modal-local" : "")/*'ui-modal-outer'*/}>
         <div ref="MaskReservedContainer"></div>
         {jsxPane}
       </div>)
