@@ -59,7 +59,6 @@ class Modal extends WidgetEx {
       if(this.props.onBeforeMount) this.props.onBeforeMount(this);
   }
   componentDidMount() {
-      console.log(this.props.isMaintainedRender + '-' + this.props.className);
     super.componentDidMount();
     if(!this.props.isMaintainedRender) {
       window.addEventListener ? window.addEventListener('resize', this.eventHandlerResize)
