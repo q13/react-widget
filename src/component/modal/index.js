@@ -30,6 +30,7 @@ class Modal extends WidgetEx {
     prefixCls: 'ui-modal',
     className: '', // ui-dialog-outer||ui-popup-outer
     title: 'Modal对话框',
+    isMaintainedRender: true,   //默认全局遮罩
     closeText: '取消',
     submitText: '确定',
     width: undefined,
@@ -89,7 +90,7 @@ class Modal extends WidgetEx {
         const myStaticMask = Mask.getStaticInstance();
         if(_this.refs.MaskReservedContainer)
           myStaticMask.mapInContainer(_this);
-        else 
+        else
           myStaticMask.mapOutContainer(_this);
       }
     });
@@ -138,7 +139,7 @@ class Modal extends WidgetEx {
       default: break;
     }
     if(this.getVisibility()) {
-      resVDOM = (<div name="RCZModal" className={'ui-modal'/*'ui-modal-outer'*/}>
+      resVDOM = (<div name="RCZModal" className={'ui-modal' + (this.props.isMaintainedRender ? "" : " ui-modal-local")/*'ui-modal-outer'*/}>
         <div ref="MaskReservedContainer"></div>
         {jsxPane}
       </div>)
@@ -148,4 +149,3 @@ class Modal extends WidgetEx {
 }
 
 export default Modal;
-
