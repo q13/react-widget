@@ -38,7 +38,7 @@ class DateInput extends Widget {
                     visible: false
                 });
             }
-            
+
         });
 
     }
@@ -105,6 +105,22 @@ class DateInput extends Widget {
                 left = inputOffset.left;
             }
         }
+        let initialDate = props.value;
+        if (initialDate) {
+            let showTime = this.props.calendarProps.showTime;
+            let formatPattern = "YYYY-MM-DD";
+            if (props.calendarProps && showTime) {
+                if (showTime === true) {
+                    showTime = ["HH", "mm", "ss"];
+                }
+            }
+            if (showTime) {
+                formatPattern = "YYYY-MM-DD " + showTime.join(":");
+            }
+            initialDate = moment(initialDate, formatPattern)._d;
+        } else {
+            initialDate = new Date();
+        }
         ReactDom.render(<div style={{
             "zIndex": 10000,
             "display": visible ? "block" : "none",
@@ -112,7 +128,7 @@ class DateInput extends Widget {
             "top": top + "px",
             "left": left + "px"
         }}>
-            <Calendar {...props.calendarProps} className={`${prefixCls}-calendar ${prefixCls}-calendar-` + this.cptId} initialDate={props.value ? moment(props.value, "YYYY-MM-DD")._d : new Date()} onClickDate={
+            <Calendar {...props.calendarProps} className={`${prefixCls}-calendar ${prefixCls}-calendar-` + this.cptId} initialDate={initialDate} onClickDate={
                 (date) => {
                     this.renderCalendar({
                         visible: false

@@ -87,8 +87,8 @@ class Validation {
                     max: parseFloat(pattern[1])
                 };
             }
-            if (defaultRule[ruleName] && !defaultRule[ruleName](value, opts)) {
-                isPassed = false;
+            if (defaultRule[ruleName]) {
+                isPassed = defaultRule[ruleName](value, opts);
             }
         } else if (rule instanceof RegExp) {
             if (!rule.test(value)) {
@@ -100,4 +100,5 @@ class Validation {
         return isPassed;
     }
 }
+Validation.defaultRule = defaultRule;
 export default Validation;

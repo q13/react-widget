@@ -192,12 +192,17 @@ class Calendar extends Widget {
     }
     handleClickDateCell(v) {
         if (!v.isOutDate) {
+            let d = v.value,
+                focusDate = moment(this.state.focusDate);
+            if (this.props.showTime) {  //是否附加时间
+                d = moment(d).hour(focusDate.hour()).minute(focusDate.minute()).second(focusDate.second())._d;
+            }
             if (this.props.focusChangeWithClick) {
                 this.setState(() => ({
-                    focusDate: v.value
+                    focusDate: d
                 }));
             }
-            this.props.onClickDate.call(this, v.value);
+            this.props.onClickDate.call(this, d);
         }
         this.setState(() => ({
             panelState: "date"
@@ -247,7 +252,7 @@ class Calendar extends Widget {
                 if (v === "hour") {
                     return (<select className="hour" key="hour" value={moment(focusDate).hour()} onChange={(evt) => {
                         this.setState({
-                            focusDate: moment(focusDate).hour(evt.target.value)
+                            focusDate: moment(focusDate).hour(evt.target.value)._d
                         });
                     }}>
                     {
@@ -259,7 +264,7 @@ class Calendar extends Widget {
                 } else if (v === "minute") {
                     return (<span key="minute">：<select className="minute" value={moment(focusDate).minute()} onChange={(evt) => {
                         this.setState({
-                            focusDate: moment(focusDate).minute(evt.target.value)
+                            focusDate: moment(focusDate).minute(evt.target.value)._d
                         });
                     }}>
                     {
@@ -271,7 +276,7 @@ class Calendar extends Widget {
                 } else if (v === "second") {
                     return (<span key="second">：<select className="second" value={moment(focusDate).second()} onChange={(evt) => {
                         this.setState({
-                            focusDate: moment(focusDate).second(evt.target.value)
+                            focusDate: moment(focusDate).second(evt.target.value)._d
                         });
                     }}>
                     {
