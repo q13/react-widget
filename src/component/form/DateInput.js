@@ -107,7 +107,10 @@ class DateInput extends Widget {
         }
         let initialDate = props.value;
         if (initialDate) {
-            let showTime = this.props.calendarProps.showTime;
+            let showTime = false;
+            if (this.props.calendarProps && this.props.calendarProps.showTime) {
+                showTime = true;
+            }
             let formatPattern = "YYYY-MM-DD";
             if (props.calendarProps && showTime) {
                 if (showTime === true) {
