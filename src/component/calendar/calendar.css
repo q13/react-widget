@@ -50,3 +50,6 @@
 .ui-calendar-footer-action {
     float: right;
 }
+.ui-calendar-to-today-btn {
+    display: none;
+}

@@ -362,6 +362,9 @@ class Calendar extends Widget {
                             focusDate: new Date()
                         });
                     }}>今天</button>
+                    <button type="button" className={`${prefixCls}-submit-btn`} onClick={() => {
+                        this.props.onClickDate.call(this, this.state.focusDate);
+                    }}>确定</button>
                 </div>
             </div>
         </div>);
