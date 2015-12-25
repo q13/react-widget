@@ -5,6 +5,7 @@ import {
     Widget
 } from "../component.js";
 import React from 'react';
+import ReactDOM from 'react-dom';
 import WidgetEx from './WidgetEx.js';
 import Popup from './Popup.js';
 import Dialog from './Dialog.js';
@@ -106,10 +107,17 @@ class Modal extends WidgetEx {
   }
   handleResize() {
     const zComHelper = Modal.getZComHelper();
-    this.setState({
-      windowWidth: zComHelper.getWindowWidth(),
-      windowHeight: zComHelper.getWindowHeight(),
-    });
+    if (this.props.isLocal) {
+        this.setState({
+            windowWidth: $(ReactDOM.findDOMNode(this)).parent().width(),
+            windowHeight: $(ReactDOM.findDOMNode(this)).parent().height()
+        });
+    } else {
+        this.setState({
+            windowWidth: zComHelper.getWindowWidth(),
+            windowHeight: zComHelper.getWindowHeight()
+        });
+    }
   }
   jsxElementToRender() {
     let resVDOM = null;
