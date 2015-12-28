@@ -9,7 +9,7 @@ class Pagination extends Widget {
         super(props);
         this.state = {
             currentPage: props.currentPage,
-            max: Math.ceil(this.props.total / this.props.pageSize)
+            max: Math.ceil(props.total / props.pageSize)
         };
     }
     componentWillUnmount() {
@@ -130,7 +130,8 @@ Pagination.propTypes = {
 Pagination.defaultProps = {
     currentPage: 1,
     pageSize: 10,
-    pages: 6
+    pages: 6,
+    total: 0
 };
 
 export default Pagination;

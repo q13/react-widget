@@ -45,7 +45,7 @@ class DateInput extends Widget {
         this.calendarContainer = null;
         this.cptId = null;
     }
-    handleFocus() {
+    handleClick() {
         this.renderCalendar({
             visible: true
         });
@@ -125,7 +125,7 @@ class DateInput extends Widget {
     render() {
         var props = this.props,
             prefixCls = props.prefixCls;
-        return (<input {...props} className={`${prefixCls}` + ` ${prefixCls}-` + this.cptId + ' ' + (props.className || '')} type="text" ref="input" value={props.value} readOnly={true} onFocus={this.handleFocus.bind(this)} />);
+        return (<input {...props} className={`${prefixCls}` + ` ${prefixCls}-` + this.cptId + ' ' + (props.className || '')} type="text" ref="input" value={props.value} readOnly={true} onClick={this.handleClick.bind(this)} />);
     }
 }
 export default DateInput;
