@@ -7,10 +7,17 @@
 .ui-modal {
   position: fixed;
   z-index: var(--uiModalTopZIndex);
-  left: 0;
+  /*left: 0;
   top: 0;
   right: 0;
-  bottom: 0;
+  bottom: 0 */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.ui-modal-local {
+    position: absolute;
 }
 
 .ui-modal .disable-select {
@@ -46,11 +53,18 @@
 
   .ui-modal .ui-mask-outer {
     position: fixed;
-    left: 0;
+    /*left: 0;
     top: 0;
     right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, .6);
+    bottom: 0;*/
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: #000000;
+    /* IE 8 */
+    -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
+    opacity: 0.5;
   }
 
   .ui-modal .ui-dialog-outer {
@@ -59,7 +73,10 @@
     top: 25%;
     right: 25%;
     bottom: 25%;
-    background: rgba(255, 255, 255, 1);
+    background: #ffffff;
+  }
+  .ui-modal .ui-dialog-pane-outer {
+    background: #ffffff;
   }
 
   .ui-modal .ui-popup-outer {
@@ -68,8 +85,13 @@
     top: 20%;
     right: 10%;
     bottom: 50%;
-    background: rgba(255, 255, 255, 1);
+    background: #ffffff;
   }
+.ui-modal-local  .ui-mask-outer,
+.ui-modal-local  .ui-dialog-outer,
+.ui-modal .ui-popup-outer {
+    position: absolute;
+}
 
     .ui-modal .ui-titlebar-outer {
       position: absolute;
@@ -120,4 +142,3 @@
       bottom: var(--uiModalBarHeight);
       overflow: auto;
     }
-

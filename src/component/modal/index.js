@@ -5,6 +5,7 @@ import {
     Widget
 } from "../component.js";
 import React from 'react';
+import ReactDOM from 'react-dom';
 import WidgetEx from './WidgetEx.js';
 import Popup from './Popup.js';
 import Dialog from './Dialog.js';
@@ -36,6 +37,7 @@ class Modal extends WidgetEx {
     height: undefined,
     visible: true,
     paneType: Modal.PaneType.Dialog,
+    isLocal: false, //和isMaintainedRender冲突，TODO：待整合
     onClickClose: ()=>{},
     onClickSubmit: ()=>{},
     onBeforeMount : ()=>{},
@@ -89,7 +91,7 @@ class Modal extends WidgetEx {
         const myStaticMask = Mask.getStaticInstance();
         if(_this.refs.MaskReservedContainer)
           myStaticMask.mapInContainer(_this);
-        else 
+        else
           myStaticMask.mapOutContainer(_this);
       }
     });
@@ -105,10 +107,17 @@ class Modal extends WidgetEx {
   }
   handleResize() {
     const zComHelper = Modal.getZComHelper();
-    this.setState({
-      windowWidth: zComHelper.getWindowWidth(),
-      windowHeight: zComHelper.getWindowHeight(),
-    });
+    if (this.props.isLocal) {
+        this.setState({
+            windowWidth: $(ReactDOM.findDOMNode(this)).parent().width(),
+            windowHeight: $(ReactDOM.findDOMNode(this)).parent().height()
+        });
+    } else {
+        this.setState({
+            windowWidth: zComHelper.getWindowWidth(),
+            windowHeight: zComHelper.getWindowHeight()
+        });
+    }
   }
   jsxElementToRender() {
     let resVDOM = null;
@@ -138,7 +147,8 @@ class Modal extends WidgetEx {
       default: break;
     }
     if(this.getVisibility()) {
-      resVDOM = (<div name="RCZModal" className={'ui-modal'/*'ui-modal-outer'*/}>
+        //console.log(this.props.isMaintainedRender);
+      resVDOM = (<div name="RCZModal" className={'ui-modal' + (this.props.isLocal ? " ui-modal-local" : "")/*'ui-modal-outer'*/}>
         <div ref="MaskReservedContainer"></div>
         {jsxPane}
       </div>)
@@ -148,4 +158,3 @@ class Modal extends WidgetEx {
 }
 
 export default Modal;
-

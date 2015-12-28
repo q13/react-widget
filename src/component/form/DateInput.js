@@ -28,15 +28,19 @@ class DateInput extends Widget {
         this.renderCalendar({
             visible: false
         });
-        $(document).on('mousedown.DateInput' + this.cptId, () => {
-            this.renderCalendar({
-                visible: false
-            });
-        }).on('mousedown.DateInput' + this.cptId, `.${this.props.prefixCls}-` + this.cptId, (evt) => {
-            evt.stopPropagation();
-        }).on('mousedown.DateInput' + this.cptId, `.${this.props.prefixCls}-calendar-` + this.cptId, (evt) => {
-            evt.stopPropagation();
+        $(document).on('mousedown.DateInput' + this.cptId, (evt) => {
+            let target = evt.target;
+            if (!$(target).is(`.${this.props.prefixCls}-` + this.cptId) &&
+                !$(target).closest(`.${this.props.prefixCls}-` + this.cptId).length &&
+                !$(target).is(`.${this.props.prefixCls}-calendar-` + this.cptId) &&
+                !$(target).closest(`.${this.props.prefixCls}-calendar-` + this.cptId).length) {
+                this.renderCalendar({
+                    visible: false
+                });
+            }
+
         });
+
     }
     componentWillUnmount() {
         ReactDom.unmountComponentAtNode(this.calendarContainer);
@@ -101,6 +105,25 @@ class DateInput extends Widget {
                 left = inputOffset.left;
             }
         }
+        let initialDate = props.value;
+        if (initialDate) {
+            let showTime = false;
+            if (this.props.calendarProps && this.props.calendarProps.showTime) {
+                showTime = true;
+            }
+            let formatPattern = "YYYY-MM-DD";
+            if (props.calendarProps && showTime) {
+                if (showTime === true) {
+                    showTime = ["HH", "mm", "ss"];
+                }
+            }
+            if (showTime) {
+                formatPattern = "YYYY-MM-DD " + showTime.join(":");
+            }
+            initialDate = moment(initialDate, formatPattern)._d;
+        } else {
+            initialDate = new Date();
+        }
         ReactDom.render(<div style={{
             "zIndex": 10000,
             "display": visible ? "block" : "none",
@@ -108,7 +131,7 @@ class DateInput extends Widget {
             "top": top + "px",
             "left": left + "px"
         }}>
-            <Calendar {...props.calendarProps} className={`${prefixCls}-calendar ${prefixCls}-calendar-` + this.cptId} initialDate={props.value ? moment(props.value, "YYYY-MM-DD")._d : new Date()} onClickDate={
+            <Calendar {...props.calendarProps} className={`${prefixCls}-calendar ${prefixCls}-calendar-` + this.cptId} initialDate={initialDate} onClickDate={
                 (date) => {
                     this.renderCalendar({
                         visible: false

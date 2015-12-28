@@ -23,7 +23,7 @@ class ZComHelper {
   static fnComLog(com, msg) {
     var info_isMaintainedRender = !com.props ? '' : com.props.isMaintainedRender ? 'MaintainedCOM' : 'OrdinaryCOM';
     if(info_isMaintainedRender==='MaintainedCOM') return;
-    
+
     location && location.search && (((queryArr)=>{
       (queryArr.filter(x=>(x=x.split('='))&&x[0]==='debug'&&x[1]==='1').length>0) &&
         console.log(`Instance of ${com.__rczid} ${com.constructor.name}: ${msg} :${info_isMaintainedRender}`);
@@ -105,7 +105,7 @@ class WidgetEx extends Widget {
   getInstanceForRender() {
     return this.props.isMaintainedRender ? this.maintainedInstance : this;
   }
-  // 避免super RCZCom获取与自身无关的props/state    
+  // 避免super RCZCom获取与自身无关的props/state
   renderCustom(myProps, myRender) {
     let thisProps, thisState, jsxElement;
     ([thisProps, this.props] = [this.props, myProps]);
@@ -115,4 +115,3 @@ class WidgetEx extends Widget {
 }
 
 export default WidgetEx;
-

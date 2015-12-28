@@ -26,9 +26,9 @@ class ActionBar extends WidgetEx {
   jsxElementToRender() {
     const jsxActionContent = this.props.actionContent ||
       <div style={{textAlign:'center'}}>
-        <button className="ui-modal-btn-submit" onClick={this.props.onClickSubmit}>{this.props.submitText}</button>
-        <span className="btn-separater"></span>
         <button className="ui-modal-btn-cancel" onClick={this.props.onClickClose}>{this.props.closeText}</button>
+        <span className="btn-separater"></span>
+        <button className="ui-modal-btn-submit" onClick={this.props.onClickSubmit}>{this.props.submitText}</button>
       </div>;
 
     return (<div name="RCZActionBar" className={this.props.classActionBarOuter}>

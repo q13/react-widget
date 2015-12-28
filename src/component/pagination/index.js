@@ -15,6 +15,11 @@ class Pagination extends Widget {
     componentWillUnmount() {
         // this.props.onBeforeDestroy(this.props.record);
     }
+    componentWillReceiveProps(nextProps) {
+        this.setState({
+            currentPage: nextProps.currentPage
+        });
+    }
     getPages(){
         let total = this.props.total,
         size = this.props.pageSize,

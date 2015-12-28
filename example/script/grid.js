@@ -40,27 +40,35 @@ class App extends React.Component{
           }
           }
         ];
-        var data = {
-            pageSize: 10,
-            currentPage: 1,
-            total: 61,
-            rows: [{a: '123'}, {a: 'cdd', b: 'edd'}, {a: '1333', c: 'eee', d: 2}]
-        }
-        data.rows[0].a = Math.random();
+        var data = this.state.gridData;
         return(
           <div>
               <Grid useFixedHeader={ false } columns={ columns } data={ data } onPageChange={ this.onPageChange.bind(this) } />
+              <button onClick={ this.handleSearch.bind(this) }>search</button>
           </div>
         )
     }
     onPageChange(obj){
         console.log(obj)
         this.setState({
-            currentPage: obj.currentPage
+            gridData: {
+                pageSize: 10,
+                currentPage: obj.currentPage,
+                total: 63,
+                rows: [{a: Math.random()}, {a: 'cdd', b: 'edd'}, {a: '1333', c: 'eee', d: 2}]
+            }
         })
     }
-    sortHandle(sort){
-        console.log(sort)
+    sortHandle() {}
+    handleSearch(sort){
+      this.setState({
+          gridData: {
+              pageSize: 10,
+              currentPage: 1,
+              total: 63,
+              rows: [{a: Math.random()}, {a: 'cdd', b: 'edd'}, {a: '1333', c: 'eee', d: 2}]
+          }
+      })
     }
 }
 ReactDom.render(<App />, document.getElementById("container"));
