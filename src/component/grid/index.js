@@ -49,7 +49,7 @@ class Grid extends Widget {
       if (this.props.onPageChange) {
           this.props.onPageChange({
               currentPage: currentPage,
-              pageSize: this.props.pageSize
+              pageSize: this.props.data.pageSize
           })
       }
     }
@@ -94,7 +94,7 @@ class Grid extends Widget {
             <Pagination { ...paginationProps } onPageChange={ (currentPage) => {
                 props.onPageChange.call(this, {
                     currentPage: currentPage,
-                    pageSize: props.pageSize
+                    pageSize: props.data.pageSize
                 });
             }}/>
         </div>);
