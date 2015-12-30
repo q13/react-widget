@@ -6,154 +6,157 @@ import {
 } from "../component.js";
 import React from 'react';
 import ReactDOM from 'react-dom';
-import WidgetEx from './WidgetEx.js';
-import Popup from './Popup.js';
 import Dialog from './Dialog.js';
-import Mask from './Mask.js';
 import './index.css';
 
+let eventNSId = 0;
+let instances = [];
+const maskEl = $('<div class="ui-modalmask"></div>')[0];
+
 // 模式对话框组件
-class Modal extends WidgetEx {
+class Modal extends Widget {
   static PaneType = {
     Popup : Symbol(),
     Dialog : Symbol(),
   };
-  // static defaultProps = { ...Object.getPrototypeOf(Modal).defaultProps,
-  //   classModalOuter : 'ui-modal-outer',
-  //   isVisibleInitial : true,
-  //   paneType : Modal.PaneType.Dialog,
-  //   onBeforeMount : ()=>{},
-  //   onAfterMount : ()=>{},
-  //   onBeforeDestroy : ()=>{},
-  //   // version: '2015.12.10',
-  // };
   static defaultProps = {
     prefixCls: 'ui-modal',
     className: '', // ui-dialog-outer||ui-popup-outer
     title: 'Modal对话框',
     closeText: '取消',
     submitText: '确定',
-    width: undefined,
-    height: undefined,
+    width: 600,
+    height: 600,
     visible: true,
     paneType: Modal.PaneType.Dialog,
-    isLocal: false, //和isMaintainedRender冲突，TODO：待整合
+    isLocal: false,
     onClickClose: ()=>{},
     onClickSubmit: ()=>{},
-    onBeforeMount : ()=>{},
-    onAfterMount : ()=>{},
+    // onBeforeMount : ()=>{},
+    // onAfterMount : ()=>{},
     onBeforeDestroy : ()=>{},
   };
   constructor(props) {
     super(props);
-    const zComHelper = Modal.getZComHelper();
     this.state = {
-      // bIsVisible: Modal.defaultProps.isVisibleInitial,
-      windowWidth: zComHelper.getWindowWidth(),
-      windowHeight: zComHelper.getWindowHeight(),
+      parentWidth: $(window).width(),
+      parentHeight: $(window).height(),
     };
-    this.eventHandlerResize = this.handleResize.bind(this);
+    this.eventNSId = eventNSId++;
+    this.containerNonLocal = null;
   }
   componentWillMount() {
-    super.componentWillMount();
-    if(!this.props.isMaintainedRender)
-      if(this.props.onBeforeMount) this.props.onBeforeMount(this);
   }
   componentDidMount() {
-    super.componentDidMount();
-    if(!this.props.isMaintainedRender) {
-      window.addEventListener ? window.addEventListener('resize', this.eventHandlerResize)
-      : $(window).on('resize', this.eventHandlerResize);
-      if(this.props.onAfterMount) this.props.onAfterMount(this);
-    }
-    this.componentWillReceiveProps(this.props);
+    this.forceUpdate();
+
+    $(window).on('resize.Modal' + this.eventNSId, (evt)=>{
+      this.handleResize.call(this);
+    });
+    this.handleResize.call(this);
   }
   componentWillReceiveProps(nextProps) {
-    super.componentWillReceiveProps(nextProps);
-    this.setVisibility(nextProps.isVisibleInitial);
+  }
+  componentDidUpdate(prevProps, prevState) {
+    if(false == this.props.isLocal) {
+      if(!this.containerNonLocal) { // 如果尚未创建global container
+        this.containerNonLocal = $('<div style="position:absolute;left:0;top:0;"></div>')[0];
+        $(this.containerNonLocal).appendTo(document.body);
+      }
+      ReactDOM.render(this.getJsxToRender(), this.containerNonLocal, ()=>{
+        this.updateMask(this.props.visible)
+      });
+    }
+    else
+      this.updateMask(this.props.visible);
   }
   componentWillUnmount() {
-    super.componentWillUnmount();
-    if(!this.props.isMaintainedRender){
-      window.removeEventListener ? window.removeEventListener('resize', this.eventHandlerResize)
-      : $(window).off('resize', this.eventHandlerResize);
-      if(this.props.onBeforeDestroy) this.props.onBeforeDestroy(this);
+    $(window).off('resize.Modal' + this.eventNSId);
+    if(this.props.onBeforeDestroy)
+      this.props.onBeforeDestroy(this);
+  }
+  updateMask(propsVisible) {
+    if(propsVisible) {
+      instances = [...new Set([this, ...instances])]; // map in the instance to array
     }
-    // 清除本组件实例所提供的遮罩存放容器
-    const _this = this.getInstanceForRender();
-    Mask.getStaticInstance().mapOutContainer(_this);
+    else {
+      instances = instances.filter((x)=>(x!=this)); // map out the instance from array
+    }
+    if(instances&&instances[0]) {
+      var dom = this.props.isLocal ? ReactDOM.findDOMNode(instances[0]) : instances[0].containerNonLocal;
+      $('.ui-modalmaskcontainer', dom).append(maskEl);
+      const $parentContainer = this.props.isLocal ? $(dom).parent() : $(window);
+      this.setupMaskStyle(maskEl, $parentContainer);
+      // $parentContainer.resize(this.setupMaskStyle(maskEl, $parentContainer));
+    }
+    else {
+      if(maskEl.parentNode)
+        maskEl.parentNode.removeChild(maskEl);
+    }
   }
-  // 设定本组件实例是否可见
-  setVisibility(bIsVisible, forceBuddyUpdate=true) {
-    const _this = this.getInstanceForRender();
-    _this && _this.setState({bIsVisible:bIsVisible}, ()=>{
-      if(forceBuddyUpdate) { // 强制遮罩层重新渲染
-        const myStaticMask = Mask.getStaticInstance();
-        if(_this.refs.MaskReservedContainer)
-          myStaticMask.mapInContainer(_this);
-        else
-          myStaticMask.mapOutContainer(_this);
-      }
+  setupMaskStyle(maskEl, $parentContainer) {
+    $(maskEl).css($parentContainer[0] === window ? {
+      position: 'fixed',
+      left: '0',
+      top: '0',
+      width: $(window).width() + 'px',
+      height: $(window).height() + 'px',
+    } : {
+      position: 'absolute',
+      left: $parentContainer.offset().left + 'px',
+      top: $parentContainer.offset().top+'px',
+      width: $parentContainer.width() + 'px',
+      height: $parentContainer.height() + 'px',
     });
-  }
-  // 获取本组件实例是否可见
-  getVisibility() {
-    const _this = this.getInstanceForRender();
-    return _this.props.visible;
-    // return _this.state.bIsVisible;
   }
   handleClose() {
     this.props.onClickClose();
   }
   handleResize() {
-    const zComHelper = Modal.getZComHelper();
-    if (this.props.isLocal) {
-        this.setState({
-            windowWidth: $(ReactDOM.findDOMNode(this)).parent().width(),
-            windowHeight: $(ReactDOM.findDOMNode(this)).parent().height()
-        });
-    } else {
-        this.setState({
-            windowWidth: zComHelper.getWindowWidth(),
-            windowHeight: zComHelper.getWindowHeight()
-        });
-    }
+    const $parentContainer = this.props.isLocal ? $(ReactDOM.findDOMNode(this)).parent() : $(window);
+    this.setState({
+      parentWidth: $parentContainer.width(),
+      parentHeight: $parentContainer.height(),
+    });
   }
-  jsxElementToRender() {
-    let resVDOM = null;
-    let {prefixCls, width, height, visible, paneType, onClickClose, onClickSubmit, onBeforeMount, onAfterMount, onBeforeDestroy, ...otherProps} = this.props;
-    let styleTmpl = {};
+  getJsxToRender() {
+    const props = this.props;
+    let jsxElement = <div></div>;
+    const {width, height, visible, paneType, onClickClose, onClickSubmit, onBeforeMount, onAfterMount, onBeforeDestroy, ...otherProps} = this.props;
+    const styleTmpl = {};
     // 将组件位置居中
     if(width) {
-      styleTmpl.left = (this.state.windowWidth-width)/2;
+      styleTmpl.left = (this.state.parentWidth-width)/2;
       styleTmpl.width = width;
     }
     if(height) {
-      // 高度不得超过window高度
-      const windowHeight = this.state.windowHeight;
-      (height<=windowHeight) || (height = windowHeight);
-      styleTmpl.top = (windowHeight-height)/2;
+      styleTmpl.top = this.state.parentHeight<height ? 0 : (this.state.parentHeight-height)/2;
       styleTmpl.height = height;
     }
 
     let jsxPane = null;
-    switch(this.props.paneType) {
+    switch(props.paneType) {
       case Modal.PaneType.Popup:
-        jsxPane = (<Popup {...otherProps} styleTmpl={styleTmpl} onClickClose={this.props.onClickClose} onClickSubmit={this.props.onClickSubmit} />);
+        jsxPane = (<Dialog {...otherProps} prefixCls={props.prefixCls+'-dialog'} hasTitleBar={false} hasActionBar={false}
+                      styleTmpl={styleTmpl} onClickClose={props.onClickClose} onClickSubmit={props.onClickSubmit} />);
         break;
       case Modal.PaneType.Dialog:
-        jsxPane = (<Dialog {...otherProps} styleTmpl={styleTmpl} onClickClose={this.props.onClickClose} onClickSubmit={this.props.onClickSubmit} />);
+        jsxPane = (<Dialog {...otherProps} prefixCls={props.prefixCls+'-dialog'} styleTmpl={styleTmpl} onClickClose={props.onClickClose} onClickSubmit={props.onClickSubmit} />);
         break;
       default: break;
     }
-    if(this.getVisibility()) {
-        //console.log(this.props.isMaintainedRender);
-      resVDOM = (<div name="RCZModal" className={'ui-modal' + (this.props.isLocal ? " ui-modal-local" : "")/*'ui-modal-outer'*/}>
-        <div ref="MaskReservedContainer"></div>
+    if(props.visible) {
+      const classNameString = [...new Set([props.prefixCls, ...(props.className||'').split(' ')])].join(' ');
+      jsxElement = (<div name="RCZModal" className={classNameString}>
+        <div className="ui-modalmaskcontainer"></div>
         {jsxPane}
       </div>)
     }
-    return resVDOM;
+    return jsxElement;
+  }
+  render() {
+    // return this.getJsxToRender();
+    return this.props.isLocal ? this.getJsxToRender() : null;
   }
 }
 
