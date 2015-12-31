@@ -49,7 +49,7 @@
 .ui-modal .ui-modal-dialog-btn-separater {
   ;
 }
-.ui-modalmask {
+.ui-modal-mask {
   position: absolute;
   background: #000000;
   /* IE 8 */

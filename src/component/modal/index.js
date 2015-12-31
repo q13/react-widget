@@ -11,8 +11,8 @@ import './index.css';
 
 let eventNSId = 0;
 let instances = [];
-const maskEl = $('<div class="ui-modalmask"></div>')[0];
-
+const $maskEl = $('<div class="ui-modal-mask"></div>');
+$(window).on('dblclick', function(){console.log(instances)});
 // 模式对话框组件
 class Modal extends Widget {
   static PaneType = {
@@ -43,7 +43,7 @@ class Modal extends Widget {
       parentHeight: $(window).height(),
     };
     this.eventNSId = eventNSId++;
-    this.containerNonLocal = null;
+    this.$containerNonLocal = null;
   }
   componentWillMount() {
   }
@@ -59,11 +59,11 @@ class Modal extends Widget {
   }
   componentDidUpdate(prevProps, prevState) {
     if(false == this.props.isLocal) {
-      if(!this.containerNonLocal) { // 如果尚未创建global container
-        this.containerNonLocal = $('<div style="position:absolute;left:0;top:0;"></div>')[0];
-        $(this.containerNonLocal).appendTo(document.body);
+      if(!this.$containerNonLocal) { // 如果尚未创建global container
+        this.$containerNonLocal = $('<div style="position:absolute;left:0;top:0;"></div>');
+        this.$containerNonLocal.appendTo($(document.body));
       }
-      ReactDOM.render(this.getJsxToRender(), this.containerNonLocal, ()=>{
+      ReactDOM.render(this.getJsxToRender(), this.$containerNonLocal[0], ()=>{
         this.updateMask(this.props.visible)
       });
     }
@@ -72,6 +72,8 @@ class Modal extends Widget {
   }
   componentWillUnmount() {
     $(window).off('resize.Modal' + this.eventNSId);
+    instances && (instances = instances.filter((x)=>(x!=this)));
+
     if(this.props.onBeforeDestroy)
       this.props.onBeforeDestroy(this);
   }
@@ -82,32 +84,40 @@ class Modal extends Widget {
     else {
       instances = instances.filter((x)=>(x!=this)); // map out the instance from array
     }
-    if(instances&&instances[0]) {
-      var dom = this.props.isLocal ? ReactDOM.findDOMNode(instances[0]) : instances[0].containerNonLocal;
-      $('.ui-modalmaskcontainer', dom).append(maskEl);
-      const $parentContainer = this.props.isLocal ? $(dom).parent() : $(window);
-      this.setupMaskStyle(maskEl, $parentContainer);
-      // $parentContainer.resize(this.setupMaskStyle(maskEl, $parentContainer));
+    if(instances && instances[0]) {
+      const $instanceContainer = this.props.isLocal ? $(ReactDOM.findDOMNode(instances[0])).parent() : instances[0].$containerNonLocal;
+      $('.ui-modal-mask-container', $instanceContainer).empty().append($maskEl);
+      const $parentContainer = this.props.isLocal ? $instanceContainer : $(window);
+      this.setupMaskStyle($maskEl, $parentContainer);
+      // $parentContainer.resize(this.setupMaskStyle($maskEl, $parentContainer));
     }
     else {
-      if(maskEl.parentNode)
-        maskEl.parentNode.removeChild(maskEl);
+      $maskEl.remove();
     }
   }
-  setupMaskStyle(maskEl, $parentContainer) {
-    $(maskEl).css($parentContainer[0] === window ? {
-      position: 'fixed',
-      left: '0',
-      top: '0',
-      width: $(window).width() + 'px',
-      height: $(window).height() + 'px',
-    } : {
-      position: 'absolute',
-      left: $parentContainer.offset().left + 'px',
-      top: $parentContainer.offset().top+'px',
-      width: $parentContainer.width() + 'px',
-      height: $parentContainer.height() + 'px',
-    });
+  setupMaskStyle($maskEl, $parentContainer) {
+    var myStyle = {};
+    if($parentContainer[0] === window) {
+      myStyle = {
+        position: 'fixed',
+        left: '0',
+        top: '0',
+        width: $(window).width() + 'px',
+        height: $(window).height() + 'px',
+      };
+    }
+    else {
+      // const valPosition = $parentContainer.css('position')=='absolute' ? 'absolute' : 'relative';
+      if($parentContainer.css('position')=='static') $parentContainer.css('position', 'relative');
+      myStyle = {
+        position: 'absolute',
+        left: '0',
+        top: '0',
+        width: $parentContainer.width() + 'px',
+        height: $parentContainer.height() + 'px',
+      };
+    }
+    $maskEl.css(myStyle);
   }
   handleClose() {
     this.props.onClickClose();
@@ -145,10 +155,10 @@ class Modal extends Widget {
         break;
       default: break;
     }
-    if(props.visible) {
+    if(true || props.visible) {
       const classNameString = [...new Set([props.prefixCls, ...(props.className||'').split(' ')])].join(' ');
-      jsxElement = (<div name="RCZModal" className={classNameString}>
-        <div className="ui-modalmaskcontainer"></div>
+      jsxElement = (<div name="RCZModal" className={classNameString} style={{display: props.visible ? 'block' : 'none'}}>
+        <div className="ui-modal-mask-container"></div>
         {jsxPane}
       </div>)
     }
