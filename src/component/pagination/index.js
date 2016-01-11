@@ -8,6 +8,7 @@ class Pagination extends Widget {
     constructor(props){
         super(props);
         this.state = {
+            currentInput: props.currentPage,
             currentPage: props.currentPage,
             max: Math.ceil(props.total / props.pageSize)
         };
@@ -17,6 +18,7 @@ class Pagination extends Widget {
     }
     componentWillReceiveProps(nextProps) {
         this.setState({
+            currentInput: nextProps.currentPage,
             currentPage: nextProps.currentPage
         });
     }
@@ -67,6 +69,7 @@ class Pagination extends Widget {
     setCurrent(currentPage) {
         currentPage = parseInt(currentPage)
         this.setState({
+            currentInput: currentPage,
             currentPage: currentPage
         })
     }
@@ -76,7 +79,15 @@ class Pagination extends Widget {
             this.props.onPageChange(currentPage)
         }
     }
+    handleInputChange({range, value}, e) {
+        function ensureRange(number, min, max) {
+            return isNaN(number) || number < min ? min : number > max ? max : number; 
+        }
+        this.setState({currentInput: ensureRange(value===undefined ? (+e.target.value) : value, range.min, range.max)},
+            ()=>{ this.refs.number && this.refs.number.select(); });
+    }
     render(){
+        var currentInput = this.state.currentInput;
         var currentPage = this.state.currentPage;
         var { pages, max } = this.getPages();
         var items = [];
@@ -114,6 +125,23 @@ class Pagination extends Widget {
             <a>next</a>
           </li>
         )*/
+        const range = {min: 1, max: max === 0 ? 1 : max};
+        items.push(
+            <li className="ui-pagination-pole" key="input">
+                &nbsp;到第&nbsp;
+                <span className="ui-pagination-inputs">
+                    <input type="text" ref="number" className="ui-pagination-inputs-number" min={range.min} max={range.max}
+                     value={currentInput} onFocus={(e)=>{e.target.select();}}
+                     onChange={ this.handleInputChange.bind(self, {range}) } />
+                    <button className="ui-pagination-inputs-btn ui-pagination-inputs-up-btn"
+                     onClick={ this.handleInputChange.bind(self, {range, value: currentInput+1}) }></button>
+                    <button className="ui-pagination-inputs-btn ui-pagination-inputs-down-btn"
+                     onClick={ this.handleInputChange.bind(self, {range, value: currentInput-1}) }></button>
+                </span>
+                &nbsp;页&nbsp;
+                <button className="ui-pagination-submit-btn" onClick={ self.handleChange.bind(self, (currentInput>max?max:currentInput)||1)}>确定</button>
+            </li>
+        );
         return (
             <div className="ui-pagination">
                 <ul >
