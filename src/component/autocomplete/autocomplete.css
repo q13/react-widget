@@ -1,0 +1,35 @@
+/**
+ * form样式
+ */
+ 
+
+/**
+ * AutoComplete
+ */
+.ui-form-autocomplete {
+  display: inline-block;
+}
+.ui-form-autocomplete:after {
+  /*content: "∨";*/
+}
+.ui-form-autocomplete-label {
+}
+.ui-form-autocomplete-inputs {
+}
+.ui-form-autocomplete-inputs-text {
+  border: none;
+}
+.ui-form-autocomplete-inputs-dropdown {
+  z-index: 10000;
+  position: relative;
+}
+.ui-form-autocomplete-inputs-dropdown ul {
+  overflow: auto;
+}
+.ui-form-autocomplete-inputs-dropdown ul li {
+  cursor: pointer;
+}
+.ui-form-autocomplete-inputs-dropdown ul li:hover {
+}
+
+
