@@ -24,6 +24,7 @@
 }
 .ui-pagination-inputs {
     display: inline-block;
+    vertical-align: text-bottom;
 
     border: 1px solid #888;
 }
@@ -33,7 +34,8 @@
     padding: 0;
     margin: 0;
     text-align: right;
-    height: 1.2em;
+    height: 1.4em;
+    line-height: 1.4em;
 
     width: 60px;
 }
@@ -44,7 +46,7 @@
     padding: 0;
     margin: 0;
     text-align: center;
-    height: .6em;
+    height: 0.7em;
 
     width: 15px;
 }
