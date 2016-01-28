@@ -8,20 +8,21 @@
  */
 .ui-form-autocomplete {
   display: inline-block;
-}
-.ui-form-autocomplete:after {
-  /*content: "∨";*/
-}
-.ui-form-autocomplete-label {
+  position: absolute;
+  z-index: 10000;
 }
 .ui-form-autocomplete-inputs {
 }
-.ui-form-autocomplete-inputs-text {
+.ui-form-autocomplete-inputs-console {
+}
+.ui-form-autocomplete-inputs-console-label {
+}
+.ui-form-autocomplete-inputs-console-text {
   border: none;
 }
+.ui-form-autocomplete-inputs-console-toggle {
+}
 .ui-form-autocomplete-inputs-dropdown {
-  z-index: 10000;
-  position: relative;
 }
 .ui-form-autocomplete-inputs-dropdown ul {
   overflow: auto;

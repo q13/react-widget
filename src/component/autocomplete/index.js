@@ -13,94 +13,124 @@ class AutoComplete extends Widget {
   constructor(props) {
     super(props);
     this.state = {
-      foundItems: [],
       isEditing: false,
-      textValue: '',
+      curText: '',
+      curOptions: [],
     };
+    this.searchAvailableFrom = moment()._d;
+    this.searchTimeout = null;
   }
   componentWillMount() {
-    this.setState({textValue: this.props.initialValue});
+    this.proceedWillReceiveProps(this.props, {});
   }
   componentDidMount() {
   }
   componentWillUnmount() {
+    clearTimeout(this.searchTimeout);
+    this.searchTimeout = null;
+  }
+  componentWillReceiveProps(nextProps) {
+    this.proceedWillReceiveProps(nextProps, this.props);
+  }
+  proceedWillReceiveProps(nextProps, prevProps) {
+    this.setState({curText: nextProps.initialText});
   }
   handleEnableInputs(e) {
     const self = this;
     self.setState({ isEditing : true }, ()=>{
-      self.props.onStartInputs && self.props.onStartInputs(self);
       const domInput = self.refs.inputText;
       domInput.select();
       domInput.focus();
-      self.handleSearch(self.state.textValue);
+      if(self.props.onEnableInput) {
+        self.props.onEnableInput(self.state.curText, (curOptions)=>{
+          self.setState({curOptions: curOptions});
+        });
+      }
+      else {
+        self.handleSearch(self.state.curText);
+      }
     });
   }
   handleInputBlur(e) {
     const self = this;
     if(!self.isMouseHover) { // Disable Inputs
-      self.setState({
-        isEditing: false,
-        textValue: self.props.initialValue,
-      }, ()=>{
-        self.props.onCancelInputs && self.props.onCancelInputs(self);
+      self.setState({ isEditing: false }, ()=>{
+        if(self.props.onDisableInput) {
+          self.props.onDisableInput(self.state.curText, (curText)=>{
+            self.setState({curText: curText});
+          });
+        }
+        else {
+          self.setState({curText: self.props.initialText});
+        }
       });
     }
   }
   handleInputChange(e) {
     const self = this;
-    self.setState({textValue: e.target.value}, ()=>{
-      self.handleSearch(self.state.textValue);
+    self.searchAvailableFrom = moment(moment() + self.props.minSearchInterval*1000)._d;
+    self.setState({curText: e.target.value}, ()=>{
+      self.searchTimeout = setTimeout(()=>{
+        if(self.searchAvailableFrom<=moment()._d) {
+          self.handleSearch(self.state.curText);
+          clearTimeout(self.searchTimeout);
+        }
+      }, self.props.minSearchInterval*1000);
     });
   }
   handleEnterSearch(e) {
     // if(e.keyCode === 13)
     //     this.handleSearch(e.target.value);
   }
-  handleSearch(value) {
+  handleSearch(text) {
     const self = this;
-    if(!value || (''+value).length<self.props.minLengthToSearch) return;
-    self.props.onSearch(''+value, (data)=>{
-      const foundItems = [];
-      data.forEach((itm) => {
-        foundItems.push({ dataParams: itm, text: itm['label'] });
+    if(!text || !text.trim || !(text=text.trim()) || (''+text).length<self.props.minLengthToSearch) return;
+    if(self.props.onSearch) {
+      self.props.onSearch(''+text, (curOptions)=>{
+        self.setState({curOptions: curOptions});
       });
-      self.setState({foundItems: foundItems});
-    }, (err)=>{
-      console.log('failed to search: ' + err);
-    });
+    }
+    else {
+      const curOptions = self.props.initialOptions.filter(itm => (new RegExp(text,'i')).exec(itm.text));
+      self.setState({curOptions: curOptions});
+    }
   }
-  handleSelect(dataParams) {
+  handleSelect(curOption) {
     const self = this;
-    self.props.onSelect(dataParams, (textValue)=>{
-      self.setState({
-        isEditing: false,
-        textValue: textValue,
-      });
-    }, (err)=>{
-      console.log('failed to select: ' + err);
+    self.setState({
+      isEditing: false,
+      curText: curOption.text,
     });
+    self.props.onSelect(curOption);
   }
   render() {
     var props = this.props,
         state = this.state,
         prefixCls = props.prefixCls;
     return (<div className={`${prefixCls} ${props.className || ''}`}>
-      <div className={`${prefixCls}-label`} style={{display: state.isEditing ? 'none' : undefined}}
-       onClick={ this.handleEnableInputs.bind(this) }>
-        {state.textValue}
-      </div>
-      <div ref="divInputs" className={`${prefixCls}-inputs`} style={{display: !state.isEditing ? 'none' : undefined}}
-       onMouseEnter={(e)=>{ this.isMouseHover = true; }} onMouseLeave={(e)=>{ this.isMouseHover = false; }}>
-        <div>
-          <input type="text" ref="inputText" className={`${prefixCls}-inputs-text`}
-           value={state.textValue}
-           onBlur={ this.handleInputBlur.bind(this) }
-           onChange={ this.handleInputChange.bind(this) } />
+      <div className={`${prefixCls}-inputs`}>
+        <div className={`${prefixCls}-inputs-console`}
+             onClick={ state.isEditing ? undefined : this.handleEnableInputs.bind(this) }>
+          {state.isEditing ?
+            (<input type="text" ref="inputText"
+                    className={`${prefixCls}-inputs-console-text`}
+                    value={state.curText}
+                    onBlur={ this.handleInputBlur.bind(this) }
+                    onChange={ this.handleInputChange.bind(this) } />) :
+            (<span className={`${prefixCls}-inputs-console-label`}
+                   title={state.curText}
+                   onClick={ this.handleEnableInputs.bind(this) }>
+              {state.curText}
+            </span>)}
+          <span className={`${prefixCls}-inputs-console-toggle`}></span>
         </div>
-        <div className={`${prefixCls}-inputs-dropdown`}>
+        <div className={`${prefixCls}-inputs-dropdown`}
+             style={{display: !state.isEditing ? 'none' : undefined}}
+             onMouseEnter={(e)=>{ this.isMouseHover = true; }}
+             onMouseLeave={(e)=>{ this.isMouseHover = false; }}>
           <ul className={`${prefixCls}-inputs-dropdown-items`}>
-            {state.foundItems.map((itm, x)=>
-              (<li key={x} onClick={ this.handleSelect.bind(this, itm.dataParams) }>{itm.text}</li>))}
+            {state.curOptions.map((itm, x)=>
+              (<li key={x} title={itm.text} onClick={ this.handleSelect.bind(this, itm) }>{itm.text}</li>))}
           </ul>
         </div>
       </div>
@@ -109,11 +139,14 @@ class AutoComplete extends Widget {
 }
 export default AutoComplete;
 AutoComplete.defaultProps = {
-  initialValue: '',
+  prefixCls: 'ui-form-autocomplete',
+  className: '',
+  initialText: '',
+  initialOptions: [],  // {text: '', value: {} }
   minLengthToSearch: 2,
+  minSearchInterval: .5,
   onSelect: () => {},
-  onSearch: () => {},
-  onStartInputs: () => {},
-  onCancelInputs: () => {},
-  prefixCls: "ui-form-autocomplete"
+  onSearch: undefined,  // Once it is set initialOptions will not be used
+  onEnableInput: undefined,  // Could be used to replace curOptions result
+  onDisableInput: undefined,  // Could be used to replace curText result
 };
