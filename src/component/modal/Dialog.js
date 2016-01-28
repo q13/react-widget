@@ -25,8 +25,8 @@ class Dialog extends Widget {
       onClickSubmit,
     };
     const jsxTitlebar = !props.hasTitleBar ? null : (<div className={props.prefixCls+'-titlebar'}>
-      <div className={props.prefixCls+'-float-left'} title={props.title}>{props.title}</div>
       <div className={props.prefixCls+'-float-right '+props.prefixCls+'-cmdbutton'} onClick={props.onClickClose}>×</div>
+      <div className={props.prefixCls+'-title'} title={props.title}>{props.title}</div>
     </div>);
     const jsxActionbar = !props.hasActionBar ? null : (<div className={props.prefixCls+'-actionbar'}>
       <button className={props.prefixCls+'-btn-cancel'} onClick={props.onClickClose}>{props.closeText}</button>
@@ -46,6 +46,7 @@ class Dialog extends Widget {
 }
 Dialog.defaultProps = {
   prefixCls: 'ui-dialog',
+  className: '',
   hasTitleBar: true,
   hasActionBar: true,
   // version: '2015.12.10',
@@ -54,7 +55,21 @@ Dialog.defaultProps = {
   submitText: '确定',
   onClickClose : ()=>{},
   onClickSubmit : ()=>{},
+  styleTmpl: undefined,
 }
+Dialog.propTypes = {
+  prefixCls: React.PropTypes.string,
+  className: React.PropTypes.string,
+  hasTitleBar: React.PropTypes.bool,
+  hasActionBar: React.PropTypes.bool,
+  // version: React.PropTypes.string,
+  title : React.PropTypes.string,
+  closeText: React.PropTypes.string,
+  submitText: React.PropTypes.string,
+  onClickClose : React.PropTypes.func,
+  onClickSubmit : React.PropTypes.func,
+  styleTmpl: React.PropTypes.object,
+};
 
 export default Dialog;
 

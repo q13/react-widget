@@ -9,44 +9,43 @@
   z-index: var(--uiModalTopZIndex);
 }
 
-.ui-modal .ui-modal-popup {
+.ui-modal-popup {
   ;
 }
 
-.ui-modal .ui-modal-dialog {
-  position: absolute;
-  background: #ccc;
+.ui-modal-dialog {
+  background: #fff;
 }
 
-.ui-modal .ui-modal-dialog-titlebar {
+.ui-modal-dialog-titlebar {
   ;
 }
 
-.ui-modal .ui-modal-dialog-pane {
+.ui-modal-dialog-pane {
   clear: both;
 }
 
-.ui-modal .ui-modal-dialog-actionbar {
+.ui-modal-dialog-actionbar {
   text-align: center;
 }
 
-.ui-modal .ui-modal-dialog-float-left {
+.ui-modal-dialog-float-left {
   float: left;
 }
 
-.ui-modal .ui-modal-dialog-float-right {
+.ui-modal-dialog-float-right {
   float: right;
 }
 
-.ui-modal .ui-modal-dialog-btn-cancel {
+.ui-modal-dialog-btn-cancel {
   ;
 }
 
-.ui-modal .ui-modal-dialog-btn-submit {
+.ui-modal-dialog-btn-submit {
   ;
 }
 
-.ui-modal .ui-modal-dialog-btn-separater {
+.ui-modal-dialog-btn-separater {
   ;
 }
 .ui-modal-mask {

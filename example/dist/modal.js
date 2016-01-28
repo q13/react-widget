@@ -1,5 +1,5 @@
 /*!
- * Build at Wed Dec 16 2015 14:19:35 GMT+0800 (CST)
+ * Build at Wed Jan 27 2016 18:47:37 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -60,7 +60,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _index = __webpack_require__(269);
+	var _index = __webpack_require__(273);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
@@ -102,7 +102,8 @@
 	      //JSX描述第一个弹框：简单调用
 	      var jsxModal1 = _react2.default.createElement(
 	        _index2.default,
-	        { ref: "jsxModal1", isMaintainedRender: false,
+	        { ref: "jsxModal1",
+	          isLocal: true,
 	          visible: this.state.visible1,
 	          onClickSubmit: function onClickSubmit() {
 	            _this3.setState({ visible1: false });
@@ -129,14 +130,20 @@
 	      //JSX描述第二个弹框：参数调用
 	      var jsxModal2 = _react2.default.createElement(
 	        _index2.default,
-	        { ref: "jsxModal2", isMaintainedRender: false,
+	        { ref: "jsxModal2",
 	          prefixCls: "ui-modal",
 	          className: "class-modal-test",
-	          title: "第2个弹框的标题 by x",
+	          isLocal: false,
+	          centerFixed: false,
 	          width: "400",
-	          height: "600",
+	          height: "1800",
 	          visible: this.state.visible2,
 	          paneType: this.props.paneType2 || _index2.default.PaneType.Dialog,
+	          hasTitleBar: true,
+	          hasActionBar: true,
+	          title: "第2个弹框的标题 by x",
+	          closeText: "Close Now",
+	          submitText: "Submit Now",
 	          onClickClose: function onClickClose() {
 	            _this3.setState({ visible2: false });
 	          },
@@ -218,11 +225,11 @@
 	    value: function render() {
 	      var _this4 = this;
 	
-	      var styleTmpl = "\n      .ui-modal .class-modal-test {\n        position: fixed;\n        left: 25%;\n        top: 25%;\n        right: 25%;\n        bottom: 25%;\n        background: rgba(0, 128, 196, 1);\n      }\n    ";
+	      var styleTmpl = "\n      .ui-modal .----class-modal-test {\n        position: fixed;\n        left: 25%;\n        top: 25%;\n        right: 25%;\n        bottom: 25%;\n        background: rgba(0, 128, 196, 1);\n      }\n    ";
 	      var myjsxModals = this.jsxModals();
 	      var jsxPage = _react2.default.createElement(
 	        "div",
-	        { style: { background: 'white' } },
+	        { style: { background: '#036', width: '800px', height: '800px' } },
 	        _react2.default.createElement(
 	          "style",
 	          null,
@@ -19906,7 +19913,95 @@
 
 /***/ },
 /* 159 */,
-/* 160 */
+/* 160 */,
+/* 161 */,
+/* 162 */,
+/* 163 */,
+/* 164 */,
+/* 165 */,
+/* 166 */,
+/* 167 */,
+/* 168 */,
+/* 169 */,
+/* 170 */,
+/* 171 */,
+/* 172 */,
+/* 173 */,
+/* 174 */,
+/* 175 */,
+/* 176 */,
+/* 177 */,
+/* 178 */,
+/* 179 */,
+/* 180 */,
+/* 181 */,
+/* 182 */,
+/* 183 */,
+/* 184 */,
+/* 185 */,
+/* 186 */,
+/* 187 */,
+/* 188 */,
+/* 189 */,
+/* 190 */,
+/* 191 */,
+/* 192 */,
+/* 193 */,
+/* 194 */,
+/* 195 */,
+/* 196 */,
+/* 197 */,
+/* 198 */,
+/* 199 */,
+/* 200 */,
+/* 201 */,
+/* 202 */,
+/* 203 */,
+/* 204 */,
+/* 205 */,
+/* 206 */,
+/* 207 */,
+/* 208 */,
+/* 209 */,
+/* 210 */,
+/* 211 */,
+/* 212 */,
+/* 213 */,
+/* 214 */,
+/* 215 */,
+/* 216 */,
+/* 217 */,
+/* 218 */,
+/* 219 */,
+/* 220 */,
+/* 221 */,
+/* 222 */,
+/* 223 */,
+/* 224 */,
+/* 225 */,
+/* 226 */,
+/* 227 */,
+/* 228 */,
+/* 229 */,
+/* 230 */,
+/* 231 */,
+/* 232 */,
+/* 233 */,
+/* 234 */,
+/* 235 */,
+/* 236 */,
+/* 237 */,
+/* 238 */,
+/* 239 */,
+/* 240 */,
+/* 241 */,
+/* 242 */,
+/* 243 */,
+/* 244 */,
+/* 245 */,
+/* 246 */,
+/* 247 */,
+/* 248 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -19920,11 +20015,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactAddonsPureRenderMixin = __webpack_require__(161);
+	var _reactAddonsPureRenderMixin = __webpack_require__(249);
 	
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 	
-	var _reactMixin = __webpack_require__(164);
+	var _reactMixin = __webpack_require__(252);
 	
 	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 	
@@ -19958,13 +20053,13 @@
 	exports.Widget = Widget;
 
 /***/ },
-/* 161 */
+/* 249 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(162);
+	module.exports = __webpack_require__(250);
 
 /***/ },
-/* 162 */
+/* 250 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -19980,7 +20075,7 @@
 	
 	'use strict';
 	
-	var shallowCompare = __webpack_require__(163);
+	var shallowCompare = __webpack_require__(251);
 	
 	/**
 	 * If your React component's render function is "pure", e.g. it will render the
@@ -20015,7 +20110,7 @@
 	module.exports = ReactComponentWithPureRenderMixin;
 
 /***/ },
-/* 163 */
+/* 251 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -20044,11 +20139,11 @@
 	module.exports = shallowCompare;
 
 /***/ },
-/* 164 */
+/* 252 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mixin = __webpack_require__(165);
-	var assign = __webpack_require__(166);
+	var mixin = __webpack_require__(253);
+	var assign = __webpack_require__(254);
 	
 	var mixinProto = mixin({
 	  // lifecycle stuff is as you'd expect
@@ -20201,7 +20296,7 @@
 
 
 /***/ },
-/* 165 */
+/* 253 */
 /***/ function(module, exports) {
 
 	var objToStr = function(x){ return Object.prototype.toString.call(x); };
@@ -20384,7 +20479,7 @@
 
 
 /***/ },
-/* 166 */
+/* 254 */
 /***/ function(module, exports) {
 
 	/* eslint-disable no-unused-vars */
@@ -20429,94 +20524,6 @@
 
 
 /***/ },
-/* 167 */,
-/* 168 */,
-/* 169 */,
-/* 170 */,
-/* 171 */,
-/* 172 */,
-/* 173 */,
-/* 174 */,
-/* 175 */,
-/* 176 */,
-/* 177 */,
-/* 178 */,
-/* 179 */,
-/* 180 */,
-/* 181 */,
-/* 182 */,
-/* 183 */,
-/* 184 */,
-/* 185 */,
-/* 186 */,
-/* 187 */,
-/* 188 */,
-/* 189 */,
-/* 190 */,
-/* 191 */,
-/* 192 */,
-/* 193 */,
-/* 194 */,
-/* 195 */,
-/* 196 */,
-/* 197 */,
-/* 198 */,
-/* 199 */,
-/* 200 */,
-/* 201 */,
-/* 202 */,
-/* 203 */,
-/* 204 */,
-/* 205 */,
-/* 206 */,
-/* 207 */,
-/* 208 */,
-/* 209 */,
-/* 210 */,
-/* 211 */,
-/* 212 */,
-/* 213 */,
-/* 214 */,
-/* 215 */,
-/* 216 */,
-/* 217 */,
-/* 218 */,
-/* 219 */,
-/* 220 */,
-/* 221 */,
-/* 222 */,
-/* 223 */,
-/* 224 */,
-/* 225 */,
-/* 226 */,
-/* 227 */,
-/* 228 */,
-/* 229 */,
-/* 230 */,
-/* 231 */,
-/* 232 */,
-/* 233 */,
-/* 234 */,
-/* 235 */,
-/* 236 */,
-/* 237 */,
-/* 238 */,
-/* 239 */,
-/* 240 */,
-/* 241 */,
-/* 242 */,
-/* 243 */,
-/* 244 */,
-/* 245 */,
-/* 246 */,
-/* 247 */,
-/* 248 */,
-/* 249 */,
-/* 250 */,
-/* 251 */,
-/* 252 */,
-/* 253 */,
-/* 254 */,
 /* 255 */,
 /* 256 */,
 /* 257 */
@@ -20839,577 +20846,10 @@
 /* 266 */,
 /* 267 */,
 /* 268 */,
-/* 269 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _component = __webpack_require__(160);
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _WidgetEx2 = __webpack_require__(270);
-	
-	var _WidgetEx3 = _interopRequireDefault(_WidgetEx2);
-	
-	var _Popup = __webpack_require__(271);
-	
-	var _Popup2 = _interopRequireDefault(_Popup);
-	
-	var _Dialog = __webpack_require__(273);
-	
-	var _Dialog2 = _interopRequireDefault(_Dialog);
-	
-	var _Mask = __webpack_require__(276);
-	
-	var _Mask2 = _interopRequireDefault(_Mask);
-	
-	__webpack_require__(277);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Modal组件实现
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-	
-	// 模式对话框组件
-	
-	var Modal = (function (_WidgetEx) {
-	  _inherits(Modal, _WidgetEx);
-	
-	  function Modal(props) {
-	    _classCallCheck(this, Modal);
-	
-	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Modal).call(this, props));
-	
-	    var zComHelper = Modal.getZComHelper();
-	    _this2.state = {
-	      // bIsVisible: Modal.defaultProps.isVisibleInitial,
-	      windowWidth: zComHelper.getWindowWidth(),
-	      windowHeight: zComHelper.getWindowHeight()
-	    };
-	    _this2.eventHandlerResize = _this2.handleResize.bind(_this2);
-	    return _this2;
-	  }
-	  // static defaultProps = { ...Object.getPrototypeOf(Modal).defaultProps,
-	  //   classModalOuter : 'ui-modal-outer',
-	  //   isVisibleInitial : true,
-	  //   paneType : Modal.PaneType.Dialog,
-	  //   onBeforeMount : ()=>{},
-	  //   onAfterMount : ()=>{},
-	  //   onBeforeDestroy : ()=>{},
-	  //   // version: '2015.12.10',
-	  // };
-	
-	  _createClass(Modal, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      _get(Object.getPrototypeOf(Modal.prototype), 'componentWillMount', this).call(this);
-	      if (!this.props.isMaintainedRender) if (this.props.onBeforeMount) this.props.onBeforeMount(this);
-	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      _get(Object.getPrototypeOf(Modal.prototype), 'componentDidMount', this).call(this);
-	      if (!this.props.isMaintainedRender) {
-	        window.addEventListener ? window.addEventListener('resize', this.eventHandlerResize) : $(window).on('resize', this.eventHandlerResize);
-	        if (this.props.onAfterMount) this.props.onAfterMount(this);
-	      }
-	      this.componentWillReceiveProps(this.props);
-	    }
-	  }, {
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      _get(Object.getPrototypeOf(Modal.prototype), 'componentWillReceiveProps', this).call(this, nextProps);
-	      this.setVisibility(nextProps.isVisibleInitial);
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      _get(Object.getPrototypeOf(Modal.prototype), 'componentWillUnmount', this).call(this);
-	      if (!this.props.isMaintainedRender) {
-	        window.removeEventListener ? window.removeEventListener('resize', this.eventHandlerResize) : $(window).off('resize', this.eventHandlerResize);
-	        if (this.props.onBeforeDestroy) this.props.onBeforeDestroy(this);
-	      }
-	      // 清除本组件实例所提供的遮罩存放容器
-	      var _this = this.getInstanceForRender();
-	      _Mask2.default.getStaticInstance().mapOutContainer(_this);
-	    }
-	    // 设定本组件实例是否可见
-	
-	  }, {
-	    key: 'setVisibility',
-	    value: function setVisibility(bIsVisible) {
-	      var forceBuddyUpdate = arguments.length <= 1 || arguments[1] === undefined ? true : arguments[1];
-	
-	      var _this = this.getInstanceForRender();
-	      _this && _this.setState({ bIsVisible: bIsVisible }, function () {
-	        if (forceBuddyUpdate) {
-	          // 强制遮罩层重新渲染
-	          var myStaticMask = _Mask2.default.getStaticInstance();
-	          if (_this.refs.MaskReservedContainer) myStaticMask.mapInContainer(_this);else myStaticMask.mapOutContainer(_this);
-	        }
-	      });
-	    }
-	    // 获取本组件实例是否可见
-	
-	  }, {
-	    key: 'getVisibility',
-	    value: function getVisibility() {
-	      var _this = this.getInstanceForRender();
-	      return _this.props.visible;
-	      // return _this.state.bIsVisible;
-	    }
-	  }, {
-	    key: 'handleClose',
-	    value: function handleClose() {
-	      this.props.onClickClose();
-	    }
-	  }, {
-	    key: 'handleResize',
-	    value: function handleResize() {
-	      console.log(123);return;
-	      var zComHelper = Modal.getZComHelper();
-	      this.setState({
-	        windowWidth: zComHelper.getWindowWidth(),
-	        windowHeight: zComHelper.getWindowHeight()
-	      });
-	    }
-	  }, {
-	    key: 'jsxElementToRender',
-	    value: function jsxElementToRender() {
-	      var resVDOM = null;
-	      var styleTmpl = {};
-	      if (this.props.width) {
-	        styleTmpl.left = (this.state.windowWidth - this.props.width) / 2;
-	        styleTmpl.width = this.props.width;
-	      }
-	      if (this.props.height) {
-	        styleTmpl.top = (this.state.windowHeight - this.props.height) / 2;
-	        styleTmpl.height = this.props.height;
-	      }
-	
-	      var _props = this.props;
-	      var prefixCls = _props.prefixCls;
-	      var width = _props.width;
-	      var height = _props.height;
-	      var visible = _props.visible;
-	      var paneType = _props.paneType;
-	      var onClickClose = _props.onClickClose;
-	      var onClickSubmit = _props.onClickSubmit;
-	      var onBeforeMount = _props.onBeforeMount;
-	      var onAfterMount = _props.onAfterMount;
-	      var onBeforeDestroy = _props.onBeforeDestroy;
-	
-	      var otherProps = _objectWithoutProperties(_props, ['prefixCls', 'width', 'height', 'visible', 'paneType', 'onClickClose', 'onClickSubmit', 'onBeforeMount', 'onAfterMount', 'onBeforeDestroy']);
-	
-	      var jsxPane = null;
-	      switch (this.props.paneType) {
-	        case Modal.PaneType.Popup:
-	          jsxPane = _react2.default.createElement(_Popup2.default, _extends({}, otherProps, { styleTmpl: styleTmpl, onClickClose: this.props.onClickClose, onClickSubmit: this.props.onClickSubmit }));
-	          break;
-	        case Modal.PaneType.Dialog:
-	          jsxPane = _react2.default.createElement(_Dialog2.default, _extends({}, otherProps, { styleTmpl: styleTmpl, onClickClose: this.props.onClickClose, onClickSubmit: this.props.onClickSubmit }));
-	          break;
-	        default:
-	          break;
-	      }
-	      if (this.getVisibility()) {
-	        resVDOM = _react2.default.createElement(
-	          'div',
-	          { name: 'RCZModal', className: 'ui-modal' /*'ui-modal-outer'*/ },
-	          _react2.default.createElement('div', { ref: 'MaskReservedContainer' }),
-	          jsxPane
-	        );
-	      }
-	      return resVDOM;
-	    }
-	  }]);
-	
-	  return Modal;
-	})(_WidgetEx3.default);
-	
-	Modal.PaneType = {
-	  Popup: Symbol(),
-	  Dialog: Symbol()
-	};
-	Modal.defaultProps = {
-	  prefixCls: 'ui-modal',
-	  title: 'Modal对话框',
-	  width: undefined,
-	  height: undefined,
-	  visible: true,
-	  paneType: Modal.PaneType.Dialog,
-	  onClickClose: function onClickClose() {},
-	  onClickSubmit: function onClickSubmit() {},
-	  onBeforeMount: function onBeforeMount() {},
-	  onAfterMount: function onAfterMount() {},
-	  onBeforeDestroy: function onBeforeDestroy() {}
-	};
-	exports.default = Modal;
-
-/***/ },
-/* 270 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })(); /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        * WidgetEx组件实现
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                        */
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _component = __webpack_require__(160);
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactDom = __webpack_require__(158);
-	
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	var ZComHelper = (function () {
-	  function ZComHelper() {
-	    _classCallCheck(this, ZComHelper);
-	  }
-	
-	  // 获取被管理组件实例容器的容器
-	
-	  // 被管理组件实例容器的容器
-	
-	  _createClass(ZComHelper, null, [{
-	    key: 'GetMaintainedCOMsRenderRepo',
-	    value: function GetMaintainedCOMsRenderRepo() {
-	      return ZComHelper.__maintainedCOMsRenderRepo || (ZComHelper.__maintainedCOMsRenderRepo = document.body.appendChild(document.createElement('div')));
-	    }
-	  }, {
-	    key: 'fnComLog',
-	    value: function fnComLog(com, msg) {
-	      var info_isMaintainedRender = !com.props ? '' : com.props.isMaintainedRender ? 'MaintainedCOM' : 'OrdinaryCOM';
-	      if (info_isMaintainedRender === 'MaintainedCOM') return;
-	
-	      location && location.search && (function (queryArr) {
-	        queryArr.filter(function (x) {
-	          return (x = x.split('=')) && x[0] === 'debug' && x[1] === '1';
-	        }).length > 0 && console.log('Instance of ' + com.__rczid + ' ' + com.constructor.name + ': ' + msg + ' :' + info_isMaintainedRender);
-	      })(location.search.slice(1).split('&'));
-	    }
-	  }, {
-	    key: 'getWindowWidth',
-	    value: function getWindowWidth() {
-	      return window.innerWidth || document.documentElement.clientWidth || document.body.clientWidth;
-	    }
-	  }, {
-	    key: 'getWindowHeight',
-	    value: function getWindowHeight() {
-	      // return "innerHeight" in window ? window.innerHeight : document.documentElement.offsetHeight;
-	      return window.innerHeight || document.documentElement.clientHeight || document.body.clientHeight;
-	    }
-	  }]);
-	
-	  return ZComHelper;
-	})();
-	
-	ZComHelper.__maintainedCOMsRenderRepo = null;
-	
-	var WidgetEx = (function (_Widget) {
-	  _inherits(WidgetEx, _Widget);
-	
-	  function WidgetEx(props) {
-	    _classCallCheck(this, WidgetEx);
-	
-	    // 被管理容器
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(WidgetEx).call(this, props));
-	
-	    _this.maintainedRenderContainer = null;
-	    // 被管理实例
-	    _this.maintainedInstance = null;
-	    // 实例之唯一标识id(内部使用)
-	    _this.__rczid = new Date().getTime();
-	    // 日志输出(调试使用)
-	    ZComHelper.fnComLog(_this, 'Constructed');
-	    return _this;
-	  }
-	
-	  _createClass(WidgetEx, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      ZComHelper.fnComLog(this, 'Mounting');
-	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
-	      if (this.props.isMaintainedRender) {
-	        // 创建被管理容器
-	        this.maintainedRenderContainer = ZComHelper.GetMaintainedCOMsRenderRepo().appendChild(document.createElement('div'));
-	        this.forceUpdate();
-	      }
-	      ZComHelper.fnComLog(this, 'Mounted');
-	    }
-	  }, {
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps() {
-	      ZComHelper.fnComLog(this, 'Receiving Props');
-	    }
-	  }, {
-	    key: 'componentWillUpdate',
-	    value: function componentWillUpdate() {
-	      ZComHelper.fnComLog(this, 'Updating');
-	    }
-	  }, {
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
-	      if (this.props.isMaintainedRender) {
-	        // 渲染至被管理容器
-	        this.maintainedInstance = _reactDom2.default.render(_react2.default.createElement(this.constructor, _extends({}, this.props, { isMaintainedRender: false })), this.maintainedRenderContainer);
-	      }
-	      ZComHelper.fnComLog(this, 'Updated');
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      ZComHelper.fnComLog(this, 'Unmounting');
-	      if (this.props.isMaintainedRender) {
-	        // 销毁被管理实例与被管理容器
-	        _reactDom2.default.unmountComponentAtNode(this.maintainedRenderContainer);
-	        ZComHelper.GetMaintainedCOMsRenderRepo().removeChild(this.maintainedRenderContainer);
-	      }
-	    }
-	    // 将被渲染至本实例的jsxElement，如果为被管理实例则渲染空内容
-	
-	  }, {
-	    key: 'render',
-	    value: function render() {
-	      return this.props.isMaintainedRender ? _react2.default.createElement('div', null) : this.jsxElementToRender();
-	    }
-	    // 获取ZComHelper实例
-	
-	  }, {
-	    key: 'jsxElementToRender',
-	
-	    // 将被渲染的jsxElement，如果为被管理实例则此方法不被调用
-	    value: function jsxElementToRender() {
-	      return null;
-	    }
-	    // 获取被实际渲染的实例
-	
-	  }, {
-	    key: 'getInstanceForRender',
-	    value: function getInstanceForRender() {
-	      return this.props.isMaintainedRender ? this.maintainedInstance : this;
-	    }
-	    // 避免super RCZCom获取与自身无关的props/state   
-	
-	  }, {
-	    key: 'renderCustom',
-	    value: function renderCustom(myProps, myRender) {
-	      var thisProps = undefined,
-	          thisState = undefined,
-	          jsxElement = undefined;
-	      var _ref = [this.props, myProps];
-	      thisProps = _ref[0];
-	      this.props = _ref[1];
-	      var _ref2 = [myRender.apply(this), thisProps];
-	      jsxElement = _ref2[0];
-	      this.props = _ref2[1];
-	
-	      return jsxElement;
-	    }
-	  }], [{
-	    key: 'getZComHelper',
-	    value: function getZComHelper(allCOMsContainer) {
-	      return ZComHelper;
-	    }
-	  }]);
-	
-	  return WidgetEx;
-	})(_component.Widget);
-	
-	WidgetEx.defaultProps = { // cannot be inherited...
-	  version: '2015.12.09',
-	  isMaintainedRender: false
-	};
-	exports.default = WidgetEx;
-
-/***/ },
-/* 271 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _component = __webpack_require__(160);
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _Pane2 = __webpack_require__(272);
-	
-	var _Pane3 = _interopRequireDefault(_Pane2);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Popup组件实现
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-	
-	// 基本弹框组件
-	
-	var Popup = (function (_Pane) {
-	  _inherits(Popup, _Pane);
-	
-	  // version: '2015.12.10',
-	
-	  function Popup(props) {
-	    _classCallCheck(this, Popup);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Popup).call(this, props));
-	  }
-	
-	  _createClass(Popup, [{
-	    key: 'jsxElementToRender',
-	    value: function jsxElementToRender() {
-	      var _props = this.props;
-	      var classPopupOuter = _props.classPopupOuter;
-	
-	      var otherProps = _objectWithoutProperties(_props, ['classPopupOuter']);
-	
-	      var classNameString = [].concat(_toConsumableArray(new Set([this.props.classPopupOuter].concat(_toConsumableArray((this.props.className || '').split(' ')))))).join(' ');
-	      return _react2.default.createElement(
-	        'div',
-	        { name: 'RCZPopup', className: classNameString, style: this.props.styleTmpl },
-	        this.renderCustom(otherProps, _get(Object.getPrototypeOf(Popup.prototype), 'jsxElementToRender', this))
-	      );
-	    }
-	  }]);
-	
-	  return Popup;
-	})(_Pane3.default);
-	
-	Popup.defaultProps = _extends({}, Object.getPrototypeOf(Popup).defaultProps, {
-	  prefixCls: 'ui-popup',
-	  classPopupOuter: 'ui-popup-outer',
-	  classPaneOuter: 'ui-popup-pane-outer' });
-	exports.default = Popup;
-
-/***/ },
-/* 272 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _component = __webpack_require__(160);
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _WidgetEx2 = __webpack_require__(270);
-	
-	var _WidgetEx3 = _interopRequireDefault(_WidgetEx2);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Pane组件实现
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-	
-	// 内容体组件
-	
-	var Pane = (function (_WidgetEx) {
-	  _inherits(Pane, _WidgetEx);
-	
-	  // version: '2015.12.10',
-	
-	  function Pane(props) {
-	    _classCallCheck(this, Pane);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Pane).call(this, props));
-	  }
-	
-	  _createClass(Pane, [{
-	    key: 'jsxElementToRender',
-	    value: function jsxElementToRender() {
-	      return _react2.default.createElement(
-	        'div',
-	        { name: 'RCZPane', className: this.props.classPaneOuter /*{...this.props}*/ },
-	        this.props.children
-	      );
-	    }
-	  }]);
-	
-	  return Pane;
-	})(_WidgetEx3.default);
-	
-	Pane.defaultProps = _extends({}, Object.getPrototypeOf(Pane).defaultProps, {
-	  prefixCls: 'ui-pane',
-	  classPaneOuter: 'ui-pane-outer' });
-	exports.default = Pane;
-
-/***/ },
+/* 269 */,
+/* 270 */,
+/* 271 */,
+/* 272 */,
 /* 273 */
 /***/ function(module, exports, __webpack_require__) {
 
@@ -21419,35 +20859,321 @@
 	
 	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
 	
-	var _get = function get(object, property, receiver) { if (object === null) object = Function.prototype; var desc = Object.getOwnPropertyDescriptor(object, property); if (desc === undefined) { var parent = Object.getPrototypeOf(object); if (parent === null) { return undefined; } else { return get(parent, property, receiver); } } else if ("value" in desc) { return desc.value; } else { var getter = desc.get; if (getter === undefined) { return undefined; } return getter.call(receiver); } };
-	
 	Object.defineProperty(exports, "__esModule", {
 	  value: true
 	});
 	
-	var _component = __webpack_require__(160);
+	var _component = __webpack_require__(248);
 	
 	var _react = __webpack_require__(1);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _TitleBar = __webpack_require__(274);
+	var _reactDom = __webpack_require__(158);
 	
-	var _TitleBar2 = _interopRequireDefault(_TitleBar);
+	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _ActionBar = __webpack_require__(275);
+	var _Dialog = __webpack_require__(274);
 	
-	var _ActionBar2 = _interopRequireDefault(_ActionBar);
+	var _Dialog2 = _interopRequireDefault(_Dialog);
 	
-	var _Pane2 = __webpack_require__(272);
+	__webpack_require__(275);
 	
-	var _Pane3 = _interopRequireDefault(_Pane2);
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
+	
+	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Modal组件实现
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var eventNSId = 0;
+	var instances = [];
+	var $maskEl = $('<div class="ui-modal-mask"></div>');
+	
+	// 模式对话框组件
+	
+	var Modal = (function (_Widget) {
+	  _inherits(Modal, _Widget);
+	
+	  function Modal(props) {
+	    _classCallCheck(this, Modal);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Modal).call(this, props));
+	
+	    _this.state = {
+	      parentWidth: $(window).width(),
+	      parentHeight: $(window).height()
+	    };
+	    _this.eventNSId = eventNSId++;
+	    _this.$containerNonLocal = null;
+	    return _this;
+	  }
+	
+	  _createClass(Modal, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {}
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var _this2 = this;
+	
+	      $(window).on('resize.Modal' + this.eventNSId, function (evt) {
+	        _this2.handleResize.call(_this2);
+	      });
+	      this.forceUpdate(); // for calling handleResize etc.
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      this.handleResize.call(this);
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate(prevProps, prevState) {
+	      var _this3 = this;
+	
+	      if (false == this.props.isLocal) {
+	        if (!this.$containerNonLocal) {
+	          // 如果尚未创建global container
+	          this.$containerNonLocal = $('<div style="position:absolute;left:0;top:0;"></div>');
+	          this.$containerNonLocal.appendTo($(document.body));
+	        }
+	        _reactDom2.default.render(this.getJsxToRender(), this.$containerNonLocal[0], function () {
+	          _this3.updateMask(_this3.props.visible);
+	        });
+	      } else this.updateMask(this.props.visible);
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      var _this4 = this;
+	
+	      if (this.$containerNonLocal && this.$containerNonLocal.length) {
+	        _reactDom2.default.unmountComponentAtNode(this.$containerNonLocal[0]);
+	        this.$containerNonLocal.remove();
+	      }
+	      $(window).off('resize.Modal' + this.eventNSId);
+	      this.$containerNonLocal = null;
+	      this.eventNSId = null;
+	      instances && (instances = instances.filter(function (x) {
+	        return x != _this4;
+	      }));
+	      instances && instances[0] && instances[0].forceUpdate(); // enable its mask if there is any
+	
+	      if (this.props.onBeforeDestroy) this.props.onBeforeDestroy(this);
+	    }
+	  }, {
+	    key: 'updateMask',
+	    value: function updateMask(propsVisible) {
+	      var _this5 = this;
+	
+	      if (propsVisible) {
+	        instances = [].concat(_toConsumableArray(new Set([this].concat(_toConsumableArray(instances))))); // map in the instance to array
+	      } else {
+	          instances = instances.filter(function (x) {
+	            return x != _this5;
+	          }); // map out the instance from array
+	        }
+	      if (instances && instances[0]) {
+	        var $instanceContainer = this.props.isLocal ? $(_reactDom2.default.findDOMNode(instances[0])).parent() : instances[0].$containerNonLocal;
+	        $('.ui-modal-mask-container', $instanceContainer).empty().append($maskEl);
+	        var $parentContainer = this.props.isLocal ? $instanceContainer : $(window);
+	        this.setupMaskStyle($maskEl, $parentContainer);
+	        // $parentContainer.resize(this.setupMaskStyle($maskEl, $parentContainer));
+	      } else {
+	          $maskEl.remove();
+	        }
+	    }
+	  }, {
+	    key: 'setupMaskStyle',
+	    value: function setupMaskStyle($maskEl, $parentContainer) {
+	      var myStyle = {};
+	      if ($parentContainer[0] === window) {
+	        myStyle = {
+	          position: 'fixed',
+	          left: '0',
+	          top: '0',
+	          width: $(window).width() + 'px',
+	          height: $(window).height() + 'px'
+	        };
+	      } else {
+	        // const valPosition = $parentContainer.css('position')=='absolute' ? 'absolute' : 'relative';
+	        if ($parentContainer.css('position') == 'static') $parentContainer.css('position', 'relative');
+	        myStyle = {
+	          position: 'absolute',
+	          left: '0',
+	          top: '0',
+	          width: $parentContainer.outerWidth() + 'px',
+	          height: $parentContainer.outerHeight() + 'px'
+	        };
+	      }
+	      $maskEl.css(myStyle);
+	    }
+	  }, {
+	    key: 'handleResize',
+	    value: function handleResize() {
+	      if (false == this.props.isLocal) {
+	        this.setState({
+	          parentWidth: $(window).width(),
+	          parentHeight: $(window).height()
+	        });
+	      } else {
+	        var $parentContainer = $(_reactDom2.default.findDOMNode(this)).parent();
+	        this.setState({
+	          parentWidth: $parentContainer.outerWidth(),
+	          parentHeight: $parentContainer.outerHeight()
+	        });
+	      }
+	    }
+	  }, {
+	    key: 'getJsxToRender',
+	    value: function getJsxToRender() {
+	      var props = this.props;
+	      var jsxElement = _react2.default.createElement('div', null);
+	      var _props = this.props;
+	      var prefixCls = _props.prefixCls;
+	      var className = _props.className;
+	      var isLocal = _props.isLocal;
+	      var centerFixed = _props.centerFixed;
+	      var width = _props.width;
+	      var height = _props.height;
+	      var visible = _props.visible;
+	      var paneType = _props.paneType;
+	      var onClickClose = _props.onClickClose;
+	      var onClickSubmit = _props.onClickSubmit;
+	      var onBeforeDestroy = _props.onBeforeDestroy;
+	
+	      var otherProps = _objectWithoutProperties(_props, ['prefixCls', 'className', 'isLocal', 'centerFixed', 'width', 'height', 'visible', 'paneType', 'onClickClose', 'onClickSubmit', 'onBeforeDestroy']);
+	
+	      var styleTmpl = {};
+	      var leftOffset = 0,
+	          topOffset = 0;
+	      styleTmpl.position = 'absolute';
+	      if (false == this.props.isLocal) {
+	        if (centerFixed) {
+	          // fixed position/centerFixed only applies to non-local dialogs
+	          styleTmpl.position = 'fixed';
+	        } else {
+	          leftOffset = $(window).scrollLeft();
+	          topOffset = $(window).scrollTop();
+	        }
+	      }
+	      // 将组件位置居中
+	      styleTmpl.left = leftOffset + (this.state.parentWidth - width) / 2;
+	      styleTmpl.top = topOffset + (this.state.parentHeight < height ? 0 : (this.state.parentHeight - height) / 2);
+	      styleTmpl.width = width;
+	      styleTmpl.height = height;
+	
+	      var jsxPane = null;
+	      switch (props.paneType) {
+	        case Modal.PaneType.Popup:
+	          jsxPane = _react2.default.createElement(_Dialog2.default, _extends({}, otherProps, { prefixCls: props.prefixCls + '-dialog', hasTitleBar: false, hasActionBar: false,
+	            styleTmpl: styleTmpl, onClickClose: props.onClickClose, onClickSubmit: props.onClickSubmit }));
+	          break;
+	        case Modal.PaneType.Dialog:
+	          jsxPane = _react2.default.createElement(_Dialog2.default, _extends({}, otherProps, { prefixCls: props.prefixCls + '-dialog',
+	            styleTmpl: styleTmpl, onClickClose: props.onClickClose, onClickSubmit: props.onClickSubmit }));
+	          break;
+	        default:
+	          break;
+	      }
+	      if (true) {
+	        var classNameString = [].concat(_toConsumableArray(new Set([props.prefixCls].concat(_toConsumableArray((props.className || '').split(' ')))))).join(' ');
+	        jsxElement = _react2.default.createElement(
+	          'div',
+	          { name: 'RCZModal', className: classNameString, style: { display: props.visible ? 'block' : 'none' } },
+	          _react2.default.createElement('div', { className: 'ui-modal-mask-container' }),
+	          jsxPane
+	        );
+	      }
+	      return jsxElement;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      // return this.getJsxToRender();
+	      return this.props.isLocal ? this.getJsxToRender() : null;
+	    }
+	  }]);
+	
+	  return Modal;
+	})(_component.Widget);
+	
+	Modal.PaneType = {
+	  Popup: Symbol(),
+	  Dialog: Symbol()
+	};
+	Modal.defaultProps = {
+	  prefixCls: 'ui-modal',
+	  className: '', // ui-dialog-outer||ui-popup-outer
+	  isLocal: false,
+	  centerFixed: true,
+	  width: 600,
+	  height: 600,
+	  visible: true,
+	  paneType: Modal.PaneType.Dialog,
+	  hasTitleBar: undefined,
+	  hasActionBar: undefined,
+	  title: undefined,
+	  closeText: undefined,
+	  submitText: undefined,
+	  onClickClose: function onClickClose() {},
+	  onClickSubmit: function onClickSubmit() {},
+	  // onBeforeMount : ()=>{},
+	  // onAfterMount : ()=>{},
+	  onBeforeDestroy: function onBeforeDestroy() {}
+	};
+	_Dialog2.default.propTypes = {
+	  prefixCls: _react2.default.PropTypes.string,
+	  className: _react2.default.PropTypes.string,
+	  isLocal: _react2.default.PropTypes.bool,
+	  centerFixed: _react2.default.PropTypes.bool,
+	  width: _react2.default.PropTypes.number,
+	  height: _react2.default.PropTypes.number,
+	  visible: _react2.default.PropTypes.bool,
+	  // paneType: React.PropTypes.symbol,
+	  // hasTitleBar: undefined,
+	  // hasActionBar: undefined,
+	  // title: undefined,
+	  // closeText: undefined,
+	  // submitText: undefined,
+	  onClickClose: _react2.default.PropTypes.func,
+	  onClickSubmit: _react2.default.PropTypes.func,
+	  // onBeforeMount : React.PropTypes.func,
+	  // onAfterMount : React.PropTypes.func,
+	  onBeforeDestroy: _react2.default.PropTypes.func
+	};
+	
+	exports.default = Modal;
+
+/***/ },
+/* 274 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _component = __webpack_require__(248);
+	
+	var _react = __webpack_require__(1);
+	
+	var _react2 = _interopRequireDefault(_react);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
 	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
@@ -21459,10 +21185,8 @@
 	
 	// 对话框组件
 	
-	var Dialog = (function (_Pane) {
-	  _inherits(Dialog, _Pane);
-	
-	  // version: '2015.12.10',
+	var Dialog = (function (_Widget) {
+	  _inherits(Dialog, _Widget);
 	
 	  function Dialog(props) {
 	    _classCallCheck(this, Dialog);
@@ -21471,343 +21195,113 @@
 	  }
 	
 	  _createClass(Dialog, [{
-	    key: 'jsxElementToRender',
-	    value: function jsxElementToRender() {
-	      var _props = this.props;
-	      var classDialogOuter = _props.classDialogOuter;
-	      var hasTitleBar = _props.hasTitleBar;
-	      var hasActionBar = _props.hasActionBar;
-	      var title = _props.title;
-	      var actionContent = _props.actionContent;
+	    key: 'render',
+	    value: function render() {
+	      var props = this.props;
+	      var prefixCls = props.prefixCls;
+	      var hasTitleBar = props.hasTitleBar;
+	      var hasActionBar = props.hasActionBar;
+	      var title = props.title;
+	      var closeText = props.closeText;
+	      var submitText = props.submitText;
+	      var onClickClose = props.onClickClose;
+	      var onClickSubmit = props.onClickSubmit;
 	
-	      var otherProps = _objectWithoutProperties(_props, ['classDialogOuter', 'hasTitleBar', 'hasActionBar', 'title', 'actionContent']);
-	
-	      var classNameString = [].concat(_toConsumableArray(new Set([this.props.classDialogOuter].concat(_toConsumableArray((this.props.className || '').split(' ')))))).join(' ');
-	      var jsxTitlebar = !this.props.hasTitleBar ? null : _react2.default.createElement(_TitleBar2.default, {
-	        title: this.props.title,
-	        onClickClose: this.props.onClickClose });
-	      var jsxActionbar = !this.props.hasActionBar ? null : _react2.default.createElement(_ActionBar2.default, {
-	        actionContent: this.props.actionContent, onClickClose: this.props.onClickClose, onClickSubmit: this.props.onClickSubmit });
+	      var titleBarProps = {
+	        title: title,
+	        onClickClose: onClickClose
+	      };
+	      var actionbarProps = {
+	        closeText: closeText,
+	        submitText: submitText,
+	        onClickClose: onClickClose,
+	        onClickSubmit: onClickSubmit
+	      };
+	      var jsxTitlebar = !props.hasTitleBar ? null : _react2.default.createElement(
+	        'div',
+	        { className: props.prefixCls + '-titlebar' },
+	        _react2.default.createElement(
+	          'div',
+	          { className: props.prefixCls + '-float-right ' + props.prefixCls + '-cmdbutton', onClick: props.onClickClose },
+	          '×'
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: props.prefixCls + '-title', title: props.title },
+	          props.title
+	        )
+	      );
+	      var jsxActionbar = !props.hasActionBar ? null : _react2.default.createElement(
+	        'div',
+	        { className: props.prefixCls + '-actionbar' },
+	        _react2.default.createElement(
+	          'button',
+	          { className: props.prefixCls + '-btn-cancel', onClick: props.onClickClose },
+	          props.closeText
+	        ),
+	        _react2.default.createElement('span', { className: props.prefixCls + '-btn-separater' }),
+	        _react2.default.createElement(
+	          'button',
+	          { className: props.prefixCls + '-btn-submit', onClick: props.onClickSubmit },
+	          props.submitText
+	        )
+	      );
+	      var jsxPane = _react2.default.createElement(
+	        'div',
+	        { className: props.prefixCls + '-pane' },
+	        props.children
+	      );
+	      var classNameString = [].concat(_toConsumableArray(new Set([props.prefixCls].concat(_toConsumableArray((props.className || '').split(' ')))))).join(' ');
 	      return _react2.default.createElement(
 	        'div',
-	        { name: 'RCZDialog', className: classNameString, style: this.props.styleTmpl },
-	        this.renderCustom(otherProps, _get(Object.getPrototypeOf(Dialog.prototype), 'jsxElementToRender', this)),
-	        jsxActionbar,
-	        jsxTitlebar
+	        { name: 'RCZDialog', className: classNameString, style: props.styleTmpl },
+	        jsxTitlebar,
+	        jsxPane,
+	        jsxActionbar
 	      );
 	    }
 	  }]);
 	
 	  return Dialog;
-	})(_Pane3.default);
+	})(_component.Widget);
 	
-	Dialog.defaultProps = _extends({}, Object.getPrototypeOf(Dialog).defaultProps, {
+	Dialog.defaultProps = {
 	  prefixCls: 'ui-dialog',
-	  classDialogOuter: 'ui-dialog-outer',
-	  classPaneOuter: 'ui-dialog-pane-outer',
+	  className: '',
 	  hasTitleBar: true,
-	  hasActionBar: true });
-	exports.default = Dialog;
-
-/***/ },
-/* 274 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _component = __webpack_require__(160);
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _WidgetEx2 = __webpack_require__(270);
-	
-	var _WidgetEx3 = _interopRequireDefault(_WidgetEx2);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * TitleBar组件实现
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-	
-	// 标题栏组件
-	
-	var TitleBar = (function (_WidgetEx) {
-	  _inherits(TitleBar, _WidgetEx);
-	
+	  hasActionBar: true,
 	  // version: '2015.12.10',
-	
-	  function TitleBar(props) {
-	    _classCallCheck(this, TitleBar);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(TitleBar).call(this, props));
-	  }
-	
-	  _createClass(TitleBar, [{
-	    key: 'jsxElementToRender',
-	    value: function jsxElementToRender() {
-	      return _react2.default.createElement(
-	        'div',
-	        { name: 'RCZTitleBar', className: this.props.classTitleBarOuter },
-	        _react2.default.createElement(
-	          'div',
-	          { className: 'cmdbutton float-right', onClick: this.props.onClickClose },
-	          '×'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { title: this.props.title },
-	          this.props.title
-	        )
-	      );
-	    }
-	  }]);
-	
-	  return TitleBar;
-	})(_WidgetEx3.default);
-	
-	TitleBar.defaultProps = _extends({}, Object.getPrototypeOf(TitleBar).defaultProps, {
-	  prefixCls: 'ui-titlebar',
-	  classTitleBarOuter: 'ui-titlebar-outer',
 	  title: '标题栏',
-	  onClickClose: function onClickClose() {} });
-	exports.default = TitleBar;
+	  closeText: '取消',
+	  submitText: '确定',
+	  onClickClose: function onClickClose() {},
+	  onClickSubmit: function onClickSubmit() {},
+	  styleTmpl: undefined
+	};
+	Dialog.propTypes = {
+	  prefixCls: _react2.default.PropTypes.string,
+	  className: _react2.default.PropTypes.string,
+	  hasTitleBar: _react2.default.PropTypes.bool,
+	  hasActionBar: _react2.default.PropTypes.bool,
+	  // version: React.PropTypes.string,
+	  title: _react2.default.PropTypes.string,
+	  closeText: _react2.default.PropTypes.string,
+	  submitText: _react2.default.PropTypes.string,
+	  onClickClose: _react2.default.PropTypes.func,
+	  onClickSubmit: _react2.default.PropTypes.func,
+	  styleTmpl: _react2.default.PropTypes.object
+	};
+	
+	exports.default = Dialog;
 
 /***/ },
 /* 275 */
 /***/ function(module, exports, __webpack_require__) {
 
-	'use strict';
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _component = __webpack_require__(160);
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _WidgetEx2 = __webpack_require__(270);
-	
-	var _WidgetEx3 = _interopRequireDefault(_WidgetEx2);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * ActionBar组件实现
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-	
-	// 行动栏组件
-	
-	var ActionBar = (function (_WidgetEx) {
-	  _inherits(ActionBar, _WidgetEx);
-	
-	  // version: '2015.12.10',
-	
-	  function ActionBar(props) {
-	    _classCallCheck(this, ActionBar);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(ActionBar).call(this, props));
-	  }
-	
-	  _createClass(ActionBar, [{
-	    key: 'jsxElementToRender',
-	    value: function jsxElementToRender() {
-	      var jsxActionContent = this.props.actionContent || _react2.default.createElement(
-	        'div',
-	        { style: { textAlign: 'center' } },
-	        _react2.default.createElement(
-	          'button',
-	          { className: 'ui-modal-btn-submit', onClick: this.props.onClickSubmit },
-	          '确定'
-	        ),
-	        _react2.default.createElement('span', { className: 'btn-separater' }),
-	        _react2.default.createElement(
-	          'button',
-	          { className: 'ui-modal-btn-cancel', onClick: this.props.onClickClose },
-	          '取消'
-	        )
-	      );
-	
-	      return _react2.default.createElement(
-	        'div',
-	        { name: 'RCZActionBar', className: this.props.classActionBarOuter },
-	        jsxActionContent
-	      );
-	    }
-	  }]);
-	
-	  return ActionBar;
-	})(_WidgetEx3.default);
-	
-	ActionBar.defaultProps = _extends({}, Object.getPrototypeOf(ActionBar).defaultProps, {
-	  prefixCls: 'ui-actionbar',
-	  classActionBarOuter: 'ui-actionbar-outer',
-	  // actionContent : '行动栏',
-	  actionContent: undefined,
-	  onClickSubmit: function onClickSubmit() {},
-	  onClickClose: function onClickClose() {} });
-	exports.default = ActionBar;
-
-/***/ },
-/* 276 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
-	
-	var _createClass = (function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; })();
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _component = __webpack_require__(160);
-	
-	var _react = __webpack_require__(1);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	var _reactDom = __webpack_require__(158);
-	
-	var _reactDom2 = _interopRequireDefault(_reactDom);
-	
-	var _WidgetEx2 = __webpack_require__(270);
-	
-	var _WidgetEx3 = _interopRequireDefault(_WidgetEx2);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Mask组件实现
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-	
-	// 遮罩层组件
-	
-	var Mask = (function (_WidgetEx) {
-	  _inherits(Mask, _WidgetEx);
-	
-	  // version: '2015.12.10',
-	
-	  function Mask(props) {
-	    _classCallCheck(this, Mask);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Mask).call(this, props));
-	  }
-	  // 获取页面统一遮罩层组件静态实例
-	
-	  _createClass(Mask, [{
-	    key: 'jsxElementToRender',
-	    value: function jsxElementToRender() {
-	      return _react2.default.createElement('div', { name: 'RCZMask', className: this.props.classMaskOuter });
-	    }
-	  }], [{
-	    key: 'getStaticInstance',
-	    value: function getStaticInstance() {
-	      return StaticMask.staticInstance || (StaticMask.staticInstance = _reactDom2.default.render(_react2.default.createElement(StaticMask, null), _WidgetEx3.default.getZComHelper().GetMaintainedCOMsRenderRepo().appendChild(document.createElement('div'))));
-	    }
-	  }]);
-	
-	  return Mask;
-	})(_WidgetEx3.default);
-	
-	// 静态遮罩组件
-	
-	Mask.defaultProps = _extends({}, Object.getPrototypeOf(Mask).defaultProps, {
-	  prefixCls: 'ui-mask',
-	  classMaskOuter: 'ui-mask-outer' });
-	
-	var StaticMask = (function (_Mask) {
-	  _inherits(StaticMask, _Mask);
-	
-	  // 页面统一遮罩层组件静态实例
-	
-	  function StaticMask(props) {
-	    _classCallCheck(this, StaticMask);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(StaticMask).call(this, props));
-	  }
-	  // 放置遮罩层静态实例之组件列表：array索引值与该组件z轴位置成反比
-	
-	  _createClass(StaticMask, [{
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate() {
-	      var _this3 = this;
-	
-	      // 将遮罩层静态实例放入可放置组件列表中第一个组件即z轴顶层：StaticMask.comMaskHosts[0]
-	      var comMaskHosts = undefined,
-	          comMaskHost = undefined,
-	          MaskReservedContainer = undefined;
-	      (comMaskHosts = StaticMask.comMaskHosts) && (comMaskHost = comMaskHosts[0]) && (MaskReservedContainer = comMaskHost.refs.MaskReservedContainer) && (function () {
-	        // MaskReservedContainer.appendChild(this.comContainer);
-	        MaskReservedContainer.appendChild(_reactDom2.default.findDOMNode(_this3).parentNode);
-	      })();
-	    }
-	    // 将目标组件映射入遮罩层放置组件列表
-	
-	  }, {
-	    key: 'mapInContainer',
-	    value: function mapInContainer(comMaskHost) {
-	      StaticMask.comMaskHosts = [].concat(_toConsumableArray(new Set([comMaskHost].concat(_toConsumableArray(StaticMask.comMaskHosts)))));
-	      this.forceUpdate();
-	    }
-	    // 将目标组件从遮罩层放置组件列表中移除
-	
-	  }, {
-	    key: 'mapOutContainer',
-	    value: function mapOutContainer(comMaskHost) {
-	      StaticMask.comMaskHosts = StaticMask.comMaskHosts.filter(function (x) {
-	        return x != comMaskHost;
-	      });
-	      this.forceUpdate();
-	    }
-	  }]);
-	
-	  return StaticMask;
-	})(Mask);
-	
-	StaticMask.staticInstance = null;
-	StaticMask.comMaskHosts = [];
-	exports.default = Mask;
-
-/***/ },
-/* 277 */
-/***/ function(module, exports, __webpack_require__) {
-
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(278);
+	var content = __webpack_require__(276);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(258)(content, {});
@@ -21827,7 +21321,7 @@
 	}
 
 /***/ },
-/* 278 */
+/* 276 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(257)();
@@ -21835,7 +21329,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".ui-modal {\n  position: fixed;\n  z-index: 10000;\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n}\n\n.ui-modal .disable-select {\n  -webkit-user-select: none;\n     -moz-user-select: none;\n      -ms-user-select: none;\n          user-select: none;\n}\n\n.ui-modal .box-bordersizing {\n  box-sizing: border-box;\n}\n.ui-modal .box-contentsizing {\n  box-sizing: content-box;\n}\n\n.ui-modal .float-right {\n  float: right;\n}\n\n\n.ui-modal .cmdbutton {\n  /*.box-contentsizing;*/\n  box-sizing: content-box;\n  width: 16px;\n  height: 16px;\n  border: solid 1px;\n  font-family: 宋体, tahoma, arial;\n  font-size: 16px;\n  text-align: center;\n  cursor: pointer;\n}\n.ui-modal .cmdbutton:hover {\n  color: #f00;\n}\n\n  .ui-modal .ui-mask-outer {\n    position: fixed;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(0, 0, 0, .6);\n  }\n\n  .ui-modal .ui-dialog-outer {\n    position: fixed;\n    left: 25%;\n    top: 25%;\n    right: 25%;\n    bottom: 25%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n  .ui-modal .ui-popup-outer {\n    position: fixed;\n    left: 10%;\n    top: 20%;\n    right: 10%;\n    bottom: 50%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n    .ui-modal .ui-titlebar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      height: 28px;\n      background: #ddd;\n      overflow: hidden;\n      /*.disable-select;*/\n      -webkit-user-select: none;\n         -moz-user-select: none;\n          -ms-user-select: none;\n              user-select: none;\n      cursor: default;\n    }\n\n    .ui-modal .ui-actionbar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      bottom: 0;\n      height: 28px;\n      background: #ddd;\n      overflow: hidden;\n    }\n\n    .ui-modal .ui-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-modal .ui-popup-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-modal .ui-dialog-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 28px;\n      bottom: 28px;\n      overflow: auto;\n    }\n\n", "", {"version":3,"sources":["/../../src/component/modal/index.css"],"names":[],"mappings":"AAMA;EACE,gBAAgB;EAChB,eAAiC;EACjC,QAAQ;EACR,OAAO;EACP,SAAS;EACT,UAAU;CACX;;AAED;EACE,0BAAkB;KAAlB,uBAAkB;MAAlB,sBAAkB;UAAlB,kBAAkB;CACnB;;AAED;EACE,uBAAuB;CACxB;AACD;EACE,wBAAwB;CACzB;;AAED;EACE,aAAa;CACd;;;AAGD;EACE,uBAAuB;EACvB,wBAAwB;EACxB,YAAgC;EAChC,aAAiC;EACjC,kBAAkB;EAClB,+BAA+B;EAC/B,gBAAoC;EACpC,mBAAmB;EACnB,gBAAgB;CACjB;AACD;EACE,YAAY;CACb;;EAEC;IACE,gBAAgB;IAChB,QAAQ;IACR,OAAO;IACP,SAAS;IACT,UAAU;IACV,8BAA8B;GAC/B;;EAED;IACE,gBAAgB;IAChB,UAAU;IACV,SAAS;IACT,WAAW;IACX,YAAY;IACZ,mCAAmC;GACpC;;EAED;IACE,gBAAgB;IAChB,UAAU;IACV,SAAS;IACT,WAAW;IACX,YAAY;IACZ,mCAAmC;GACpC;;IAEC;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,OAAO;MACP,aAAgC;MAChC,iBAAiB;MACjB,iBAAiB;MACjB,oBAAoB;MACpB,0BAAkB;SAAlB,uBAAkB;UAAlB,sBAAkB;cAAlB,kBAAkB;MAClB,gBAAgB;KACjB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,UAAU;MACV,aAAgC;MAChC,iBAAiB;MACjB,iBAAiB;KAClB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,OAAO;MACP,UAAU;MACV,eAAe;KAChB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,OAAO;MACP,UAAU;MACV,eAAe;KAChB;;IAED;MACE,mBAAmB;MACnB,QAAQ;MACR,SAAS;MACT,UAA6B;MAC7B,aAAgC;MAChC,eAAe;KAChB","file":"index.css","sourcesContent":[":root {\n  --uiModalTopZIndex: 10000;\n  --uiModalBarHeight: 28px;\n  --uiModalCmdbtnSize: 16px;\n}\n\n.ui-modal {\n  position: fixed;\n  z-index: var(--uiModalTopZIndex);\n  left: 0;\n  top: 0;\n  right: 0;\n  bottom: 0;\n}\n\n.ui-modal .disable-select {\n  user-select: none;\n}\n\n.ui-modal .box-bordersizing {\n  box-sizing: border-box;\n}\n.ui-modal .box-contentsizing {\n  box-sizing: content-box;\n}\n\n.ui-modal .float-right {\n  float: right;\n}\n\n\n.ui-modal .cmdbutton {\n  /*.box-contentsizing;*/\n  box-sizing: content-box;\n  width: var(--uiModalCmdbtnSize);\n  height: var(--uiModalCmdbtnSize);\n  border: solid 1px;\n  font-family: 宋体, tahoma, arial;\n  font-size: var(--uiModalCmdbtnSize);\n  text-align: center;\n  cursor: pointer;\n}\n.ui-modal .cmdbutton:hover {\n  color: #f00;\n}\n\n  .ui-modal .ui-mask-outer {\n    position: fixed;\n    left: 0;\n    top: 0;\n    right: 0;\n    bottom: 0;\n    background: rgba(0, 0, 0, .6);\n  }\n\n  .ui-modal .ui-dialog-outer {\n    position: fixed;\n    left: 25%;\n    top: 25%;\n    right: 25%;\n    bottom: 25%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n  .ui-modal .ui-popup-outer {\n    position: fixed;\n    left: 10%;\n    top: 20%;\n    right: 10%;\n    bottom: 50%;\n    background: rgba(255, 255, 255, 1);\n  }\n\n    .ui-modal .ui-titlebar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      height: var(--uiModalBarHeight);\n      background: #ddd;\n      overflow: hidden;\n      /*.disable-select;*/\n      user-select: none;\n      cursor: default;\n    }\n\n    .ui-modal .ui-actionbar-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      bottom: 0;\n      height: var(--uiModalBarHeight);\n      background: #ddd;\n      overflow: hidden;\n    }\n\n    .ui-modal .ui-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-modal .ui-popup-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: 0;\n      bottom: 0;\n      overflow: auto;\n    }\n\n    .ui-modal .ui-dialog-pane-outer {\n      position: absolute;\n      left: 0;\n      right: 0;\n      top: var(--uiModalBarHeight);\n      bottom: var(--uiModalBarHeight);\n      overflow: auto;\n    }\n\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: 10000;\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separater {\r\n  ;\r\n}\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}", "", {"version":3,"sources":["/../../src/component/modal/index.css"],"names":[],"mappings":"AAIA;EACE,mBAAmB;EACnB,QAAQ;EACR,OAAO;EACP,eAAiC;CAClC;;AAED;;CAEC;;AAED;EACE,iBAAiB;CAClB;;AAED;;CAEC;;AAED;EACE,YAAY;CACb;;AAED;EACE,mBAAmB;CACpB;;AAED;EACE,YAAY;CACb;;AAED;EACE,aAAa;CACd;;AAED;;CAEC;;AAED;;CAEC;;AAED;;CAEC;AACD;EACE,mBAAmB;EACnB,oBAAoB;EACpB,UAAU;EACV,kEAAkE;EAClE,aAAa;CACd","file":"index.css","sourcesContent":[":root {\r\n  --uiModalTopZIndex: 10000;\r\n}\r\n\r\n.ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: var(--uiModalTopZIndex);\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separater {\r\n  ;\r\n}\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 

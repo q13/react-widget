@@ -12,30 +12,9 @@ import './index.css';
 let eventNSId = 0;
 let instances = [];
 const $maskEl = $('<div class="ui-modal-mask"></div>');
-$(window).on('dblclick', function(){console.log(instances)});
+
 // 模式对话框组件
 class Modal extends Widget {
-  static PaneType = {
-    Popup : Symbol(),
-    Dialog : Symbol(),
-  };
-  static defaultProps = {
-    prefixCls: 'ui-modal',
-    className: '', // ui-dialog-outer||ui-popup-outer
-    title: 'Modal对话框',
-    closeText: '取消',
-    submitText: '确定',
-    width: 600,
-    height: 600,
-    visible: true,
-    paneType: Modal.PaneType.Dialog,
-    isLocal: false,
-    onClickClose: ()=>{},
-    onClickSubmit: ()=>{},
-    // onBeforeMount : ()=>{},
-    // onAfterMount : ()=>{},
-    onBeforeDestroy : ()=>{},
-  };
   constructor(props) {
     super(props);
     this.state = {
@@ -48,14 +27,13 @@ class Modal extends Widget {
   componentWillMount() {
   }
   componentDidMount() {
-    this.forceUpdate();
-
     $(window).on('resize.Modal' + this.eventNSId, (evt)=>{
       this.handleResize.call(this);
     });
-    this.handleResize.call(this);
+    this.forceUpdate(); // for calling handleResize etc.
   }
   componentWillReceiveProps(nextProps) {
+    this.handleResize.call(this);
   }
   componentDidUpdate(prevProps, prevState) {
     if(false == this.props.isLocal) {
@@ -71,8 +49,15 @@ class Modal extends Widget {
       this.updateMask(this.props.visible);
   }
   componentWillUnmount() {
+    if(this.$containerNonLocal && this.$containerNonLocal.length) {
+      ReactDOM.unmountComponentAtNode(this.$containerNonLocal[0]);
+      this.$containerNonLocal.remove();
+    }
     $(window).off('resize.Modal' + this.eventNSId);
+    this.$containerNonLocal = null;
+    this.eventNSId = null;
     instances && (instances = instances.filter((x)=>(x!=this)));
+    instances && instances[0] && instances[0].forceUpdate(); // enable its mask if there is any
 
     if(this.props.onBeforeDestroy)
       this.props.onBeforeDestroy(this);
@@ -113,36 +98,48 @@ class Modal extends Widget {
         position: 'absolute',
         left: '0',
         top: '0',
-        width: $parentContainer.width() + 'px',
-        height: $parentContainer.height() + 'px',
+        width: $parentContainer.outerWidth() + 'px',
+        height: $parentContainer.outerHeight() + 'px',
       };
     }
     $maskEl.css(myStyle);
   }
-  handleClose() {
-    this.props.onClickClose();
-  }
   handleResize() {
-    const $parentContainer = this.props.isLocal ? $(ReactDOM.findDOMNode(this)).parent() : $(window);
-    this.setState({
-      parentWidth: $parentContainer.width(),
-      parentHeight: $parentContainer.height(),
-    });
+    if(false == this.props.isLocal) {
+      this.setState({
+        parentWidth: $(window).width(),
+        parentHeight: $(window).height(),
+      });
+    }
+    else {
+      const $parentContainer = $(ReactDOM.findDOMNode(this)).parent();
+      this.setState({
+        parentWidth: $parentContainer.outerWidth(),
+        parentHeight: $parentContainer.outerHeight(),
+      });
+    }
   }
   getJsxToRender() {
     const props = this.props;
     let jsxElement = <div></div>;
-    const {width, height, visible, paneType, onClickClose, onClickSubmit, onBeforeMount, onAfterMount, onBeforeDestroy, ...otherProps} = this.props;
+    const {prefixCls, className, isLocal, centerFixed, width, height, visible, paneType, onClickClose, onClickSubmit, onBeforeDestroy, ...otherProps} = this.props;
     const styleTmpl = {};
+    let leftOffset = 0, topOffset = 0;
+    styleTmpl.position = 'absolute';
+    if(false == this.props.isLocal) {
+      if(centerFixed) { // fixed position/centerFixed only applies to non-local dialogs
+        styleTmpl.position = 'fixed';
+      }
+      else {
+        leftOffset = $(window).scrollLeft();
+        topOffset = $(window).scrollTop();
+      }
+    }
     // 将组件位置居中
-    if(width) {
-      styleTmpl.left = (this.state.parentWidth-width)/2;
-      styleTmpl.width = width;
-    }
-    if(height) {
-      styleTmpl.top = this.state.parentHeight<height ? 0 : (this.state.parentHeight-height)/2;
-      styleTmpl.height = height;
-    }
+    styleTmpl.left = leftOffset + (this.state.parentWidth-width)/2;
+    styleTmpl.top = topOffset + (this.state.parentHeight<height ? 0 : (this.state.parentHeight-height)/2);
+    styleTmpl.width = width;
+    styleTmpl.height = height;
 
     let jsxPane = null;
     switch(props.paneType) {
@@ -151,7 +148,8 @@ class Modal extends Widget {
                       styleTmpl={styleTmpl} onClickClose={props.onClickClose} onClickSubmit={props.onClickSubmit} />);
         break;
       case Modal.PaneType.Dialog:
-        jsxPane = (<Dialog {...otherProps} prefixCls={props.prefixCls+'-dialog'} styleTmpl={styleTmpl} onClickClose={props.onClickClose} onClickSubmit={props.onClickSubmit} />);
+        jsxPane = (<Dialog {...otherProps} prefixCls={props.prefixCls+'-dialog'}
+                      styleTmpl={styleTmpl} onClickClose={props.onClickClose} onClickSubmit={props.onClickSubmit} />);
         break;
       default: break;
     }
@@ -169,5 +167,49 @@ class Modal extends Widget {
     return this.props.isLocal ? this.getJsxToRender() : null;
   }
 }
+Modal.PaneType = {
+  Popup: Symbol(),
+  Dialog: Symbol(),
+};
+Modal.defaultProps = {
+  prefixCls: 'ui-modal',
+  className: '', // ui-dialog-outer||ui-popup-outer
+  isLocal: false,
+  centerFixed: true,
+  width: 600,
+  height: 600,
+  visible: true,
+  paneType: Modal.PaneType.Dialog,
+  hasTitleBar: undefined,
+  hasActionBar: undefined,
+  title: undefined,
+  closeText: undefined,
+  submitText: undefined,
+  onClickClose: ()=>{},
+  onClickSubmit: ()=>{},
+  // onBeforeMount : ()=>{},
+  // onAfterMount : ()=>{},
+  onBeforeDestroy : ()=>{},
+};
+Dialog.propTypes = {
+  prefixCls: React.PropTypes.string,
+  className: React.PropTypes.string,
+  isLocal: React.PropTypes.bool,
+  centerFixed: React.PropTypes.bool,
+  width: React.PropTypes.number,
+  height: React.PropTypes.number,
+  visible: React.PropTypes.bool,
+  // paneType: React.PropTypes.symbol,
+  // hasTitleBar: undefined,
+  // hasActionBar: undefined,
+  // title: undefined,
+  // closeText: undefined,
+  // submitText: undefined,
+  onClickClose: React.PropTypes.func,
+  onClickSubmit: React.PropTypes.func,
+  // onBeforeMount : React.PropTypes.func,
+  // onAfterMount : React.PropTypes.func,
+  onBeforeDestroy : React.PropTypes.func,
+};
 
 export default Modal;
