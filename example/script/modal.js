@@ -18,7 +18,7 @@ class Page extends React.Component {
   }
   jsxModals() {
     //JSX描述第一个弹框：简单调用
-    var jsxModal1 = (<Modal ref="jsxModal1" isMaintainedRender={false}
+    var jsxModal1 = (<Modal ref="jsxModal1"
        isLocal={true}
        visible={this.state.visible1}
        onClickSubmit={() => { this.setState({visible1: false}); }}
@@ -30,17 +30,20 @@ class Page extends React.Component {
         <br/>这是在弹框1内显示的内容-结束
       </Modal>);
     //JSX描述第二个弹框：参数调用
-    var jsxModal2 = (<Modal ref="jsxModal2" isMaintainedRender={false}
-       isLocal={false}
+    var jsxModal2 = (<Modal ref="jsxModal2"
        prefixCls='ui-modal'
        className="class-modal-test"
-       title="第2个弹框的标题 by x"
-       closeText="Close Now"
-       submitText="Submit Now"
+       isLocal={false}
+       centerFixed={false}
        width="400"
        height="1800"
        visible={this.state.visible2}
        paneType={this.props.paneType2||Modal.PaneType.Dialog}
+       hasTitleBar={true}
+       hasActionBar={true}
+       title="第2个弹框的标题 by x"
+       closeText="Close Now"
+       submitText="Submit Now"
        onClickClose={() => { this.setState({visible2: false}); }}
        onClickSubmit={() => { alert('确定被点击'); }}
        onBeforeMount={(_this)=>{alert('即将生成弹框')}}
