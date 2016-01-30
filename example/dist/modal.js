@@ -1,5 +1,5 @@
 /*!
- * Build at Fri Jan 29 2016 14:56:07 GMT+0800 (China Standard Time)
+ * Build at Sat Jan 30 2016 11:39:21 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -6510,7 +6510,7 @@
 	 * will remain to ensure logic does not differ in production.
 	 */
 	
-	function invariant(condition, format, a, b, c, d, e, f) {
+	var invariant = function (condition, format, a, b, c, d, e, f) {
 	  if (process.env.NODE_ENV !== 'production') {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
@@ -6524,16 +6524,15 @@
 	    } else {
 	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
-	      error = new Error(format.replace(/%s/g, function () {
+	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
 	        return args[argIndex++];
 	      }));
-	      error.name = 'Invariant Violation';
 	    }
 	
 	    error.framesToPop = 1; // we don't care about invariant's own frame
 	    throw error;
 	  }
-	}
+	};
 	
 	module.exports = invariant;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
@@ -15960,8 +15959,8 @@
 	     */
 	    // autoCapitalize and autoCorrect are supported in Mobile Safari for
 	    // keyboard hints.
-	    autoCapitalize: MUST_USE_ATTRIBUTE,
-	    autoCorrect: MUST_USE_ATTRIBUTE,
+	    autoCapitalize: null,
+	    autoCorrect: null,
 	    // autoSave allows WebKit/Blink to persist values of input fields on page reloads
 	    autoSave: null,
 	    // color is for Safari mask-icon link
@@ -15992,7 +15991,9 @@
 	    httpEquiv: 'http-equiv'
 	  },
 	  DOMPropertyNames: {
+	    autoCapitalize: 'autocapitalize',
 	    autoComplete: 'autocomplete',
+	    autoCorrect: 'autocorrect',
 	    autoFocus: 'autofocus',
 	    autoPlay: 'autoplay',
 	    autoSave: 'autosave',
@@ -19071,7 +19072,7 @@
 	    var value = LinkedValueUtils.getValue(props);
 	
 	    if (value != null) {
-	      updateOptions(this, Boolean(props.multiple), value);
+	      updateOptions(this, props, value);
 	    }
 	  }
 	}
@@ -22106,14 +22107,11 @@
 	 * @typechecks
 	 */
 	
-	/* eslint-disable fb-www/typeof-undefined */
-	
 	/**
 	 * Same as document.activeElement but wraps in a try-catch block. In IE it is
 	 * not safe to call document.activeElement if there is nothing focused.
 	 *
-	 * The activeElement will be null only if the document or document body is not
-	 * yet defined.
+	 * The activeElement will be null only if the document or document body is not yet defined.
 	 */
 	'use strict';
 	
@@ -22121,6 +22119,7 @@
 	  if (typeof document === 'undefined') {
 	    return null;
 	  }
+	
 	  try {
 	    return document.activeElement || document.body;
 	  } catch (e) {
@@ -23860,9 +23859,7 @@
 	  'setValueForProperty': 'update attribute',
 	  'setValueForAttribute': 'update attribute',
 	  'deleteValueForProperty': 'remove attribute',
-	  'setValueForStyles': 'update styles',
-	  'replaceNodeWithMarkup': 'replace',
-	  'updateTextContent': 'set textContent'
+	  'dangerouslyReplaceNodeWithMarkupByID': 'replace'
 	};
 	
 	function getTotalTime(measurements) {
@@ -24054,23 +24051,18 @@
 	'use strict';
 	
 	var performance = __webpack_require__(334);
-	
-	var performanceNow;
+	var curPerformance = performance;
 	
 	/**
 	 * Detect if we can use `window.performance.now()` and gracefully fallback to
 	 * `Date.now()` if it doesn't exist. We need to support Firefox < 15 for now
 	 * because of Facebook's testing infrastructure.
 	 */
-	if (performance.now) {
-	  performanceNow = function () {
-	    return performance.now();
-	  };
-	} else {
-	  performanceNow = function () {
-	    return Date.now();
-	  };
+	if (!curPerformance || !curPerformance.now) {
+	  curPerformance = Date;
 	}
+	
+	var performanceNow = curPerformance.now.bind(curPerformance);
 	
 	module.exports = performanceNow;
 
@@ -24119,7 +24111,7 @@
 	
 	'use strict';
 	
-	module.exports = '0.14.6';
+	module.exports = '0.14.3';
 
 /***/ },
 /* 336 */
@@ -26106,7 +26098,8 @@
 	      $(window).on('resize.Modal' + this.eventNSId, function (evt) {
 	        _this2.handleResize.call(_this2);
 	      });
-	      this.forceUpdate(); // for calling handleResize etc.
+	      this.handleResize(); // trigger repositioning
+	      this.forceUpdate(); // for calling componentDidUpdate
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
@@ -26161,9 +26154,9 @@
 	          }); // map out the instance from array
 	        }
 	      if (instances && instances[0]) {
-	        var $instanceContainer = this.props.isLocal ? $(_reactDom2.default.findDOMNode(instances[0])).parent() : instances[0].$containerNonLocal;
+	        var $instanceContainer = instances[0].props.isLocal ? $(_reactDom2.default.findDOMNode(instances[0])).parent() : instances[0].$containerNonLocal;
 	        $('.ui-modal-mask-container', $instanceContainer).empty().append($maskEl);
-	        var $parentContainer = this.props.isLocal ? $instanceContainer : $(window);
+	        var $parentContainer = instances[0].props.isLocal ? $instanceContainer : $(window);
 	        this.setupMaskStyle($maskEl, $parentContainer);
 	        // $parentContainer.resize(this.setupMaskStyle($maskEl, $parentContainer));
 	      } else {
@@ -26508,7 +26501,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: 10000;\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separater {\r\n  ;\r\n}\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}", "", {"version":3,"sources":["/../../src/component/modal/index.css"],"names":[],"mappings":"AAIA;EACE,mBAAmB;EACnB,QAAQ;EACR,OAAO;EACP,eAAiC;CAClC;;AAED;;CAEC;;AAED;EACE,iBAAiB;CAClB;;AAED;;CAEC;;AAED;EACE,YAAY;CACb;;AAED;EACE,mBAAmB;CACpB;;AAED;EACE,YAAY;CACb;;AAED;EACE,aAAa;CACd;;AAED;;CAEC;;AAED;;CAEC;;AAED;;CAEC;AACD;EACE,mBAAmB;EACnB,oBAAoB;EACpB,UAAU;EACV,kEAAkE;EAClE,aAAa;CACd","file":"index.css","sourcesContent":[":root {\r\n  --uiModalTopZIndex: 10000;\r\n}\r\n\r\n.ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: var(--uiModalTopZIndex);\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separater {\r\n  ;\r\n}\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: 10000;\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separater {\r\n  ;\r\n}\r\n\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}", "", {"version":3,"sources":["/../../src/component/modal/index.css"],"names":[],"mappings":"AAIA;EACE,mBAAmB;EACnB,QAAQ;EACR,OAAO;EACP,eAAiC;CAClC;;AAED;;CAEC;;AAED;EACE,iBAAiB;CAClB;;AAED;;CAEC;;AAED;EACE,YAAY;CACb;;AAED;EACE,mBAAmB;CACpB;;AAED;EACE,YAAY;CACb;;AAED;EACE,aAAa;CACd;;AAED;;CAEC;;AAED;;CAEC;;AAED;;CAEC;;AACD;EACE,mBAAmB;EACnB,oBAAoB;EACpB,UAAU;EACV,kEAAkE;EAClE,aAAa;CACd","file":"index.css","sourcesContent":[":root {\r\n  --uiModalTopZIndex: 10000;\r\n}\r\n\r\n.ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: var(--uiModalTopZIndex);\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separater {\r\n  ;\r\n}\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
