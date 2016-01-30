@@ -30,7 +30,8 @@ class Modal extends Widget {
     $(window).on('resize.Modal' + this.eventNSId, (evt)=>{
       this.handleResize.call(this);
     });
-    this.forceUpdate(); // for calling handleResize etc.
+    this.handleResize(); // trigger repositioning
+    this.forceUpdate(); // for calling componentDidUpdate
   }
   componentWillReceiveProps(nextProps) {
     this.handleResize.call(this);
@@ -70,9 +71,9 @@ class Modal extends Widget {
       instances = instances.filter((x)=>(x!=this)); // map out the instance from array
     }
     if(instances && instances[0]) {
-      const $instanceContainer = this.props.isLocal ? $(ReactDOM.findDOMNode(instances[0])).parent() : instances[0].$containerNonLocal;
+      const $instanceContainer = instances[0].props.isLocal ? $(ReactDOM.findDOMNode(instances[0])).parent() : instances[0].$containerNonLocal;
       $('.ui-modal-mask-container', $instanceContainer).empty().append($maskEl);
-      const $parentContainer = this.props.isLocal ? $instanceContainer : $(window);
+      const $parentContainer = instances[0].props.isLocal ? $instanceContainer : $(window);
       this.setupMaskStyle($maskEl, $parentContainer);
       // $parentContainer.resize(this.setupMaskStyle($maskEl, $parentContainer));
     }
