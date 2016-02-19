@@ -1,0 +1,121 @@
+.ui-colorpicker {
+  position: relative;
+  display: inline-block;
+  user-select: none;
+  border: none;
+  background: #fff;
+  width: 306px;
+  height: 176px;
+  font-size: 11px;
+  color: #666;
+  background: url(./colorpicker_background_simple.png);
+}
+
+
+.ui-colorpicker-selector {
+  position: absolute;
+  width: 150px;
+  height: 150px;
+  left: 14px;
+  top: 13px;
+  background: #f00;
+  overflow: hidden;
+  cursor: crosshair;
+}
+.ui-colorpicker-selector-overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 150px;
+  height: 150px;
+  background: url(./colorpicker_overlay.png);
+}
+.ui-colorpicker-selector div div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 11px;
+  height: 11px;
+  overflow: hidden;
+  background: url(./colorpicker_select.gif);
+  margin: -5px 0 0 -5px;
+}
+.ui-colorpicker-hue {
+  position: absolute;
+  top: 13px;
+  left: 171px;
+  width: 35px;
+  height: 150px;
+  cursor: n-resize;
+}
+.ui-colorpicker-hue div {
+  position: absolute;
+  width: 35px;
+  height: 9px;
+  overflow: hidden;
+  background: url(./colorpicker_indic.gif) left top;
+  margin: -4px 0 0 0;
+  left: 0px;
+}
+.ui-colorpicker-newcolor {
+  position: absolute;
+  width: 60px;
+  height: 30px;
+  left: 213px;
+  top: 13px;
+  background: #f00;
+}
+.ui-colorpicker-field {
+  height: 22px;
+  width: 62px;
+  position: absolute;
+
+  display: inline-block;
+  border: 1px solid #666;
+  padding: 0;
+  height: 1.8em;
+  line-height: 1.8em;
+  padding-left: 5px;
+}
+.ui-colorpicker-field span {
+  display: inline-block;
+  width: 15px;
+}
+.ui-colorpicker-field input {
+  border: none;
+  line-height: 1em;
+  text-align: right;
+  margin: 0;
+  padding: 0 1px 0 4px;
+  background: #eee;
+  font: 1em/1.8 PingFang SC, Lantinghei SC, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans;
+}
+.ui-colorpicker-rgbr {
+  top: 52px;
+  left: 212px;
+}
+.ui-colorpicker-rgbg {
+  top: 82px;
+  left: 212px;
+}
+.ui-colorpicker-rgbb {
+  top: 112px;
+  left: 212px;
+}
+.ui-colorpicker-hsbh {
+  top: 52px;
+  left: 282px;
+}
+.ui-colorpicker-hsbs {
+  top: 82px;
+  left: 282px;
+}
+.ui-colorpicker-hsbb {
+  top: 112px;
+  left: 282px;
+}
+.ui-colorpicker-hex {
+  width: 72px;
+  top: 142px;
+  left: 212px;
+}
