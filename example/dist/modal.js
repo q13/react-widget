@@ -1,5 +1,5 @@
 /*!
- * Build at Sat Jan 30 2016 11:39:21 GMT+0800 (China Standard Time)
+ * Build at Wed Feb 24 2016 11:56:10 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -64,7 +64,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _index = __webpack_require__(462);
+	var _index = __webpack_require__(470);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
@@ -26021,7 +26021,15 @@
 /* 459 */,
 /* 460 */,
 /* 461 */,
-/* 462 */
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26044,11 +26052,11 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _Dialog = __webpack_require__(463);
+	var _Dialog = __webpack_require__(471);
 	
 	var _Dialog2 = _interopRequireDefault(_Dialog);
 	
-	__webpack_require__(464);
+	__webpack_require__(472);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -26118,9 +26126,44 @@
 	          this.$containerNonLocal.appendTo($(document.body));
 	        }
 	        _reactDom2.default.render(this.getJsxToRender(), this.$containerNonLocal[0], function () {
-	          _this3.updateMask(_this3.props.visible);
+	          _this3.proceedDidUpdate(prevProps, prevState, _this3.props, _this3.state);
 	        });
-	      } else this.updateMask(this.props.visible);
+	      } else this.proceedDidUpdate(prevProps, prevState, this.props, this.state);
+	    }
+	  }, {
+	    key: 'proceedDidUpdate',
+	    value: function proceedDidUpdate(prevProps, prevState, nextProps, nextState) {
+	      if (this.props.visible) {
+	        var $dialog = $('.' + this.props.prefixCls + '-dialog', this.$containerNonLocal && this.$containerNonLocal[0] || _reactDom2.default.findDOMNode(this));
+	        var dialogOffsets = $dialog.offset(),
+	            width = isNaN(parseInt(this.props.width)) ? $dialog.width() : this.props.width,
+	            height = isNaN(parseInt(this.props.height)) ? $dialog.height() : this.props.height,
+	            winScrollLeft = $(window).scrollLeft(),
+	            winScrollTop = $(window).scrollTop(),
+	            winHeight = $(window).height(),
+	            parentLeftOffset = 0,
+	            parentTopOffset = 0,
+	            parentWinWidth = this.state.parentWidth,
+	            parentWinHeight = this.state.parentHeight;
+	        var styleTmpl = {};
+	        styleTmpl.position = 'absolute';
+	        if (false == this.props.isLocal) {
+	          if (this.props.centerFixed) {
+	            // fixed position/centerFixed only applies to non-local dialogs
+	            styleTmpl.position = 'fixed';
+	          } else {
+	            parentLeftOffset = winScrollLeft;
+	            parentTopOffset = winScrollTop;
+	          }
+	        } else {
+	          parentWinHeight = Math.min(parentWinHeight, winHeight + winScrollTop - dialogOffsets.top);
+	        }
+	        // 将组件位置居中
+	        styleTmpl.left = parentLeftOffset + (parentWinWidth - width) / 2;
+	        styleTmpl.top = parentTopOffset + (parentWinHeight < height ? 0 : (parentWinHeight - height) / 2);
+	        $dialog.css(styleTmpl);
+	      }
+	      this.updateMask(this.props.visible);
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -26225,21 +26268,6 @@
 	      var otherProps = _objectWithoutProperties(_props, ['prefixCls', 'className', 'isLocal', 'centerFixed', 'width', 'height', 'visible', 'paneType', 'onClickClose', 'onClickSubmit', 'onBeforeDestroy']);
 	
 	      var styleTmpl = {};
-	      var leftOffset = 0,
-	          topOffset = 0;
-	      styleTmpl.position = 'absolute';
-	      if (false == this.props.isLocal) {
-	        if (centerFixed) {
-	          // fixed position/centerFixed only applies to non-local dialogs
-	          styleTmpl.position = 'fixed';
-	        } else {
-	          leftOffset = $(window).scrollLeft();
-	          topOffset = $(window).scrollTop();
-	        }
-	      }
-	      // 将组件位置居中
-	      styleTmpl.left = leftOffset + (this.state.parentWidth - width) / 2;
-	      styleTmpl.top = topOffset + (this.state.parentHeight < height ? 0 : (this.state.parentHeight - height) / 2);
 	      styleTmpl.width = width;
 	      styleTmpl.height = height;
 	
@@ -26326,7 +26354,7 @@
 	exports.default = Modal;
 
 /***/ },
-/* 463 */
+/* 471 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26467,13 +26495,13 @@
 	exports.default = Dialog;
 
 /***/ },
-/* 464 */
+/* 472 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(465);
+	var content = __webpack_require__(473);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(447)(content, {});
@@ -26493,7 +26521,7 @@
 	}
 
 /***/ },
-/* 465 */
+/* 473 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(446)();
