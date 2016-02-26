@@ -28,10 +28,27 @@ function runner () {
             initialOptions={ options }
             minLengthToSearch={ 3 }
             minSearchInterval={ .2 }
-    		onSelect={ (itemData) => { value=itemData.text; console.log(itemData.value); runner(); } }
-    		onSearch={ (searchText, callback) => { callback(options.filter(i=>(new RegExp(searchText)).exec(i.text))); } }
-    		onEnableInput={ (searchText, callback) => { callback(options); } }
-    		onDisableInput={ (searchText, callback) => { callback(value); } } />
+    		onSelect={ (evt) => {
+                console.log('onSelect Triggered:', evt);
+                const {target, selectedOption} = evt;
+                value = selectedOption.text;
+                runner();
+            } }
+    		onSearch={ (evt) => {
+                console.log('onSearch Triggered:', evt);
+                const {target, searchText, callback} = evt;
+                callback(options.filter(i=>(new RegExp(searchText)).exec(i.text)));
+            } }
+    		onEnableInput={ (evt) => {
+                console.log('onEnableInput Triggered:', evt);
+                const {target, searchText, callback} = evt;
+                callback(options);
+            } }
+    		onDisableInput={ (evt) => {
+                console.log('onDisableInput Triggered:', evt);
+                const {target, searchText} = evt;
+                runner();
+            } } />
     </div>, document.getElementById("container"));
 }
 runner();

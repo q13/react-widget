@@ -8,29 +8,23 @@
  */
 .ui-form-autocomplete {
   display: inline-block;
-  position: absolute;
-  z-index: 10000;
 }
-.ui-form-autocomplete-inputs {
+.ui-form-autocomplete-console {
 }
-.ui-form-autocomplete-inputs-console {
-}
-.ui-form-autocomplete-inputs-console-label {
-}
-.ui-form-autocomplete-inputs-console-text {
+.ui-form-autocomplete-console-text {
   border: none;
 }
-.ui-form-autocomplete-inputs-console-toggle {
+.ui-form-autocomplete-console-toggle {
+  display: inline-block;
 }
-.ui-form-autocomplete-inputs-dropdown {
+.ui-form-autocomplete-dropdown {
+  position: absolute;
 }
-.ui-form-autocomplete-inputs-dropdown ul {
+.ui-form-autocomplete-dropdown ul {
   overflow: auto;
 }
-.ui-form-autocomplete-inputs-dropdown ul li {
+.ui-form-autocomplete-dropdown ul li {
   cursor: pointer;
 }
-.ui-form-autocomplete-inputs-dropdown ul li:hover {
+.ui-form-autocomplete-dropdown ul li:hover {
 }
-
-

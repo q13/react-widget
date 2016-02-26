@@ -1,5 +1,5 @@
 /*!
- * Build at Fri Jan 29 2016 14:56:07 GMT+0800 (China Standard Time)
+ * Build at Wed Feb 24 2016 11:56:10 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -91,19 +91,38 @@
 	            initialOptions: options,
 	            minLengthToSearch: 3,
 	            minSearchInterval: .2,
-	            onSelect: function onSelect(itemData) {
-	                value = itemData.text;console.log(itemData.value);runner();
+	            onSelect: function onSelect(evt) {
+	                console.log('onSelect Triggered:', evt);
+	                var target = evt.target;
+	                var selectedOption = evt.selectedOption;
+	
+	                value = selectedOption.text;
+	                runner();
 	            },
-	            onSearch: function onSearch(searchText, callback) {
+	            onSearch: function onSearch(evt) {
+	                console.log('onSearch Triggered:', evt);
+	                var target = evt.target;
+	                var searchText = evt.searchText;
+	                var callback = evt.callback;
+	
 	                callback(options.filter(function (i) {
 	                    return new RegExp(searchText).exec(i.text);
 	                }));
 	            },
-	            onEnableInput: function onEnableInput(searchText, callback) {
+	            onEnableInput: function onEnableInput(evt) {
+	                console.log('onEnableInput Triggered:', evt);
+	                var target = evt.target;
+	                var searchText = evt.searchText;
+	                var callback = evt.callback;
+	
 	                callback(options);
 	            },
-	            onDisableInput: function onDisableInput(searchText, callback) {
-	                callback(value);
+	            onDisableInput: function onDisableInput(evt) {
+	                console.log('onDisableInput Triggered:', evt);
+	                var target = evt.target;
+	                var searchText = evt.searchText;
+	
+	                runner();
 	            } })
 	    ), document.getElementById("container"));
 	}
@@ -6290,7 +6309,7 @@
 	 * will remain to ensure logic does not differ in production.
 	 */
 	
-	function invariant(condition, format, a, b, c, d, e, f) {
+	var invariant = function (condition, format, a, b, c, d, e, f) {
 	  if (process.env.NODE_ENV !== 'production') {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
@@ -6304,16 +6323,15 @@
 	    } else {
 	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
-	      error = new Error(format.replace(/%s/g, function () {
+	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
 	        return args[argIndex++];
 	      }));
-	      error.name = 'Invariant Violation';
 	    }
 	
 	    error.framesToPop = 1; // we don't care about invariant's own frame
 	    throw error;
 	  }
-	}
+	};
 	
 	module.exports = invariant;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
@@ -15740,8 +15758,8 @@
 	     */
 	    // autoCapitalize and autoCorrect are supported in Mobile Safari for
 	    // keyboard hints.
-	    autoCapitalize: MUST_USE_ATTRIBUTE,
-	    autoCorrect: MUST_USE_ATTRIBUTE,
+	    autoCapitalize: null,
+	    autoCorrect: null,
 	    // autoSave allows WebKit/Blink to persist values of input fields on page reloads
 	    autoSave: null,
 	    // color is for Safari mask-icon link
@@ -15772,7 +15790,9 @@
 	    httpEquiv: 'http-equiv'
 	  },
 	  DOMPropertyNames: {
+	    autoCapitalize: 'autocapitalize',
 	    autoComplete: 'autocomplete',
+	    autoCorrect: 'autocorrect',
 	    autoFocus: 'autofocus',
 	    autoPlay: 'autoplay',
 	    autoSave: 'autosave',
@@ -18851,7 +18871,7 @@
 	    var value = LinkedValueUtils.getValue(props);
 	
 	    if (value != null) {
-	      updateOptions(this, Boolean(props.multiple), value);
+	      updateOptions(this, props, value);
 	    }
 	  }
 	}
@@ -21886,14 +21906,11 @@
 	 * @typechecks
 	 */
 	
-	/* eslint-disable fb-www/typeof-undefined */
-	
 	/**
 	 * Same as document.activeElement but wraps in a try-catch block. In IE it is
 	 * not safe to call document.activeElement if there is nothing focused.
 	 *
-	 * The activeElement will be null only if the document or document body is not
-	 * yet defined.
+	 * The activeElement will be null only if the document or document body is not yet defined.
 	 */
 	'use strict';
 	
@@ -21901,6 +21918,7 @@
 	  if (typeof document === 'undefined') {
 	    return null;
 	  }
+	
 	  try {
 	    return document.activeElement || document.body;
 	  } catch (e) {
@@ -23640,9 +23658,7 @@
 	  'setValueForProperty': 'update attribute',
 	  'setValueForAttribute': 'update attribute',
 	  'deleteValueForProperty': 'remove attribute',
-	  'setValueForStyles': 'update styles',
-	  'replaceNodeWithMarkup': 'replace',
-	  'updateTextContent': 'set textContent'
+	  'dangerouslyReplaceNodeWithMarkupByID': 'replace'
 	};
 	
 	function getTotalTime(measurements) {
@@ -23834,23 +23850,18 @@
 	'use strict';
 	
 	var performance = __webpack_require__(334);
-	
-	var performanceNow;
+	var curPerformance = performance;
 	
 	/**
 	 * Detect if we can use `window.performance.now()` and gracefully fallback to
 	 * `Date.now()` if it doesn't exist. We need to support Firefox < 15 for now
 	 * because of Facebook's testing infrastructure.
 	 */
-	if (performance.now) {
-	  performanceNow = function () {
-	    return performance.now();
-	  };
-	} else {
-	  performanceNow = function () {
-	    return Date.now();
-	  };
+	if (!curPerformance || !curPerformance.now) {
+	  curPerformance = Date;
 	}
+	
+	var performanceNow = curPerformance.now.bind(curPerformance);
 	
 	module.exports = performanceNow;
 
@@ -23899,7 +23910,7 @@
 	
 	'use strict';
 	
-	module.exports = '0.14.6';
+	module.exports = '0.14.3';
 
 /***/ },
 /* 336 */
@@ -36415,14 +36426,20 @@
 	  }, {
 	    key: 'handleEnableInputs',
 	    value: function handleEnableInputs(e) {
+	      var _this2 = this;
+	
 	      var self = this;
 	      self.setState({ isEditing: true }, function () {
 	        var domInput = self.refs.inputText;
 	        domInput.select();
 	        domInput.focus();
 	        if (self.props.onEnableInput) {
-	          self.props.onEnableInput(self.state.curText, function (curOptions) {
-	            self.setState({ curOptions: curOptions });
+	          self.props.onEnableInput.call(_this2, {
+	            target: self,
+	            searchText: self.state.curText,
+	            callback: function callback(curOptions) {
+	              self.setState({ curOptions: curOptions });
+	            }
 	          });
 	        } else {
 	          self.handleSearch(self.state.curText);
@@ -36432,13 +36449,16 @@
 	  }, {
 	    key: 'handleInputBlur',
 	    value: function handleInputBlur(e) {
+	      var _this3 = this;
+	
 	      var self = this;
 	      if (!self.isMouseHover) {
 	        // Disable Inputs
 	        self.setState({ isEditing: false }, function () {
 	          if (self.props.onDisableInput) {
-	            self.props.onDisableInput(self.state.curText, function (curText) {
-	              self.setState({ curText: curText });
+	            self.props.onDisableInput.call(_this3, {
+	              target: self,
+	              searchText: self.state.curText
 	            });
 	          } else {
 	            self.setState({ curText: self.props.initialText });
@@ -36472,8 +36492,12 @@
 	      var self = this;
 	      if (!text || !text.trim || !(text = text.trim()) || ('' + text).length < self.props.minLengthToSearch) return;
 	      if (self.props.onSearch) {
-	        self.props.onSearch('' + text, function (curOptions) {
-	          self.setState({ curOptions: curOptions });
+	        self.props.onSearch.call(this, {
+	          target: self,
+	          searchText: '' + text,
+	          callback: function callback(curOptions) {
+	            self.setState({ curOptions: curOptions });
+	          }
 	        });
 	      } else {
 	        var curOptions = self.props.initialOptions.filter(function (itm) {
@@ -36490,60 +36514,57 @@
 	        isEditing: false,
 	        curText: curOption.text
 	      });
-	      self.props.onSelect(curOption);
+	      self.props.onSelect.call(this, {
+	        target: self,
+	        selectedOption: curOption
+	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
+	      var _this4 = this;
 	
 	      var props = this.props,
 	          state = this.state,
 	          prefixCls = props.prefixCls;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: prefixCls + ' ' + (props.className || '') },
+	        { className: prefixCls + ' ' + (props.className || '') + ' ' + (state.isEditing ? prefixCls + '-isediting' : '') },
 	        _react2.default.createElement(
 	          'div',
-	          { className: prefixCls + '-inputs' },
+	          { className: prefixCls + '-console',
+	            onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
+	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
+	            className: prefixCls + '-console-text',
+	            value: state.curText,
+	            onBlur: this.handleInputBlur.bind(this),
+	            onChange: this.handleInputChange.bind(this) }),
 	          _react2.default.createElement(
-	            'div',
-	            { className: prefixCls + '-inputs-console',
-	              onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
-	            state.isEditing ? _react2.default.createElement('input', { type: 'text', ref: 'inputText',
-	              className: prefixCls + '-inputs-console-text',
-	              value: state.curText,
-	              onBlur: this.handleInputBlur.bind(this),
-	              onChange: this.handleInputChange.bind(this) }) : _react2.default.createElement(
-	              'span',
-	              { className: prefixCls + '-inputs-console-label',
-	                title: state.curText,
-	                onClick: this.handleEnableInputs.bind(this) },
-	              state.curText
-	            ),
-	            _react2.default.createElement('span', { className: prefixCls + '-inputs-console-toggle' })
-	          ),
+	            'span',
+	            { className: prefixCls + '-console-toggle' },
+	            ' '
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: prefixCls + '-dropdown',
+	            style: { display: !state.isEditing ? 'none' : undefined },
+	            onMouseEnter: function onMouseEnter(e) {
+	              _this4.isMouseHover = true;
+	            },
+	            onMouseLeave: function onMouseLeave(e) {
+	              _this4.isMouseHover = false;
+	            } },
 	          _react2.default.createElement(
-	            'div',
-	            { className: prefixCls + '-inputs-dropdown',
-	              style: { display: !state.isEditing ? 'none' : undefined },
-	              onMouseEnter: function onMouseEnter(e) {
-	                _this2.isMouseHover = true;
-	              },
-	              onMouseLeave: function onMouseLeave(e) {
-	                _this2.isMouseHover = false;
-	              } },
-	            _react2.default.createElement(
-	              'ul',
-	              { className: prefixCls + '-inputs-dropdown-items' },
-	              state.curOptions.map(function (itm, x) {
-	                return _react2.default.createElement(
-	                  'li',
-	                  { key: x, title: itm.text, onClick: _this2.handleSelect.bind(_this2, itm) },
-	                  itm.text
-	                );
-	              })
-	            )
+	            'ul',
+	            { className: prefixCls + '-dropdown-items' },
+	            state.curOptions.map(function (itm, x) {
+	              return _react2.default.createElement(
+	                'li',
+	                { key: x, title: itm.text, onClick: _this4.handleSelect.bind(_this4, itm) },
+	                itm.text
+	              );
+	            })
 	          )
 	        )
 	      );
@@ -37125,7 +37146,7 @@
 	
 	
 	// module
-	exports.push([module.id, "/**\n * form样式\n */\n \n\n/**\n * AutoComplete\n */\n.ui-form-autocomplete {\n  display: inline-block;\n  position: absolute;\n  z-index: 10000;\n}\n.ui-form-autocomplete-inputs {\n}\n.ui-form-autocomplete-inputs-console {\n}\n.ui-form-autocomplete-inputs-console-label {\n}\n.ui-form-autocomplete-inputs-console-text {\n  border: none;\n}\n.ui-form-autocomplete-inputs-console-toggle {\n}\n.ui-form-autocomplete-inputs-dropdown {\n}\n.ui-form-autocomplete-inputs-dropdown ul {\n  overflow: auto;\n}\n.ui-form-autocomplete-inputs-dropdown ul li {\n  cursor: pointer;\n}\n.ui-form-autocomplete-inputs-dropdown ul li:hover {\n}\n\n\n", "", {"version":3,"sources":["/../../src/component/autocomplete/autocomplete.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;AACH;EACE,sBAAsB;EACtB,mBAAmB;EACnB,eAAe;CAChB;AACD;CACC;AACD;CACC;AACD;CACC;AACD;EACE,aAAa;CACd;AACD;CACC;AACD;CACC;AACD;EACE,eAAe;CAChB;AACD;EACE,gBAAgB;CACjB;AACD;CACC","file":"autocomplete.css","sourcesContent":["/**\n * form样式\n */\n \n\n/**\n * AutoComplete\n */\n.ui-form-autocomplete {\n  display: inline-block;\n  position: absolute;\n  z-index: 10000;\n}\n.ui-form-autocomplete-inputs {\n}\n.ui-form-autocomplete-inputs-console {\n}\n.ui-form-autocomplete-inputs-console-label {\n}\n.ui-form-autocomplete-inputs-console-text {\n  border: none;\n}\n.ui-form-autocomplete-inputs-console-toggle {\n}\n.ui-form-autocomplete-inputs-dropdown {\n}\n.ui-form-autocomplete-inputs-dropdown ul {\n  overflow: auto;\n}\n.ui-form-autocomplete-inputs-dropdown ul li {\n  cursor: pointer;\n}\n.ui-form-autocomplete-inputs-dropdown ul li:hover {\n}\n\n\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n \r\n\r\n.ui-form-autocomplete {\r\n  display: inline-block;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-text {\r\n  border: none;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-toggle {\r\n  display: inline-block;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown {\r\n  position: absolute;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul {\r\n  overflow: auto;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul li {\r\n  cursor: pointer;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul li:hover {\r\n}\r\n", "", {"version":3,"sources":["/../../src/component/autocomplete/autocomplete.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AACH;EACE,sBAAsB;CACvB;;;AACD;CACC;;;AACD;EACE,aAAa;CACd;;;AACD;EACE,sBAAsB;CACvB;;;AACD;EACE,mBAAmB;CACpB;;;AACD;EACE,eAAe;CAChB;;;AACD;EACE,gBAAgB;CACjB;;;AACD;CACC","file":"autocomplete.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n.ui-form-autocomplete {\r\n  display: inline-block;\r\n}\r\n.ui-form-autocomplete-console {\r\n}\r\n.ui-form-autocomplete-console-text {\r\n  border: none;\r\n}\r\n.ui-form-autocomplete-console-toggle {\r\n  display: inline-block;\r\n}\r\n.ui-form-autocomplete-dropdown {\r\n  position: absolute;\r\n}\r\n.ui-form-autocomplete-dropdown ul {\r\n  overflow: auto;\r\n}\r\n.ui-form-autocomplete-dropdown ul li {\r\n  cursor: pointer;\r\n}\r\n.ui-form-autocomplete-dropdown ul li:hover {\r\n}\r\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 

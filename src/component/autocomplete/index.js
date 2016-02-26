@@ -42,8 +42,12 @@ class AutoComplete extends Widget {
       domInput.select();
       domInput.focus();
       if(self.props.onEnableInput) {
-        self.props.onEnableInput(self.state.curText, (curOptions)=>{
-          self.setState({curOptions: curOptions});
+        self.props.onEnableInput.call(this, {
+          target: self,
+          searchText: self.state.curText,
+          callback: (curOptions)=>{
+            self.setState({curOptions: curOptions});
+          },
         });
       }
       else {
@@ -56,8 +60,9 @@ class AutoComplete extends Widget {
     if(!self.isMouseHover) { // Disable Inputs
       self.setState({ isEditing: false }, ()=>{
         if(self.props.onDisableInput) {
-          self.props.onDisableInput(self.state.curText, (curText)=>{
-            self.setState({curText: curText});
+          self.props.onDisableInput.call(this, {
+            target: self,
+            searchText: self.state.curText,
           });
         }
         else {
@@ -86,8 +91,12 @@ class AutoComplete extends Widget {
     const self = this;
     if(!text || !text.trim || !(text=text.trim()) || (''+text).length<self.props.minLengthToSearch) return;
     if(self.props.onSearch) {
-      self.props.onSearch(''+text, (curOptions)=>{
-        self.setState({curOptions: curOptions});
+      self.props.onSearch.call(this, {
+        target: self,
+        searchText: ''+text,
+        callback: (curOptions)=>{
+          self.setState({curOptions: curOptions});
+        },
       });
     }
     else {
@@ -101,39 +110,34 @@ class AutoComplete extends Widget {
       isEditing: false,
       curText: curOption.text,
     });
-    self.props.onSelect(curOption);
+    self.props.onSelect.call(this, {
+      target: self,
+      selectedOption: curOption,
+    });
   }
   render() {
     var props = this.props,
         state = this.state,
         prefixCls = props.prefixCls;
-    return (<div className={`${prefixCls} ${props.className || ''}`}>
-      <div className={`${prefixCls}-inputs`}>
-        <div className={`${prefixCls}-inputs-console`}
+    return (<div className={`${prefixCls} ${props.className || ''} ${(state.isEditing ? `${prefixCls}-isediting` : '')}`}>
+        <div className={`${prefixCls}-console`}
              onClick={ state.isEditing ? undefined : this.handleEnableInputs.bind(this) }>
-          {state.isEditing ?
-            (<input type="text" ref="inputText"
-                    className={`${prefixCls}-inputs-console-text`}
-                    value={state.curText}
-                    onBlur={ this.handleInputBlur.bind(this) }
-                    onChange={ this.handleInputChange.bind(this) } />) :
-            (<span className={`${prefixCls}-inputs-console-label`}
-                   title={state.curText}
-                   onClick={ this.handleEnableInputs.bind(this) }>
-              {state.curText}
-            </span>)}
-          <span className={`${prefixCls}-inputs-console-toggle`}></span>
+          <input type="text" ref="inputText"
+                 className={`${prefixCls}-console-text`}
+                 value={state.curText}
+                 onBlur={ this.handleInputBlur.bind(this) }
+                 onChange={ this.handleInputChange.bind(this) } />
+          <span className={`${prefixCls}-console-toggle`}>&nbsp;</span>
         </div>
-        <div className={`${prefixCls}-inputs-dropdown`}
+        <div className={`${prefixCls}-dropdown`}
              style={{display: !state.isEditing ? 'none' : undefined}}
              onMouseEnter={(e)=>{ this.isMouseHover = true; }}
              onMouseLeave={(e)=>{ this.isMouseHover = false; }}>
-          <ul className={`${prefixCls}-inputs-dropdown-items`}>
+          <ul className={`${prefixCls}-dropdown-items`}>
             {state.curOptions.map((itm, x)=>
               (<li key={x} title={itm.text} onClick={ this.handleSelect.bind(this, itm) }>{itm.text}</li>))}
           </ul>
         </div>
-      </div>
     </div>);
   }
 }
