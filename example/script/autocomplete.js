@@ -41,7 +41,8 @@ function runner () {
     </div>
     <div style={{display: 'inline-block'}}>
       Typical use:<br/>
-      <AutoComplete inputOption={ example1.inputOption }
+      <AutoComplete text={ example1.inputOption.text }
+                    value={ example1.inputOption.value }
                     allOptions={ example1.allOptions }
                     minLengthToSearch={ 3 }
                     minSearchInterval={ .2 }
@@ -53,12 +54,14 @@ function runner () {
                     onSelect={ (evt) => {
                       const {target, selectedOption} = evt;
                       example1.inputOption.text = selectedOption.text;
+                      example1.inputOption.value = selectedOption.value;
                       runner();
                     } } />
     </div>
     <div style={{display: 'inline-block'}}>
       Customized use:<br/>
-      <AutoComplete inputOption={ example2.inputOption }
+      <AutoComplete text={ example2.inputOption.text }
+                    value={ example2.inputOption.value }
                     allOptions={ example2.allOptions }
                     minLengthToSearch={ 3 }
                     minSearchInterval={ .2 }
@@ -72,7 +75,9 @@ function runner () {
                       console.log('onSelect Triggered:', evt);
                       const {target, selectedOption} = evt;
                       example2.inputOption.text = selectedOption.text;
+                      example2.inputOption.value = selectedOption.value;
                       example2.initialOption.text = selectedOption.text;
+                      example2.initialOption.value = selectedOption.value;
                       runner();
                     } }
                     onSearch={ (evt) => {

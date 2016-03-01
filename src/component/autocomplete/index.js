@@ -45,11 +45,14 @@ class AutoComplete extends Widget {
       if(self.props.onEnableInput) {
         self.props.onEnableInput.call(this, {
           target: self,
-          currentOption: self.props.inputOption,
+          currentOption: {
+            text: self.props.text,
+            value: self.props.value,
+          },
         });
       }
       else {
-        self.handleSearch(self.props.inputOption.text);
+        self.handleSearch(self.props.text);
       }
     });
   }
@@ -60,7 +63,10 @@ class AutoComplete extends Widget {
         if(self.props.onDisableInput) {
           self.props.onDisableInput.call(this, {
             target: self,
-            currentOption: self.props.inputOption,
+            currentOption: {
+              text: self.props.text,
+              value: self.props.value,
+            },
           });
         }
         else {
@@ -72,12 +78,15 @@ class AutoComplete extends Widget {
     const self = this;
     self.props.onChange.call(this, {
       target: self,
-      currentOption: Object.assign({}, self.props.inputOption, {text: e.target.value})
+      currentOption: {
+        text: e.target.value,
+        value: e.target.value,
+      },
     });
     self.searchAvailableFrom = moment(moment() + self.props.minSearchInterval*1000)._d;
     self.searchTimeout = setTimeout(()=>{
       if(self.searchAvailableFrom<=moment()._d) {
-        self.handleSearch(self.props.inputOption.text);
+        self.handleSearch(self.props.text);
         clearTimeout(self.searchTimeout);
       }
     }, self.props.minSearchInterval*1000);
@@ -119,8 +128,8 @@ class AutoComplete extends Widget {
              onClick={ state.isEditing ? undefined : this.handleEnableInputs.bind(this) }>
           <input type="text" ref="inputText"
                  className={`${prefixCls}-console-text`}
-                 value={props.inputOption.text}
-                 title={props.inputOption.text}
+                 value={props.text}
+                 title={props.text}
                  onBlur={ this.handleInputBlur.bind(this) }
                  onChange={ this.handleInputChange.bind(this) } />
           <span className={`${prefixCls}-console-toggle`}>&nbsp;</span>
@@ -141,13 +150,14 @@ export default AutoComplete;
 AutoComplete.defaultProps = {
   prefixCls: 'ui-form-autocomplete',
   className: '',
-  inputOption: {text: ''},
+  text: '',
+  value: null,
   allOptions: [],  // {text: '', value: {} }
   minLengthToSearch: 2,
   minSearchInterval: .5,
   onChange: () => {},
   onSelect: () => {},
   onSearch: undefined,  // Execute default search logic when value is undefined, otherwise value is a function to override this logic
-  onEnableInput: undefined,  // Search inputOption.text when value is undefined, otherwise value is a function to override this logic
+  onEnableInput: undefined,  // Search props.text when value is undefined, otherwise value is a function to override this logic
   onDisableInput: undefined,  // Restore to initialText when value is undefined, otherwise value is a function to override this logic
 };

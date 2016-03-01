@@ -117,7 +117,8 @@
 	      { style: { display: 'inline-block' } },
 	      "Typical use:",
 	      _react2.default.createElement("br", null),
-	      _react2.default.createElement(_index2.default, { inputOption: example1.inputOption,
+	      _react2.default.createElement(_index2.default, { text: example1.inputOption.text,
+	        value: example1.inputOption.value,
 	        allOptions: example1.allOptions,
 	        minLengthToSearch: 3,
 	        minSearchInterval: .2,
@@ -133,6 +134,7 @@
 	          var selectedOption = evt.selectedOption;
 	
 	          example1.inputOption.text = selectedOption.text;
+	          example1.inputOption.value = selectedOption.value;
 	          runner();
 	        } })
 	    ),
@@ -141,7 +143,8 @@
 	      { style: { display: 'inline-block' } },
 	      "Customized use:",
 	      _react2.default.createElement("br", null),
-	      _react2.default.createElement(_index2.default, { inputOption: example2.inputOption,
+	      _react2.default.createElement(_index2.default, { text: example2.inputOption.text,
+	        value: example2.inputOption.value,
 	        allOptions: example2.allOptions,
 	        minLengthToSearch: 3,
 	        minSearchInterval: .2,
@@ -159,7 +162,9 @@
 	          var selectedOption = evt.selectedOption;
 	
 	          example2.inputOption.text = selectedOption.text;
+	          example2.inputOption.value = selectedOption.value;
 	          example2.initialOption.text = selectedOption.text;
+	          example2.initialOption.value = selectedOption.value;
 	          runner();
 	        },
 	        onSearch: function onSearch(evt) {
@@ -36502,10 +36507,13 @@
 	        if (self.props.onEnableInput) {
 	          self.props.onEnableInput.call(_this2, {
 	            target: self,
-	            currentOption: self.props.inputOption
+	            currentOption: {
+	              text: self.props.text,
+	              value: self.props.value
+	            }
 	          });
 	        } else {
-	          self.handleSearch(self.props.inputOption.text);
+	          self.handleSearch(self.props.text);
 	        }
 	      });
 	    }
@@ -36521,7 +36529,10 @@
 	          if (self.props.onDisableInput) {
 	            self.props.onDisableInput.call(_this3, {
 	              target: self,
-	              currentOption: self.props.inputOption
+	              currentOption: {
+	                text: self.props.text,
+	                value: self.props.value
+	              }
 	            });
 	          } else {}
 	        });
@@ -36533,12 +36544,15 @@
 	      var self = this;
 	      self.props.onChange.call(this, {
 	        target: self,
-	        currentOption: Object.assign({}, self.props.inputOption, { text: e.target.value })
+	        currentOption: {
+	          text: e.target.value,
+	          value: e.target.value
+	        }
 	      });
 	      self.searchAvailableFrom = (0, _moment2.default)((0, _moment2.default)() + self.props.minSearchInterval * 1000)._d;
 	      self.searchTimeout = setTimeout(function () {
 	        if (self.searchAvailableFrom <= (0, _moment2.default)()._d) {
-	          self.handleSearch(self.props.inputOption.text);
+	          self.handleSearch(self.props.text);
 	          clearTimeout(self.searchTimeout);
 	        }
 	      }, self.props.minSearchInterval * 1000);
@@ -36595,8 +36609,8 @@
 	            onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
 	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
 	            className: prefixCls + '-console-text',
-	            value: props.inputOption.text,
-	            title: props.inputOption.text,
+	            value: props.text,
+	            title: props.text,
 	            onBlur: this.handleInputBlur.bind(this),
 	            onChange: this.handleInputChange.bind(this) }),
 	          _react2.default.createElement(
@@ -36639,14 +36653,15 @@
 	AutoComplete.defaultProps = {
 	  prefixCls: 'ui-form-autocomplete',
 	  className: '',
-	  inputOption: { text: '' },
+	  text: '',
+	  value: null,
 	  allOptions: [], // {text: '', value: {} }
 	  minLengthToSearch: 2,
 	  minSearchInterval: .5,
 	  onChange: function onChange() {},
 	  onSelect: function onSelect() {},
 	  onSearch: undefined, // Execute default search logic when value is undefined, otherwise value is a function to override this logic
-	  onEnableInput: undefined, // Search inputOption.text when value is undefined, otherwise value is a function to override this logic
+	  onEnableInput: undefined, // Search props.text when value is undefined, otherwise value is a function to override this logic
 	  onDisableInput: undefined };
 
 /***/ },
