@@ -14,8 +14,7 @@ class AutoComplete extends Widget {
     super(props);
     this.state = {
       isEditing: false,
-      curText: '',
-      curOptions: [],
+      currentOptions: [],
     };
     this.searchAvailableFrom = moment()._d;
     this.searchTimeout = null;
@@ -33,7 +32,9 @@ class AutoComplete extends Widget {
     this.proceedWillReceiveProps(nextProps, this.props);
   }
   proceedWillReceiveProps(nextProps, prevProps) {
-    this.setState({curText: nextProps.initialText});
+    const state = {};
+    (nextProps.allOptions!==prevProps.allOptions) && (state.currentOptions = nextProps.allOptions);
+    this.setState(state);
   }
   handleEnableInputs(e) {
     const self = this;
@@ -44,14 +45,11 @@ class AutoComplete extends Widget {
       if(self.props.onEnableInput) {
         self.props.onEnableInput.call(this, {
           target: self,
-          searchText: self.state.curText,
-          callback: (curOptions)=>{
-            self.setState({curOptions: curOptions});
-          },
+          currentOption: self.props.inputOption,
         });
       }
       else {
-        self.handleSearch(self.state.curText);
+        self.handleSearch(self.props.inputOption.text);
       }
     });
   }
@@ -62,26 +60,27 @@ class AutoComplete extends Widget {
         if(self.props.onDisableInput) {
           self.props.onDisableInput.call(this, {
             target: self,
-            searchText: self.state.curText,
+            currentOption: self.props.inputOption,
           });
         }
         else {
-          self.setState({curText: self.props.initialText});
         }
       });
     }
   }
   handleInputChange(e) {
     const self = this;
-    self.searchAvailableFrom = moment(moment() + self.props.minSearchInterval*1000)._d;
-    self.setState({curText: e.target.value}, ()=>{
-      self.searchTimeout = setTimeout(()=>{
-        if(self.searchAvailableFrom<=moment()._d) {
-          self.handleSearch(self.state.curText);
-          clearTimeout(self.searchTimeout);
-        }
-      }, self.props.minSearchInterval*1000);
+    self.props.onChange.call(this, {
+      target: self,
+      currentOption: Object.assign({}, self.props.inputOption, {text: e.target.value})
     });
+    self.searchAvailableFrom = moment(moment() + self.props.minSearchInterval*1000)._d;
+    self.searchTimeout = setTimeout(()=>{
+      if(self.searchAvailableFrom<=moment()._d) {
+        self.handleSearch(self.props.inputOption.text);
+        clearTimeout(self.searchTimeout);
+      }
+    }, self.props.minSearchInterval*1000);
   }
   handleEnterSearch(e) {
     // if(e.keyCode === 13)
@@ -94,21 +93,17 @@ class AutoComplete extends Widget {
       self.props.onSearch.call(this, {
         target: self,
         searchText: ''+text,
-        callback: (curOptions)=>{
-          self.setState({curOptions: curOptions});
-        },
       });
     }
     else {
-      const curOptions = self.props.initialOptions.filter(itm => (new RegExp(text,'i')).exec(itm.text));
-      self.setState({curOptions: curOptions});
+      const currentOptions = self.props.allOptions.filter(itm => (new RegExp(text,'i')).exec(itm.text));
+      self.setState({currentOptions: currentOptions});
     }
   }
   handleSelect(curOption) {
     const self = this;
     self.setState({
       isEditing: false,
-      curText: curOption.text,
     });
     self.props.onSelect.call(this, {
       target: self,
@@ -124,7 +119,8 @@ class AutoComplete extends Widget {
              onClick={ state.isEditing ? undefined : this.handleEnableInputs.bind(this) }>
           <input type="text" ref="inputText"
                  className={`${prefixCls}-console-text`}
-                 value={state.curText}
+                 value={props.inputOption.text}
+                 title={props.inputOption.text}
                  onBlur={ this.handleInputBlur.bind(this) }
                  onChange={ this.handleInputChange.bind(this) } />
           <span className={`${prefixCls}-console-toggle`}>&nbsp;</span>
@@ -134,7 +130,7 @@ class AutoComplete extends Widget {
              onMouseEnter={(e)=>{ this.isMouseHover = true; }}
              onMouseLeave={(e)=>{ this.isMouseHover = false; }}>
           <ul className={`${prefixCls}-dropdown-items`}>
-            {state.curOptions.map((itm, x)=>
+            {state.currentOptions.map((itm, x)=>
               (<li key={x} title={itm.text} onClick={ this.handleSelect.bind(this, itm) }>{itm.text}</li>))}
           </ul>
         </div>
@@ -145,12 +141,13 @@ export default AutoComplete;
 AutoComplete.defaultProps = {
   prefixCls: 'ui-form-autocomplete',
   className: '',
-  initialText: '',
-  initialOptions: [],  // {text: '', value: {} }
+  inputOption: {text: ''},
+  allOptions: [],  // {text: '', value: {} }
   minLengthToSearch: 2,
   minSearchInterval: .5,
+  onChange: () => {},
   onSelect: () => {},
-  onSearch: undefined,  // Once it is set initialOptions will not be used
-  onEnableInput: undefined,  // Could be used to replace curOptions result
-  onDisableInput: undefined,  // Could be used to replace curText result
+  onSearch: undefined,  // Execute default search logic when value is undefined, otherwise value is a function to override this logic
+  onEnableInput: undefined,  // Search inputOption.text when value is undefined, otherwise value is a function to override this logic
+  onDisableInput: undefined,  // Restore to initialText when value is undefined, otherwise value is a function to override this logic
 };
