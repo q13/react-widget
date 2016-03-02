@@ -36451,6 +36451,8 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * AutoComplete组件实现
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
+	var instanceId = 0;
+	
 	var AutoComplete = function (_Widget) {
 	  _inherits(AutoComplete, _Widget);
 	
@@ -36465,6 +36467,7 @@
 	    };
 	    _this.searchAvailableFrom = (0, _moment2.default)()._d;
 	    _this.searchTimeout = null;
+	    _this.instanceId = instanceId++;
 	    return _this;
 	  }
 	
@@ -36475,12 +36478,29 @@
 	    }
 	  }, {
 	    key: 'componentDidMount',
-	    value: function componentDidMount() {}
+	    value: function componentDidMount() {
+	      var _this2 = this;
+	
+	      var self = this;
+	      $(document).on('mousedown.AutoComplete' + this.instanceId, function (evt) {
+	        if (self.state.isEditing) {
+	          var target = evt.target;
+	          var autocompleteSelector = '.' + _this2.props.prefixCls + '-' + _this2.instanceId;
+	          var dropdownSelector = autocompleteSelector + ' .' + _this2.props.prefixCls + '-dropdown';
+	          var consoleTextSelector = autocompleteSelector + ' .' + _this2.props.prefixCls + '-console-text';
+	          if (!$(target).is(dropdownSelector) && !$(target).closest(dropdownSelector).length && !$(target).is(consoleTextSelector)) {
+	            self.handleDisableInputs(self);
+	          }
+	        }
+	      });
+	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      clearTimeout(this.searchTimeout);
+	      $(document).off('mousedown.AutoComplete' + this.instanceId);
 	      this.searchTimeout = null;
+	      this.instanceId = null;
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
@@ -36497,7 +36517,7 @@
 	  }, {
 	    key: 'handleEnableInputs',
 	    value: function handleEnableInputs(e) {
-	      var _this2 = this;
+	      var _this3 = this;
 	
 	      var self = this;
 	      self.setState({ isEditing: true }, function () {
@@ -36505,7 +36525,7 @@
 	        domInput.select();
 	        domInput.focus();
 	        if (self.props.onEnableInput) {
-	          self.props.onEnableInput.call(_this2, {
+	          self.props.onEnableInput.call(_this3, {
 	            target: self,
 	            currentOption: {
 	              text: self.props.text,
@@ -36518,25 +36538,22 @@
 	      });
 	    }
 	  }, {
-	    key: 'handleInputBlur',
-	    value: function handleInputBlur(e) {
-	      var _this3 = this;
+	    key: 'handleDisableInputs',
+	    value: function handleDisableInputs(e) {
+	      var _this4 = this;
 	
 	      var self = this;
-	      if (!self.isMouseHover) {
-	        // Disable Inputs
-	        self.setState({ isEditing: false }, function () {
-	          if (self.props.onDisableInput) {
-	            self.props.onDisableInput.call(_this3, {
-	              target: self,
-	              currentOption: {
-	                text: self.props.text,
-	                value: self.props.value
-	              }
-	            });
-	          } else {}
-	        });
-	      }
+	      self.setState({ isEditing: false }, function () {
+	        if (self.props.onDisableInput) {
+	          self.props.onDisableInput.call(_this4, {
+	            target: self,
+	            currentOption: {
+	              text: self.props.text,
+	              value: self.props.value
+	            }
+	          });
+	        } else {}
+	      });
 	    }
 	  }, {
 	    key: 'handleInputChange',
@@ -36595,14 +36612,14 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this4 = this;
+	      var _this5 = this;
 	
 	      var props = this.props,
 	          state = this.state,
 	          prefixCls = props.prefixCls;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: prefixCls + ' ' + (props.className || '') + ' ' + (state.isEditing ? prefixCls + '-isediting' : '') },
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isEditing ? prefixCls + '-isediting' : '') },
 	        _react2.default.createElement(
 	          'div',
 	          { className: prefixCls + '-console',
@@ -36611,7 +36628,6 @@
 	            className: prefixCls + '-console-text',
 	            value: props.text,
 	            title: props.text,
-	            onBlur: this.handleInputBlur.bind(this),
 	            onChange: this.handleInputChange.bind(this) }),
 	          _react2.default.createElement(
 	            'span',
@@ -36622,20 +36638,14 @@
 	        _react2.default.createElement(
 	          'div',
 	          { className: prefixCls + '-dropdown',
-	            style: { display: !state.isEditing ? 'none' : undefined },
-	            onMouseEnter: function onMouseEnter(e) {
-	              _this4.isMouseHover = true;
-	            },
-	            onMouseLeave: function onMouseLeave(e) {
-	              _this4.isMouseHover = false;
-	            } },
+	            style: { display: !state.isEditing ? 'none' : undefined } },
 	          _react2.default.createElement(
 	            'ul',
 	            { className: prefixCls + '-dropdown-items' },
 	            state.currentOptions.map(function (itm, x) {
 	              return _react2.default.createElement(
 	                'li',
-	                { key: x, title: itm.text, onClick: _this4.handleSelect.bind(_this4, itm) },
+	                { key: x, title: itm.text, onClick: _this5.handleSelect.bind(_this5, itm) },
 	                itm.text
 	              );
 	            })

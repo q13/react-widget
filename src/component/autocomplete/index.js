@@ -9,6 +9,7 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import style from './autocomplete.css';
 
+let instanceId = 0;
 class AutoComplete extends Widget {
   constructor(props) {
     super(props);
@@ -18,15 +19,32 @@ class AutoComplete extends Widget {
     };
     this.searchAvailableFrom = moment()._d;
     this.searchTimeout = null;
+    this.instanceId = instanceId++;
   }
   componentWillMount() {
     this.proceedWillReceiveProps(this.props, {});
   }
   componentDidMount() {
+    const self = this;
+    $(document).on('mousedown.AutoComplete' + this.instanceId, (evt) => {
+      if(self.state.isEditing) {
+        const target = evt.target;
+        const autocompleteSelector = `.${this.props.prefixCls}-${this.instanceId}`;
+        const dropdownSelector = `${autocompleteSelector} .${this.props.prefixCls}-dropdown`;
+        const consoleTextSelector = `${autocompleteSelector} .${this.props.prefixCls}-console-text`;
+        if (!$(target).is(dropdownSelector) &&
+            !$(target).closest(dropdownSelector).length &&
+            !$(target).is(consoleTextSelector)) {
+          self.handleDisableInputs(self);
+        }
+      }
+    });
   }
   componentWillUnmount() {
     clearTimeout(this.searchTimeout);
+    $(document).off('mousedown.AutoComplete' + this.instanceId);
     this.searchTimeout = null;
+    this.instanceId = null;
   }
   componentWillReceiveProps(nextProps) {
     this.proceedWillReceiveProps(nextProps, this.props);
@@ -56,23 +74,21 @@ class AutoComplete extends Widget {
       }
     });
   }
-  handleInputBlur(e) {
+  handleDisableInputs(e) {
     const self = this;
-    if(!self.isMouseHover) { // Disable Inputs
-      self.setState({ isEditing: false }, ()=>{
-        if(self.props.onDisableInput) {
-          self.props.onDisableInput.call(this, {
-            target: self,
-            currentOption: {
-              text: self.props.text,
-              value: self.props.value,
-            },
-          });
-        }
-        else {
-        }
-      });
-    }
+    self.setState({ isEditing: false }, ()=>{
+      if(self.props.onDisableInput) {
+        self.props.onDisableInput.call(this, {
+          target: self,
+          currentOption: {
+            text: self.props.text,
+            value: self.props.value,
+          },
+        });
+      }
+      else {
+      }
+    });
   }
   handleInputChange(e) {
     const self = this;
@@ -123,21 +139,18 @@ class AutoComplete extends Widget {
     var props = this.props,
         state = this.state,
         prefixCls = props.prefixCls;
-    return (<div className={`${prefixCls} ${props.className || ''} ${(state.isEditing ? `${prefixCls}-isediting` : '')}`}>
+    return (<div className={`${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''} ${(state.isEditing ? `${prefixCls}-isediting` : '')}`}>
         <div className={`${prefixCls}-console`}
              onClick={ state.isEditing ? undefined : this.handleEnableInputs.bind(this) }>
           <input type="text" ref="inputText"
                  className={`${prefixCls}-console-text`}
                  value={props.text}
                  title={props.text}
-                 onBlur={ this.handleInputBlur.bind(this) }
                  onChange={ this.handleInputChange.bind(this) } />
           <span className={`${prefixCls}-console-toggle`}>&nbsp;</span>
         </div>
         <div className={`${prefixCls}-dropdown`}
-             style={{display: !state.isEditing ? 'none' : undefined}}
-             onMouseEnter={(e)=>{ this.isMouseHover = true; }}
-             onMouseLeave={(e)=>{ this.isMouseHover = false; }}>
+             style={{display: !state.isEditing ? 'none' : undefined}}>
           <ul className={`${prefixCls}-dropdown-items`}>
             {state.currentOptions.map((itm, x)=>
               (<li key={x} title={itm.text} onClick={ this.handleSelect.bind(this, itm) }>{itm.text}</li>))}
