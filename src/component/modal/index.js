@@ -20,6 +20,7 @@ class Modal extends Widget {
     this.state = {
       parentWidth: $(window).width(),
       parentHeight: $(window).height(),
+      needPositioning: true,
     };
     this.eventNSId = eventNSId++;
     this.$containerNonLocal = null;
@@ -34,7 +35,6 @@ class Modal extends Widget {
     this.forceUpdate(); // for calling componentDidUpdate
   }
   componentWillReceiveProps(nextProps) {
-    this.handleResize.call(this);
   }
   componentDidUpdate(prevProps, prevState) {
     if(false == this.props.isLocal) {
@@ -50,7 +50,10 @@ class Modal extends Widget {
       this.proceedDidUpdate(prevProps, prevState, this.props, this.state);
   }
   proceedDidUpdate(prevProps, prevState, nextProps, nextState) {
-    if(this.props.visible) {
+    if(!this.props.visible && prevProps.visible) {
+      this.setState({needPositioning: true});
+    }
+    if(this.props.visible && this.state.needPositioning) {
       const $dialog = $(`.${this.props.prefixCls}-dialog`, (this.$containerNonLocal&& this.$containerNonLocal[0]) || ReactDOM.findDOMNode(this))
       let dialogOffsets = $dialog.offset(),
           width = isNaN(parseInt(this.props.width)) ? $dialog.width() : this.props.width,
@@ -80,6 +83,7 @@ class Modal extends Widget {
       styleTmpl.left = parentLeftOffset + (parentWinWidth-width)/2;
       styleTmpl.top = parentTopOffset + (parentWinHeight<height ? 0 : (parentWinHeight-height)/2);
       $dialog.css(styleTmpl);
+      this.setState({needPositioning: false});
     }
     this.updateMask(this.props.visible);
   }
@@ -144,6 +148,7 @@ class Modal extends Widget {
       this.setState({
         parentWidth: $(window).width(),
         parentHeight: $(window).height(),
+        needPositioning: true,
       });
     }
     else {
@@ -151,6 +156,7 @@ class Modal extends Widget {
       this.setState({
         parentWidth: $parentContainer.outerWidth(),
         parentHeight: $parentContainer.outerHeight(),
+        needPositioning: true,
       });
     }
   }

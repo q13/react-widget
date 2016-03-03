@@ -26088,7 +26088,8 @@
 	
 	    _this.state = {
 	      parentWidth: $(window).width(),
-	      parentHeight: $(window).height()
+	      parentHeight: $(window).height(),
+	      needPositioning: true
 	    };
 	    _this.eventNSId = eventNSId++;
 	    _this.$containerNonLocal = null;
@@ -26111,9 +26112,7 @@
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      this.handleResize.call(this);
-	    }
+	    value: function componentWillReceiveProps(nextProps) {}
 	  }, {
 	    key: 'componentDidUpdate',
 	    value: function componentDidUpdate(prevProps, prevState) {
@@ -26133,7 +26132,10 @@
 	  }, {
 	    key: 'proceedDidUpdate',
 	    value: function proceedDidUpdate(prevProps, prevState, nextProps, nextState) {
-	      if (this.props.visible) {
+	      if (!this.props.visible && prevProps.visible) {
+	        this.setState({ needPositioning: true });
+	      }
+	      if (this.props.visible && this.state.needPositioning) {
 	        var $dialog = $('.' + this.props.prefixCls + '-dialog', this.$containerNonLocal && this.$containerNonLocal[0] || _reactDom2.default.findDOMNode(this));
 	        var dialogOffsets = $dialog.offset(),
 	            width = isNaN(parseInt(this.props.width)) ? $dialog.width() : this.props.width,
@@ -26162,6 +26164,7 @@
 	        styleTmpl.left = parentLeftOffset + (parentWinWidth - width) / 2;
 	        styleTmpl.top = parentTopOffset + (parentWinHeight < height ? 0 : (parentWinHeight - height) / 2);
 	        $dialog.css(styleTmpl);
+	        this.setState({ needPositioning: false });
 	      }
 	      this.updateMask(this.props.visible);
 	    }
@@ -26237,13 +26240,15 @@
 	      if (false == this.props.isLocal) {
 	        this.setState({
 	          parentWidth: $(window).width(),
-	          parentHeight: $(window).height()
+	          parentHeight: $(window).height(),
+	          needPositioning: true
 	        });
 	      } else {
 	        var $parentContainer = $(_reactDom2.default.findDOMNode(this)).parent();
 	        this.setState({
 	          parentWidth: $parentContainer.outerWidth(),
-	          parentHeight: $parentContainer.outerHeight()
+	          parentHeight: $parentContainer.outerHeight(),
+	          needPositioning: true
 	        });
 	      }
 	    }
