@@ -26133,7 +26133,7 @@
 	  }, {
 	    key: 'proceedDidUpdate',
 	    value: function proceedDidUpdate(prevProps, prevState, nextProps, nextState) {
-	      if (this.props.visible && this.props.visible != prevProps.visible) {
+	      if (this.props.visible) {
 	        var $dialog = $('.' + this.props.prefixCls + '-dialog', this.$containerNonLocal && this.$containerNonLocal[0] || _reactDom2.default.findDOMNode(this));
 	        var dialogOffsets = $dialog.offset(),
 	            width = isNaN(parseInt(this.props.width)) ? $dialog.width() : this.props.width,
