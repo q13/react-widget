@@ -74,9 +74,9 @@
 	
 	// enable es6 to es5 transform
 	
-	var availableOptions = [{ text: 'parent instance', value: document.getElementById("container") }, { text: 'jQuery instance', value: $ }, { text: 'AutoComplete class', value: _index2.default }, { text: 'window', value: window }, { text: 'document', value: document }, { text: 'navigator.userAgent', value: navigator.userAgent }, { text: 'navigator.languages', value: navigator.languages }]; /**
-	                                                                                                                                                                                                                                                                                                                                                                                                       * AutoComplete demo
-	                                                                                                                                                                                                                                                                                                                                                                                                       */
+	var availableOptions = [{ text: 'parent instance', value: document.getElementById("container") }, { text: 'jQuery instance', value: $ }, { text: 'AutoComplete class', value: _index2.default }, { text: 'window', value: window }, { text: 'document', value: document }, { text: 'navigator.userAgent', value: navigator.userAgent }, { text: 'navigator.languages', value: navigator.languages }, { text: 'document.head', value: document.head }, { text: 'document.body', value: document.body }, { text: 'document.scripts', value: document.scripts }, { text: '$("body")', value: $("body") }, { text: "* RegExp characters: a.b*c+d?e^f$g{h}i(j)k|l[m]n\\ escaped", value: undefined }]; /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * AutoComplete demo
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   */
 	
 	var example1 = {
 	  inputOption: { text: 'click me to start Case-Insensitive text search', value: 'out of scope value 1' },
@@ -94,7 +94,7 @@
 	    _react2.default.createElement(
 	      "style",
 	      null,
-	      "\n      #container input[type=text] {\n        width: 400px;\n      };\n    "
+	      "\n      .autocomplete-instance input[type=text] {\n        width: 400px;\n      }\n      .autocomplete-instance li.highlight {\n        background: #ff0;\n      }\n      .autocomplete-instance ul {\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n      }\n    "
 	    ),
 	    _react2.default.createElement(
 	      "div",
@@ -117,7 +117,8 @@
 	      { style: { display: 'inline-block' } },
 	      "Typical use:",
 	      _react2.default.createElement("br", null),
-	      _react2.default.createElement(_index2.default, { text: example1.inputOption.text,
+	      _react2.default.createElement(_index2.default, { className: "autocomplete-instance autocomplete-typical",
+	        text: example1.inputOption.text,
 	        value: example1.inputOption.value,
 	        allOptions: example1.allOptions,
 	        minLengthToSearch: 3,
@@ -143,7 +144,8 @@
 	      { style: { display: 'inline-block' } },
 	      "Customized use:",
 	      _react2.default.createElement("br", null),
-	      _react2.default.createElement(_index2.default, { text: example2.inputOption.text,
+	      _react2.default.createElement(_index2.default, { className: "autocomplete-instance autocomplete-custom",
+	        text: example2.inputOption.text,
 	        value: example2.inputOption.value,
 	        allOptions: example2.allOptions,
 	        minLengthToSearch: 3,
@@ -36452,6 +36454,9 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
 	var instanceId = 0;
+	function escapeRegExp(string) {
+	  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+	}
 	
 	var AutoComplete = function (_Widget) {
 	  _inherits(AutoComplete, _Widget);
@@ -36479,16 +36484,14 @@
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this2 = this;
-	
 	      var self = this;
-	      $(document).on('mousedown.AutoComplete' + this.instanceId, function (evt) {
+	      $(document).on('mousedown.AutoComplete' + self.instanceId, function (evt) {
 	        if (self.state.isEditing) {
-	          var target = evt.target;
-	          var autocompleteSelector = '.' + _this2.props.prefixCls + '-' + _this2.instanceId;
-	          var dropdownSelector = autocompleteSelector + ' .' + _this2.props.prefixCls + '-dropdown';
-	          var consoleTextSelector = autocompleteSelector + ' .' + _this2.props.prefixCls + '-console-text';
-	          if (!$(target).is(dropdownSelector) && !$(target).closest(dropdownSelector).length && !$(target).is(consoleTextSelector)) {
+	          var $target = $(evt.target);
+	          var $autocomplete = $('.' + self.props.prefixCls + '-' + self.instanceId);
+	          var $dropdown = $autocomplete.find('.' + self.props.prefixCls + '-dropdown');
+	          var $consoleText = $autocomplete.find('.' + self.props.prefixCls + '-console-text');
+	          if (!$target.is($dropdown) && !$target.closest($dropdown).length && !$target.is($consoleText)) {
 	            self.handleDisableInputs(self);
 	          }
 	        }
@@ -36517,7 +36520,7 @@
 	  }, {
 	    key: 'handleEnableInputs',
 	    value: function handleEnableInputs(e) {
-	      var _this3 = this;
+	      var _this2 = this;
 	
 	      var self = this;
 	      self.setState({ isEditing: true }, function () {
@@ -36525,7 +36528,7 @@
 	        domInput.select();
 	        domInput.focus();
 	        if (self.props.onEnableInput) {
-	          self.props.onEnableInput.call(_this3, {
+	          self.props.onEnableInput.call(_this2, {
 	            target: self,
 	            currentOption: {
 	              text: self.props.text,
@@ -36540,12 +36543,12 @@
 	  }, {
 	    key: 'handleDisableInputs',
 	    value: function handleDisableInputs(e) {
-	      var _this4 = this;
+	      var _this3 = this;
 	
 	      var self = this;
 	      self.setState({ isEditing: false }, function () {
 	        if (self.props.onDisableInput) {
-	          self.props.onDisableInput.call(_this4, {
+	          self.props.onDisableInput.call(_this3, {
 	            target: self,
 	            currentOption: {
 	              text: self.props.text,
@@ -36559,6 +36562,7 @@
 	    key: 'handleInputChange',
 	    value: function handleInputChange(e) {
 	      var self = this;
+	      self.setState({ isEditing: true });
 	      self.props.onChange.call(this, {
 	        target: self,
 	        currentOption: {
@@ -36575,15 +36579,84 @@
 	      }, self.props.minSearchInterval * 1000);
 	    }
 	  }, {
-	    key: 'handleEnterSearch',
-	    value: function handleEnterSearch(e) {
-	      // if(e.keyCode === 13)
-	      //     this.handleSearch(e.target.value);
+	    key: 'handleKeyDown',
+	    value: function handleKeyDown(e) {
+	      var self = this;
+	      var stroke = e.which || e.keyCode;
+	      switch (stroke) {
+	        case 38:
+	          e.preventDefault(); // prevent cursor move
+	          self.handleDropdownRoam('up');
+	          break;
+	        case 40:
+	          e.preventDefault(); // prevent cursor move
+	          self.handleDropdownRoam('down');
+	          break;
+	        case 13:
+	          e.preventDefault();
+	          break;
+	      }
+	    }
+	  }, {
+	    key: 'handleKeyUp',
+	    value: function handleKeyUp(e) {
+	      var self = this;
+	      var stroke = e.which || e.keyCode;
+	      switch (stroke) {
+	        case 13:
+	          e.preventDefault();
+	          var $li = $(self.refs.ulItems).children('li');
+	          var $highlightLi = $(self.refs.ulItems).children('li.highlight');
+	          if ($highlightLi.length) {
+	            var selectedOption = undefined;
+	            self.state.currentOptions.forEach(function (itm, x) {
+	              if ($li[x] === $highlightLi[0]) selectedOption = itm;
+	            });
+	            self.handleSelect(selectedOption);
+	          }
+	          break;
+	      }
+	    }
+	  }, {
+	    key: 'handleDropdownRoam',
+	    value: function handleDropdownRoam(roamType) {
+	      var self = this;
+	      var $autocomplete = $('.' + self.props.prefixCls + '-' + self.instanceId);
+	      var $ul = $autocomplete.find('ul.' + self.props.prefixCls + '-dropdown-items');
+	      var $li = $ul.children('li');
+	      if (!$li.length) return false;
+	      var $oldHighlightLi = $li.filter('.highlight');
+	      var $newHighlightLi = $li.first();
+	      if (roamType == 'up') {
+	        if ($oldHighlightLi.length) {
+	          $newHighlightLi = $oldHighlightLi.prev();
+	          $newHighlightLi.length || ($newHighlightLi = $li.last());
+	        }
+	      }
+	      if (roamType == 'down') {
+	        if ($oldHighlightLi.length) {
+	          $newHighlightLi = $oldHighlightLi.next();
+	          $newHighlightLi.length || ($newHighlightLi = $li.first());
+	        }
+	      }
+	      $newHighlightLi.addClass('highlight').siblings().removeClass('highlight');
+	
+	      var maxHeight = parseInt($ul.css('maxHeight'));
+	      var visible_top = $ul.scrollTop();
+	      var visible_bottom = maxHeight + visible_top;
+	      var newHighlightLi_top = $newHighlightLi.position().top + visible_top;
+	      var newHighlightLi_bottom = newHighlightLi_top + $newHighlightLi.outerHeight();
+	      if (newHighlightLi_bottom >= visible_bottom) {
+	        $ul.scrollTop(newHighlightLi_bottom - maxHeight > 0 ? newHighlightLi_bottom - maxHeight : 0);
+	      } else if (newHighlightLi_top < visible_top) {
+	        $ul.scrollTop(newHighlightLi_top);
+	      }
 	    }
 	  }, {
 	    key: 'handleSearch',
 	    value: function handleSearch(text) {
 	      var self = this;
+	      text = escapeRegExp(text || '');
 	      if (!text || !text.trim || !(text = text.trim()) || ('' + text).length < self.props.minLengthToSearch) return;
 	      if (self.props.onSearch) {
 	        self.props.onSearch.call(this, {
@@ -36612,7 +36685,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this5 = this;
+	      var _this4 = this;
 	
 	      var props = this.props,
 	          state = this.state,
@@ -36628,6 +36701,8 @@
 	            className: prefixCls + '-console-text',
 	            value: props.text,
 	            title: props.text,
+	            onKeyDown: this.handleKeyDown.bind(this),
+	            onKeyUp: this.handleKeyUp.bind(this),
 	            onChange: this.handleInputChange.bind(this) }),
 	          _react2.default.createElement(
 	            'span',
@@ -36641,11 +36716,18 @@
 	            style: { display: !state.isEditing ? 'none' : undefined } },
 	          _react2.default.createElement(
 	            'ul',
-	            { className: prefixCls + '-dropdown-items' },
+	            { ref: 'ulItems', className: prefixCls + '-dropdown-items' },
 	            state.currentOptions.map(function (itm, x) {
 	              return _react2.default.createElement(
 	                'li',
-	                { key: x, title: itm.text, onClick: _this5.handleSelect.bind(_this5, itm) },
+	                { key: x, title: itm.text,
+	                  onClick: _this4.handleSelect.bind(_this4, itm),
+	                  onMouseEnter: function onMouseEnter(e) {
+	                    $(e.currentTarget).addClass('highlight').siblings().removeClass('highlight');
+	                  },
+	                  onMouseLeave: function onMouseLeave(e) {
+	                    $(e.currentTarget).removeClass('highlight');
+	                  } },
 	                itm.text
 	              );
 	            })

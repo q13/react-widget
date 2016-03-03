@@ -10,6 +10,9 @@ import ReactDom from 'react-dom';
 import style from './autocomplete.css';
 
 let instanceId = 0;
+function escapeRegExp(string) {
+  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+}
 class AutoComplete extends Widget {
   constructor(props) {
     super(props);
@@ -26,15 +29,15 @@ class AutoComplete extends Widget {
   }
   componentDidMount() {
     const self = this;
-    $(document).on('mousedown.AutoComplete' + this.instanceId, (evt) => {
+    $(document).on('mousedown.AutoComplete' + self.instanceId, (evt) => {
       if(self.state.isEditing) {
-        const target = evt.target;
-        const autocompleteSelector = `.${this.props.prefixCls}-${this.instanceId}`;
-        const dropdownSelector = `${autocompleteSelector} .${this.props.prefixCls}-dropdown`;
-        const consoleTextSelector = `${autocompleteSelector} .${this.props.prefixCls}-console-text`;
-        if (!$(target).is(dropdownSelector) &&
-            !$(target).closest(dropdownSelector).length &&
-            !$(target).is(consoleTextSelector)) {
+        const $target = $(evt.target);
+        const $autocomplete = $(`.${self.props.prefixCls}-${self.instanceId}`);
+        const $dropdown = $autocomplete.find(`.${self.props.prefixCls}-dropdown`);
+        const $consoleText = $autocomplete.find(`.${self.props.prefixCls}-console-text`);
+        if (!$target.is($dropdown) &&
+            !$target.closest($dropdown).length &&
+            !$target.is($consoleText)) {
           self.handleDisableInputs(self);
         }
       }
@@ -92,6 +95,7 @@ class AutoComplete extends Widget {
   }
   handleInputChange(e) {
     const self = this;
+    self.setState({isEditing: true});
     self.props.onChange.call(this, {
       target: self,
       currentOption: {
@@ -107,12 +111,78 @@ class AutoComplete extends Widget {
       }
     }, self.props.minSearchInterval*1000);
   }
-  handleEnterSearch(e) {
-    // if(e.keyCode === 13)
-    //     this.handleSearch(e.target.value);
+  handleKeyDown(e) {
+    const self = this;
+    const stroke = e.which || e.keyCode;
+    switch (stroke) {
+      case 38:
+        e.preventDefault(); // prevent cursor move
+        self.handleDropdownRoam('up');
+        break;
+      case 40:
+        e.preventDefault(); // prevent cursor move
+        self.handleDropdownRoam('down');
+        break;
+      case 13:
+        e.preventDefault();
+        break;
+    }
+  }
+  handleKeyUp(e) {
+    const self = this;
+    const stroke = e.which || e.keyCode;
+    switch (stroke) {
+      case 13:
+        e.preventDefault();
+        const $li = $(self.refs.ulItems).children('li');
+        const $highlightLi = $(self.refs.ulItems).children('li.highlight');
+        if($highlightLi.length) {
+          let selectedOption;
+          self.state.currentOptions.forEach((itm, x)=>{
+            if($li[x]===$highlightLi[0])
+              selectedOption = itm;
+          });
+          self.handleSelect(selectedOption);
+        }
+        break;
+    }
+  }
+  handleDropdownRoam(roamType) {
+    const self = this;
+    const $autocomplete = $(`.${self.props.prefixCls}-${self.instanceId}`);
+    const $ul = $autocomplete.find(`ul.${self.props.prefixCls}-dropdown-items`);
+    const $li = $ul.children('li');
+    if(!$li.length) return false;
+    let $oldHighlightLi = $li.filter('.highlight');
+    let $newHighlightLi = $li.first();
+    if(roamType == 'up') {
+      if($oldHighlightLi.length) {
+        $newHighlightLi = $oldHighlightLi.prev();
+        $newHighlightLi.length || ($newHighlightLi = $li.last());
+      }
+    }
+    if(roamType == 'down') {
+      if($oldHighlightLi.length) {
+        $newHighlightLi = $oldHighlightLi.next();
+        $newHighlightLi.length || ($newHighlightLi = $li.first());
+      }
+    }
+    $newHighlightLi.addClass('highlight').siblings().removeClass('highlight');
+
+    const maxHeight = parseInt($ul.css('maxHeight'));
+    let visible_top = $ul.scrollTop();
+    let visible_bottom = maxHeight + visible_top;
+    let newHighlightLi_top = $newHighlightLi.position().top + visible_top;
+    let newHighlightLi_bottom = newHighlightLi_top + $newHighlightLi.outerHeight();
+    if (newHighlightLi_bottom >= visible_bottom) {
+      $ul.scrollTop((newHighlightLi_bottom - maxHeight) > 0 ? newHighlightLi_bottom - maxHeight : 0);
+    } else if (newHighlightLi_top < visible_top) {
+      $ul.scrollTop(newHighlightLi_top);
+    }
   }
   handleSearch(text) {
     const self = this;
+    text = escapeRegExp(text||'');
     if(!text || !text.trim || !(text=text.trim()) || (''+text).length<self.props.minLengthToSearch) return;
     if(self.props.onSearch) {
       self.props.onSearch.call(this, {
@@ -146,14 +216,21 @@ class AutoComplete extends Widget {
                  className={`${prefixCls}-console-text`}
                  value={props.text}
                  title={props.text}
+                 onKeyDown={ this.handleKeyDown.bind(this) }
+                 onKeyUp={ this.handleKeyUp.bind(this) }
                  onChange={ this.handleInputChange.bind(this) } />
           <span className={`${prefixCls}-console-toggle`}>&nbsp;</span>
         </div>
         <div className={`${prefixCls}-dropdown`}
              style={{display: !state.isEditing ? 'none' : undefined}}>
-          <ul className={`${prefixCls}-dropdown-items`}>
+          <ul ref="ulItems" className={`${prefixCls}-dropdown-items`}>
             {state.currentOptions.map((itm, x)=>
-              (<li key={x} title={itm.text} onClick={ this.handleSelect.bind(this, itm) }>{itm.text}</li>))}
+              (<li key={x} title={ itm.text }
+                   onClick={ this.handleSelect.bind(this, itm) }
+                   onMouseEnter={ (e)=>{ $(e.currentTarget).addClass('highlight').siblings().removeClass('highlight'); } }
+                   onMouseLeave={ (e)=>{ $(e.currentTarget).removeClass('highlight'); } }>
+                { itm.text }
+              </li>))}
           </ul>
         </div>
     </div>);

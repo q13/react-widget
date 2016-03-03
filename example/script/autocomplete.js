@@ -15,6 +15,11 @@ let availableOptions = [
   {text: 'document', value: document },
   {text: 'navigator.userAgent', value: navigator.userAgent },
   {text: 'navigator.languages', value: navigator.languages },
+  {text: 'document.head', value: document.head },
+  {text: 'document.body', value: document.body },
+  {text: 'document.scripts', value: document.scripts },
+  {text: '$("body")', value: $("body") },
+  {text: `* RegExp characters: a.b*c+d?e^f$g{h}i(j)k|l[m]n\\ escaped`, value: undefined },
 ];
 const example1 = {
   inputOption: {text: 'click me to start Case-Insensitive text search', value: 'out of scope value 1'},
@@ -29,9 +34,17 @@ function runner () {
   ReactDom.render(<div>
     <style>
     {`
-      #container input[type=text] {
+      .autocomplete-instance input[type=text] {
         width: 400px;
-      };
+      }
+      .autocomplete-instance li.highlight {
+        background: #ff0;
+      }
+      .autocomplete-instance ul {
+        margin-top: 0;
+        width: 300px;
+        max-height: 150px;
+      }
     `}
     </style>
     <div>
@@ -41,7 +54,8 @@ function runner () {
     </div>
     <div style={{display: 'inline-block'}}>
       Typical use:<br/>
-      <AutoComplete text={ example1.inputOption.text }
+      <AutoComplete className="autocomplete-instance autocomplete-typical"
+                    text={ example1.inputOption.text }
                     value={ example1.inputOption.value }
                     allOptions={ example1.allOptions }
                     minLengthToSearch={ 3 }
@@ -60,7 +74,8 @@ function runner () {
     </div>
     <div style={{display: 'inline-block'}}>
       Customized use:<br/>
-      <AutoComplete text={ example2.inputOption.text }
+      <AutoComplete className="autocomplete-instance autocomplete-custom"
+                    text={ example2.inputOption.text }
                     value={ example2.inputOption.value }
                     allOptions={ example2.allOptions }
                     minLengthToSearch={ 3 }
