@@ -50,7 +50,7 @@ class Modal extends Widget {
       this.proceedDidUpdate(prevProps, prevState, this.props, this.state);
   }
   proceedDidUpdate(prevProps, prevState, nextProps, nextState) {
-    if(this.props.visible) {
+    if(this.props.visible && this.props.visible!=prevProps.visible) {
       const $dialog = $(`.${this.props.prefixCls}-dialog`, (this.$containerNonLocal&& this.$containerNonLocal[0]) || ReactDOM.findDOMNode(this))
       let dialogOffsets = $dialog.offset(),
           width = isNaN(parseInt(this.props.width)) ? $dialog.width() : this.props.width,

@@ -1,5 +1,5 @@
 /*!
- * Build at Wed Feb 24 2016 11:56:10 GMT+0800 (China Standard Time)
+ * Build at Fri Feb 26 2016 18:55:55 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -26133,7 +26133,7 @@
 	  }, {
 	    key: 'proceedDidUpdate',
 	    value: function proceedDidUpdate(prevProps, prevState, nextProps, nextState) {
-	      if (this.props.visible) {
+	      if (this.props.visible && this.props.visible != prevProps.visible) {
 	        var $dialog = $('.' + this.props.prefixCls + '-dialog', this.$containerNonLocal && this.$containerNonLocal[0] || _reactDom2.default.findDOMNode(this));
 	        var dialogOffsets = $dialog.offset(),
 	            width = isNaN(parseInt(this.props.width)) ? $dialog.width() : this.props.width,
