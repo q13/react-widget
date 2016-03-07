@@ -20,6 +20,7 @@ class Modal extends Widget {
     this.state = {
       parentWidth: $(window).width(),
       parentHeight: $(window).height(),
+      needPositioning: true,
     };
     this.eventNSId = eventNSId++;
     this.$containerNonLocal = null;
@@ -34,7 +35,6 @@ class Modal extends Widget {
     this.forceUpdate(); // for calling componentDidUpdate
   }
   componentWillReceiveProps(nextProps) {
-    this.handleResize.call(this);
   }
   componentDidUpdate(prevProps, prevState) {
     if(false == this.props.isLocal) {
@@ -43,11 +43,49 @@ class Modal extends Widget {
         this.$containerNonLocal.appendTo($(document.body));
       }
       ReactDOM.render(this.getJsxToRender(), this.$containerNonLocal[0], ()=>{
-        this.updateMask(this.props.visible)
+        this.proceedDidUpdate(prevProps, prevState, this.props, this.state);
       });
     }
     else
-      this.updateMask(this.props.visible);
+      this.proceedDidUpdate(prevProps, prevState, this.props, this.state);
+  }
+  proceedDidUpdate(prevProps, prevState, nextProps, nextState) {
+    if(!this.props.visible && prevProps.visible) {
+      this.setState({needPositioning: true});
+    }
+    if(this.props.visible && this.state.needPositioning) {
+      const $dialog = $(`.${this.props.prefixCls}-dialog`, (this.$containerNonLocal&& this.$containerNonLocal[0]) || ReactDOM.findDOMNode(this))
+      let dialogOffsets = $dialog.offset(),
+          width = isNaN(parseInt(this.props.width)) ? $dialog.width() : this.props.width,
+          height = isNaN(parseInt(this.props.height)) ? $dialog.height() : this.props.height,
+          winScrollLeft = $(window).scrollLeft(),
+          winScrollTop = $(window).scrollTop(),
+          winHeight = $(window).height(),
+          parentLeftOffset = 0,
+          parentTopOffset = 0,
+          parentWinWidth = this.state.parentWidth,
+          parentWinHeight = this.state.parentHeight;
+      const styleTmpl = {};
+      styleTmpl.position = 'absolute';
+      if(false == this.props.isLocal) {
+        if(this.props.centerFixed) { // fixed position/centerFixed only applies to non-local dialogs
+          styleTmpl.position = 'fixed';
+        }
+        else {
+          parentLeftOffset = winScrollLeft;
+          parentTopOffset = winScrollTop;
+        }
+      }
+      else {
+        parentWinHeight = Math.min(parentWinHeight, winHeight+winScrollTop-dialogOffsets.top);
+      }
+      // 将组件位置居中
+      styleTmpl.left = parentLeftOffset + (parentWinWidth-width)/2;
+      styleTmpl.top = parentTopOffset + (parentWinHeight<height ? 0 : (parentWinHeight-height)/2);
+      $dialog.css(styleTmpl);
+      this.setState({needPositioning: false});
+    }
+    this.updateMask(this.props.visible);
   }
   componentWillUnmount() {
     if(this.$containerNonLocal && this.$containerNonLocal.length) {
@@ -110,6 +148,7 @@ class Modal extends Widget {
       this.setState({
         parentWidth: $(window).width(),
         parentHeight: $(window).height(),
+        needPositioning: true,
       });
     }
     else {
@@ -117,6 +156,7 @@ class Modal extends Widget {
       this.setState({
         parentWidth: $parentContainer.outerWidth(),
         parentHeight: $parentContainer.outerHeight(),
+        needPositioning: true,
       });
     }
   }
@@ -125,20 +165,6 @@ class Modal extends Widget {
     let jsxElement = <div></div>;
     const {prefixCls, className, isLocal, centerFixed, width, height, visible, paneType, onClickClose, onClickSubmit, onBeforeDestroy, ...otherProps} = this.props;
     const styleTmpl = {};
-    let leftOffset = 0, topOffset = 0;
-    styleTmpl.position = 'absolute';
-    if(false == this.props.isLocal) {
-      if(centerFixed) { // fixed position/centerFixed only applies to non-local dialogs
-        styleTmpl.position = 'fixed';
-      }
-      else {
-        leftOffset = $(window).scrollLeft();
-        topOffset = $(window).scrollTop();
-      }
-    }
-    // 将组件位置居中
-    styleTmpl.left = leftOffset + (this.state.parentWidth-width)/2;
-    styleTmpl.top = topOffset + (this.state.parentHeight<height ? 0 : (this.state.parentHeight-height)/2);
     styleTmpl.width = width;
     styleTmpl.height = height;
 
