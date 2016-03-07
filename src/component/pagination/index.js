@@ -24,13 +24,13 @@ class Pagination extends Widget {
     }
     getPages(){
         let total = this.props.total,
-        size = this.props.pageSize,
-        currentPage = this.state.currentPage,
-        span = this.props.pages,
-        max = Math.ceil(total / size),
-        pages = [],
-        left,
-        right
+            size = this.props.pageSize,
+            currentPage = this.state.currentPage,
+            span = this.props.pages,
+            max = Math.ceil(total / size),
+            pages = [],
+            left,
+            right;
 
         if (currentPage > max) {
           currentPage = max
@@ -83,8 +83,7 @@ class Pagination extends Widget {
         function ensureRange(number, min, max) {
             return isNaN(number) || number < min ? min : number > max ? max : number; 
         }
-        this.setState({currentInput: ensureRange(value===undefined ? (+e.target.value) : value, range.min, range.max)},
-            ()=>{ this.refs.number && this.refs.number.select(); });
+        this.setState({currentInput: ensureRange(value===undefined ? (+e.target.value) : value, range.min, range.max)});
     }
     render(){
         var currentInput = this.state.currentInput;

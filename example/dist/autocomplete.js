@@ -1,5 +1,5 @@
 /*!
- * Build at Fri Jan 29 2016 14:56:07 GMT+0800 (China Standard Time)
+ * Build at Fri Feb 26 2016 18:55:55 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -74,38 +74,129 @@
 	
 	// enable es6 to es5 transform
 	
-	var value = 'click me to start case-sensitive text search'; /**
-	                                                             * AutoComplete demo
-	                                                             */
+	var availableOptions = [{ text: 'parent instance', value: document.getElementById("container") }, { text: 'jQuery instance', value: $ }, { text: 'AutoComplete class', value: _index2.default }, { text: 'window', value: window }, { text: 'document', value: document }, { text: 'navigator.userAgent', value: navigator.userAgent }, { text: 'navigator.languages', value: navigator.languages }, { text: 'document.head', value: document.head }, { text: 'document.body', value: document.body }, { text: 'document.scripts', value: document.scripts }, { text: '$("body")', value: $("body") }, { text: "* RegExp characters: a.b*c+d?e^f$g{h}i(j)k|l[m]n\\ escaped", value: undefined }]; /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * AutoComplete demo
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   */
 	
-	var options = [{ text: 'parent instance', value: document.getElementById("container") }, { text: 'jQuery instance', value: $ }, { text: 'window', value: window }, { text: 'document', value: document }, { text: 'navigator.userAgent', value: navigator.userAgent }, { text: 'navigator.languages', value: navigator.languages }];
+	var example1 = {
+	  inputOption: { text: 'click me to start Case-Insensitive text search', value: 'out of scope value 1' },
+	  allOptions: availableOptions
+	};
+	var example2 = {
+	  initialOption: { text: 'click me to start Case-Sensitive search with all options listed initially', value: 'out of scope value 2' },
+	  inputOption: { text: 'click me to start Case-Sensitive search with all options listed initially', value: 'out of scope value 2' },
+	  allOptions: availableOptions
+	};
 	function runner() {
-	    _reactDom2.default.render(_react2.default.createElement(
-	        "div",
-	        { style: {
-	                position: "absolute",
-	                width: "200px"
-	            } },
-	        _react2.default.createElement(_index2.default, {
-	            initialText: value,
-	            initialOptions: options,
-	            minLengthToSearch: 3,
-	            minSearchInterval: .2,
-	            onSelect: function onSelect(itemData) {
-	                value = itemData.text;console.log(itemData.value);runner();
-	            },
-	            onSearch: function onSearch(searchText, callback) {
-	                callback(options.filter(function (i) {
-	                    return new RegExp(searchText).exec(i.text);
-	                }));
-	            },
-	            onEnableInput: function onEnableInput(searchText, callback) {
-	                callback(options);
-	            },
-	            onDisableInput: function onDisableInput(searchText, callback) {
-	                callback(value);
-	            } })
-	    ), document.getElementById("container"));
+	  _reactDom2.default.render(_react2.default.createElement(
+	    "div",
+	    null,
+	    _react2.default.createElement(
+	      "style",
+	      null,
+	      "\n      .autocomplete-instance input[type=text] {\n        width: 400px;\n      }\n      .autocomplete-instance li.highlight {\n        background: #ff0;\n      }\n      .autocomplete-instance ul {\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n      }\n    "
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      "Available Text Options:",
+	      _react2.default.createElement("br", null),
+	      availableOptions.map(function (i, x) {
+	        return _react2.default.createElement(
+	          "div",
+	          { key: x },
+	          " - ",
+	          i.text
+	        );
+	      }),
+	      " ",
+	      _react2.default.createElement("br", null)
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      { style: { display: 'inline-block' } },
+	      "Typical use:",
+	      _react2.default.createElement("br", null),
+	      _react2.default.createElement(_index2.default, { className: "autocomplete-instance autocomplete-typical",
+	        text: example1.inputOption.text,
+	        value: example1.inputOption.value,
+	        allOptions: example1.allOptions,
+	        minLengthToSearch: 3,
+	        minSearchInterval: .2,
+	        onChange: function onChange(evt) {
+	          var target = evt.target;
+	          var currentOption = evt.currentOption;
+	
+	          example1.inputOption.text = currentOption.text;
+	          runner();
+	        },
+	        onSelect: function onSelect(evt) {
+	          var target = evt.target;
+	          var selectedOption = evt.selectedOption;
+	
+	          example1.inputOption.text = selectedOption.text;
+	          example1.inputOption.value = selectedOption.value;
+	          runner();
+	        } })
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      { style: { display: 'inline-block' } },
+	      "Customized use:",
+	      _react2.default.createElement("br", null),
+	      _react2.default.createElement(_index2.default, { className: "autocomplete-instance autocomplete-custom",
+	        text: example2.inputOption.text,
+	        value: example2.inputOption.value,
+	        allOptions: example2.allOptions,
+	        minLengthToSearch: 3,
+	        minSearchInterval: .2,
+	        onChange: function onChange(evt) {
+	          console.log('onChange Triggered:', evt);
+	          var target = evt.target;
+	          var currentOption = evt.currentOption;
+	
+	          example2.inputOption.text = currentOption.text;
+	          runner();
+	        },
+	        onSelect: function onSelect(evt) {
+	          console.log('onSelect Triggered:', evt);
+	          var target = evt.target;
+	          var selectedOption = evt.selectedOption;
+	
+	          example2.inputOption.text = selectedOption.text;
+	          example2.inputOption.value = selectedOption.value;
+	          example2.initialOption.text = selectedOption.text;
+	          example2.initialOption.value = selectedOption.value;
+	          runner();
+	        },
+	        onSearch: function onSearch(evt) {
+	          console.log('onSearch Triggered:', evt);
+	          var target = evt.target;
+	          var searchText = evt.searchText;
+	
+	          example2.allOptions = availableOptions.filter(function (i) {
+	            return new RegExp(searchText).exec(i.text);
+	          });
+	          runner();
+	        },
+	        onEnableInput: function onEnableInput(evt) {
+	          console.log('onEnableInput Triggered:', evt);
+	          var target = evt.target;
+	          var currentOption = evt.currentOption;
+	
+	          example2.allOptions = availableOptions;
+	          runner();
+	        },
+	        onDisableInput: function onDisableInput(evt) {
+	          console.log('onDisableInput Triggered:', evt);
+	          var target = evt.target;
+	          var currentOption = evt.currentOption;
+	
+	          example2.inputOption = Object.assign({}, example2.initialOption);
+	          runner();
+	        } })
+	    )
+	  ), document.getElementById("container"));
 	}
 	runner();
 
@@ -6290,7 +6381,7 @@
 	 * will remain to ensure logic does not differ in production.
 	 */
 	
-	function invariant(condition, format, a, b, c, d, e, f) {
+	var invariant = function (condition, format, a, b, c, d, e, f) {
 	  if (process.env.NODE_ENV !== 'production') {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
@@ -6304,16 +6395,15 @@
 	    } else {
 	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
-	      error = new Error(format.replace(/%s/g, function () {
+	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
 	        return args[argIndex++];
 	      }));
-	      error.name = 'Invariant Violation';
 	    }
 	
 	    error.framesToPop = 1; // we don't care about invariant's own frame
 	    throw error;
 	  }
-	}
+	};
 	
 	module.exports = invariant;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
@@ -15740,8 +15830,8 @@
 	     */
 	    // autoCapitalize and autoCorrect are supported in Mobile Safari for
 	    // keyboard hints.
-	    autoCapitalize: MUST_USE_ATTRIBUTE,
-	    autoCorrect: MUST_USE_ATTRIBUTE,
+	    autoCapitalize: null,
+	    autoCorrect: null,
 	    // autoSave allows WebKit/Blink to persist values of input fields on page reloads
 	    autoSave: null,
 	    // color is for Safari mask-icon link
@@ -15772,7 +15862,9 @@
 	    httpEquiv: 'http-equiv'
 	  },
 	  DOMPropertyNames: {
+	    autoCapitalize: 'autocapitalize',
 	    autoComplete: 'autocomplete',
+	    autoCorrect: 'autocorrect',
 	    autoFocus: 'autofocus',
 	    autoPlay: 'autoplay',
 	    autoSave: 'autosave',
@@ -18851,7 +18943,7 @@
 	    var value = LinkedValueUtils.getValue(props);
 	
 	    if (value != null) {
-	      updateOptions(this, Boolean(props.multiple), value);
+	      updateOptions(this, props, value);
 	    }
 	  }
 	}
@@ -21886,14 +21978,11 @@
 	 * @typechecks
 	 */
 	
-	/* eslint-disable fb-www/typeof-undefined */
-	
 	/**
 	 * Same as document.activeElement but wraps in a try-catch block. In IE it is
 	 * not safe to call document.activeElement if there is nothing focused.
 	 *
-	 * The activeElement will be null only if the document or document body is not
-	 * yet defined.
+	 * The activeElement will be null only if the document or document body is not yet defined.
 	 */
 	'use strict';
 	
@@ -21901,6 +21990,7 @@
 	  if (typeof document === 'undefined') {
 	    return null;
 	  }
+	
 	  try {
 	    return document.activeElement || document.body;
 	  } catch (e) {
@@ -23640,9 +23730,7 @@
 	  'setValueForProperty': 'update attribute',
 	  'setValueForAttribute': 'update attribute',
 	  'deleteValueForProperty': 'remove attribute',
-	  'setValueForStyles': 'update styles',
-	  'replaceNodeWithMarkup': 'replace',
-	  'updateTextContent': 'set textContent'
+	  'dangerouslyReplaceNodeWithMarkupByID': 'replace'
 	};
 	
 	function getTotalTime(measurements) {
@@ -23834,23 +23922,18 @@
 	'use strict';
 	
 	var performance = __webpack_require__(334);
-	
-	var performanceNow;
+	var curPerformance = performance;
 	
 	/**
 	 * Detect if we can use `window.performance.now()` and gracefully fallback to
 	 * `Date.now()` if it doesn't exist. We need to support Firefox < 15 for now
 	 * because of Facebook's testing infrastructure.
 	 */
-	if (performance.now) {
-	  performanceNow = function () {
-	    return performance.now();
-	  };
-	} else {
-	  performanceNow = function () {
-	    return Date.now();
-	  };
+	if (!curPerformance || !curPerformance.now) {
+	  curPerformance = Date;
 	}
+	
+	var performanceNow = curPerformance.now.bind(curPerformance);
 	
 	module.exports = performanceNow;
 
@@ -23899,7 +23982,7 @@
 	
 	'use strict';
 	
-	module.exports = '0.14.6';
+	module.exports = '0.14.3';
 
 /***/ },
 /* 336 */
@@ -36370,6 +36453,11 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * AutoComplete组件实现
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
+	var instanceId = 0;
+	function escapeRegExp(string) {
+	  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+	}
+	
 	var AutoComplete = function (_Widget) {
 	  _inherits(AutoComplete, _Widget);
 	
@@ -36380,11 +36468,11 @@
 	
 	    _this.state = {
 	      isEditing: false,
-	      curText: '',
-	      curOptions: []
+	      currentOptions: []
 	    };
 	    _this.searchAvailableFrom = (0, _moment2.default)()._d;
 	    _this.searchTimeout = null;
+	    _this.instanceId = instanceId++;
 	    return _this;
 	  }
 	
@@ -36395,12 +36483,27 @@
 	    }
 	  }, {
 	    key: 'componentDidMount',
-	    value: function componentDidMount() {}
+	    value: function componentDidMount() {
+	      var self = this;
+	      $(document).on('mousedown.AutoComplete' + self.instanceId, function (evt) {
+	        if (self.state.isEditing) {
+	          var $target = $(evt.target);
+	          var $autocomplete = $('.' + self.props.prefixCls + '-' + self.instanceId);
+	          var $dropdown = $autocomplete.find('.' + self.props.prefixCls + '-dropdown');
+	          var $consoleText = $autocomplete.find('.' + self.props.prefixCls + '-console-text');
+	          if (!$target.is($dropdown) && !$target.closest($dropdown).length && !$target.is($consoleText)) {
+	            self.handleDisableInputs(self);
+	          }
+	        }
+	      });
+	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
 	      clearTimeout(this.searchTimeout);
+	      $(document).off('mousedown.AutoComplete' + this.instanceId);
 	      this.searchTimeout = null;
+	      this.instanceId = null;
 	    }
 	  }, {
 	    key: 'componentWillReceiveProps',
@@ -36410,76 +36513,161 @@
 	  }, {
 	    key: 'proceedWillReceiveProps',
 	    value: function proceedWillReceiveProps(nextProps, prevProps) {
-	      this.setState({ curText: nextProps.initialText });
+	      var state = {};
+	      nextProps.allOptions !== prevProps.allOptions && (state.currentOptions = nextProps.allOptions);
+	      this.setState(state);
 	    }
 	  }, {
 	    key: 'handleEnableInputs',
 	    value: function handleEnableInputs(e) {
+	      var _this2 = this;
+	
 	      var self = this;
 	      self.setState({ isEditing: true }, function () {
 	        var domInput = self.refs.inputText;
 	        domInput.select();
 	        domInput.focus();
 	        if (self.props.onEnableInput) {
-	          self.props.onEnableInput(self.state.curText, function (curOptions) {
-	            self.setState({ curOptions: curOptions });
+	          self.props.onEnableInput.call(_this2, {
+	            target: self,
+	            currentOption: {
+	              text: self.props.text,
+	              value: self.props.value
+	            }
 	          });
 	        } else {
-	          self.handleSearch(self.state.curText);
+	          self.handleSearch(self.props.text);
 	        }
 	      });
 	    }
 	  }, {
-	    key: 'handleInputBlur',
-	    value: function handleInputBlur(e) {
+	    key: 'handleDisableInputs',
+	    value: function handleDisableInputs(e) {
+	      var _this3 = this;
+	
 	      var self = this;
-	      if (!self.isMouseHover) {
-	        // Disable Inputs
-	        self.setState({ isEditing: false }, function () {
-	          if (self.props.onDisableInput) {
-	            self.props.onDisableInput(self.state.curText, function (curText) {
-	              self.setState({ curText: curText });
-	            });
-	          } else {
-	            self.setState({ curText: self.props.initialText });
-	          }
-	        });
-	      }
+	      self.setState({ isEditing: false }, function () {
+	        if (self.props.onDisableInput) {
+	          self.props.onDisableInput.call(_this3, {
+	            target: self,
+	            currentOption: {
+	              text: self.props.text,
+	              value: self.props.value
+	            }
+	          });
+	        } else {}
+	      });
 	    }
 	  }, {
 	    key: 'handleInputChange',
 	    value: function handleInputChange(e) {
 	      var self = this;
-	      self.searchAvailableFrom = (0, _moment2.default)((0, _moment2.default)() + self.props.minSearchInterval * 1000)._d;
-	      self.setState({ curText: e.target.value }, function () {
-	        self.searchTimeout = setTimeout(function () {
-	          if (self.searchAvailableFrom <= (0, _moment2.default)()._d) {
-	            self.handleSearch(self.state.curText);
-	            clearTimeout(self.searchTimeout);
-	          }
-	        }, self.props.minSearchInterval * 1000);
+	      self.setState({ isEditing: true });
+	      self.props.onChange.call(this, {
+	        target: self,
+	        currentOption: {
+	          text: e.target.value,
+	          value: e.target.value
+	        }
 	      });
+	      self.searchAvailableFrom = (0, _moment2.default)((0, _moment2.default)() + self.props.minSearchInterval * 1000)._d;
+	      self.searchTimeout = setTimeout(function () {
+	        if (self.searchAvailableFrom <= (0, _moment2.default)()._d) {
+	          self.handleSearch(self.props.text);
+	          clearTimeout(self.searchTimeout);
+	        }
+	      }, self.props.minSearchInterval * 1000);
 	    }
 	  }, {
-	    key: 'handleEnterSearch',
-	    value: function handleEnterSearch(e) {
-	      // if(e.keyCode === 13)
-	      //     this.handleSearch(e.target.value);
+	    key: 'handleKeyDown',
+	    value: function handleKeyDown(e) {
+	      var self = this;
+	      var stroke = e.which || e.keyCode;
+	      switch (stroke) {
+	        case 38:
+	          e.preventDefault(); // prevent cursor move
+	          self.handleDropdownRoam('up');
+	          break;
+	        case 40:
+	          e.preventDefault(); // prevent cursor move
+	          self.handleDropdownRoam('down');
+	          break;
+	        case 13:
+	          e.preventDefault();
+	          break;
+	      }
+	    }
+	  }, {
+	    key: 'handleKeyUp',
+	    value: function handleKeyUp(e) {
+	      var self = this;
+	      var stroke = e.which || e.keyCode;
+	      switch (stroke) {
+	        case 13:
+	          e.preventDefault();
+	          var $li = $(self.refs.ulItems).children('li');
+	          var $highlightLi = $(self.refs.ulItems).children('li.highlight');
+	          if ($highlightLi.length) {
+	            var selectedOption = undefined;
+	            self.state.currentOptions.forEach(function (itm, x) {
+	              if ($li[x] === $highlightLi[0]) selectedOption = itm;
+	            });
+	            self.handleSelect(selectedOption);
+	          }
+	          break;
+	      }
+	    }
+	  }, {
+	    key: 'handleDropdownRoam',
+	    value: function handleDropdownRoam(roamType) {
+	      var self = this;
+	      var $autocomplete = $('.' + self.props.prefixCls + '-' + self.instanceId);
+	      var $ul = $autocomplete.find('ul.' + self.props.prefixCls + '-dropdown-items');
+	      var $li = $ul.children('li');
+	      if (!$li.length) return false;
+	      var $oldHighlightLi = $li.filter('.highlight');
+	      var $newHighlightLi = $li.first();
+	      if (roamType == 'up') {
+	        if ($oldHighlightLi.length) {
+	          $newHighlightLi = $oldHighlightLi.prev();
+	          $newHighlightLi.length || ($newHighlightLi = $li.last());
+	        }
+	      }
+	      if (roamType == 'down') {
+	        if ($oldHighlightLi.length) {
+	          $newHighlightLi = $oldHighlightLi.next();
+	          $newHighlightLi.length || ($newHighlightLi = $li.first());
+	        }
+	      }
+	      $newHighlightLi.addClass('highlight').siblings().removeClass('highlight');
+	
+	      var maxHeight = parseInt($ul.css('maxHeight'));
+	      var visible_top = $ul.scrollTop();
+	      var visible_bottom = maxHeight + visible_top;
+	      var newHighlightLi_top = $newHighlightLi.position().top + visible_top;
+	      var newHighlightLi_bottom = newHighlightLi_top + $newHighlightLi.outerHeight();
+	      if (newHighlightLi_bottom >= visible_bottom) {
+	        $ul.scrollTop(newHighlightLi_bottom - maxHeight > 0 ? newHighlightLi_bottom - maxHeight : 0);
+	      } else if (newHighlightLi_top < visible_top) {
+	        $ul.scrollTop(newHighlightLi_top);
+	      }
 	    }
 	  }, {
 	    key: 'handleSearch',
 	    value: function handleSearch(text) {
 	      var self = this;
+	      text = escapeRegExp(text || '');
 	      if (!text || !text.trim || !(text = text.trim()) || ('' + text).length < self.props.minLengthToSearch) return;
 	      if (self.props.onSearch) {
-	        self.props.onSearch('' + text, function (curOptions) {
-	          self.setState({ curOptions: curOptions });
+	        self.props.onSearch.call(this, {
+	          target: self,
+	          searchText: '' + text
 	        });
 	      } else {
-	        var curOptions = self.props.initialOptions.filter(function (itm) {
+	        var currentOptions = self.props.allOptions.filter(function (itm) {
 	          return new RegExp(text, 'i').exec(itm.text);
 	        });
-	        self.setState({ curOptions: curOptions });
+	        self.setState({ currentOptions: currentOptions });
 	      }
 	    }
 	  }, {
@@ -36487,63 +36675,62 @@
 	    value: function handleSelect(curOption) {
 	      var self = this;
 	      self.setState({
-	        isEditing: false,
-	        curText: curOption.text
+	        isEditing: false
 	      });
-	      self.props.onSelect(curOption);
+	      self.props.onSelect.call(this, {
+	        target: self,
+	        selectedOption: curOption
+	      });
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
+	      var _this4 = this;
 	
 	      var props = this.props,
 	          state = this.state,
 	          prefixCls = props.prefixCls;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: prefixCls + ' ' + (props.className || '') },
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isEditing ? prefixCls + '-isediting' : '') },
 	        _react2.default.createElement(
 	          'div',
-	          { className: prefixCls + '-inputs' },
+	          { className: prefixCls + '-console',
+	            onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
+	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
+	            className: prefixCls + '-console-text',
+	            value: props.text,
+	            title: props.text,
+	            onKeyDown: this.handleKeyDown.bind(this),
+	            onKeyUp: this.handleKeyUp.bind(this),
+	            onChange: this.handleInputChange.bind(this) }),
 	          _react2.default.createElement(
-	            'div',
-	            { className: prefixCls + '-inputs-console',
-	              onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
-	            state.isEditing ? _react2.default.createElement('input', { type: 'text', ref: 'inputText',
-	              className: prefixCls + '-inputs-console-text',
-	              value: state.curText,
-	              onBlur: this.handleInputBlur.bind(this),
-	              onChange: this.handleInputChange.bind(this) }) : _react2.default.createElement(
-	              'span',
-	              { className: prefixCls + '-inputs-console-label',
-	                title: state.curText,
-	                onClick: this.handleEnableInputs.bind(this) },
-	              state.curText
-	            ),
-	            _react2.default.createElement('span', { className: prefixCls + '-inputs-console-toggle' })
-	          ),
+	            'span',
+	            { className: prefixCls + '-console-toggle' },
+	            ' '
+	          )
+	        ),
+	        _react2.default.createElement(
+	          'div',
+	          { className: prefixCls + '-dropdown',
+	            style: { display: !state.isEditing ? 'none' : undefined } },
 	          _react2.default.createElement(
-	            'div',
-	            { className: prefixCls + '-inputs-dropdown',
-	              style: { display: !state.isEditing ? 'none' : undefined },
-	              onMouseEnter: function onMouseEnter(e) {
-	                _this2.isMouseHover = true;
-	              },
-	              onMouseLeave: function onMouseLeave(e) {
-	                _this2.isMouseHover = false;
-	              } },
-	            _react2.default.createElement(
-	              'ul',
-	              { className: prefixCls + '-inputs-dropdown-items' },
-	              state.curOptions.map(function (itm, x) {
-	                return _react2.default.createElement(
-	                  'li',
-	                  { key: x, title: itm.text, onClick: _this2.handleSelect.bind(_this2, itm) },
-	                  itm.text
-	                );
-	              })
-	            )
+	            'ul',
+	            { ref: 'ulItems', className: prefixCls + '-dropdown-items' },
+	            state.currentOptions.map(function (itm, x) {
+	              return _react2.default.createElement(
+	                'li',
+	                { key: x, title: itm.text,
+	                  onClick: _this4.handleSelect.bind(_this4, itm),
+	                  onMouseEnter: function onMouseEnter(e) {
+	                    $(e.currentTarget).addClass('highlight').siblings().removeClass('highlight');
+	                  },
+	                  onMouseLeave: function onMouseLeave(e) {
+	                    $(e.currentTarget).removeClass('highlight');
+	                  } },
+	                itm.text
+	              );
+	            })
 	          )
 	        )
 	      );
@@ -36558,13 +36745,15 @@
 	AutoComplete.defaultProps = {
 	  prefixCls: 'ui-form-autocomplete',
 	  className: '',
-	  initialText: '',
-	  initialOptions: [], // {text: '', value: {} }
+	  text: '',
+	  value: null,
+	  allOptions: [], // {text: '', value: {} }
 	  minLengthToSearch: 2,
 	  minSearchInterval: .5,
+	  onChange: function onChange() {},
 	  onSelect: function onSelect() {},
-	  onSearch: undefined, // Once it is set initialOptions will not be used
-	  onEnableInput: undefined, // Could be used to replace curOptions result
+	  onSearch: undefined, // Execute default search logic when value is undefined, otherwise value is a function to override this logic
+	  onEnableInput: undefined, // Search props.text when value is undefined, otherwise value is a function to override this logic
 	  onDisableInput: undefined };
 
 /***/ },
@@ -37125,7 +37314,7 @@
 	
 	
 	// module
-	exports.push([module.id, "/**\n * form样式\n */\n \n\n/**\n * AutoComplete\n */\n.ui-form-autocomplete {\n  display: inline-block;\n  position: absolute;\n  z-index: 10000;\n}\n.ui-form-autocomplete-inputs {\n}\n.ui-form-autocomplete-inputs-console {\n}\n.ui-form-autocomplete-inputs-console-label {\n}\n.ui-form-autocomplete-inputs-console-text {\n  border: none;\n}\n.ui-form-autocomplete-inputs-console-toggle {\n}\n.ui-form-autocomplete-inputs-dropdown {\n}\n.ui-form-autocomplete-inputs-dropdown ul {\n  overflow: auto;\n}\n.ui-form-autocomplete-inputs-dropdown ul li {\n  cursor: pointer;\n}\n.ui-form-autocomplete-inputs-dropdown ul li:hover {\n}\n\n\n", "", {"version":3,"sources":["/../../src/component/autocomplete/autocomplete.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;AACH;EACE,sBAAsB;EACtB,mBAAmB;EACnB,eAAe;CAChB;AACD;CACC;AACD;CACC;AACD;CACC;AACD;EACE,aAAa;CACd;AACD;CACC;AACD;CACC;AACD;EACE,eAAe;CAChB;AACD;EACE,gBAAgB;CACjB;AACD;CACC","file":"autocomplete.css","sourcesContent":["/**\n * form样式\n */\n \n\n/**\n * AutoComplete\n */\n.ui-form-autocomplete {\n  display: inline-block;\n  position: absolute;\n  z-index: 10000;\n}\n.ui-form-autocomplete-inputs {\n}\n.ui-form-autocomplete-inputs-console {\n}\n.ui-form-autocomplete-inputs-console-label {\n}\n.ui-form-autocomplete-inputs-console-text {\n  border: none;\n}\n.ui-form-autocomplete-inputs-console-toggle {\n}\n.ui-form-autocomplete-inputs-dropdown {\n}\n.ui-form-autocomplete-inputs-dropdown ul {\n  overflow: auto;\n}\n.ui-form-autocomplete-inputs-dropdown ul li {\n  cursor: pointer;\n}\n.ui-form-autocomplete-inputs-dropdown ul li:hover {\n}\n\n\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n \r\n\r\n.ui-form-autocomplete {\r\n  display: inline-block;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-text {\r\n  border: none;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-toggle {\r\n  display: inline-block;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown {\r\n  position: absolute;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul {\r\n  overflow: auto;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul li {\r\n  cursor: pointer;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul li:hover {\r\n}\r\n", "", {"version":3,"sources":["/../../src/component/autocomplete/autocomplete.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AACH;EACE,sBAAsB;CACvB;;;AACD;CACC;;;AACD;EACE,aAAa;CACd;;;AACD;EACE,sBAAsB;CACvB;;;AACD;EACE,mBAAmB;CACpB;;;AACD;EACE,eAAe;CAChB;;;AACD;EACE,gBAAgB;CACjB;;;AACD;CACC","file":"autocomplete.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n.ui-form-autocomplete {\r\n  display: inline-block;\r\n}\r\n.ui-form-autocomplete-console {\r\n}\r\n.ui-form-autocomplete-console-text {\r\n  border: none;\r\n}\r\n.ui-form-autocomplete-console-toggle {\r\n  display: inline-block;\r\n}\r\n.ui-form-autocomplete-dropdown {\r\n  position: absolute;\r\n}\r\n.ui-form-autocomplete-dropdown ul {\r\n  overflow: auto;\r\n}\r\n.ui-form-autocomplete-dropdown ul li {\r\n  cursor: pointer;\r\n}\r\n.ui-form-autocomplete-dropdown ul li:hover {\r\n}\r\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
