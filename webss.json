@@ -1,0 +1,14 @@
+{
+    "webPath": "/",
+    "port": "8888",
+    "pageAutoReload": true,
+    "proxies": [{
+        "remoteUrl": "http://127.0.0.1:8888/",
+        "localPort": "5050",
+        "desc": "local server"
+    }],
+    "middleware": [{
+        "scope": "**/src/**", 
+        "bin": "./src/main/webapp/viewport/build/main.js" 
+    }]
+}
