@@ -63,18 +63,7 @@ class AutoComplete extends Widget {
       const domInput = self.refs.inputText;
       domInput.select();
       domInput.focus();
-      if(self.props.onEnableInput) {
-        self.props.onEnableInput.call(this, {
-          target: self,
-          currentOption: {
-            text: self.props.text,
-            value: self.props.value,
-          },
-        });
-      }
-      else {
-        self.handleSearch(self.props.text);
-      }
+      self.handleDefaultSearch();
     });
   }
   handleDisableInputs(e) {
@@ -182,8 +171,14 @@ class AutoComplete extends Widget {
   }
   handleSearch(text) {
     const self = this;
-    text = escapeRegExp(text||'');
-    if(!text || !text.trim || !(text=text.trim()) || (''+text).length<self.props.minLengthToSearch) return;
+    text = escapeRegExp(''+text||'').trim();
+    if(text.length && text.length<self.props.minLengthToSearch) return;
+    // 无文本时的搜索
+    if(!text.length) {
+      self.handleDefaultSearch();
+      return;
+    }
+    // 标准文本时的搜索
     if(self.props.onSearch) {
       self.props.onSearch.call(this, {
         target: self,
@@ -193,6 +188,22 @@ class AutoComplete extends Widget {
     else {
       const currentOptions = self.props.allOptions.filter(itm => (new RegExp(text,'i')).exec(itm.text));
       self.setState({currentOptions: currentOptions});
+    }
+  }
+  handleDefaultSearch() {
+    const self = this;
+    if(self.props.onEnableInput) {
+      self.props.onEnableInput.call(this, {
+        target: self,
+        currentOption: {
+          text: self.props.text,
+          value: self.props.value,
+        },
+      });
+    }
+    else {
+      if(self.props.text.length)
+        self.handleSearch(self.props.text);
     }
   }
   handleSelect(curOption) {

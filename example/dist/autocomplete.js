@@ -1,5 +1,5 @@
 /*!
- * Build at Fri Feb 26 2016 18:55:55 GMT+0800 (China Standard Time)
+ * Build at Mon Apr 11 2016 14:01:17 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -36520,35 +36520,23 @@
 	  }, {
 	    key: 'handleEnableInputs',
 	    value: function handleEnableInputs(e) {
-	      var _this2 = this;
-	
 	      var self = this;
 	      self.setState({ isEditing: true }, function () {
 	        var domInput = self.refs.inputText;
 	        domInput.select();
 	        domInput.focus();
-	        if (self.props.onEnableInput) {
-	          self.props.onEnableInput.call(_this2, {
-	            target: self,
-	            currentOption: {
-	              text: self.props.text,
-	              value: self.props.value
-	            }
-	          });
-	        } else {
-	          self.handleSearch(self.props.text);
-	        }
+	        self.handleDefaultSearch();
 	      });
 	    }
 	  }, {
 	    key: 'handleDisableInputs',
 	    value: function handleDisableInputs(e) {
-	      var _this3 = this;
+	      var _this2 = this;
 	
 	      var self = this;
 	      self.setState({ isEditing: false }, function () {
 	        if (self.props.onDisableInput) {
-	          self.props.onDisableInput.call(_this3, {
+	          self.props.onDisableInput.call(_this2, {
 	            target: self,
 	            currentOption: {
 	              text: self.props.text,
@@ -36656,8 +36644,14 @@
 	    key: 'handleSearch',
 	    value: function handleSearch(text) {
 	      var self = this;
-	      text = escapeRegExp(text || '');
-	      if (!text || !text.trim || !(text = text.trim()) || ('' + text).length < self.props.minLengthToSearch) return;
+	      text = escapeRegExp('' + text || '').trim();
+	      if (text.length && text.length < self.props.minLengthToSearch) return;
+	      // 无文本时的搜索
+	      if (!text.length) {
+	        self.handleDefaultSearch();
+	        return;
+	      }
+	      // 标准文本时的搜索
 	      if (self.props.onSearch) {
 	        self.props.onSearch.call(this, {
 	          target: self,
@@ -36668,6 +36662,22 @@
 	          return new RegExp(text, 'i').exec(itm.text);
 	        });
 	        self.setState({ currentOptions: currentOptions });
+	      }
+	    }
+	  }, {
+	    key: 'handleDefaultSearch',
+	    value: function handleDefaultSearch() {
+	      var self = this;
+	      if (self.props.onEnableInput) {
+	        self.props.onEnableInput.call(this, {
+	          target: self,
+	          currentOption: {
+	            text: self.props.text,
+	            value: self.props.value
+	          }
+	        });
+	      } else {
+	        if (self.props.text.length) self.handleSearch(self.props.text);
 	      }
 	    }
 	  }, {
@@ -36685,7 +36695,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this4 = this;
+	      var _this3 = this;
 	
 	      var props = this.props,
 	          state = this.state,
@@ -36721,7 +36731,7 @@
 	              return _react2.default.createElement(
 	                'li',
 	                { key: x, title: itm.text,
-	                  onClick: _this4.handleSelect.bind(_this4, itm),
+	                  onClick: _this3.handleSelect.bind(_this3, itm),
 	                  onMouseEnter: function onMouseEnter(e) {
 	                    $(e.currentTarget).addClass('highlight').siblings().removeClass('highlight');
 	                  },
