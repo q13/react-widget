@@ -41,7 +41,9 @@ class Dialog extends Widget {
               onClick={ props.onClickClose }>
         { props.closeText }
       </button>
-      <span className={props.prefixCls+'-btn-separater'}></span>
+      <span className={ `${props.prefixCls}-btn-separator` }
+            style={ {display: ([closeOption, submitOption].some(x=>x=='hidden')?'none':undefined)} }>
+      </span>
       <button className={ `${props.prefixCls}-btn-submit` }
               style={ {display: (submitOption=='hidden'?'none':undefined)} }
               disabled={ submitOption=='disabled' }
