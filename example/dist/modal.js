@@ -1,5 +1,5 @@
 /*!
- * Build at Fri Feb 26 2016 18:55:55 GMT+0800 (China Standard Time)
+ * Build at Mon Apr 11 2016 14:01:17 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -26328,7 +26328,9 @@
 	  hasActionBar: undefined,
 	  title: undefined,
 	  closeText: undefined,
+	  closeOption: undefined,
 	  submitText: undefined,
+	  submitOption: undefined,
 	  onClickClose: function onClickClose() {},
 	  onClickSubmit: function onClickSubmit() {},
 	  // onBeforeMount : ()=>{},
@@ -26348,7 +26350,9 @@
 	  // hasActionBar: undefined,
 	  // title: undefined,
 	  // closeText: undefined,
+	  // closeOption: undefined,
 	  // submitText: undefined,
+	  // submitOption: undefined,
 	  onClickClose: _react2.default.PropTypes.func,
 	  onClickSubmit: _react2.default.PropTypes.func,
 	  // onBeforeMount : React.PropTypes.func,
@@ -26408,7 +26412,9 @@
 	      var hasActionBar = props.hasActionBar;
 	      var title = props.title;
 	      var closeText = props.closeText;
+	      var closeOption = props.closeOption;
 	      var submitText = props.submitText;
+	      var submitOption = props.submitOption;
 	      var onClickClose = props.onClickClose;
 	      var onClickSubmit = props.onClickSubmit;
 	
@@ -26418,7 +26424,9 @@
 	      };
 	      var actionbarProps = {
 	        closeText: closeText,
+	        closeOption: closeOption,
 	        submitText: submitText,
+	        submitOption: submitOption,
 	        onClickClose: onClickClose,
 	        onClickSubmit: onClickSubmit
 	      };
@@ -26427,7 +26435,11 @@
 	        { className: props.prefixCls + '-titlebar' },
 	        _react2.default.createElement(
 	          'div',
-	          { className: props.prefixCls + '-float-right ' + props.prefixCls + '-cmdbutton', onClick: props.onClickClose },
+	          { className: props.prefixCls + '-float-right ' + props.prefixCls + '-cmdbutton',
+	            style: { display: ['hidden', 'disabled'].some(function (x) {
+	                return x == closeOption;
+	              }) ? 'none' : undefined },
+	            onClick: props.onClickClose },
 	          '×'
 	        ),
 	        _react2.default.createElement(
@@ -26441,13 +26453,19 @@
 	        { className: props.prefixCls + '-actionbar' },
 	        _react2.default.createElement(
 	          'button',
-	          { className: props.prefixCls + '-btn-cancel', onClick: props.onClickClose },
+	          { className: props.prefixCls + '-btn-cancel',
+	            style: { display: closeOption == 'hidden' ? 'none' : undefined },
+	            disabled: closeOption == 'disabled',
+	            onClick: props.onClickClose },
 	          props.closeText
 	        ),
 	        _react2.default.createElement('span', { className: props.prefixCls + '-btn-separater' }),
 	        _react2.default.createElement(
 	          'button',
-	          { className: props.prefixCls + '-btn-submit', onClick: props.onClickSubmit },
+	          { className: props.prefixCls + '-btn-submit',
+	            style: { display: submitOption == 'hidden' ? 'none' : undefined },
+	            disabled: submitOption == 'disabled',
+	            onClick: props.onClickSubmit },
 	          props.submitText
 	        )
 	      );
@@ -26478,7 +26496,9 @@
 	  // version: '2015.12.10',
 	  title: '标题栏',
 	  closeText: '取消',
+	  closeOption: '', // Accepted values: 'disabled'(disabling button click), 'hidden'(display no button), or any other value for default logic
 	  submitText: '确定',
+	  submitOption: '', // Accepted values: 'disabled'(disabling button click), 'hidden'(display no button), or any other value for default logic
 	  onClickClose: function onClickClose() {},
 	  onClickSubmit: function onClickSubmit() {},
 	  styleTmpl: undefined
@@ -26491,7 +26511,9 @@
 	  // version: React.PropTypes.string,
 	  title: _react2.default.PropTypes.string,
 	  closeText: _react2.default.PropTypes.string,
+	  closeOption: _react2.default.PropTypes.string,
 	  submitText: _react2.default.PropTypes.string,
+	  submitOption: _react2.default.PropTypes.string,
 	  onClickClose: _react2.default.PropTypes.func,
 	  onClickSubmit: _react2.default.PropTypes.func,
 	  styleTmpl: _react2.default.PropTypes.object
@@ -26534,7 +26556,7 @@
 	
 	
 	// module
-	exports.push([module.id, ".ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: 10000;\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separater {\r\n  ;\r\n}\r\n\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}", "", {"version":3,"sources":["/../../src/component/modal/index.css"],"names":[],"mappings":"AAIA;EACE,mBAAmB;EACnB,QAAQ;EACR,OAAO;EACP,eAAiC;CAClC;;AAED;;CAEC;;AAED;EACE,iBAAiB;CAClB;;AAED;;CAEC;;AAED;EACE,YAAY;CACb;;AAED;EACE,mBAAmB;CACpB;;AAED;EACE,YAAY;CACb;;AAED;EACE,aAAa;CACd;;AAED;;CAEC;;AAED;;CAEC;;AAED;;CAEC;;AACD;EACE,mBAAmB;EACnB,oBAAoB;EACpB,UAAU;EACV,kEAAkE;EAClE,aAAa;CACd","file":"index.css","sourcesContent":[":root {\r\n  --uiModalTopZIndex: 10000;\r\n}\r\n\r\n.ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: var(--uiModalTopZIndex);\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separater {\r\n  ;\r\n}\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: 10000;\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel[disabled] {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit[disabled] {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separater {\r\n  ;\r\n}\r\n\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}", "", {"version":3,"sources":["/../../src/component/modal/index.css"],"names":[],"mappings":"AAIA;EACE,mBAAmB;EACnB,QAAQ;EACR,OAAO;EACP,eAAiC;CAClC;;AAED;;CAEC;;AAED;EACE,iBAAiB;CAClB;;AAED;;CAEC;;AAED;EACE,YAAY;CACb;;AAED;EACE,mBAAmB;CACpB;;AAED;EACE,YAAY;CACb;;AAED;EACE,aAAa;CACd;;AAED;;CAEC;;AACD;;CAEC;;AAED;;CAEC;;AACD;;CAEC;;AAED;;CAEC;;AACD;EACE,mBAAmB;EACnB,oBAAoB;EACpB,UAAU;EACV,kEAAkE;EAClE,aAAa;CACd","file":"index.css","sourcesContent":[":root {\r\n  --uiModalTopZIndex: 10000;\r\n}\r\n\r\n.ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: var(--uiModalTopZIndex);\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n.ui-modal-dialog-btn-cancel[disabled] {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n.ui-modal-dialog-btn-submit[disabled] {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separater {\r\n  ;\r\n}\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 

@@ -40,8 +40,14 @@
 .ui-modal-dialog-btn-cancel {
   ;
 }
+.ui-modal-dialog-btn-cancel[disabled] {
+  ;
+}
 
 .ui-modal-dialog-btn-submit {
+  ;
+}
+.ui-modal-dialog-btn-submit[disabled] {
   ;
 }
 
