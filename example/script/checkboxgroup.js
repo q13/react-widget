@@ -39,7 +39,7 @@ function runner () {
         <Checkboxgroup className="checkboxgroup-instance checkboxgroup-typical"
                        options={ example1.allOptions }
                        onChange={ (evt) => {
-                         const {target, selectedOptions, __currentIndex} = evt;
+                         const { selectedOptions } = evt;
                          example1.selectedOptions = selectedOptions;
                          runner();
                        } } />

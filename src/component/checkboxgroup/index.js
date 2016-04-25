@@ -25,9 +25,9 @@ class Checkboxgroup extends Widget {
       return option.checked;
     });
     self.props.onChange.call(self, {
-      target: self,
+      // target: self,
       selectedOptions: selectedOptions,
-      __currentIndex: currentIndex,
+      // __currentIndex: currentIndex,
     });
   }
   render() {
@@ -39,23 +39,21 @@ class Checkboxgroup extends Widget {
       {
         props.options.map((option, x) => (
           <div key={ x }
-               className={ getOptionClass(option, x) }
+               className={ Checkboxgroup.getOptionClass(prefixCls, option, x) }
                onClick={ this.handleOptionClick.bind(this, x) }>
             { option.text }
           </div>
         ))
       }
     </div>);
-
-    function getOptionClass(option, x) {
-      let classString = `${prefixCls}-option ${prefixCls}-option_${x}`;
-      if (option.disabled) classString += ` ${prefixCls}-option_disabled`;
-      if (option.checked) classString += ` ${prefixCls}-option_checked`;
-      return classString;
-    }
   }
 }
-export default Checkboxgroup;
+Checkboxgroup.getOptionClass = function(prefixCls, option, x) {
+  let classString = `${prefixCls}-option ${prefixCls}-option_${x}`;
+  if (option.disabled) classString += ` ${prefixCls}-option_disabled`;
+  if (option.checked) classString += ` ${prefixCls}-option_checked`;
+  return classString;
+};
 Checkboxgroup.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
@@ -68,3 +66,5 @@ Checkboxgroup.defaultProps = {
   options: [], // {text: '', value: '', checked: false, disabled: false }
   onChange: (evt) => {},
 };
+
+export default Checkboxgroup;

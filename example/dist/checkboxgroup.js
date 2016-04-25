@@ -96,9 +96,7 @@
 	        _react2.default.createElement(_index2.default, { className: "checkboxgroup-instance checkboxgroup-typical",
 	          options: example1.allOptions,
 	          onChange: function onChange(evt) {
-	            var target = evt.target;
 	            var selectedOptions = evt.selectedOptions;
-	            var __currentIndex = evt.__currentIndex;
 	
 	            example1.selectedOptions = selectedOptions;
 	            runner();
@@ -25866,13 +25864,13 @@
 	        return option.checked;
 	      });
 	      self.props.onChange.call(self, {
-	        target: self,
-	        selectedOptions: selectedOptions,
-	        __currentIndex: currentIndex
+	        // target: self,
+	        selectedOptions: selectedOptions
 	      });
 	    }
 	  }, {
 	    key: 'render',
+	    // __currentIndex: currentIndex,
 	    value: function render() {
 	      var _this2 = this;
 	
@@ -25887,27 +25885,24 @@
 	          return _react2.default.createElement(
 	            'div',
 	            { key: x,
-	              className: getOptionClass(option, x),
+	              className: Checkboxgroup.getOptionClass(prefixCls, option, x),
 	              onClick: _this2.handleOptionClick.bind(_this2, x) },
 	            option.text
 	          );
 	        })
 	      );
-	
-	      function getOptionClass(option, x) {
-	        var classString = prefixCls + '-option ' + prefixCls + '-option_' + x;
-	        if (option.disabled) classString += ' ' + prefixCls + '-option_disabled';
-	        if (option.checked) classString += ' ' + prefixCls + '-option_checked';
-	        return classString;
-	      }
 	    }
 	  }]);
 	
 	  return Checkboxgroup;
 	}(_component.Widget);
 	
-	exports.default = Checkboxgroup;
-	
+	Checkboxgroup.getOptionClass = function (prefixCls, option, x) {
+	  var classString = prefixCls + '-option ' + prefixCls + '-option_' + x;
+	  if (option.disabled) classString += ' ' + prefixCls + '-option_disabled';
+	  if (option.checked) classString += ' ' + prefixCls + '-option_checked';
+	  return classString;
+	};
 	Checkboxgroup.propTypes = {
 	  prefixCls: _react2.default.PropTypes.string,
 	  className: _react2.default.PropTypes.string,
@@ -25920,6 +25915,8 @@
 	  options: [], // {text: '', value: '', checked: false, disabled: false }
 	  onChange: function onChange(evt) {}
 	};
+	
+	exports.default = Checkboxgroup;
 
 /***/ },
 /* 452 */
