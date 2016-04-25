@@ -8,9 +8,9 @@ import Checkboxgroup from "../../src/component/checkboxgroup/index.js";
 
 let options = [
   {name: 'name1', checked: true, disabled: false, text: 'Checkboxgroup class', value: Checkboxgroup },
-  {name: 'name2', checked: true, disabled: false, text: 'window', value: window },
-  {name: 'name3', checked: true, disabled: false, text: 'document', value: document },
-  {name: 'name4', checked: true, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent },
+  {name: 'name2', checked: true, disabled: true, text: 'window', value: window },
+  {name: 'name3', checked: false, disabled: true, text: 'document', value: document },
+  {name: 'name4', checked: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent },
   {name: 'name5', checked: true, disabled: false, text: 'navigator.languages', value: navigator.languages },
 ];
 const example1 = {
@@ -19,29 +19,28 @@ const example1 = {
 };
 function runner () {
   ReactDom.render(<div>
-    <style>
-    {`
-      .checkboxgroup-instance input[type=text] {
-        width: 400px;
+    <style dangerouslySetInnerHTML={ {__html: `
+      .checkboxgroup-instance .ui-form-checkboxgroup-option:before {
+        content: " - ";
       }
-      .checkboxgroup-instance li.highlight {
-        background: #ff0;
+      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-form-checkboxgroup-option_checked:before {
+        content: " + ";
       }
-      .checkboxgroup-instance ul {
-        margin-top: 0;
-        width: 300px;
-        max-height: 150px;
+      .checkboxgroup-instance .ui-form-checkboxgroup-option_disabled {
+        opacity: .5;
       }
-    `}
-    </style>
+      .checkboxgroup-instance .ui-form-checkboxgroup-option_disabled:after {
+        content: "(disabled)";
+      }
+    `} } />
     <div style={{display: 'inline-block'}}>
       Typical use:<br/>
       <div>
         <Checkboxgroup className="checkboxgroup-instance checkboxgroup-typical"
                        options={ example1.allOptions }
                        onChange={ (evt) => {
-                         const {target, currentIndex, currentOptions} = evt;
-                         example1.selectedOptions = currentOptions;
+                         const {target, selectedOptions, __currentIndex} = evt;
+                         example1.selectedOptions = selectedOptions;
                          runner();
                        } } />
       </div>

@@ -15,18 +15,18 @@ class Checkboxgroup extends Widget {
   }
   componentDidMount() {}
   componentWillUnmount() {}
-  handleInputChange(currentIndex, e) {
+  handleOptionClick(currentIndex, e) {
     const self = this;
     const props = self.props;
-    const currentOptions = props.options.filter((option, x) => {
-      if (currentIndex == x) {
-        option.checked = e.target.checked;
+    const selectedOptions = props.options.filter((option, x) => {
+      if (currentIndex == x && !option.disabled) {
+        option.checked = !option.checked;
       }
       return option.checked;
     });
     self.props.onChange.call(self, {
       target: self,
-      currentOptions: currentOptions,
+      selectedOptions: selectedOptions,
       __currentIndex: currentIndex,
     });
   }
@@ -38,15 +38,10 @@ class Checkboxgroup extends Widget {
     return (<div className={ `${prefixCls} ${props.className || ''}` }>
       {
         props.options.map((option, x) => (
-          <div key={ x } className={ getOptionClass(option, x) }>
-            { null && option.text }
-            <label>
-              <input { ...option } type="checkbox" ref={ `input_${x}` }
-                     className={ `${prefixCls}-option-input` }
-                     value={ option.value }
-                     onChange={ this.handleInputChange.bind(this, x) } />
-              { option.text }
-            </label>
+          <div key={ x }
+               className={ getOptionClass(option, x) }
+               onClick={ this.handleOptionClick.bind(this, x) }>
+            { option.text }
           </div>
         ))
       }
@@ -54,8 +49,8 @@ class Checkboxgroup extends Widget {
 
     function getOptionClass(option, x) {
       let classString = `${prefixCls}-option ${prefixCls}-option_${x}`;
-      if(option.disabled) classString += `${prefixCls}-option_disabled`;
-      if(option.checked) classString += `${prefixCls}-option_checked`;
+      if (option.disabled) classString += ` ${prefixCls}-option_disabled`;
+      if (option.checked) classString += ` ${prefixCls}-option_checked`;
       return classString;
     }
   }
@@ -70,6 +65,6 @@ Checkboxgroup.propTypes = {
 Checkboxgroup.defaultProps = {
   prefixCls: 'ui-form-checkboxgroup',
   className: '',
-  options: [],  // {text: '', ... }
+  options: [], // {text: '', value: '', checked: false, disabled: false }
   onChange: (evt) => {},
 };
