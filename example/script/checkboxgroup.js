@@ -4,7 +4,7 @@
 import babelPolyfill from "babel-polyfill";  // enable es6 to es5 transform
 import React from "react";
 import ReactDom from "react-dom";
-import Checkboxgroup from "../../src/component/checkboxgroup/index.js";
+import Checkboxgroup from "../../src/component/form/checkboxgroup.js";
 
 let options = [
   {name: 'name1', checked: true, disabled: false, text: 'Checkboxgroup class', value: Checkboxgroup },

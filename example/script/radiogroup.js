@@ -4,7 +4,7 @@
 import babelPolyfill from "babel-polyfill";  // enable es6 to es5 transform
 import React from "react";
 import ReactDom from "react-dom";
-import Radiogroup from "../../src/component/radiogroup/index.js";
+import Radiogroup from "../../src/component/form/radiogroup.js";
 
 let options = [
   {checked: true, disabled: false, text: 'Radiogroup class', value: Radiogroup },

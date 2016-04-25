@@ -6,7 +6,7 @@ import {
 } from "../component.js";
 import React from 'react';
 import ReactDom from 'react-dom';
-import style from './radiogroup.css';
+import style from './form.css';
 
 class Radiogroup extends Widget {
   constructor(props) {

@@ -1,5 +1,5 @@
 /*!
- * Build at Mon Apr 25 2016 13:56:12 GMT+0800 (China Standard Time)
+ * Build at Mon Apr 25 2016 17:58:36 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -62,9 +62,9 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _index = __webpack_require__(451);
+	var _checkboxgroup = __webpack_require__(481);
 	
-	var _index2 = _interopRequireDefault(_index);
+	var _checkboxgroup2 = _interopRequireDefault(_checkboxgroup);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -72,7 +72,7 @@
 	 * Checkboxgroup demo
 	 */
 	
-	var options = [{ name: 'name1', checked: true, disabled: false, text: 'Checkboxgroup class', value: _index2.default }, { name: 'name2', checked: true, disabled: true, text: 'window', value: window }, { name: 'name3', checked: false, disabled: true, text: 'document', value: document }, { name: 'name4', checked: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { name: 'name5', checked: true, disabled: false, text: 'navigator.languages', value: navigator.languages }]; // enable es6 to es5 transform
+	var options = [{ name: 'name1', checked: true, disabled: false, text: 'Checkboxgroup class', value: _checkboxgroup2.default }, { name: 'name2', checked: true, disabled: true, text: 'window', value: window }, { name: 'name3', checked: false, disabled: true, text: 'document', value: document }, { name: 'name4', checked: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { name: 'name5', checked: true, disabled: false, text: 'navigator.languages', value: navigator.languages }]; // enable es6 to es5 transform
 	
 	var example1 = {
 	  allOptions: options,
@@ -93,7 +93,7 @@
 	      _react2.default.createElement(
 	        "div",
 	        null,
-	        _react2.default.createElement(_index2.default, { className: "checkboxgroup-instance checkboxgroup-typical",
+	        _react2.default.createElement(_checkboxgroup2.default, { className: "checkboxgroup-instance checkboxgroup-typical",
 	          options: example1.allOptions,
 	          onChange: function onChange(evt) {
 	            var selectedOptions = evt.selectedOptions;
@@ -25799,7 +25799,75 @@
 /* 448 */,
 /* 449 */,
 /* 450 */,
-/* 451 */
+/* 451 */,
+/* 452 */,
+/* 453 */,
+/* 454 */,
+/* 455 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(456);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(447)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./form.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./form.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 456 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(446)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * DateInput\r\n */\r\n \r\n\r\n/**\r\n * ColorInput\r\n */\r\n", "", {"version":3,"sources":["/../../src/component/form/form.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AAEH;;GAEG","file":"form.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * DateInput\r\n */\r\n\r\n/**\r\n * ColorInput\r\n */\r\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */,
+/* 479 */,
+/* 480 */,
+/* 481 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25820,9 +25888,9 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _checkboxgroup = __webpack_require__(452);
+	var _form = __webpack_require__(455);
 	
-	var _checkboxgroup2 = _interopRequireDefault(_checkboxgroup);
+	var _form2 = _interopRequireDefault(_form);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -25917,46 +25985,6 @@
 	};
 	
 	exports.default = Checkboxgroup;
-
-/***/ },
-/* 452 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(453);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(447)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./checkboxgroup.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./checkboxgroup.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 453 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(446)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * Checkboxgroup\r\n */\r\n \r\n\r\n.ui-form-checkboxgroup {\r\n}\r\n \r\n\r\n.ui-form-checkboxgroup-option {\r\n}\r\n \r\n\r\n.ui-form-checkboxgroup-option_checked {\r\n}\r\n \r\n\r\n.ui-form-checkboxgroup-option_disabled {\r\n}\r\n \r\n\r\n.ui-form-checkboxgroup-option-input {\r\n}\r\n", "", {"version":3,"sources":["/../../src/component/checkboxgroup/checkboxgroup.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AACH;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC","file":"checkboxgroup.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * Checkboxgroup\r\n */\r\n.ui-form-checkboxgroup {\r\n}\r\n.ui-form-checkboxgroup-option {\r\n}\r\n.ui-form-checkboxgroup-option_checked {\r\n}\r\n.ui-form-checkboxgroup-option_disabled {\r\n}\r\n.ui-form-checkboxgroup-option-input {\r\n}\r\n"],"sourceRoot":"webpack://"}]);
-	
-	// exports
-
 
 /***/ }
 /******/ ]);
