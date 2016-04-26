@@ -8,7 +8,7 @@ import DateInput from "./src/component/form/DateInput.js";
 import Modal from "./src/component/modal";
 import Checkboxgroup from "./src/component/form/checkboxgroup";
 import Radiogroup from "./src/component/form/radiogroup";
-// import Dropdown from "./src/component/form/dropdown";
+import Dropdown from "./src/component/form/dropdown";
 import AutoComplete from "./src/component/autocomplete";
 import ColorInput from "./src/component/form/ColorInput.js";
 export {
@@ -19,7 +19,7 @@ export {
     Modal,
     Checkboxgroup,
     Radiogroup,
-    // Dropdown,
+    Dropdown,
     AutoComplete,
     ColorInput
 };
