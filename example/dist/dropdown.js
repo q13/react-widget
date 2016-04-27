@@ -84,7 +84,7 @@
 	  _reactDom2.default.render(_react2.default.createElement(
 	    "div",
 	    null,
-	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .dropdown-instance input[type=text] {\n        width: 400px;\n      }\n      .dropdown-instance ul {\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.highlight {\n        background: #ff0;\n      }\n\n      .dropdown-instance .ui-form-dropdown-datapane-option:before {\n        content: \" - \";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-form-dropdown-datapane-option_selected:before {\n        content: \" + \";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option_selected:after {\n        content: \"(selected)\";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option_disabled {\n        opacity: .5;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option_disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
+	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .dropdown-instance input[type=text] {\n        width: 400px;\n      }\n      .dropdown-instance ul {\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_highlight {\n        background: #ff0;\n      }\n\n      .dropdown-instance .ui-form-dropdown-datapane-option:before {\n        content: \" - \";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_selected:before {\n        content: \" + \";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_selected:after {\n        content: \"(selected)\";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_disabled {\n        opacity: .5;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
 	    _react2.default.createElement(
 	      "div",
 	      null,
@@ -25985,6 +25985,7 @@
 	    key: 'handleKeyDown',
 	    value: function handleKeyDown(e) {
 	      var self = this;
+	      if (!self.state.isEditing) return;
 	      var stroke = e.which || e.keyCode;
 	      switch (stroke) {
 	        case 38:
@@ -26007,13 +26008,14 @@
 	    key: 'handleKeyUp',
 	    value: function handleKeyUp(e) {
 	      var self = this;
+	      if (!self.state.isEditing) return;
 	      var stroke = e.which || e.keyCode;
 	      switch (stroke) {
 	        case 13:
 	          // 回车
 	          e.preventDefault();
 	          var $li = $(self.refs.ulItems).children('.' + self.props.prefixCls + '-datapane-option');
-	          var $highlightLi = $li.filter('.highlight');
+	          var $highlightLi = $li.filter('.ui-common_highlight');
 	          if ($highlightLi.length) {
 	            var selectedIndex = self.props.options.findIndex(function (option, x) {
 	              return $li[x] === $highlightLi[0];
@@ -26027,11 +26029,12 @@
 	    key: 'handleOptionsRoam',
 	    value: function handleOptionsRoam(roamType) {
 	      var self = this;
+	      if (!self.state.isEditing) return;
 	      var $dropdown = $('.' + self.props.prefixCls + '-' + self.instanceId);
 	      var $ul = $(self.refs.ulItems);
 	      var $li = $(self.refs.ulItems).children('.' + self.props.prefixCls + '-datapane-option');
 	      if (!$li.length) return false;
-	      var $oldHighlightLi = $li.filter('.highlight');
+	      var $oldHighlightLi = $li.filter('.ui-common_highlight');
 	      var $newHighlightLi = $li.first();
 	      if (roamType == 'up') {
 	        if ($oldHighlightLi.length) {
@@ -26045,7 +26048,7 @@
 	          $newHighlightLi.length || ($newHighlightLi = $li.first());
 	        }
 	      }
-	      $newHighlightLi.addClass('highlight').siblings().removeClass('highlight');
+	      $newHighlightLi.addClass('ui-common_highlight').siblings().removeClass('ui-common_highlight');
 	
 	      var maxHeight = parseInt($ul.css('maxHeight'));
 	      var visible_top = $ul.scrollTop();
@@ -26065,7 +26068,7 @@
 	      var props = self.props;
 	      if (!props.options[currentIndex].disabled) {
 	        // 如果该option未被禁用
-	        // 单选：更新各option的选择状态
+	        // 单选：更新当前列表中各option的选择状态
 	        props.options.forEach(function (option, x) {
 	          option.selected = currentIndex === x ? true : false;
 	        });
@@ -26130,10 +26133,10 @@
 	                  className: Dropdown.getOptionClass(prefixCls, option, x, options),
 	                  onClick: _this4.handleOptionClick.bind(_this4, x),
 	                  onMouseEnter: function onMouseEnter(e) {
-	                    $(e.currentTarget).addClass('highlight').siblings().removeClass('highlight');
+	                    $(e.currentTarget).addClass('ui-common_highlight').siblings().removeClass('ui-common_highlight');
 	                  },
 	                  onMouseLeave: function onMouseLeave(e) {
-	                    $(e.currentTarget).removeClass('highlight');
+	                    $(e.currentTarget).removeClass('ui-common_highlight');
 	                  } },
 	                option.text
 	              );
@@ -26149,10 +26152,10 @@
 	
 	Dropdown.getOptionClass = function (prefixCls, option, x, options) {
 	  var classString = prefixCls + '-datapane-option ' + prefixCls + '-datapane-option_' + x;
-	  if (option.disabled) classString += ' ' + prefixCls + '-datapane-option_disabled';
+	  if (option.disabled) classString += ' ui-common_disabled';
 	  if (option.selected && options.findIndex(function (i) {
 	    return i.selected;
-	  }) === x) classString += ' ' + prefixCls + '-datapane-option_selected';
+	  }) === x) classString += ' ui-common_selected';
 	  return classString;
 	};
 	Dropdown.propTypes = {

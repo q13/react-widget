@@ -34,23 +34,23 @@ function runner () {
         width: 300px;
         max-height: 150px;
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option.highlight {
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_highlight {
         background: #ff0;
       }
 
       .dropdown-instance .ui-form-dropdown-datapane-option:before {
         content: " - ";
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option.ui-form-dropdown-datapane-option_selected:before {
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_selected:before {
         content: " + ";
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option_selected:after {
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_selected:after {
         content: "(selected)";
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option_disabled {
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_disabled {
         opacity: .5;
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option_disabled:after {
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_disabled:after {
         content: "(disabled)";
       }
     `} } />

@@ -49,8 +49,8 @@ class Radiogroup extends Widget {
 }
 Radiogroup.getOptionClass = function(prefixCls, option, x, options) {
   let classString = `${prefixCls}-option ${prefixCls}-option_${x}`;
-  if (option.disabled) classString += ` ${prefixCls}-option_disabled`;
-  if (option.checked && options.findIndex(i => i.checked) === x) classString += ` ${prefixCls}-option_checked`;
+  if (option.disabled) classString += ` ui-common_disabled`;
+  if (option.checked && options.findIndex(i => i.checked) === x) classString += ` ui-common_selected`;
   return classString;
 };
 Radiogroup.propTypes = {
@@ -62,7 +62,7 @@ Radiogroup.propTypes = {
 Radiogroup.defaultProps = {
   prefixCls: 'ui-form-radiogroup',
   className: '',
-  options: [], // {text: '', value: '', checked: false, disabled: false }
+  options: [], // {text: '', value: {}, checked: false, disabled: false }
   onChange: (evt) => {},
 };
 

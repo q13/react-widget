@@ -1,5 +1,5 @@
 /*!
- * Build at Mon Apr 25 2016 17:58:36 GMT+0800 (China Standard Time)
+ * Build at Mon Apr 25 2016 21:02:53 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -62,9 +62,9 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _radiogroup = __webpack_require__(482);
+	var _Radiogroup = __webpack_require__(479);
 	
-	var _radiogroup2 = _interopRequireDefault(_radiogroup);
+	var _Radiogroup2 = _interopRequireDefault(_Radiogroup);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -72,7 +72,7 @@
 	 * Radiogroup demo
 	 */
 	
-	var options = [{ checked: true, disabled: false, text: 'Radiogroup class', value: _radiogroup2.default }, { checked: false, disabled: false, text: 'window', value: window }, { checked: false, disabled: true, text: 'document', value: document }, { checked: true, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { checked: false, disabled: false, text: 'navigator.languages', value: navigator.languages }]; // enable es6 to es5 transform
+	var options = [{ checked: true, disabled: false, text: 'Radiogroup class', value: _Radiogroup2.default }, { checked: false, disabled: false, text: 'window', value: window }, { checked: false, disabled: true, text: 'document', value: document }, { checked: true, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { checked: false, disabled: false, text: 'navigator.languages', value: navigator.languages }]; // enable es6 to es5 transform
 	
 	var example1 = {
 	  allOptions: options,
@@ -84,7 +84,7 @@
 	  _reactDom2.default.render(_react2.default.createElement(
 	    "div",
 	    null,
-	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .radiogroup-instance .ui-form-radiogroup-option:before {\n        content: \" - \";\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-form-radiogroup-option_checked:before {\n        content: \" + \";\n      }\n      .radiogroup-instance .ui-form-radiogroup-option_disabled {\n        opacity: .5;\n      }\n      .radiogroup-instance .ui-form-radiogroup-option_disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
+	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .radiogroup-instance .ui-form-radiogroup-option:before {\n        content: \" - \";\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common_selected:before {\n        content: \" + \";\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common_selected:after {\n        content: \"(checked)\";\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common_disabled {\n        opacity: .5;\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common_disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
 	    _react2.default.createElement(
 	      "div",
 	      { style: { display: 'inline-block' } },
@@ -93,7 +93,7 @@
 	      _react2.default.createElement(
 	        "div",
 	        null,
-	        _react2.default.createElement(_radiogroup2.default, { className: "radiogroup-instance radiogroup-typical",
+	        _react2.default.createElement(_Radiogroup2.default, { className: "radiogroup-instance radiogroup-typical",
 	          options: example1.allOptions,
 	          onChange: function onChange(evt) {
 	            var selectedOption = evt.selectedOption;
@@ -25798,16 +25798,13 @@
 /* 449 */,
 /* 450 */,
 /* 451 */,
-/* 452 */,
-/* 453 */,
-/* 454 */,
-/* 455 */
+/* 452 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(456);
+	var content = __webpack_require__(453);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
 	var update = __webpack_require__(447)(content, {});
@@ -25827,7 +25824,7 @@
 	}
 
 /***/ },
-/* 456 */
+/* 453 */
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(446)();
@@ -25841,6 +25838,9 @@
 
 
 /***/ },
+/* 454 */,
+/* 455 */,
+/* 456 */,
 /* 457 */,
 /* 458 */,
 /* 459 */,
@@ -25863,10 +25863,7 @@
 /* 476 */,
 /* 477 */,
 /* 478 */,
-/* 479 */,
-/* 480 */,
-/* 481 */,
-/* 482 */
+/* 479 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25887,7 +25884,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _form = __webpack_require__(455);
+	var _form = __webpack_require__(452);
 	
 	var _form2 = _interopRequireDefault(_form);
 	
@@ -25967,10 +25964,10 @@
 	
 	Radiogroup.getOptionClass = function (prefixCls, option, x, options) {
 	  var classString = prefixCls + '-option ' + prefixCls + '-option_' + x;
-	  if (option.disabled) classString += ' ' + prefixCls + '-option_disabled';
+	  if (option.disabled) classString += ' ui-common_disabled';
 	  if (option.checked && options.findIndex(function (i) {
 	    return i.checked;
-	  }) === x) classString += ' ' + prefixCls + '-option_checked';
+	  }) === x) classString += ' ui-common_selected';
 	  return classString;
 	};
 	Radiogroup.propTypes = {
@@ -25982,7 +25979,7 @@
 	Radiogroup.defaultProps = {
 	  prefixCls: 'ui-form-radiogroup',
 	  className: '',
-	  options: [], // {text: '', value: '', checked: false, disabled: false }
+	  options: [], // {text: '', value: {}, checked: false, disabled: false }
 	  onChange: function onChange(evt) {}
 	};
 	

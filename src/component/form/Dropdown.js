@@ -63,6 +63,7 @@ class Dropdown extends Widget {
   }
   handleKeyDown(e) {
     const self = this;
+    if (!self.state.isEditing) return;
     const stroke = e.which || e.keyCode;
     switch (stroke) {
       case 38: // 上
@@ -80,12 +81,13 @@ class Dropdown extends Widget {
   }
   handleKeyUp(e) {
     const self = this;
+    if (!self.state.isEditing) return;
     const stroke = e.which || e.keyCode;
     switch (stroke) {
       case 13: // 回车
         e.preventDefault();
         const $li = $(self.refs.ulItems).children(`.${self.props.prefixCls}-datapane-option`);
-        const $highlightLi = $li.filter('.highlight');
+        const $highlightLi = $li.filter('.ui-common_highlight');
         if ($highlightLi.length) {
           const selectedIndex = self.props.options.findIndex((option, x) => $li[x] === $highlightLi[0]);
           self.handleOptionClick(selectedIndex);
@@ -95,11 +97,12 @@ class Dropdown extends Widget {
   }
   handleOptionsRoam(roamType) {
     const self = this;
+    if (!self.state.isEditing) return;
     const $dropdown = $(`.${self.props.prefixCls}-${self.instanceId}`);
     const $ul = $(self.refs.ulItems);
     const $li = $(self.refs.ulItems).children(`.${self.props.prefixCls}-datapane-option`);
     if(!$li.length) return false;
-    let $oldHighlightLi = $li.filter('.highlight');
+    let $oldHighlightLi = $li.filter('.ui-common_highlight');
     let $newHighlightLi = $li.first();
     if(roamType == 'up') {
       if($oldHighlightLi.length) {
@@ -113,7 +116,7 @@ class Dropdown extends Widget {
         $newHighlightLi.length || ($newHighlightLi = $li.first());
       }
     }
-    $newHighlightLi.addClass('highlight').siblings().removeClass('highlight');
+    $newHighlightLi.addClass('ui-common_highlight').siblings().removeClass('ui-common_highlight');
 
     const maxHeight = parseInt($ul.css('maxHeight'));
     let visible_top = $ul.scrollTop();
@@ -130,7 +133,7 @@ class Dropdown extends Widget {
     const self = this;
     const props = self.props;
     if(!props.options[currentIndex].disabled) { // 如果该option未被禁用
-      // 单选：更新各option的选择状态
+      // 单选：更新当前列表中各option的选择状态
       props.options.forEach((option, x) => {
         option.selected = currentIndex === x ? true : false;
       });
@@ -171,8 +174,8 @@ class Dropdown extends Widget {
             (<div key={x} title={ option.text }
                   className={ Dropdown.getOptionClass(prefixCls, option, x, options) }
                   onClick={ this.handleOptionClick.bind(this, x) }
-                  onMouseEnter={ (e)=>{ $(e.currentTarget).addClass('highlight').siblings().removeClass('highlight'); } }
-                  onMouseLeave={ (e)=>{ $(e.currentTarget).removeClass('highlight'); } }>
+                  onMouseEnter={ (e)=>{ $(e.currentTarget).addClass('ui-common_highlight').siblings().removeClass('ui-common_highlight'); } }
+                  onMouseLeave={ (e)=>{ $(e.currentTarget).removeClass('ui-common_highlight'); } }>
               { option.text }
             </div>))
           }
@@ -183,8 +186,8 @@ class Dropdown extends Widget {
 }
 Dropdown.getOptionClass = function(prefixCls, option, x, options) {
   let classString = `${prefixCls}-datapane-option ${prefixCls}-datapane-option_${x}`;
-  if (option.disabled) classString += ` ${prefixCls}-datapane-option_disabled`;
-  if (option.selected && options.findIndex(i => i.selected) === x) classString += ` ${prefixCls}-datapane-option_selected`;
+  if (option.disabled) classString += ` ui-common_disabled`;
+  if (option.selected && options.findIndex(i => i.selected) === x) classString += ` ui-common_selected`;
   return classString;
 };
 Dropdown.propTypes = {

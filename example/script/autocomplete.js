@@ -23,7 +23,8 @@ let allOptions = [
 ];
 const example2 = {
   currentInput: {text: 'click me to start Case-Sensitive search with all options listed initially', value: 'out of scope value 2'},
-  options: allOptions,
+  options: allOptions, // search result list
+  allOptions: $.extend(true, [], allOptions), // search through list
 };
 function runner () {
   ReactDom.render(<div>
@@ -36,23 +37,23 @@ function runner () {
         width: 300px;
         max-height: 150px;
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option.highlight {
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_highlight {
         background: #ff0;
       }
 
       .autocomplete-instance .ui-form-autocomplete-datapane-option:before {
         content: " - ";
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-form-autocomplete-datapane-option_selected:before {
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_selected:before {
         content: " + ";
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option_selected:after {
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_selected:after {
         content: "(selected)";
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option_disabled {
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_disabled {
         opacity: .5;
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option_disabled:after {
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_disabled:after {
         content: "(disabled)";
       }
     `} } />
@@ -80,25 +81,26 @@ function runner () {
                       const { selectedOptions } = evt;
                       example2.currentInput.text = selectedOptions[0].text;
                       example2.currentInput.value = selectedOptions[0].value;
+                      example2.allOptions.forEach(i => i.selected = selectedOptions.some(i2 => i2 === i)); // reset allOptions to reflect selection status
                       runner();
                     } }
                     onTextSearch={ (evt) => {
                       const { searchText } = evt;
                       console.log('onSearch Triggered:', searchText);
-                      example2.options = allOptions.filter(i => (new RegExp(searchText, 'i')).exec(i.text));
+                      example2.options = example2.allOptions.filter(i => (new RegExp(searchText, 'i')).exec(i.text));
                       runner();
                     } }
                     onEnableInputs={ (evt) => {
                       console.log('onEnableInput Triggered:', evt);
                       const { target } = evt;
                       const searchText = example2.currentInput.text;
-                      example2.options = allOptions.filter(i => (new RegExp(searchText, 'i')).exec(i.text));
+                      example2.options = example2.allOptions.filter(i => (new RegExp(searchText, 'i')).exec(i.text));
                       runner();
                     } }
                     onDisableInputs={ (evt) => {
                       console.log('onDisableInput Triggered:', evt);
                       const { target } = evt;
-                      const selectedOptions = allOptions.filter(i=>i.selected);
+                      const selectedOptions = example2.allOptions.filter(i=>i.selected);
                       if (selectedOptions.length) {
                         example2.currentInput.text = selectedOptions[0].text;
                         example2.currentInput.value = selectedOptions[0].value;

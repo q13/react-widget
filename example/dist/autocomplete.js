@@ -80,13 +80,14 @@
 	
 	var example2 = {
 	  currentInput: { text: 'click me to start Case-Sensitive search with all options listed initially', value: 'out of scope value 2' },
-	  options: allOptions
-	};
+	  options: allOptions, // search result list
+	  allOptions: $.extend(true, [], allOptions) };
+	// search through list
 	function runner() {
 	  _reactDom2.default.render(_react2.default.createElement(
 	    "div",
 	    null,
-	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .autocomplete-instance input[type=text] {\n        width: 400px;\n      }\n      .autocomplete-instance ul {\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.highlight {\n        background: #ff0;\n      }\n\n      .autocomplete-instance .ui-form-autocomplete-datapane-option:before {\n        content: \" - \";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-form-autocomplete-datapane-option_selected:before {\n        content: \" + \";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option_selected:after {\n        content: \"(selected)\";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option_disabled {\n        opacity: .5;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option_disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
+	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .autocomplete-instance input[type=text] {\n        width: 400px;\n      }\n      .autocomplete-instance ul {\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_highlight {\n        background: #ff0;\n      }\n\n      .autocomplete-instance .ui-form-autocomplete-datapane-option:before {\n        content: \" - \";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_selected:before {\n        content: \" + \";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_selected:after {\n        content: \"(selected)\";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_disabled {\n        opacity: .5;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
 	    _react2.default.createElement(
 	      "div",
 	      null,
@@ -126,13 +127,18 @@
 	
 	          example2.currentInput.text = selectedOptions[0].text;
 	          example2.currentInput.value = selectedOptions[0].value;
+	          example2.allOptions.forEach(function (i) {
+	            return i.selected = selectedOptions.some(function (i2) {
+	              return i2 === i;
+	            });
+	          }); // reset allOptions to reflect selection status
 	          runner();
 	        },
 	        onTextSearch: function onTextSearch(evt) {
 	          var searchText = evt.searchText;
 	
 	          console.log('onSearch Triggered:', searchText);
-	          example2.options = allOptions.filter(function (i) {
+	          example2.options = example2.allOptions.filter(function (i) {
 	            return new RegExp(searchText, 'i').exec(i.text);
 	          });
 	          runner();
@@ -142,7 +148,7 @@
 	          var target = evt.target;
 	
 	          var searchText = example2.currentInput.text;
-	          example2.options = allOptions.filter(function (i) {
+	          example2.options = example2.allOptions.filter(function (i) {
 	            return new RegExp(searchText, 'i').exec(i.text);
 	          });
 	          runner();
@@ -151,7 +157,7 @@
 	          console.log('onDisableInput Triggered:', evt);
 	          var target = evt.target;
 	
-	          var selectedOptions = allOptions.filter(function (i) {
+	          var selectedOptions = example2.allOptions.filter(function (i) {
 	            return i.selected;
 	          });
 	          if (selectedOptions.length) {
@@ -36502,8 +36508,8 @@
 	  searchMinLength: 2,
 	  searchInterval: .5,
 	  onTextChange: function onTextChange(evt) {},
-	  onTextSearch: undefined, // Execute default search logic when value is undefined, otherwise value is a function to override this logic
-	  onEnableInputs: function onEnableInputs(evt) {}, // Search props.text when value is undefined, otherwise value is a function to override this logic
+	  onTextSearch: undefined, // Execute when a text search is required - parameter: {searchText: ''}
+	  onEnableInputs: function onEnableInputs(evt) {}, // Execute when Component is switched to editing state (ie. isEditing === true) - parameter: {target: Component}
 	  onDisableInputs: function onDisableInputs(evt) {} };
 
 /***/ },
@@ -37064,7 +37070,7 @@
 	
 	
 	// module
-	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n \r\n\r\n.ui-form-autocomplete {\r\n  display: inline-block;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-text {\r\n  border: none;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-toggle {\r\n  display: inline-block;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown {\r\n  position: absolute;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul {\r\n  overflow: auto;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul li {\r\n  cursor: pointer;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul li:hover {\r\n}\r\n", "", {"version":3,"sources":["/../../src/component/autocomplete/autocomplete.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AACH;EACE,sBAAsB;CACvB;;;AACD;CACC;;;AACD;EACE,aAAa;CACd;;;AACD;EACE,sBAAsB;CACvB;;;AACD;EACE,mBAAmB;CACpB;;;AACD;EACE,eAAe;CAChB;;;AACD;EACE,gBAAgB;CACjB;;;AACD;CACC","file":"autocomplete.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n.ui-form-autocomplete {\r\n  display: inline-block;\r\n}\r\n.ui-form-autocomplete-console {\r\n}\r\n.ui-form-autocomplete-console-text {\r\n  border: none;\r\n}\r\n.ui-form-autocomplete-console-toggle {\r\n  display: inline-block;\r\n}\r\n.ui-form-autocomplete-dropdown {\r\n  position: absolute;\r\n}\r\n.ui-form-autocomplete-dropdown ul {\r\n  overflow: auto;\r\n}\r\n.ui-form-autocomplete-dropdown ul li {\r\n  cursor: pointer;\r\n}\r\n.ui-form-autocomplete-dropdown ul li:hover {\r\n}\r\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n \r\n\r\n.ui-form-autocomplete {\r\n  display: inline-block;\r\n}\r\n \r\n\r\n.ui-form-autocomplete.ui-form-autocomplete_isediting {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-text {\r\n  border: none;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-toggle {\r\n  display: inline-block;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane {\r\n  position: absolute;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-options {\r\n  overflow: auto;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option {\r\n  cursor: pointer;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common_highlight {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common_selected {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common_disabled {\r\n}\r\n", "", {"version":3,"sources":["/../../src/component/autocomplete/autocomplete.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AACH;EACE,sBAAsB;CACvB;;;AACD;CACC;;;AACD;CACC;;;AACD;EACE,aAAa;CACd;;;AACD;EACE,sBAAsB;CACvB;;;AACD;EACE,mBAAmB;CACpB;;;AACD;EACE,eAAe;CAChB;;;AACD;EACE,gBAAgB;CACjB;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC","file":"autocomplete.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n.ui-form-autocomplete {\r\n  display: inline-block;\r\n}\r\n.ui-form-autocomplete.ui-form-autocomplete_isediting {\r\n}\r\n.ui-form-autocomplete-console {\r\n}\r\n.ui-form-autocomplete-console-text {\r\n  border: none;\r\n}\r\n.ui-form-autocomplete-console-toggle {\r\n  display: inline-block;\r\n}\r\n.ui-form-autocomplete-datapane {\r\n  position: absolute;\r\n}\r\n.ui-form-autocomplete-datapane-options {\r\n  overflow: auto;\r\n}\r\n.ui-form-autocomplete-datapane-option {\r\n  cursor: pointer;\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common_highlight {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common_selected {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common_disabled {\r\n}\r\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -37557,6 +37563,7 @@
 	    key: 'handleKeyDown',
 	    value: function handleKeyDown(e) {
 	      var self = this;
+	      if (!self.state.isEditing) return;
 	      var stroke = e.which || e.keyCode;
 	      switch (stroke) {
 	        case 38:
@@ -37579,13 +37586,14 @@
 	    key: 'handleKeyUp',
 	    value: function handleKeyUp(e) {
 	      var self = this;
+	      if (!self.state.isEditing) return;
 	      var stroke = e.which || e.keyCode;
 	      switch (stroke) {
 	        case 13:
 	          // 回车
 	          e.preventDefault();
 	          var $li = $(self.refs.ulItems).children('.' + self.props.prefixCls + '-datapane-option');
-	          var $highlightLi = $li.filter('.highlight');
+	          var $highlightLi = $li.filter('.ui-common_highlight');
 	          if ($highlightLi.length) {
 	            var selectedIndex = self.props.options.findIndex(function (option, x) {
 	              return $li[x] === $highlightLi[0];
@@ -37599,11 +37607,12 @@
 	    key: 'handleOptionsRoam',
 	    value: function handleOptionsRoam(roamType) {
 	      var self = this;
+	      if (!self.state.isEditing) return;
 	      var $dropdown = $('.' + self.props.prefixCls + '-' + self.instanceId);
 	      var $ul = $(self.refs.ulItems);
 	      var $li = $(self.refs.ulItems).children('.' + self.props.prefixCls + '-datapane-option');
 	      if (!$li.length) return false;
-	      var $oldHighlightLi = $li.filter('.highlight');
+	      var $oldHighlightLi = $li.filter('.ui-common_highlight');
 	      var $newHighlightLi = $li.first();
 	      if (roamType == 'up') {
 	        if ($oldHighlightLi.length) {
@@ -37617,7 +37626,7 @@
 	          $newHighlightLi.length || ($newHighlightLi = $li.first());
 	        }
 	      }
-	      $newHighlightLi.addClass('highlight').siblings().removeClass('highlight');
+	      $newHighlightLi.addClass('ui-common_highlight').siblings().removeClass('ui-common_highlight');
 	
 	      var maxHeight = parseInt($ul.css('maxHeight'));
 	      var visible_top = $ul.scrollTop();
@@ -37637,7 +37646,7 @@
 	      var props = self.props;
 	      if (!props.options[currentIndex].disabled) {
 	        // 如果该option未被禁用
-	        // 单选：更新各option的选择状态
+	        // 单选：更新当前列表中各option的选择状态
 	        props.options.forEach(function (option, x) {
 	          option.selected = currentIndex === x ? true : false;
 	        });
@@ -37702,10 +37711,10 @@
 	                  className: Dropdown.getOptionClass(prefixCls, option, x, options),
 	                  onClick: _this4.handleOptionClick.bind(_this4, x),
 	                  onMouseEnter: function onMouseEnter(e) {
-	                    $(e.currentTarget).addClass('highlight').siblings().removeClass('highlight');
+	                    $(e.currentTarget).addClass('ui-common_highlight').siblings().removeClass('ui-common_highlight');
 	                  },
 	                  onMouseLeave: function onMouseLeave(e) {
-	                    $(e.currentTarget).removeClass('highlight');
+	                    $(e.currentTarget).removeClass('ui-common_highlight');
 	                  } },
 	                option.text
 	              );
@@ -37721,10 +37730,10 @@
 	
 	Dropdown.getOptionClass = function (prefixCls, option, x, options) {
 	  var classString = prefixCls + '-datapane-option ' + prefixCls + '-datapane-option_' + x;
-	  if (option.disabled) classString += ' ' + prefixCls + '-datapane-option_disabled';
+	  if (option.disabled) classString += ' ui-common_disabled';
 	  if (option.selected && options.findIndex(function (i) {
 	    return i.selected;
-	  }) === x) classString += ' ' + prefixCls + '-datapane-option_selected';
+	  }) === x) classString += ' ui-common_selected';
 	  return classString;
 	};
 	Dropdown.propTypes = {

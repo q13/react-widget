@@ -4,7 +4,7 @@
 import babelPolyfill from "babel-polyfill";  // enable es6 to es5 transform
 import React from "react";
 import ReactDom from "react-dom";
-import Radiogroup from "../../src/component/form/radiogroup.js";
+import Radiogroup from "../../src/component/form/Radiogroup.js";
 
 let options = [
   {checked: true, disabled: false, text: 'Radiogroup class', value: Radiogroup },
@@ -23,13 +23,16 @@ function runner () {
       .radiogroup-instance .ui-form-radiogroup-option:before {
         content: " - ";
       }
-      .radiogroup-instance .ui-form-radiogroup-option.ui-form-radiogroup-option_checked:before {
+      .radiogroup-instance .ui-form-radiogroup-option.ui-common_selected:before {
         content: " + ";
       }
-      .radiogroup-instance .ui-form-radiogroup-option_disabled {
+      .radiogroup-instance .ui-form-radiogroup-option.ui-common_selected:after {
+        content: "(checked)";
+      }
+      .radiogroup-instance .ui-form-radiogroup-option.ui-common_disabled {
         opacity: .5;
       }
-      .radiogroup-instance .ui-form-radiogroup-option_disabled:after {
+      .radiogroup-instance .ui-form-radiogroup-option.ui-common_disabled:after {
         content: "(disabled)";
       }
     `} } />

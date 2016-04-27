@@ -50,8 +50,8 @@ class Checkboxgroup extends Widget {
 }
 Checkboxgroup.getOptionClass = function(prefixCls, option, x) {
   let classString = `${prefixCls}-option ${prefixCls}-option_${x}`;
-  if (option.disabled) classString += ` ${prefixCls}-option_disabled`;
-  if (option.checked) classString += ` ${prefixCls}-option_checked`;
+  if (option.disabled) classString += ` ui-common_disabled`;
+  if (option.checked) classString += ` ui-common_selected`;
   return classString;
 };
 Checkboxgroup.propTypes = {
@@ -63,7 +63,7 @@ Checkboxgroup.propTypes = {
 Checkboxgroup.defaultProps = {
   prefixCls: 'ui-form-checkboxgroup',
   className: '',
-  options: [], // {text: '', value: '', checked: false, disabled: false }
+  options: [], // {text: '', value: {}, checked: false, disabled: false }
   onChange: (evt) => {},
 };
 

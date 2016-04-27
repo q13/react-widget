@@ -9,6 +9,8 @@
 .ui-form-autocomplete {
   display: inline-block;
 }
+.ui-form-autocomplete.ui-form-autocomplete_isediting {
+}
 .ui-form-autocomplete-console {
 }
 .ui-form-autocomplete-console-text {
@@ -17,14 +19,18 @@
 .ui-form-autocomplete-console-toggle {
   display: inline-block;
 }
-.ui-form-autocomplete-dropdown {
+.ui-form-autocomplete-datapane {
   position: absolute;
 }
-.ui-form-autocomplete-dropdown ul {
+.ui-form-autocomplete-datapane-options {
   overflow: auto;
 }
-.ui-form-autocomplete-dropdown ul li {
+.ui-form-autocomplete-datapane-option {
   cursor: pointer;
 }
-.ui-form-autocomplete-dropdown ul li:hover {
+.ui-form-autocomplete-datapane-option.ui-common_highlight {
+}
+.ui-form-autocomplete-datapane-option.ui-common_selected {
+}
+.ui-form-autocomplete-datapane-option.ui-common_disabled {
 }

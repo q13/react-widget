@@ -4,7 +4,7 @@
 import babelPolyfill from "babel-polyfill";  // enable es6 to es5 transform
 import React from "react";
 import ReactDom from "react-dom";
-import Checkboxgroup from "../../src/component/form/checkboxgroup.js";
+import Checkboxgroup from "../../src/component/form/Checkboxgroup.js";
 
 let options = [
   {name: 'name1', checked: true, disabled: false, text: 'Checkboxgroup class', value: Checkboxgroup },
@@ -23,13 +23,16 @@ function runner () {
       .checkboxgroup-instance .ui-form-checkboxgroup-option:before {
         content: " - ";
       }
-      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-form-checkboxgroup-option_checked:before {
+      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_selected:before {
         content: " + ";
       }
-      .checkboxgroup-instance .ui-form-checkboxgroup-option_disabled {
+      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_selected:after {
+        content: "(checked)";
+      }
+      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_disabled {
         opacity: .5;
       }
-      .checkboxgroup-instance .ui-form-checkboxgroup-option_disabled:after {
+      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_disabled:after {
         content: "(disabled)";
       }
     `} } />

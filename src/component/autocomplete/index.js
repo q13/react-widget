@@ -71,7 +71,7 @@ AutoComplete.defaultProps = {
   searchMinLength: 2,
   searchInterval: .5,
   onTextChange: (evt) => {},
-  onTextSearch: undefined,  // Execute default search logic when value is undefined, otherwise value is a function to override this logic
-  onEnableInputs: (evt) => {},  // Search props.text when value is undefined, otherwise value is a function to override this logic
-  onDisableInputs: (evt) => {},  // Restore to initialText when value is undefined, otherwise value is a function to override this logic
+  onTextSearch: undefined, // Execute when a text search is required - parameter: {searchText: ''}
+  onEnableInputs: (evt) => {}, // Execute when Component is switched to editing state (ie. isEditing === true) - parameter: {target: Component}
+  onDisableInputs: (evt) => {}, // Execute when Component is switched off editing state (ie. isEditing === false) - parameter: {target: Component}
 };
