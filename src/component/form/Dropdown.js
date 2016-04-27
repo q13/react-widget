@@ -37,13 +37,29 @@ class Dropdown extends Widget {
     $(document).off('mousedown.Dropdown' + this.instanceId);
     this.instanceId = null;
   }
-  handleEnableInputs(e) {
+  handleEnableInputs(evt) {
     const self = this;
-    self.setState({ isEditing : true });
+    self.setState({isEditing: true}, () => {
+      const inputText = self.refs.inputText;
+      inputText.select();
+      inputText.focus();
+      if (typeof self.props.onEnableInputs === 'function') {
+        self.props.onEnableInputs.call(this, {
+          target: self,
+        });
+      }
+    });
   }
-  handleDisableInputs(e) {
+  handleDisableInputs(evt) {
     const self = this;
-    self.setState({ isEditing: false });
+    self.setState({isEditing: false}, () => {
+      if (typeof self.props.onDisableInputs === 'function') {
+        self.props.onDisableInputs.call(this, {
+          target: self,
+        });
+      } else {
+      }
+    });
   }
   handleKeyDown(e) {
     const self = this;
@@ -139,11 +155,12 @@ class Dropdown extends Widget {
            onClick={ state.isEditing ? undefined : this.handleEnableInputs.bind(this) }>
         <input type="text" ref="inputText"
                className={ `${prefixCls}-console-text` }
-               value={ (props.options.find(i=>i.selected)||{text:'--请选择--'}).text }
-               title={ (props.options.find(i=>i.selected)||{text:'--请选择--'}).text }
+               value={ props.text !== undefined ? props.text : (props.options.find(i => i.selected) || {text: '--请选择--'}).text }
+               title={ props.text !== undefined ? props.text : (props.options.find(i => i.selected) || {text: '--请选择--'}).text }
                onKeyDown={ this.handleKeyDown.bind(this) }
                onKeyUp={ this.handleKeyUp.bind(this) }
-               readOnly={ true } />
+               onChange={ props.textReadOnly ? undefined : props.onTextChange.bind(this) }
+               readOnly={ props.textReadOnly } />
         <span className={ `${prefixCls}-console-toggle` }>&nbsp;</span>
       </div>
       <div className={ `${prefixCls}-datapane` }
@@ -175,12 +192,22 @@ Dropdown.propTypes = {
   className: React.PropTypes.string,
   options: React.PropTypes.array,
   onSelect: React.PropTypes.func,
+  text: React.PropTypes.string,
+  textReadOnly: React.PropTypes.bool,
+  onTextChange: React.PropTypes.func,
+  onEnableInputs: React.PropTypes.func,
+  onDisableInputs: React.PropTypes.func,
 };
 Dropdown.defaultProps = {
   prefixCls: 'ui-form-dropdown',
   className: '',
-  options: [], // {text: '', value: '' }
+  options: [], // {text: '', value: {}, selected: false, disabled: false }
   onSelect: (evt) => {},
+  text: undefined,
+  textReadOnly: true,
+  onTextChange: (evt) => {},
+  onEnableInputs: (evt) => {},
+  onDisableInputs: (evt) => {},
 };
 
 export default Dropdown;

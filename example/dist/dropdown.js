@@ -62,9 +62,9 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _dropdown = __webpack_require__(462);
+	var _Dropdown = __webpack_require__(478);
 	
-	var _dropdown2 = _interopRequireDefault(_dropdown);
+	var _Dropdown2 = _interopRequireDefault(_Dropdown);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
@@ -72,11 +72,11 @@
 	 * Dropdown demo
 	 */
 	
-	var availableOptions = [{ selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container") }, { selected: false, disabled: false, text: 'jQuery instance', value: $ }, { selected: true, disabled: false, text: 'Dropdown class', value: _dropdown2.default }, { selected: false, disabled: false, text: 'window', value: window }, { selected: false, disabled: false, text: 'document', value: document }, { selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages }, { selected: false, disabled: true, text: 'document.head', value: document.head }, { selected: false, disabled: true, text: 'document.body', value: document.body }, { selected: false, disabled: true, text: 'document.scripts', value: document.scripts }, { selected: false, disabled: false, text: '$("body")', value: $("body") }]; // enable es6 to es5 transform
+	var allOptions = [{ selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container") }, { selected: false, disabled: false, text: 'jQuery instance', value: $ }, { selected: true, disabled: false, text: 'Dropdown class', value: _Dropdown2.default }, { selected: false, disabled: false, text: 'window', value: window }, { selected: false, disabled: false, text: 'document', value: document }, { selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages }, { selected: false, disabled: true, text: 'document.head', value: document.head }, { selected: false, disabled: true, text: 'document.body', value: document.body }, { selected: false, disabled: true, text: 'document.scripts', value: document.scripts }, { selected: false, disabled: false, text: '$("body")', value: $("body") }]; // enable es6 to es5 transform
 	
 	var example1 = {
-	  allOptions: availableOptions,
-	  selectedOptions: [availableOptions.find(function (i) {
+	  options: allOptions,
+	  selectedOptions: [allOptions.find(function (i) {
 	    return i.selected;
 	  })]
 	};
@@ -90,7 +90,7 @@
 	      null,
 	      "Available Text Options:",
 	      _react2.default.createElement("br", null),
-	      availableOptions.map(function (i, x) {
+	      allOptions.map(function (i, x) {
 	        return _react2.default.createElement(
 	          "div",
 	          { key: x },
@@ -106,8 +106,8 @@
 	      { style: { display: 'inline-block' } },
 	      "Typical use:",
 	      _react2.default.createElement("br", null),
-	      _react2.default.createElement(_dropdown2.default, { className: "dropdown-instance dropdown-typical",
-	        options: example1.allOptions,
+	      _react2.default.createElement(_Dropdown2.default, { className: "dropdown-instance dropdown-typical",
+	        options: example1.options,
 	        onSelect: function onSelect(evt) {
 	          var selectedOptions = evt.selectedOptions;
 	
@@ -25860,7 +25860,23 @@
 /* 459 */,
 /* 460 */,
 /* 461 */,
-/* 462 */
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25936,15 +25952,34 @@
 	    }
 	  }, {
 	    key: 'handleEnableInputs',
-	    value: function handleEnableInputs(e) {
+	    value: function handleEnableInputs(evt) {
+	      var _this2 = this;
+	
 	      var self = this;
-	      self.setState({ isEditing: true });
+	      self.setState({ isEditing: true }, function () {
+	        var inputText = self.refs.inputText;
+	        inputText.select();
+	        inputText.focus();
+	        if (typeof self.props.onEnableInputs === 'function') {
+	          self.props.onEnableInputs.call(_this2, {
+	            target: self
+	          });
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'handleDisableInputs',
-	    value: function handleDisableInputs(e) {
+	    value: function handleDisableInputs(evt) {
+	      var _this3 = this;
+	
 	      var self = this;
-	      self.setState({ isEditing: false });
+	      self.setState({ isEditing: false }, function () {
+	        if (typeof self.props.onDisableInputs === 'function') {
+	          self.props.onDisableInputs.call(_this3, {
+	            target: self
+	          });
+	        } else {}
+	      });
 	    }
 	  }, {
 	    key: 'handleKeyDown',
@@ -26050,7 +26085,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this2 = this;
+	      var _this4 = this;
 	
 	      var props = this.props;
 	      var state = this.state;
@@ -26065,15 +26100,16 @@
 	            onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
 	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
 	            className: prefixCls + '-console-text',
-	            value: (props.options.find(function (i) {
+	            value: props.text !== undefined ? props.text : (props.options.find(function (i) {
 	              return i.selected;
 	            }) || { text: '--请选择--' }).text,
-	            title: (props.options.find(function (i) {
+	            title: props.text !== undefined ? props.text : (props.options.find(function (i) {
 	              return i.selected;
 	            }) || { text: '--请选择--' }).text,
 	            onKeyDown: this.handleKeyDown.bind(this),
 	            onKeyUp: this.handleKeyUp.bind(this),
-	            readOnly: true }),
+	            onChange: props.textReadOnly ? undefined : props.onTextChange.bind(this),
+	            readOnly: props.textReadOnly }),
 	          _react2.default.createElement(
 	            'span',
 	            { className: prefixCls + '-console-toggle' },
@@ -26092,7 +26128,7 @@
 	                'div',
 	                { key: x, title: option.text,
 	                  className: Dropdown.getOptionClass(prefixCls, option, x, options),
-	                  onClick: _this2.handleOptionClick.bind(_this2, x),
+	                  onClick: _this4.handleOptionClick.bind(_this4, x),
 	                  onMouseEnter: function onMouseEnter(e) {
 	                    $(e.currentTarget).addClass('highlight').siblings().removeClass('highlight');
 	                  },
@@ -26123,13 +26159,23 @@
 	  prefixCls: _react2.default.PropTypes.string,
 	  className: _react2.default.PropTypes.string,
 	  options: _react2.default.PropTypes.array,
-	  onSelect: _react2.default.PropTypes.func
+	  onSelect: _react2.default.PropTypes.func,
+	  text: _react2.default.PropTypes.string,
+	  textReadOnly: _react2.default.PropTypes.bool,
+	  onTextChange: _react2.default.PropTypes.func,
+	  onEnableInputs: _react2.default.PropTypes.func,
+	  onDisableInputs: _react2.default.PropTypes.func
 	};
 	Dropdown.defaultProps = {
 	  prefixCls: 'ui-form-dropdown',
 	  className: '',
-	  options: [], // {text: '', value: '' }
-	  onSelect: function onSelect(evt) {}
+	  options: [], // {text: '', value: {}, selected: false, disabled: false }
+	  onSelect: function onSelect(evt) {},
+	  text: undefined,
+	  textReadOnly: true,
+	  onTextChange: function onTextChange(evt) {},
+	  onEnableInputs: function onEnableInputs(evt) {},
+	  onDisableInputs: function onDisableInputs(evt) {}
 	};
 	
 	exports.default = Dropdown;

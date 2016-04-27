@@ -4,9 +4,9 @@
 import babelPolyfill from "babel-polyfill";  // enable es6 to es5 transform
 import React from "react";
 import ReactDom from "react-dom";
-import Dropdown from "../../src/component/form/dropdown.js";
+import Dropdown from "../../src/component/form/Dropdown.js";
 
-let availableOptions = [
+let allOptions = [
   {selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container") },
   {selected: false, disabled: false, text: 'jQuery instance', value: $ },
   {selected: true, disabled: false, text: 'Dropdown class', value: Dropdown },
@@ -20,8 +20,8 @@ let availableOptions = [
   {selected: false, disabled: false, text: '$("body")', value: $("body") },
 ];
 const example1 = {
-  allOptions: availableOptions,
-  selectedOptions: [availableOptions.find(i=>i.selected)],
+  options: allOptions,
+  selectedOptions: [allOptions.find(i=>i.selected)],
 };
 function runner () {
   ReactDom.render(<div>
@@ -56,13 +56,13 @@ function runner () {
     `} } />
     <div>
       Available Text Options:<br/>
-      { availableOptions.map((i,x) => <div key={x}> - {i.text}</div>) }
+      { allOptions.map((i,x) => <div key={x}> - {i.text}</div>) }
       &nbsp;<br/>
     </div>
     <div style={{display: 'inline-block'}}>
       Typical use:<br/>
       <Dropdown className="dropdown-instance dropdown-typical"
-                options={ example1.allOptions }
+                options={ example1.options }
                 onSelect={ (evt) => {
                   const { selectedOptions } = evt;
                   example1.selectedOptions = selectedOptions;
