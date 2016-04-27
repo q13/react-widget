@@ -15,19 +15,18 @@ class Radiogroup extends Widget {
   }
   componentDidMount() {}
   componentWillUnmount() {}
-  handleOptionClick(currentIndex, e) {
+  handleOptionClick(currentIndex, evt) {
     const self = this;
     const props = self.props;
-    if(!props.options[currentIndex].disabled) {
-      props.options.forEach((option, x) => {
+    if (!props.options[currentIndex].disabled) {
+      const targetOptions = $.extend(true, [], props.options);
+      targetOptions.forEach((option, x) => {
         option.checked = currentIndex === x ? true : false;
       });
+      self.props.onChange.call(self, {
+        options: targetOptions,
+      });
     }
-    const selectedOption = props.options.find(option => option.checked);
-
-    self.props.onChange.call(self, {
-      selectedOption: selectedOption,
-    });
   }
   render() {
     const props = this.props;

@@ -15,7 +15,6 @@ let options = [
 ];
 const example1 = {
   allOptions: options,
-  selectedOption: options.find(i=>i.checked),
 };
 function runner () {
   ReactDom.render(<div>
@@ -42,8 +41,8 @@ function runner () {
         <Radiogroup className="radiogroup-instance radiogroup-typical"
                     options={ example1.allOptions }
                     onChange={ (evt) => {
-                      const { selectedOption } = evt;
-                      example1.selectedOption = selectedOption;
+                      const { options } = evt;
+                      example1.allOptions = options;
                       runner();
                     } } />
       </div>
@@ -51,7 +50,7 @@ function runner () {
     </div>
     <div>
       Selected option:<br/>
-      { example1.selectedOption.text }
+      { example1.allOptions.filter(i => i.checked).map(i => ` [${i.text}] `) }
     </div>
   </div>, document.getElementById("container"));
 }

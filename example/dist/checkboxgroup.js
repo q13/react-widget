@@ -75,10 +75,7 @@
 	var options = [{ name: 'name1', checked: true, disabled: false, text: 'Checkboxgroup class', value: _Checkboxgroup2.default }, { name: 'name2', checked: true, disabled: true, text: 'window', value: window }, { name: 'name3', checked: false, disabled: true, text: 'document', value: document }, { name: 'name4', checked: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { name: 'name5', checked: true, disabled: false, text: 'navigator.languages', value: navigator.languages }]; // enable es6 to es5 transform
 	
 	var example1 = {
-	  allOptions: options,
-	  selectedOptions: options.filter(function (i) {
-	    return i.checked;
-	  })
+	  allOptions: options
 	};
 	function runner() {
 	  _reactDom2.default.render(_react2.default.createElement(
@@ -96,9 +93,9 @@
 	        _react2.default.createElement(_Checkboxgroup2.default, { className: "checkboxgroup-instance checkboxgroup-typical",
 	          options: example1.allOptions,
 	          onChange: function onChange(evt) {
-	            var selectedOptions = evt.selectedOptions;
+	            var options = evt.options;
 	
-	            example1.selectedOptions = selectedOptions;
+	            example1.allOptions = options;
 	            runner();
 	          } })
 	      ),
@@ -110,7 +107,9 @@
 	      null,
 	      "Selected options:",
 	      _react2.default.createElement("br", null),
-	      example1.selectedOptions.map(function (i) {
+	      example1.allOptions.filter(function (i) {
+	        return i.checked;
+	      }).map(function (i) {
 	        return " [" + i.text + "] ";
 	      })
 	    )
@@ -25921,19 +25920,17 @@
 	    value: function componentWillUnmount() {}
 	  }, {
 	    key: 'handleOptionClick',
-	    value: function handleOptionClick(currentIndex, e) {
+	    value: function handleOptionClick(currentIndex, evt) {
 	      var self = this;
 	      var props = self.props;
-	      var selectedOptions = props.options.filter(function (option, x) {
-	        if (currentIndex == x && !option.disabled) {
-	          option.checked = !option.checked;
-	        }
-	        return option.checked;
-	      });
-	      self.props.onChange.call(self, {
-	        // target: self,
-	        selectedOptions: selectedOptions
-	      });
+	      if (!props.options[currentIndex].disabled) {
+	        var targetOptions = $.extend(true, [], props.options);
+	        targetOptions[currentIndex].checked = !targetOptions[currentIndex].checked;
+	        self.props.onChange.call(self, {
+	          // target: self,
+	          options: targetOptions
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'render',

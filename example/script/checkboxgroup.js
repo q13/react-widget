@@ -15,7 +15,6 @@ let options = [
 ];
 const example1 = {
   allOptions: options,
-  selectedOptions: options.filter(i=>i.checked),
 };
 function runner () {
   ReactDom.render(<div>
@@ -42,8 +41,8 @@ function runner () {
         <Checkboxgroup className="checkboxgroup-instance checkboxgroup-typical"
                        options={ example1.allOptions }
                        onChange={ (evt) => {
-                         const { selectedOptions } = evt;
-                         example1.selectedOptions = selectedOptions;
+                         const { options } = evt;
+                         example1.allOptions = options;
                          runner();
                        } } />
       </div>
@@ -51,7 +50,7 @@ function runner () {
     </div>
     <div>
       Selected options:<br/>
-      { example1.selectedOptions.map(i=>` [${i.text}] `) }
+      { example1.allOptions.filter(i => i.checked).map(i => ` [${i.text}] `) }
     </div>
   </div>, document.getElementById("container"));
 }

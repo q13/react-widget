@@ -75,10 +75,7 @@
 	var options = [{ checked: true, disabled: false, text: 'Radiogroup class', value: _Radiogroup2.default }, { checked: false, disabled: false, text: 'window', value: window }, { checked: false, disabled: true, text: 'document', value: document }, { checked: true, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { checked: false, disabled: false, text: 'navigator.languages', value: navigator.languages }]; // enable es6 to es5 transform
 	
 	var example1 = {
-	  allOptions: options,
-	  selectedOption: options.find(function (i) {
-	    return i.checked;
-	  })
+	  allOptions: options
 	};
 	function runner() {
 	  _reactDom2.default.render(_react2.default.createElement(
@@ -96,9 +93,9 @@
 	        _react2.default.createElement(_Radiogroup2.default, { className: "radiogroup-instance radiogroup-typical",
 	          options: example1.allOptions,
 	          onChange: function onChange(evt) {
-	            var selectedOption = evt.selectedOption;
+	            var options = evt.options;
 	
-	            example1.selectedOption = selectedOption;
+	            example1.allOptions = options;
 	            runner();
 	          } })
 	      ),
@@ -110,7 +107,11 @@
 	      null,
 	      "Selected option:",
 	      _react2.default.createElement("br", null),
-	      example1.selectedOption.text
+	      example1.allOptions.filter(function (i) {
+	        return i.checked;
+	      }).map(function (i) {
+	        return " [" + i.text + "] ";
+	      })
 	    )
 	  ), document.getElementById("container"));
 	}
@@ -25918,21 +25919,18 @@
 	    value: function componentWillUnmount() {}
 	  }, {
 	    key: 'handleOptionClick',
-	    value: function handleOptionClick(currentIndex, e) {
+	    value: function handleOptionClick(currentIndex, evt) {
 	      var self = this;
 	      var props = self.props;
 	      if (!props.options[currentIndex].disabled) {
-	        props.options.forEach(function (option, x) {
+	        var targetOptions = $.extend(true, [], props.options);
+	        targetOptions.forEach(function (option, x) {
 	          option.checked = currentIndex === x ? true : false;
 	        });
+	        self.props.onChange.call(self, {
+	          options: targetOptions
+	        });
 	      }
-	      var selectedOption = props.options.find(function (option) {
-	        return option.checked;
-	      });
-	
-	      self.props.onChange.call(self, {
-	        selectedOption: selectedOption
-	      });
 	    }
 	  }, {
 	    key: 'render',

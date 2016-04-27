@@ -15,20 +15,18 @@ class Checkboxgroup extends Widget {
   }
   componentDidMount() {}
   componentWillUnmount() {}
-  handleOptionClick(currentIndex, e) {
+  handleOptionClick(currentIndex, evt) {
     const self = this;
     const props = self.props;
-    const selectedOptions = props.options.filter((option, x) => {
-      if (currentIndex == x && !option.disabled) {
-        option.checked = !option.checked;
-      }
-      return option.checked;
-    });
-    self.props.onChange.call(self, {
-      // target: self,
-      selectedOptions: selectedOptions,
-      // __currentIndex: currentIndex,
-    });
+    if (!props.options[currentIndex].disabled) {
+      const targetOptions = $.extend(true, [], props.options);
+      targetOptions[currentIndex].checked = !targetOptions[currentIndex].checked;
+      self.props.onChange.call(self, {
+        // target: self,
+        options: targetOptions,
+        // __currentIndex: currentIndex,
+      });
+    }
   }
   render() {
     const props = this.props;
