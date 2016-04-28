@@ -4,7 +4,6 @@
 import babelPolyfill from "babel-polyfill";  // enable es6 to es5 transform
 import React from "react";
 import ReactDom from "react-dom";
-import moment from "moment";
 import AutoComplete from "../../src/component/autocomplete/index.js";
 
 let allOptions = [
@@ -32,17 +31,21 @@ function runner () {
       .autocomplete-instance input[type=text] {
         width: 400px;
       }
-      .autocomplete-instance ul {
+      .autocomplete-instance .ui-form-autocomplete-datapane-options {
+        background: #ccc;
         margin-top: 0;
         width: 300px;
         max-height: 150px;
+        overflow-y: auto;
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_highlight {
-        background: #ff0;
-      }
-
       .autocomplete-instance .ui-form-autocomplete-datapane-option:before {
         content: " - ";
+      }
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_hover {
+        background: #ff0;
+      }
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_focus {
+        background: #0f0;
       }
       .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_selected:before {
         content: " + ";
@@ -70,18 +73,33 @@ function runner () {
                     options={ example2.options }
                     searchMinLength={ 3 }
                     searchInterval={ .2 }
+                    getTemplateDatapane={ (self) => {
+                      return (<div className={ `${self.props.prefixCls}-datapane-options` }>
+                        <div><b>Customized AutoComplete Datapane:</b></div>
+                        {
+                          self.props.options.map((option, x, options) =>
+                          (<div key={x} title={ option.text }
+                                className={ self.getOptionClass(x) }
+                                onClick={ self.handleOptionClick.bind(self, x) }
+                                onMouseEnter={ (e)=>{ self.setState({hoverOption: options[x]}); } }
+                                onMouseLeave={ (e)=>{ self.setState({hoverOption: undefined}); } }>
+                            { option.text }
+                          </div>))
+                        }
+                      </div>);
+                    } }
                     onTextChange={ (evt) => {
-                      // console.log('onChange Triggered:', evt);
-                      example2.currentInput.text = evt.target.value;
-                      example2.currentInput.value = evt.target.value;
+                      // console.log('onTextChange Triggered:', evt);
+                      const newText = evt.target.value;
+                      example2.currentInput = { text: newText, value: newText};
                       runner();
                     } }
-                    onSelect={ (evt) => {
-                      console.log('onSelect Triggered:', evt);
-                      const { selectedOptions } = evt;
-                      example2.currentInput.text = selectedOptions[0].text;
-                      example2.currentInput.value = selectedOptions[0].value;
-                      example2.allOptions.forEach(i => i.selected = selectedOptions.some(i2 => i2 === i)); // reset allOptions to reflect selection status
+                    onChange={ (evt) => {
+                      console.log('onChange Triggered:', evt);
+                      const { options } = evt;
+                      const selectedOption = options.find(i => i.selected);
+                      example2.currentInput = $.extend(true, {}, selectedOption);
+                      example2.options = options; // reset options to reflect selection status
                       runner();
                     } }
                     onTextSearch={ (evt) => {
@@ -93,18 +111,15 @@ function runner () {
                     onEnableInputs={ (evt) => {
                       console.log('onEnableInput Triggered:', evt);
                       const { target } = evt;
-                      const searchText = example2.currentInput.text;
+                      const searchText = '';
                       example2.options = example2.allOptions.filter(i => (new RegExp(searchText, 'i')).exec(i.text));
                       runner();
                     } }
                     onDisableInputs={ (evt) => {
                       console.log('onDisableInput Triggered:', evt);
                       const { target } = evt;
-                      const selectedOptions = example2.allOptions.filter(i=>i.selected);
-                      if (selectedOptions.length) {
-                        example2.currentInput.text = selectedOptions[0].text;
-                        example2.currentInput.value = selectedOptions[0].value;
-                      }
+                      const newText = evt.target.refs.inputText.value;
+                      example2.currentInput = { text: newText, value: newText};
                       runner();
                     } } />
     </div>

@@ -62,21 +62,17 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _moment = __webpack_require__(348);
-	
-	var _moment2 = _interopRequireDefault(_moment);
-	
 	var _index = __webpack_require__(436);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	// enable es6 to es5 transform
+	/**
+	 * AutoComplete demo
+	 */
 	
-	var allOptions = [{ selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container") }, { selected: false, disabled: false, text: 'jQuery instance', value: $ }, { selected: false, disabled: false, text: 'AutoComplete class', value: _index2.default }, { selected: false, disabled: true, text: 'window', value: window }, { selected: false, disabled: true, text: 'document', value: document }, { selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages }, { selected: false, disabled: false, text: 'document.head', value: document.head }, { selected: false, disabled: false, text: 'document.body', value: document.body }, { selected: false, disabled: false, text: 'document.scripts', value: document.scripts }, { selected: false, disabled: false, text: '$("body")', value: $("body") }, { selected: false, disabled: false, text: "* RegExp characters: a.b*c+d?e^f$g{h}i(j)k|l[m]n\\ escaped", value: undefined }]; /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * AutoComplete demo
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   */
+	var allOptions = [{ selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container") }, { selected: false, disabled: false, text: 'jQuery instance', value: $ }, { selected: false, disabled: false, text: 'AutoComplete class', value: _index2.default }, { selected: false, disabled: true, text: 'window', value: window }, { selected: false, disabled: true, text: 'document', value: document }, { selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages }, { selected: false, disabled: false, text: 'document.head', value: document.head }, { selected: false, disabled: false, text: 'document.body', value: document.body }, { selected: false, disabled: false, text: 'document.scripts', value: document.scripts }, { selected: false, disabled: false, text: '$("body")', value: $("body") }, { selected: false, disabled: false, text: "* RegExp characters: a.b*c+d?e^f$g{h}i(j)k|l[m]n\\ escaped", value: undefined }]; // enable es6 to es5 transform
 	
 	var example2 = {
 	  currentInput: { text: 'click me to start Case-Sensitive search with all options listed initially', value: 'out of scope value 2' },
@@ -87,7 +83,7 @@
 	  _reactDom2.default.render(_react2.default.createElement(
 	    "div",
 	    null,
-	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .autocomplete-instance input[type=text] {\n        width: 400px;\n      }\n      .autocomplete-instance ul {\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_highlight {\n        background: #ff0;\n      }\n\n      .autocomplete-instance .ui-form-autocomplete-datapane-option:before {\n        content: \" - \";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_selected:before {\n        content: \" + \";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_selected:after {\n        content: \"(selected)\";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_disabled {\n        opacity: .5;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
+	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .autocomplete-instance input[type=text] {\n        width: 400px;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-options {\n        background: #ccc;\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n        overflow-y: auto;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option:before {\n        content: \" - \";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_hover {\n        background: #ff0;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_focus {\n        background: #0f0;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_selected:before {\n        content: \" + \";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_selected:after {\n        content: \"(selected)\";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_disabled {\n        opacity: .5;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
 	    _react2.default.createElement(
 	      "div",
 	      null,
@@ -115,23 +111,51 @@
 	        options: example2.options,
 	        searchMinLength: 3,
 	        searchInterval: .2,
+	        getTemplateDatapane: function getTemplateDatapane(self) {
+	          return _react2.default.createElement(
+	            "div",
+	            { className: self.props.prefixCls + "-datapane-options" },
+	            _react2.default.createElement(
+	              "div",
+	              null,
+	              _react2.default.createElement(
+	                "b",
+	                null,
+	                "Customized AutoComplete Datapane:"
+	              )
+	            ),
+	            self.props.options.map(function (option, x, options) {
+	              return _react2.default.createElement(
+	                "div",
+	                { key: x, title: option.text,
+	                  className: self.getOptionClass(x),
+	                  onClick: self.handleOptionClick.bind(self, x),
+	                  onMouseEnter: function onMouseEnter(e) {
+	                    self.setState({ hoverOption: options[x] });
+	                  },
+	                  onMouseLeave: function onMouseLeave(e) {
+	                    self.setState({ hoverOption: undefined });
+	                  } },
+	                option.text
+	              );
+	            })
+	          );
+	        },
 	        onTextChange: function onTextChange(evt) {
-	          // console.log('onChange Triggered:', evt);
-	          example2.currentInput.text = evt.target.value;
-	          example2.currentInput.value = evt.target.value;
+	          // console.log('onTextChange Triggered:', evt);
+	          var newText = evt.target.value;
+	          example2.currentInput = { text: newText, value: newText };
 	          runner();
 	        },
-	        onSelect: function onSelect(evt) {
-	          console.log('onSelect Triggered:', evt);
-	          var selectedOptions = evt.selectedOptions;
+	        onChange: function onChange(evt) {
+	          console.log('onChange Triggered:', evt);
+	          var options = evt.options;
 	
-	          example2.currentInput.text = selectedOptions[0].text;
-	          example2.currentInput.value = selectedOptions[0].value;
-	          example2.allOptions.forEach(function (i) {
-	            return i.selected = selectedOptions.some(function (i2) {
-	              return i2 === i;
-	            });
-	          }); // reset allOptions to reflect selection status
+	          var selectedOption = options.find(function (i) {
+	            return i.selected;
+	          });
+	          example2.currentInput = $.extend(true, {}, selectedOption);
+	          example2.options = options; // reset options to reflect selection status
 	          runner();
 	        },
 	        onTextSearch: function onTextSearch(evt) {
@@ -147,7 +171,7 @@
 	          console.log('onEnableInput Triggered:', evt);
 	          var target = evt.target;
 	
-	          var searchText = example2.currentInput.text;
+	          var searchText = '';
 	          example2.options = example2.allOptions.filter(function (i) {
 	            return new RegExp(searchText, 'i').exec(i.text);
 	          });
@@ -157,13 +181,8 @@
 	          console.log('onDisableInput Triggered:', evt);
 	          var target = evt.target;
 	
-	          var selectedOptions = example2.allOptions.filter(function (i) {
-	            return i.selected;
-	          });
-	          if (selectedOptions.length) {
-	            example2.currentInput.text = selectedOptions[0].text;
-	            example2.currentInput.value = selectedOptions[0].value;
-	          }
+	          var newText = evt.target.refs.inputText.value;
+	          example2.currentInput = { text: newText, value: newText };
 	          runner();
 	        } })
 	    )
@@ -36440,8 +36459,6 @@
 	
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AutoComplete).call(this, props));
 	
-	    _this.state = {};
-	
 	    _this.searchAvailableFrom = (0, _moment2.default)()._d;
 	    _this.searchTimeout = null;
 	    return _this;
@@ -36451,15 +36468,20 @@
 	    key: 'handleTextChange',
 	    value: function handleTextChange(evt) {
 	      var self = this;
-	      // self.setState({isEditing: true});
+	      // 更新props文本内容
 	      self.props.onTextChange.call(self, evt);
-	      self.searchAvailableFrom = (0, _moment2.default)((0, _moment2.default)() + self.props.searchInterval * 1000)._d;
-	      self.searchTimeout = setTimeout(function () {
-	        if (self.searchAvailableFrom <= (0, _moment2.default)()._d) {
-	          self.handleTextSearch(evt.target.value);
-	          clearTimeout(self.searchTimeout);
-	        }
-	      }, self.props.searchInterval * 1000);
+	      // 设定focus状态以及执行回调
+	      self.setState({
+	        focusOption: undefined
+	      }, function () {
+	        self.searchAvailableFrom = (0, _moment2.default)((0, _moment2.default)() + self.props.searchInterval * 1000)._d;
+	        self.searchTimeout = setTimeout(function () {
+	          if (self.searchAvailableFrom <= (0, _moment2.default)()._d) {
+	            self.handleTextSearch(evt.target.value);
+	            clearTimeout(self.searchTimeout);
+	          }
+	        }, self.props.searchInterval * 1000);
+	      });
 	    }
 	  }, {
 	    key: 'handleTextSearch',
@@ -36480,16 +36502,29 @@
 	      var state = this.state;
 	      var prefixCls = props.prefixCls;
 	
-	      return _react2.default.createElement(_Dropdown3.default, { prefixCls: prefixCls || undefined,
-	        className: props.className || undefined,
-	        options: props.options,
-	        onSelect: props.onSelect.bind(this),
-	        text: props.text
-	        // value={ props.value }
-	        , textReadOnly: false,
-	        onTextChange: this.handleTextChange.bind(this),
-	        onEnableInputs: props.onEnableInputs.bind(this),
-	        onDisableInputs: props.onDisableInputs.bind(this) });
+	      var text = state.focusOption ? state.focusOption.text : props.text !== undefined ? props.text : (props.options.find(function (i) {
+	        return i.selected;
+	      }) || { text: '--请选择--' }).text;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isEditing ? prefixCls + '-isediting' : '') },
+	        _react2.default.createElement(
+	          'div',
+	          { className: prefixCls + '-console',
+	            onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
+	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
+	            className: prefixCls + '-console-text',
+	            value: text,
+	            title: text,
+	            onChange: this.handleTextChange.bind(this),
+	            readOnly: false }),
+	          _react2.default.createElement(
+	            'span',
+	            { className: prefixCls + '-console-toggle' },
+	            ' '
+	          )
+	        )
+	      );
 	    }
 	  }]);
 	
@@ -36502,15 +36537,16 @@
 	  prefixCls: 'ui-form-autocomplete',
 	  className: '',
 	  options: [], // {text: '', value: {}, selected: false, disabled: false }
-	  onSelect: function onSelect(evt) {},
+	  onChange: function onChange(evt) {},
 	  text: '',
-	  // value: null,
 	  searchMinLength: 2,
 	  searchInterval: .5,
 	  onTextChange: function onTextChange(evt) {},
 	  onTextSearch: undefined, // Execute when a text search is required - parameter: {searchText: ''}
 	  onEnableInputs: function onEnableInputs(evt) {}, // Execute when Component is switched to editing state (ie. isEditing === true) - parameter: {target: Component}
-	  onDisableInputs: function onDisableInputs(evt) {} };
+	  onDisableInputs: function onDisableInputs(evt) {}, // Execute when Component is switched off editing state (ie. isEditing === false) - parameter: {target: Component}
+	  getTemplateDatapane: _Dropdown3.default.defaultGetTemplateDatapane
+	};
 
 /***/ },
 /* 437 */
@@ -37500,16 +37536,29 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Dropdown).call(this, props));
 	
 	    _this.state = {
-	      isEditing: false
+	      isEditing: false,
+	      hoverOption: undefined,
+	      focusOption: undefined,
+	      selectedOption: undefined
 	    };
 	    _this.instanceId = instanceId++;
+	    _this.datapaneContainer = null;
 	    return _this;
 	  }
 	
 	  _createClass(Dropdown, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.datapaneContainer = document.createElement("div");
+	      document.body.appendChild(this.datapaneContainer);
+	    }
+	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
 	      var self = this;
+	      self.renderDatapane({
+	        visible: false
+	      });
 	      $(document).on('mousedown.Dropdown' + self.instanceId, function (evt) {
 	        if (self.state.isEditing) {
 	          var $target = $(evt.target);
@@ -37521,12 +37570,33 @@
 	          }
 	        }
 	      });
+	      $(document).on('keydown.Dropdown' + self.instanceId, function (evt) {
+	        if (self.state.isEditing) {
+	          self.handleKeyDown(evt);
+	        }
+	      });
+	      $(document).on('keyup.Dropdown' + self.instanceId, function (evt) {
+	        if (self.state.isEditing) {
+	          self.handleKeyUp(evt);
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
+	      _reactDom2.default.unmountComponentAtNode(this.datapaneContainer);
+	      document.body.removeChild(this.datapaneContainer);
 	      $(document).off('mousedown.Dropdown' + this.instanceId);
+	      this.datapaneContainer = null;
 	      this.instanceId = null;
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      var self = this;
+	      self.renderDatapane({
+	        visible: self.state.isEditing
+	      });
 	    }
 	  }, {
 	    key: 'handleEnableInputs',
@@ -37534,7 +37604,9 @@
 	      var _this2 = this;
 	
 	      var self = this;
-	      self.setState({ isEditing: true }, function () {
+	      self.setState({
+	        isEditing: true
+	      }, function () {
 	        var inputText = self.refs.inputText;
 	        inputText.select();
 	        inputText.focus();
@@ -37551,7 +37623,10 @@
 	      var _this3 = this;
 	
 	      var self = this;
-	      self.setState({ isEditing: false }, function () {
+	      self.setState({
+	        isEditing: false,
+	        focusOption: self.state.selectedOption
+	      }, function () {
 	        if (typeof self.props.onDisableInputs === 'function') {
 	          self.props.onDisableInputs.call(_this3, {
 	            target: self
@@ -37563,7 +37638,6 @@
 	    key: 'handleKeyDown',
 	    value: function handleKeyDown(e) {
 	      var self = this;
-	      if (!self.state.isEditing) return;
 	      var stroke = e.which || e.keyCode;
 	      switch (stroke) {
 	        case 38:
@@ -37586,19 +37660,16 @@
 	    key: 'handleKeyUp',
 	    value: function handleKeyUp(e) {
 	      var self = this;
-	      if (!self.state.isEditing) return;
 	      var stroke = e.which || e.keyCode;
 	      switch (stroke) {
 	        case 13:
 	          // 回车
 	          e.preventDefault();
-	          var $li = $(self.refs.ulItems).children('.' + self.props.prefixCls + '-datapane-option');
-	          var $highlightLi = $li.filter('.ui-common_highlight');
-	          if ($highlightLi.length) {
-	            var selectedIndex = self.props.options.findIndex(function (option, x) {
-	              return $li[x] === $highlightLi[0];
+	          if (self.state.focusOption !== undefined) {
+	            var focusIndex = self.props.options.findIndex(function (i) {
+	              return i === self.state.focusOption;
 	            });
-	            self.handleOptionClick(selectedIndex);
+	            self.handleOptionClick(focusIndex);
 	          }
 	          break;
 	      }
@@ -37607,27 +37678,20 @@
 	    key: 'handleOptionsRoam',
 	    value: function handleOptionsRoam(roamType) {
 	      var self = this;
-	      if (!self.state.isEditing) return;
-	      var $dropdown = $('.' + self.props.prefixCls + '-' + self.instanceId);
-	      var $ul = $(self.refs.ulItems);
-	      var $li = $(self.refs.ulItems).children('.' + self.props.prefixCls + '-datapane-option');
-	      if (!$li.length) return false;
-	      var $oldHighlightLi = $li.filter('.ui-common_highlight');
-	      var $newHighlightLi = $li.first();
+	      var optionsLength = self.props.options.length;
+	      if (!optionsLength) return;
+	      var focusIndex = self.props.options.findIndex(function (i) {
+	        return i === self.state.focusOption;
+	      });
 	      if (roamType == 'up') {
-	        if ($oldHighlightLi.length) {
-	          $newHighlightLi = $oldHighlightLi.prev();
-	          $newHighlightLi.length || ($newHighlightLi = $li.last());
-	        }
+	        focusIndex = !(focusIndex >= 0) ? 0 : focusIndex - 1 >= 0 ? focusIndex - 1 : optionsLength - 1;
 	      }
 	      if (roamType == 'down') {
-	        if ($oldHighlightLi.length) {
-	          $newHighlightLi = $oldHighlightLi.next();
-	          $newHighlightLi.length || ($newHighlightLi = $li.first());
-	        }
+	        focusIndex = !(focusIndex >= 0) ? 0 : focusIndex + 1 <= optionsLength - 1 ? focusIndex + 1 : 0;
 	      }
-	      $newHighlightLi.addClass('ui-common_highlight').siblings().removeClass('ui-common_highlight');
-	
+	      // UI定位与翻页
+	      var $ul = $('.' + self.props.prefixCls + '-datapane-options', self.datapaneContainer);
+	      var $newHighlightLi = $ul.children('.' + self.props.prefixCls + '-datapane-option_' + focusIndex);
 	      var maxHeight = parseInt($ul.css('maxHeight'));
 	      var visible_top = $ul.scrollTop();
 	      var visible_bottom = maxHeight + visible_top;
@@ -37638,40 +37702,48 @@
 	      } else if (newHighlightLi_top < visible_top) {
 	        $ul.scrollTop(newHighlightLi_top);
 	      }
+	      // 设定focus状态
+	      self.setState({
+	        focusOption: self.props.options[focusIndex]
+	      });
 	    }
 	  }, {
 	    key: 'handleOptionClick',
 	    value: function handleOptionClick(currentIndex) {
 	      var self = this;
 	      var props = self.props;
+	      if (!(currentIndex >= 0)) return;
 	      if (!props.options[currentIndex].disabled) {
-	        // 如果该option未被禁用
-	        // 单选：更新当前列表中各option的选择状态
-	        props.options.forEach(function (option, x) {
-	          option.selected = currentIndex === x ? true : false;
-	        });
-	        // 单选：获取当前选择option
-	        var selectedOption = props.options.find(function (option) {
-	          return option.selected;
-	        });
-	        self.setState({
-	          isEditing: false
-	        });
-	        self.props.onSelect.call(this, {
-	          // target: self,
-	          selectedOptions: [selectedOption]
-	        });
+	        (function () {
+	          // 如果该option未被禁用
+	          var targetOptions = $.extend(true, [], props.options);
+	          // 更新options下各项的被选择值
+	          targetOptions.forEach(function (option, x) {
+	            option.selected = currentIndex === x ? true : false;
+	          });
+	          // 设定focus, selected状态以及执行回调
+	          self.setState({
+	            isEditing: false,
+	            focusOption: props.options[currentIndex],
+	            selectedOption: props.options[currentIndex]
+	          }, function () {
+	            self.props.onChange.call(self, {
+	              options: targetOptions
+	            });
+	          });
+	        })();
 	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this4 = this;
-	
 	      var props = this.props;
 	      var state = this.state;
 	      var prefixCls = props.prefixCls;
 	
+	      var text = state.focusOption ? state.focusOption.text : props.text !== undefined ? props.text : (props.options.find(function (i) {
+	        return i.selected;
+	      }) || { text: '--请选择--' }).text;
 	      return _react2.default.createElement(
 	        'div',
 	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isEditing ? prefixCls + '-isediting' : '') },
@@ -37681,82 +37753,160 @@
 	            onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
 	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
 	            className: prefixCls + '-console-text',
-	            value: props.text !== undefined ? props.text : (props.options.find(function (i) {
-	              return i.selected;
-	            }) || { text: '--请选择--' }).text,
-	            title: props.text !== undefined ? props.text : (props.options.find(function (i) {
-	              return i.selected;
-	            }) || { text: '--请选择--' }).text,
-	            onKeyDown: this.handleKeyDown.bind(this),
-	            onKeyUp: this.handleKeyUp.bind(this),
-	            onChange: props.textReadOnly ? undefined : props.onTextChange.bind(this),
+	            value: text,
+	            title: text,
+	            onChange: props.onTextChange.bind(this),
 	            readOnly: props.textReadOnly }),
 	          _react2.default.createElement(
 	            'span',
 	            { className: prefixCls + '-console-toggle' },
 	            ' '
 	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: prefixCls + '-datapane',
-	            style: { display: !state.isEditing ? 'none' : undefined } },
-	          _react2.default.createElement(
-	            'div',
-	            { ref: 'ulItems', className: prefixCls + '-datapane-options' },
-	            props.options.map(function (option, x, options) {
-	              return _react2.default.createElement(
-	                'div',
-	                { key: x, title: option.text,
-	                  className: Dropdown.getOptionClass(prefixCls, option, x, options),
-	                  onClick: _this4.handleOptionClick.bind(_this4, x),
-	                  onMouseEnter: function onMouseEnter(e) {
-	                    $(e.currentTarget).addClass('ui-common_highlight').siblings().removeClass('ui-common_highlight');
-	                  },
-	                  onMouseLeave: function onMouseLeave(e) {
-	                    $(e.currentTarget).removeClass('ui-common_highlight');
-	                  } },
-	                option.text
-	              );
-	            })
-	          )
 	        )
 	      );
+	    }
+	  }, {
+	    key: 'getOptionClass',
+	    value: function getOptionClass(currentIndex) {
+	      var _props = this.props;
+	      var prefixCls = _props.prefixCls;
+	      var options = _props.options;
+	      var _state = this.state;
+	      var hoverOption = _state.hoverOption;
+	      var focusOption = _state.focusOption;
+	
+	      var option = options[currentIndex];
+	      var classString = prefixCls + '-datapane-option ' + prefixCls + '-datapane-option_' + currentIndex;
+	      if (hoverOption === options[currentIndex]) classString += ' ui-common_hover';
+	      if (focusOption === options[currentIndex]) classString += ' ui-common_focus';
+	      if (option.disabled) classString += ' ui-common_disabled';
+	      if (option.selected && options.findIndex(function (i) {
+	        return i.selected;
+	      }) === currentIndex) classString += ' ui-common_selected';
+	      return classString;
+	    }
+	  }, {
+	    key: 'renderDatapane',
+	    value: function renderDatapane(data) {
+	      var props = this.props,
+	          state = this.state,
+	          prefixCls = props.prefixCls;
+	      var visible = data.visible;
+	      var inputEl,
+	          datapaneEl,
+	          winEl,
+	          inputOffset,
+	          inputHeight,
+	          inputWidth,
+	          datapaneHeight,
+	          datapaneWidth,
+	          winWidth,
+	          winHeight,
+	          winScrollTop,
+	          winScrollLeft,
+	          top = 0,
+	          left = 0;
+	      if (visible) {
+	        inputEl = $(_reactDom2.default.findDOMNode(this.refs.inputText));
+	        datapaneEl = $('.' + prefixCls + '-datapane', this.datapaneContainer);
+	        winEl = $(window);
+	        inputOffset = inputEl.offset();
+	        inputHeight = inputEl.outerHeight();
+	        inputWidth = inputEl.outerWidth();
+	        datapaneHeight = datapaneEl.outerHeight();
+	        datapaneWidth = datapaneEl.outerWidth();
+	        winWidth = winEl.width();
+	        winHeight = winEl.height();
+	        winScrollTop = winEl.scrollTop();
+	        winScrollLeft = winEl.scrollLeft();
+	        if (inputOffset.top - winScrollTop >= datapaneHeight) {
+	          if (winHeight - (inputOffset.top - winScrollTop) - inputHeight >= datapaneHeight) {
+	            //下面放得下优先放下面
+	            top = inputOffset.top + inputHeight - 1;
+	          } else {
+	            top = inputOffset.top - datapaneHeight + 1;
+	          }
+	        } else {
+	          //上面放不下直接放下面
+	          top = inputOffset.top + inputHeight - 1;
+	        }
+	        if (inputOffset.left - winScrollLeft + inputWidth >= datapaneWidth) {
+	          if (winWidth - (inputOffset.left - winScrollLeft) >= datapaneWidth) {
+	            //左面放得下优先放右面
+	            left = inputOffset.left;
+	          } else {
+	            left = inputOffset.left + inputWidth - datapaneWidth;
+	          }
+	        } else {
+	          //左面放不下直接放右面
+	          left = inputOffset.left;
+	        }
+	      }
+	      _reactDom2.default.render(_react2.default.createElement(
+	        'div',
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || ''), style: {
+	            "zIndex": 10000,
+	            "display": visible ? "block" : "none",
+	            "position": "absolute",
+	            "top": top + "px",
+	            "left": left + "px"
+	          } },
+	        _react2.default.createElement(
+	          'div',
+	          { className: prefixCls + '-datapane' },
+	          props.getTemplateDatapane.call(this, this)
+	        )
+	      ), this.datapaneContainer);
 	    }
 	  }]);
 	
 	  return Dropdown;
 	}(_component.Widget);
 	
-	Dropdown.getOptionClass = function (prefixCls, option, x, options) {
-	  var classString = prefixCls + '-datapane-option ' + prefixCls + '-datapane-option_' + x;
-	  if (option.disabled) classString += ' ui-common_disabled';
-	  if (option.selected && options.findIndex(function (i) {
-	    return i.selected;
-	  }) === x) classString += ' ui-common_selected';
-	  return classString;
+	Dropdown.defaultGetTemplateDatapane = function (self) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: self.props.prefixCls + '-datapane-options' },
+	    self.props.options.map(function (option, x, options) {
+	      return _react2.default.createElement(
+	        'div',
+	        { key: x, title: option.text,
+	          className: self.getOptionClass(x),
+	          onClick: self.handleOptionClick.bind(self, x),
+	          onMouseEnter: function onMouseEnter(e) {
+	            self.setState({ hoverOption: options[x] });
+	          },
+	          onMouseLeave: function onMouseLeave(e) {
+	            self.setState({ hoverOption: undefined });
+	          } },
+	        option.text
+	      );
+	    })
+	  );
 	};
 	Dropdown.propTypes = {
 	  prefixCls: _react2.default.PropTypes.string,
 	  className: _react2.default.PropTypes.string,
 	  options: _react2.default.PropTypes.array,
-	  onSelect: _react2.default.PropTypes.func,
+	  onChange: _react2.default.PropTypes.func,
 	  text: _react2.default.PropTypes.string,
 	  textReadOnly: _react2.default.PropTypes.bool,
 	  onTextChange: _react2.default.PropTypes.func,
 	  onEnableInputs: _react2.default.PropTypes.func,
-	  onDisableInputs: _react2.default.PropTypes.func
+	  onDisableInputs: _react2.default.PropTypes.func,
+	  getTemplateDatapane: _react2.default.PropTypes.func
 	};
 	Dropdown.defaultProps = {
 	  prefixCls: 'ui-form-dropdown',
 	  className: '',
 	  options: [], // {text: '', value: {}, selected: false, disabled: false }
-	  onSelect: function onSelect(evt) {},
+	  onChange: function onChange(evt) {},
 	  text: undefined,
 	  textReadOnly: true,
 	  onTextChange: function onTextChange(evt) {},
 	  onEnableInputs: function onEnableInputs(evt) {},
-	  onDisableInputs: function onDisableInputs(evt) {}
+	  onDisableInputs: function onDisableInputs(evt) {},
+	  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane
 	};
 	
 	exports.default = Dropdown;
