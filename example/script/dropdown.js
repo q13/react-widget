@@ -20,7 +20,7 @@ let allOptions = [
   {selected: false, disabled: false, text: '$("body")', value: $("body") },
 ];
 const example1 = {
-  options: allOptions,
+  allOptions: allOptions,
   selectedOptions: [allOptions.find(i=>i.selected)],
 };
 function runner () {
@@ -29,17 +29,21 @@ function runner () {
       .dropdown-instance input[type=text] {
         width: 400px;
       }
-      .dropdown-instance ul {
+      .dropdown-instance .ui-form-dropdown-datapane-options {
+        background: #ccc;
         margin-top: 0;
         width: 300px;
         max-height: 150px;
+        overflow-y: auto;
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_highlight {
-        background: #ff0;
-      }
-
       .dropdown-instance .ui-form-dropdown-datapane-option:before {
         content: " - ";
+      }
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_hover {
+        background: #ff0;
+      }
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_focus {
+        background: #0f0;
       }
       .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_selected:before {
         content: " + ";
@@ -62,17 +66,32 @@ function runner () {
     <div style={{display: 'inline-block'}}>
       Typical use:<br/>
       <Dropdown className="dropdown-instance dropdown-typical"
-                options={ example1.options }
-                onSelect={ (evt) => {
-                  const { selectedOptions } = evt;
-                  example1.selectedOptions = selectedOptions;
+                options={ example1.allOptions }
+                // getTemplateDatapane={ (self) => {
+                //   return (<div className={ `${self.props.prefixCls}-datapane-options` }>
+                //     <div><b>Customized Dropdown Datapane:</b></div>
+                //     {
+                //       self.props.options.map((option, x, options) =>
+                //       (<div key={x} title={ option.text }
+                //             className={ self.getOptionClass(x) }
+                //             onClick={ self.handleOptionClick.bind(self, x) }
+                //             onMouseEnter={ (e)=>{ self.setState({hoverOption: options[x]}); } }
+                //             onMouseLeave={ (e)=>{ self.setState({hoverOption: undefined}); } }>
+                //         { option.text }
+                //       </div>))
+                //     }
+                //   </div>);
+                // } }
+                onChange={ (evt) => {
+                  const { options } = evt;
+                  example1.allOptions = options;
                   runner();
                 } } />
       &nbsp;<br/>
     </div>
     <div>
       Selected options:<br/>
-      { example1.selectedOptions.map(i=>` [${i.text}] `) }
+      { example1.allOptions.filter(i => i.selected).map(i => ` [${i.text}] `) }
     </div>
   </div>, document.getElementById("container"));
 }
