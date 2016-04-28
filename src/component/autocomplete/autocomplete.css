@@ -28,7 +28,9 @@
 .ui-form-autocomplete-datapane-option {
   cursor: pointer;
 }
-.ui-form-autocomplete-datapane-option.ui-common_highlight {
+.ui-form-autocomplete-datapane-option.ui-common_hover {
+}
+.ui-form-autocomplete-datapane-option.ui-common_focus {
 }
 .ui-form-autocomplete-datapane-option.ui-common_selected {
 }
