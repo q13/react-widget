@@ -7,11 +7,11 @@ import ReactDom from "react-dom";
 import Checkboxgroup from "../../src/component/form/Checkboxgroup.js";
 
 let options = [
-  {name: 'name1', checked: true, disabled: false, text: 'Checkboxgroup class', value: Checkboxgroup },
-  {name: 'name2', checked: true, disabled: true, text: 'window', value: window },
-  {name: 'name3', checked: false, disabled: true, text: 'document', value: document },
-  {name: 'name4', checked: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent },
-  {name: 'name5', checked: true, disabled: false, text: 'navigator.languages', value: navigator.languages },
+  {name: 'name1', checked: true, disabled: false, text: 'Checkboxgroup class', value: Checkboxgroup.toString() },
+  {name: 'name2', checked: true, disabled: true, text: 'window', value: window.toString() },
+  {name: 'name3', checked: false, disabled: true, text: 'document', value: document.toString() },
+  {name: 'name4', checked: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent.toString() },
+  {name: 'name5', checked: true, disabled: false, text: 'navigator.languages', value: navigator.languages.toString() },
 ];
 const example1 = {
   allOptions: options,
@@ -22,16 +22,16 @@ function runner () {
       .checkboxgroup-instance .ui-form-checkboxgroup-option:before {
         content: " - ";
       }
-      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_selected:before {
+      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common-selected:before {
         content: " + ";
       }
-      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_selected:after {
+      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common-selected:after {
         content: "(checked)";
       }
-      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_disabled {
+      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common-disabled {
         opacity: .5;
       }
-      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_disabled:after {
+      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common-disabled:after {
         content: "(disabled)";
       }
     `} } />

@@ -72,7 +72,7 @@
 	 * Radiogroup demo
 	 */
 	
-	var options = [{ checked: true, disabled: false, text: 'Radiogroup class', value: _Radiogroup2.default }, { checked: false, disabled: false, text: 'window', value: window }, { checked: false, disabled: true, text: 'document', value: document }, { checked: true, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { checked: false, disabled: false, text: 'navigator.languages', value: navigator.languages }]; // enable es6 to es5 transform
+	var options = [{ checked: true, disabled: false, text: 'Radiogroup class', value: _Radiogroup2.default.toString() }, { checked: false, disabled: false, text: 'window', value: window.toString() }, { checked: false, disabled: true, text: 'document', value: document.toString() }, { checked: true, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent.toString() }, { checked: false, disabled: false, text: 'navigator.languages', value: navigator.languages.toString() }]; // enable es6 to es5 transform
 	
 	var example1 = {
 	  allOptions: options
@@ -81,7 +81,7 @@
 	  _reactDom2.default.render(_react2.default.createElement(
 	    "div",
 	    null,
-	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .radiogroup-instance .ui-form-radiogroup-option:before {\n        content: \" - \";\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common_selected:before {\n        content: \" + \";\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common_selected:after {\n        content: \"(checked)\";\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common_disabled {\n        opacity: .5;\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common_disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
+	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .radiogroup-instance .ui-form-radiogroup-option:before {\n        content: \" - \";\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common-selected:before {\n        content: \" + \";\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common-selected:after {\n        content: \"(checked)\";\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common-disabled {\n        opacity: .5;\n      }\n      .radiogroup-instance .ui-form-radiogroup-option.ui-common-disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
 	    _react2.default.createElement(
 	      "div",
 	      { style: { display: 'inline-block' } },
@@ -25923,10 +25923,11 @@
 	      var self = this;
 	      var props = self.props;
 	      if (!props.options[currentIndex].disabled) {
-	        var targetOptions = $.extend(true, [], props.options);
+	        var targetOptions = JSON.parse(JSON.stringify(props.options));
 	        targetOptions.forEach(function (option, x) {
 	          option.checked = currentIndex === x ? true : false;
 	        });
+	        self.props.onChange.call(self, targetOptions[currentIndex]);
 	        self.props.onOptionsChange.call(self, {
 	          options: targetOptions
 	        });
@@ -25961,23 +25962,25 @@
 	}(_component.Widget);
 	
 	Radiogroup.getOptionClass = function (prefixCls, option, x, options) {
-	  var classString = prefixCls + '-option ' + prefixCls + '-option_' + x;
-	  if (option.disabled) classString += ' ui-common_disabled';
+	  var classString = prefixCls + '-option ' + prefixCls + '-option-' + x;
+	  if (option.disabled) classString += ' ui-common-disabled';
 	  if (option.checked && options.findIndex(function (i) {
 	    return i.checked;
-	  }) === x) classString += ' ui-common_selected';
+	  }) === x) classString += ' ui-common-selected';
 	  return classString;
 	};
 	Radiogroup.propTypes = {
 	  prefixCls: _react2.default.PropTypes.string,
 	  className: _react2.default.PropTypes.string,
 	  options: _react2.default.PropTypes.array,
+	  onChange: _react2.default.PropTypes.func,
 	  onOptionsChange: _react2.default.PropTypes.func
 	};
 	Radiogroup.defaultProps = {
 	  prefixCls: 'ui-form-radiogroup',
 	  className: '',
 	  options: [], // {text: '', value: {}, checked: false, disabled: false }
+	  onChange: function onChange(evt) {},
 	  onOptionsChange: function onOptionsChange(evt) {}
 	};
 	

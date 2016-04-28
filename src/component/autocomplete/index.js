@@ -73,6 +73,7 @@ AutoComplete.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
   options: React.PropTypes.array,
+  onChange: React.PropTypes.func,
   onOptionsChange: React.PropTypes.func,
   getTemplateDatapane: React.PropTypes.func,
   onEnableInputs: React.PropTypes.func,
@@ -87,6 +88,7 @@ AutoComplete.defaultProps = {
   prefixCls: 'ui-form-autocomplete',
   className: '',
   options: [], // {text: '', value: {}, selected: false, disabled: false }
+  onChange: (evt) => {},
   onOptionsChange: (evt) => {},
   getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
   onEnableInputs: (evt) => {}, // Execute when Component is switched to editing state (ie. isEditing === true) - parameter: {target: Component}

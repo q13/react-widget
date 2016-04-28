@@ -72,7 +72,7 @@
 	 * Checkboxgroup demo
 	 */
 	
-	var options = [{ name: 'name1', checked: true, disabled: false, text: 'Checkboxgroup class', value: _Checkboxgroup2.default }, { name: 'name2', checked: true, disabled: true, text: 'window', value: window }, { name: 'name3', checked: false, disabled: true, text: 'document', value: document }, { name: 'name4', checked: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { name: 'name5', checked: true, disabled: false, text: 'navigator.languages', value: navigator.languages }]; // enable es6 to es5 transform
+	var options = [{ name: 'name1', checked: true, disabled: false, text: 'Checkboxgroup class', value: _Checkboxgroup2.default.toString() }, { name: 'name2', checked: true, disabled: true, text: 'window', value: window.toString() }, { name: 'name3', checked: false, disabled: true, text: 'document', value: document.toString() }, { name: 'name4', checked: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent.toString() }, { name: 'name5', checked: true, disabled: false, text: 'navigator.languages', value: navigator.languages.toString() }]; // enable es6 to es5 transform
 	
 	var example1 = {
 	  allOptions: options
@@ -81,7 +81,7 @@
 	  _reactDom2.default.render(_react2.default.createElement(
 	    "div",
 	    null,
-	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .checkboxgroup-instance .ui-form-checkboxgroup-option:before {\n        content: \" - \";\n      }\n      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_selected:before {\n        content: \" + \";\n      }\n      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_selected:after {\n        content: \"(checked)\";\n      }\n      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_disabled {\n        opacity: .5;\n      }\n      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common_disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
+	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .checkboxgroup-instance .ui-form-checkboxgroup-option:before {\n        content: \" - \";\n      }\n      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common-selected:before {\n        content: \" + \";\n      }\n      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common-selected:after {\n        content: \"(checked)\";\n      }\n      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common-disabled {\n        opacity: .5;\n      }\n      .checkboxgroup-instance .ui-form-checkboxgroup-option.ui-common-disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
 	    _react2.default.createElement(
 	      "div",
 	      { style: { display: 'inline-block' } },
@@ -25924,8 +25924,9 @@
 	      var self = this;
 	      var props = self.props;
 	      if (!props.options[currentIndex].disabled) {
-	        var targetOptions = $.extend(true, [], props.options);
+	        var targetOptions = JSON.parse(JSON.stringify(props.options));
 	        targetOptions[currentIndex].checked = !targetOptions[currentIndex].checked;
+	        self.props.onChange.call(self, targetOptions[currentIndex]);
 	        self.props.onOptionsChange.call(self, {
 	          // target: self,
 	          options: targetOptions
@@ -25962,21 +25963,23 @@
 	}(_component.Widget);
 	
 	Checkboxgroup.getOptionClass = function (prefixCls, option, x) {
-	  var classString = prefixCls + '-option ' + prefixCls + '-option_' + x;
-	  if (option.disabled) classString += ' ui-common_disabled';
-	  if (option.checked) classString += ' ui-common_selected';
+	  var classString = prefixCls + '-option ' + prefixCls + '-option-' + x;
+	  if (option.disabled) classString += ' ui-common-disabled';
+	  if (option.checked) classString += ' ui-common-selected';
 	  return classString;
 	};
 	Checkboxgroup.propTypes = {
 	  prefixCls: _react2.default.PropTypes.string,
 	  className: _react2.default.PropTypes.string,
 	  options: _react2.default.PropTypes.array,
+	  onChange: _react2.default.PropTypes.func,
 	  onOptionsChange: _react2.default.PropTypes.func
 	};
 	Checkboxgroup.defaultProps = {
 	  prefixCls: 'ui-form-checkboxgroup',
 	  className: '',
 	  options: [], // {text: '', value: {}, checked: false, disabled: false }
+	  onChange: function onChange(evt) {},
 	  onOptionsChange: function onOptionsChange(evt) {}
 	};
 	

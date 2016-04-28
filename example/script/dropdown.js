@@ -7,17 +7,17 @@ import ReactDom from "react-dom";
 import Dropdown from "../../src/component/form/Dropdown.js";
 
 let allOptions = [
-  {selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container") },
-  {selected: false, disabled: false, text: 'jQuery instance', value: $ },
-  {selected: true, disabled: false, text: 'Dropdown class', value: Dropdown },
-  {selected: false, disabled: false, text: 'window', value: window },
-  {selected: false, disabled: false, text: 'document', value: document },
-  {selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent },
-  {selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages },
-  {selected: false, disabled: true, text: 'document.head', value: document.head },
-  {selected: false, disabled: true, text: 'document.body', value: document.body },
-  {selected: false, disabled: true, text: 'document.scripts', value: document.scripts },
-  {selected: false, disabled: false, text: '$("body")', value: $("body") },
+  {selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container").toString() },
+  {selected: false, disabled: false, text: 'jQuery instance', value: $.toString() },
+  {selected: true, disabled: false, text: 'Dropdown class', value: Dropdown.toString() },
+  {selected: false, disabled: false, text: 'window', value: window.toString() },
+  {selected: false, disabled: false, text: 'document', value: document.toString() },
+  {selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent.toString() },
+  {selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages.toString() },
+  {selected: false, disabled: true, text: 'document.head', value: document.head.toString() },
+  {selected: false, disabled: true, text: 'document.body', value: document.body.toString() },
+  {selected: false, disabled: true, text: 'document.scripts', value: document.scripts.toString() },
+  {selected: false, disabled: false, text: '$("body")', value: $("body").toString() },
 ];
 const example1 = {
   allOptions: allOptions,
@@ -39,22 +39,22 @@ function runner () {
       .dropdown-instance .ui-form-dropdown-datapane-option:before {
         content: " - ";
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_hover {
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-hover {
         background: #ff0;
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_focus {
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-focus {
         background: #0f0;
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_selected:before {
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-selected:before {
         content: " + ";
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_selected:after {
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-selected:after {
         content: "(selected)";
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_disabled {
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-disabled {
         opacity: .5;
       }
-      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_disabled:after {
+      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-disabled:after {
         content: "(disabled)";
       }
     `} } />

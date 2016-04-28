@@ -72,7 +72,7 @@
 	 * Dropdown demo
 	 */
 	
-	var allOptions = [{ selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container") }, { selected: false, disabled: false, text: 'jQuery instance', value: $ }, { selected: true, disabled: false, text: 'Dropdown class', value: _Dropdown2.default }, { selected: false, disabled: false, text: 'window', value: window }, { selected: false, disabled: false, text: 'document', value: document }, { selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent }, { selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages }, { selected: false, disabled: true, text: 'document.head', value: document.head }, { selected: false, disabled: true, text: 'document.body', value: document.body }, { selected: false, disabled: true, text: 'document.scripts', value: document.scripts }, { selected: false, disabled: false, text: '$("body")', value: $("body") }]; // enable es6 to es5 transform
+	var allOptions = [{ selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container").toString() }, { selected: false, disabled: false, text: 'jQuery instance', value: $.toString() }, { selected: true, disabled: false, text: 'Dropdown class', value: _Dropdown2.default.toString() }, { selected: false, disabled: false, text: 'window', value: window.toString() }, { selected: false, disabled: false, text: 'document', value: document.toString() }, { selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent.toString() }, { selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages.toString() }, { selected: false, disabled: true, text: 'document.head', value: document.head.toString() }, { selected: false, disabled: true, text: 'document.body', value: document.body.toString() }, { selected: false, disabled: true, text: 'document.scripts', value: document.scripts.toString() }, { selected: false, disabled: false, text: '$("body")', value: $("body").toString() }]; // enable es6 to es5 transform
 	
 	var example1 = {
 	  allOptions: allOptions,
@@ -84,7 +84,7 @@
 	  _reactDom2.default.render(_react2.default.createElement(
 	    "div",
 	    null,
-	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .dropdown-instance input[type=text] {\n        width: 400px;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-options {\n        background: #ccc;\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n        overflow-y: auto;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option:before {\n        content: \" - \";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_hover {\n        background: #ff0;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_focus {\n        background: #0f0;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_selected:before {\n        content: \" + \";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_selected:after {\n        content: \"(selected)\";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_disabled {\n        opacity: .5;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common_disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
+	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .dropdown-instance input[type=text] {\n        width: 400px;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-options {\n        background: #ccc;\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n        overflow-y: auto;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option:before {\n        content: \" - \";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-hover {\n        background: #ff0;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-focus {\n        background: #0f0;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-selected:before {\n        content: \" + \";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-selected:after {\n        content: \"(selected)\";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-disabled {\n        opacity: .5;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
 	    _react2.default.createElement(
 	      "div",
 	      null,
@@ -26094,16 +26094,16 @@
 	      }
 	      // UI定位与翻页
 	      var $ul = $('.' + self.props.prefixCls + '-datapane-options', self.datapaneContainer);
-	      var $newHighlightLi = $ul.children('.' + self.props.prefixCls + '-datapane-option_' + focusIndex);
+	      var $newHighlightLi = $ul.children('.' + self.props.prefixCls + '-datapane-option-' + focusIndex);
 	      var maxHeight = parseInt($ul.css('maxHeight'));
-	      var visible_top = $ul.scrollTop();
-	      var visible_bottom = maxHeight + visible_top;
-	      var newHighlightLi_top = $newHighlightLi.position().top + visible_top;
-	      var newHighlightLi_bottom = newHighlightLi_top + $newHighlightLi.outerHeight();
-	      if (newHighlightLi_bottom >= visible_bottom) {
-	        $ul.scrollTop(newHighlightLi_bottom - maxHeight > 0 ? newHighlightLi_bottom - maxHeight : 0);
-	      } else if (newHighlightLi_top < visible_top) {
-	        $ul.scrollTop(newHighlightLi_top);
+	      var visibleTop = $ul.scrollTop();
+	      var visibleBottom = maxHeight + visibleTop;
+	      var newHighlightLiTop = $newHighlightLi.position().top + visibleTop;
+	      var newHighlightLiBottom = newHighlightLiTop + $newHighlightLi.outerHeight();
+	      if (newHighlightLiBottom >= visibleBottom) {
+	        $ul.scrollTop(newHighlightLiBottom - maxHeight > 0 ? newHighlightLiBottom - maxHeight : 0);
+	      } else if (newHighlightLiTop < visibleTop) {
+	        $ul.scrollTop(newHighlightLiTop);
 	      }
 	      // 设定focus状态
 	      self.setState({
@@ -26119,7 +26119,7 @@
 	      if (!props.options[currentIndex].disabled) {
 	        (function () {
 	          // 如果该option未被禁用
-	          var targetOptions = $.extend(true, [], props.options);
+	          var targetOptions = JSON.parse(JSON.stringify(props.options));
 	          // 更新options下各项的被选择值
 	          targetOptions.forEach(function (option, x) {
 	            option.selected = currentIndex === x ? true : false;
@@ -26130,6 +26130,7 @@
 	            focusOption: props.options[currentIndex],
 	            selectedOption: props.options[currentIndex]
 	          }, function () {
+	            self.props.onChange.call(self, targetOptions[currentIndex]);
 	            self.props.onOptionsChange.call(self, {
 	              options: targetOptions
 	            });
@@ -26178,13 +26179,13 @@
 	      var focusOption = _state.focusOption;
 	
 	      var option = options[currentIndex];
-	      var classString = prefixCls + '-datapane-option ' + prefixCls + '-datapane-option_' + currentIndex;
-	      if (hoverOption === options[currentIndex]) classString += ' ui-common_hover';
-	      if (focusOption === options[currentIndex]) classString += ' ui-common_focus';
-	      if (option.disabled) classString += ' ui-common_disabled';
+	      var classString = prefixCls + '-datapane-option ' + prefixCls + '-datapane-option-' + currentIndex;
+	      if (hoverOption === options[currentIndex]) classString += ' ui-common-hover';
+	      if (focusOption === options[currentIndex]) classString += ' ui-common-focus';
+	      if (option.disabled) classString += ' ui-common-disabled';
 	      if (option.selected && options.findIndex(function (i) {
 	        return i.selected;
-	      }) === currentIndex) classString += ' ui-common_selected';
+	      }) === currentIndex) classString += ' ui-common-selected';
 	      return classString;
 	    }
 	  }, {
@@ -26290,6 +26291,7 @@
 	  prefixCls: _react2.default.PropTypes.string,
 	  className: _react2.default.PropTypes.string,
 	  options: _react2.default.PropTypes.array,
+	  onChange: _react2.default.PropTypes.func,
 	  onOptionsChange: _react2.default.PropTypes.func,
 	  getTemplateDatapane: _react2.default.PropTypes.func,
 	  onEnableInputs: _react2.default.PropTypes.func,
@@ -26299,6 +26301,7 @@
 	  prefixCls: 'ui-form-dropdown',
 	  className: '',
 	  options: [], // {text: '', value: {}, selected: false, disabled: false }
+	  onChange: function onChange(evt) {},
 	  onOptionsChange: function onOptionsChange(evt) {},
 	  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
 	  onEnableInputs: function onEnableInputs(evt) {},

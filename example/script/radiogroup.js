@@ -7,11 +7,11 @@ import ReactDom from "react-dom";
 import Radiogroup from "../../src/component/form/Radiogroup.js";
 
 let options = [
-  {checked: true, disabled: false, text: 'Radiogroup class', value: Radiogroup },
-  {checked: false, disabled: false, text: 'window', value: window },
-  {checked: false, disabled: true, text: 'document', value: document },
-  {checked: true, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent },
-  {checked: false, disabled: false, text: 'navigator.languages', value: navigator.languages },
+  {checked: true, disabled: false, text: 'Radiogroup class', value: Radiogroup.toString() },
+  {checked: false, disabled: false, text: 'window', value: window.toString() },
+  {checked: false, disabled: true, text: 'document', value: document.toString() },
+  {checked: true, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent.toString() },
+  {checked: false, disabled: false, text: 'navigator.languages', value: navigator.languages.toString() },
 ];
 const example1 = {
   allOptions: options,
@@ -22,16 +22,16 @@ function runner () {
       .radiogroup-instance .ui-form-radiogroup-option:before {
         content: " - ";
       }
-      .radiogroup-instance .ui-form-radiogroup-option.ui-common_selected:before {
+      .radiogroup-instance .ui-form-radiogroup-option.ui-common-selected:before {
         content: " + ";
       }
-      .radiogroup-instance .ui-form-radiogroup-option.ui-common_selected:after {
+      .radiogroup-instance .ui-form-radiogroup-option.ui-common-selected:after {
         content: "(checked)";
       }
-      .radiogroup-instance .ui-form-radiogroup-option.ui-common_disabled {
+      .radiogroup-instance .ui-form-radiogroup-option.ui-common-disabled {
         opacity: .5;
       }
-      .radiogroup-instance .ui-form-radiogroup-option.ui-common_disabled:after {
+      .radiogroup-instance .ui-form-radiogroup-option.ui-common-disabled:after {
         content: "(disabled)";
       }
     `} } />

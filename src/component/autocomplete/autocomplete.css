@@ -9,7 +9,7 @@
 .ui-form-autocomplete {
   display: inline-block;
 }
-.ui-form-autocomplete.ui-form-autocomplete_isediting {
+.ui-form-autocomplete.ui-form-autocomplete-isediting {
 }
 .ui-form-autocomplete-console {
 }
@@ -28,11 +28,11 @@
 .ui-form-autocomplete-datapane-option {
   cursor: pointer;
 }
-.ui-form-autocomplete-datapane-option.ui-common_hover {
+.ui-form-autocomplete-datapane-option.ui-common-hover {
 }
-.ui-form-autocomplete-datapane-option.ui-common_focus {
+.ui-form-autocomplete-datapane-option.ui-common-focus {
 }
-.ui-form-autocomplete-datapane-option.ui-common_selected {
+.ui-form-autocomplete-datapane-option.ui-common-selected {
 }
-.ui-form-autocomplete-datapane-option.ui-common_disabled {
+.ui-form-autocomplete-datapane-option.ui-common-disabled {
 }

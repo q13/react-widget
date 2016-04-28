@@ -138,16 +138,16 @@ class Dropdown extends Widget {
     }
     // UI定位与翻页
     const $ul = $(`.${self.props.prefixCls}-datapane-options`, self.datapaneContainer);
-    const $newHighlightLi = $ul.children(`.${self.props.prefixCls}-datapane-option_${focusIndex}`);
+    const $newHighlightLi = $ul.children(`.${self.props.prefixCls}-datapane-option-${focusIndex}`);
     const maxHeight = parseInt($ul.css('maxHeight'));
-    let visible_top = $ul.scrollTop();
-    let visible_bottom = maxHeight + visible_top;
-    let newHighlightLi_top = $newHighlightLi.position().top + visible_top;
-    let newHighlightLi_bottom = newHighlightLi_top + $newHighlightLi.outerHeight();
-    if (newHighlightLi_bottom >= visible_bottom) {
-      $ul.scrollTop((newHighlightLi_bottom - maxHeight) > 0 ? newHighlightLi_bottom - maxHeight : 0);
-    } else if (newHighlightLi_top < visible_top) {
-      $ul.scrollTop(newHighlightLi_top);
+    let visibleTop = $ul.scrollTop();
+    let visibleBottom = maxHeight + visibleTop;
+    let newHighlightLiTop = $newHighlightLi.position().top + visibleTop;
+    let newHighlightLiBottom = newHighlightLiTop + $newHighlightLi.outerHeight();
+    if (newHighlightLiBottom >= visibleBottom) {
+      $ul.scrollTop((newHighlightLiBottom - maxHeight) > 0 ? newHighlightLiBottom - maxHeight : 0);
+    } else if (newHighlightLiTop < visibleTop) {
+      $ul.scrollTop(newHighlightLiTop);
     }
     // 设定focus状态
     self.setState({
@@ -159,7 +159,7 @@ class Dropdown extends Widget {
     const props = self.props;
     if (!(currentIndex >= 0)) return;
     if (!props.options[currentIndex].disabled) { // 如果该option未被禁用
-      const targetOptions = $.extend(true, [], props.options);
+      const targetOptions = JSON.parse(JSON.stringify(props.options));
       // 更新options下各项的被选择值
       targetOptions.forEach((option, x) => {
         option.selected = currentIndex === x ? true : false;
@@ -170,6 +170,7 @@ class Dropdown extends Widget {
         focusOption: props.options[currentIndex],
         selectedOption: props.options[currentIndex],
       }, () => {
+        self.props.onChange.call(self, targetOptions[currentIndex]);
         self.props.onOptionsChange.call(self, {
           options: targetOptions,
         });
@@ -199,11 +200,11 @@ class Dropdown extends Widget {
     const { prefixCls, options } = this.props;
     const { hoverOption, focusOption } = this.state;
     const option = options[currentIndex];
-    let classString = `${prefixCls}-datapane-option ${prefixCls}-datapane-option_${currentIndex}`;
-    if (hoverOption === options[currentIndex]) classString += ` ui-common_hover`;
-    if (focusOption === options[currentIndex]) classString += ` ui-common_focus`;
-    if (option.disabled) classString += ` ui-common_disabled`;
-    if (option.selected && options.findIndex(i => i.selected) === currentIndex) classString += ` ui-common_selected`;
+    let classString = `${prefixCls}-datapane-option ${prefixCls}-datapane-option-${currentIndex}`;
+    if (hoverOption === options[currentIndex]) classString += ` ui-common-hover`;
+    if (focusOption === options[currentIndex]) classString += ` ui-common-focus`;
+    if (option.disabled) classString += ` ui-common-disabled`;
+    if (option.selected && options.findIndex(i => i.selected) === currentIndex) classString += ` ui-common-selected`;
     return classString;
   }
   renderDatapane(data) {
@@ -288,6 +289,7 @@ Dropdown.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
   options: React.PropTypes.array,
+  onChange: React.PropTypes.func,
   onOptionsChange: React.PropTypes.func,
   getTemplateDatapane: React.PropTypes.func,
   onEnableInputs: React.PropTypes.func,
@@ -297,6 +299,7 @@ Dropdown.defaultProps = {
   prefixCls: 'ui-form-dropdown',
   className: '',
   options: [], // {text: '', value: {}, selected: false, disabled: false }
+  onChange: (evt) => {},
   onOptionsChange: (evt) => {},
   getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
   onEnableInputs: (evt) => {},

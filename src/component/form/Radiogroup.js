@@ -19,10 +19,11 @@ class Radiogroup extends Widget {
     const self = this;
     const props = self.props;
     if (!props.options[currentIndex].disabled) {
-      const targetOptions = $.extend(true, [], props.options);
+      const targetOptions = JSON.parse(JSON.stringify(props.options));
       targetOptions.forEach((option, x) => {
         option.checked = currentIndex === x ? true : false;
       });
+      self.props.onChange.call(self, targetOptions[currentIndex]);
       self.props.onOptionsChange.call(self, {
         options: targetOptions,
       });
@@ -47,21 +48,23 @@ class Radiogroup extends Widget {
   }
 }
 Radiogroup.getOptionClass = function(prefixCls, option, x, options) {
-  let classString = `${prefixCls}-option ${prefixCls}-option_${x}`;
-  if (option.disabled) classString += ` ui-common_disabled`;
-  if (option.checked && options.findIndex(i => i.checked) === x) classString += ` ui-common_selected`;
+  let classString = `${prefixCls}-option ${prefixCls}-option-${x}`;
+  if (option.disabled) classString += ` ui-common-disabled`;
+  if (option.checked && options.findIndex(i => i.checked) === x) classString += ` ui-common-selected`;
   return classString;
 };
 Radiogroup.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
   options: React.PropTypes.array,
+  onChange: React.PropTypes.func,
   onOptionsChange: React.PropTypes.func,
 };
 Radiogroup.defaultProps = {
   prefixCls: 'ui-form-radiogroup',
   className: '',
   options: [], // {text: '', value: {}, checked: false, disabled: false }
+  onChange: (evt) => {},
   onOptionsChange: (evt) => {},
 };
 

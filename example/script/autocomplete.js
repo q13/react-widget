@@ -7,17 +7,17 @@ import ReactDom from "react-dom";
 import AutoComplete from "../../src/component/autocomplete/index.js";
 
 let allOptions = [
-  {selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container") },
-  {selected: false, disabled: false, text: 'jQuery instance', value: $ },
-  {selected: false, disabled: false, text: 'AutoComplete class', value: AutoComplete },
-  {selected: false, disabled: true, text: 'window', value: window },
-  {selected: false, disabled: true, text: 'document', value: document },
-  {selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent },
-  {selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages },
-  {selected: false, disabled: false, text: 'document.head', value: document.head },
-  {selected: false, disabled: false, text: 'document.body', value: document.body },
-  {selected: false, disabled: false, text: 'document.scripts', value: document.scripts },
-  {selected: false, disabled: false, text: '$("body")', value: $("body") },
+  {selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container").toString() },
+  {selected: false, disabled: false, text: 'jQuery instance', value: $.toString() },
+  {selected: false, disabled: false, text: 'AutoComplete class', value: AutoComplete.toString() },
+  {selected: false, disabled: true, text: 'window', value: window.toString() },
+  {selected: false, disabled: true, text: 'document', value: document.toString() },
+  {selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent.toString() },
+  {selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages.toString() },
+  {selected: false, disabled: false, text: 'document.head', value: document.head.toString() },
+  {selected: false, disabled: false, text: 'document.body', value: document.body.toString() },
+  {selected: false, disabled: false, text: 'document.scripts', value: document.scripts.toString() },
+  {selected: false, disabled: false, text: '$("body")', value: $("body").toString() },
   {selected: false, disabled: false, text: `* RegExp characters: a.b*c+d?e^f$g{h}i(j)k|l[m]n\\ escaped`, value: undefined },
 ];
 const example2 = {
@@ -41,22 +41,22 @@ function runner () {
       .autocomplete-instance .ui-form-autocomplete-datapane-option:before {
         content: " - ";
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_hover {
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-hover {
         background: #ff0;
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_focus {
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-focus {
         background: #0f0;
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_selected:before {
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-selected:before {
         content: " + ";
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_selected:after {
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-selected:after {
         content: "(selected)";
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_disabled {
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-disabled {
         opacity: .5;
       }
-      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common_disabled:after {
+      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-disabled:after {
         content: "(disabled)";
       }
     `} } />
