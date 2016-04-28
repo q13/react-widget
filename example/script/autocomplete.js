@@ -94,7 +94,7 @@ function runner () {
                       example2.currentInput = { text: newText, value: newText};
                       runner();
                     } }
-                    onChange={ (evt) => {
+                    onOptionsChange={ (evt) => {
                       console.log('onChange Triggered:', evt);
                       const { options } = evt;
                       const selectedOption = options.find(i => i.selected);

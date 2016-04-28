@@ -123,7 +123,7 @@
 	        //     }
 	        //   </div>);
 	        // } }
-	        , onChange: function onChange(evt) {
+	        , onOptionsChange: function onOptionsChange(evt) {
 	          var options = evt.options;
 	
 	          example1.allOptions = options;
@@ -25989,7 +25989,7 @@
 	    value: function componentWillUnmount() {
 	      _reactDom2.default.unmountComponentAtNode(this.datapaneContainer);
 	      document.body.removeChild(this.datapaneContainer);
-	      $(document).off('mousedown.Dropdown' + this.instanceId);
+	      $(document).off('.Dropdown' + this.instanceId);
 	      this.datapaneContainer = null;
 	      this.instanceId = null;
 	    }
@@ -26130,7 +26130,7 @@
 	            focusOption: props.options[currentIndex],
 	            selectedOption: props.options[currentIndex]
 	          }, function () {
-	            self.props.onChange.call(self, {
+	            self.props.onOptionsChange.call(self, {
 	              options: targetOptions
 	            });
 	          });
@@ -26144,7 +26144,7 @@
 	      var state = this.state;
 	      var prefixCls = props.prefixCls;
 	
-	      var text = state.focusOption ? state.focusOption.text : props.text !== undefined ? props.text : (props.options.find(function (i) {
+	      var text = state.focusOption ? state.focusOption.text : (props.options.find(function (i) {
 	        return i.selected;
 	      }) || { text: '--请选择--' }).text;
 	      return _react2.default.createElement(
@@ -26158,8 +26158,7 @@
 	            className: prefixCls + '-console-text',
 	            value: text,
 	            title: text,
-	            onChange: props.onTextChange.bind(this),
-	            readOnly: props.textReadOnly }),
+	            readOnly: true }),
 	          _react2.default.createElement(
 	            'span',
 	            { className: prefixCls + '-console-toggle' },
@@ -26291,25 +26290,19 @@
 	  prefixCls: _react2.default.PropTypes.string,
 	  className: _react2.default.PropTypes.string,
 	  options: _react2.default.PropTypes.array,
-	  onChange: _react2.default.PropTypes.func,
-	  text: _react2.default.PropTypes.string,
-	  textReadOnly: _react2.default.PropTypes.bool,
-	  onTextChange: _react2.default.PropTypes.func,
+	  onOptionsChange: _react2.default.PropTypes.func,
+	  getTemplateDatapane: _react2.default.PropTypes.func,
 	  onEnableInputs: _react2.default.PropTypes.func,
-	  onDisableInputs: _react2.default.PropTypes.func,
-	  getTemplateDatapane: _react2.default.PropTypes.func
+	  onDisableInputs: _react2.default.PropTypes.func
 	};
 	Dropdown.defaultProps = {
 	  prefixCls: 'ui-form-dropdown',
 	  className: '',
 	  options: [], // {text: '', value: {}, selected: false, disabled: false }
-	  onChange: function onChange(evt) {},
-	  text: undefined,
-	  textReadOnly: true,
-	  onTextChange: function onTextChange(evt) {},
+	  onOptionsChange: function onOptionsChange(evt) {},
+	  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
 	  onEnableInputs: function onEnableInputs(evt) {},
-	  onDisableInputs: function onDisableInputs(evt) {},
-	  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane
+	  onDisableInputs: function onDisableInputs(evt) {}
 	};
 	
 	exports.default = Dropdown;

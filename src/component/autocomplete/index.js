@@ -69,18 +69,33 @@ class AutoComplete extends Dropdown {
     </div>);
   }
 }
-export default AutoComplete;
+AutoComplete.propTypes = {
+  prefixCls: React.PropTypes.string,
+  className: React.PropTypes.string,
+  options: React.PropTypes.array,
+  onOptionsChange: React.PropTypes.func,
+  getTemplateDatapane: React.PropTypes.func,
+  onEnableInputs: React.PropTypes.func,
+  onDisableInputs: React.PropTypes.func,
+  text: React.PropTypes.string,
+  searchMinLength: React.PropTypes.number,
+  searchInterval: React.PropTypes.number,
+  onTextChange: React.PropTypes.func,
+  onTextSearch: React.PropTypes.func,
+};
 AutoComplete.defaultProps = {
   prefixCls: 'ui-form-autocomplete',
   className: '',
   options: [], // {text: '', value: {}, selected: false, disabled: false }
-  onChange: (evt) => {},
+  onOptionsChange: (evt) => {},
+  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
+  onEnableInputs: (evt) => {}, // Execute when Component is switched to editing state (ie. isEditing === true) - parameter: {target: Component}
+  onDisableInputs: (evt) => {}, // Execute when Component is switched off editing state (ie. isEditing === false) - parameter: {target: Component}
   text: '',
   searchMinLength: 2,
   searchInterval: .5,
   onTextChange: (evt) => {},
   onTextSearch: undefined, // Execute when a text search is required - parameter: {searchText: ''}
-  onEnableInputs: (evt) => {}, // Execute when Component is switched to editing state (ie. isEditing === true) - parameter: {target: Component}
-  onDisableInputs: (evt) => {}, // Execute when Component is switched off editing state (ie. isEditing === false) - parameter: {target: Component}
-  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
 };
+
+export default AutoComplete;

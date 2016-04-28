@@ -147,7 +147,7 @@
 	          example2.currentInput = { text: newText, value: newText };
 	          runner();
 	        },
-	        onChange: function onChange(evt) {
+	        onOptionsChange: function onOptionsChange(evt) {
 	          console.log('onChange Triggered:', evt);
 	          var options = evt.options;
 	
@@ -36531,22 +36531,36 @@
 	  return AutoComplete;
 	}(_Dropdown3.default);
 	
-	exports.default = AutoComplete;
-	
+	AutoComplete.propTypes = {
+	  prefixCls: _react2.default.PropTypes.string,
+	  className: _react2.default.PropTypes.string,
+	  options: _react2.default.PropTypes.array,
+	  onOptionsChange: _react2.default.PropTypes.func,
+	  getTemplateDatapane: _react2.default.PropTypes.func,
+	  onEnableInputs: _react2.default.PropTypes.func,
+	  onDisableInputs: _react2.default.PropTypes.func,
+	  text: _react2.default.PropTypes.string,
+	  searchMinLength: _react2.default.PropTypes.number,
+	  searchInterval: _react2.default.PropTypes.number,
+	  onTextChange: _react2.default.PropTypes.func,
+	  onTextSearch: _react2.default.PropTypes.func
+	};
 	AutoComplete.defaultProps = {
 	  prefixCls: 'ui-form-autocomplete',
 	  className: '',
 	  options: [], // {text: '', value: {}, selected: false, disabled: false }
-	  onChange: function onChange(evt) {},
+	  onOptionsChange: function onOptionsChange(evt) {},
+	  getTemplateDatapane: _Dropdown3.default.defaultGetTemplateDatapane,
+	  onEnableInputs: function onEnableInputs(evt) {}, // Execute when Component is switched to editing state (ie. isEditing === true) - parameter: {target: Component}
+	  onDisableInputs: function onDisableInputs(evt) {}, // Execute when Component is switched off editing state (ie. isEditing === false) - parameter: {target: Component}
 	  text: '',
 	  searchMinLength: 2,
 	  searchInterval: .5,
 	  onTextChange: function onTextChange(evt) {},
-	  onTextSearch: undefined, // Execute when a text search is required - parameter: {searchText: ''}
-	  onEnableInputs: function onEnableInputs(evt) {}, // Execute when Component is switched to editing state (ie. isEditing === true) - parameter: {target: Component}
-	  onDisableInputs: function onDisableInputs(evt) {}, // Execute when Component is switched off editing state (ie. isEditing === false) - parameter: {target: Component}
-	  getTemplateDatapane: _Dropdown3.default.defaultGetTemplateDatapane
-	};
+	  onTextSearch: undefined };
+	
+	// Execute when a text search is required - parameter: {searchText: ''}
+	exports.default = AutoComplete;
 
 /***/ },
 /* 437 */
@@ -37586,7 +37600,7 @@
 	    value: function componentWillUnmount() {
 	      _reactDom2.default.unmountComponentAtNode(this.datapaneContainer);
 	      document.body.removeChild(this.datapaneContainer);
-	      $(document).off('mousedown.Dropdown' + this.instanceId);
+	      $(document).off('.Dropdown' + this.instanceId);
 	      this.datapaneContainer = null;
 	      this.instanceId = null;
 	    }
@@ -37727,7 +37741,7 @@
 	            focusOption: props.options[currentIndex],
 	            selectedOption: props.options[currentIndex]
 	          }, function () {
-	            self.props.onChange.call(self, {
+	            self.props.onOptionsChange.call(self, {
 	              options: targetOptions
 	            });
 	          });
@@ -37741,7 +37755,7 @@
 	      var state = this.state;
 	      var prefixCls = props.prefixCls;
 	
-	      var text = state.focusOption ? state.focusOption.text : props.text !== undefined ? props.text : (props.options.find(function (i) {
+	      var text = state.focusOption ? state.focusOption.text : (props.options.find(function (i) {
 	        return i.selected;
 	      }) || { text: '--请选择--' }).text;
 	      return _react2.default.createElement(
@@ -37755,8 +37769,7 @@
 	            className: prefixCls + '-console-text',
 	            value: text,
 	            title: text,
-	            onChange: props.onTextChange.bind(this),
-	            readOnly: props.textReadOnly }),
+	            readOnly: true }),
 	          _react2.default.createElement(
 	            'span',
 	            { className: prefixCls + '-console-toggle' },
@@ -37888,25 +37901,19 @@
 	  prefixCls: _react2.default.PropTypes.string,
 	  className: _react2.default.PropTypes.string,
 	  options: _react2.default.PropTypes.array,
-	  onChange: _react2.default.PropTypes.func,
-	  text: _react2.default.PropTypes.string,
-	  textReadOnly: _react2.default.PropTypes.bool,
-	  onTextChange: _react2.default.PropTypes.func,
+	  onOptionsChange: _react2.default.PropTypes.func,
+	  getTemplateDatapane: _react2.default.PropTypes.func,
 	  onEnableInputs: _react2.default.PropTypes.func,
-	  onDisableInputs: _react2.default.PropTypes.func,
-	  getTemplateDatapane: _react2.default.PropTypes.func
+	  onDisableInputs: _react2.default.PropTypes.func
 	};
 	Dropdown.defaultProps = {
 	  prefixCls: 'ui-form-dropdown',
 	  className: '',
 	  options: [], // {text: '', value: {}, selected: false, disabled: false }
-	  onChange: function onChange(evt) {},
-	  text: undefined,
-	  textReadOnly: true,
-	  onTextChange: function onTextChange(evt) {},
+	  onOptionsChange: function onOptionsChange(evt) {},
+	  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
 	  onEnableInputs: function onEnableInputs(evt) {},
-	  onDisableInputs: function onDisableInputs(evt) {},
-	  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane
+	  onDisableInputs: function onDisableInputs(evt) {}
 	};
 	
 	exports.default = Dropdown;

@@ -92,7 +92,7 @@
 	        null,
 	        _react2.default.createElement(_Checkboxgroup2.default, { className: "checkboxgroup-instance checkboxgroup-typical",
 	          options: example1.allOptions,
-	          onChange: function onChange(evt) {
+	          onOptionsChange: function onOptionsChange(evt) {
 	            var options = evt.options;
 	
 	            example1.allOptions = options;
@@ -25926,7 +25926,7 @@
 	      if (!props.options[currentIndex].disabled) {
 	        var targetOptions = $.extend(true, [], props.options);
 	        targetOptions[currentIndex].checked = !targetOptions[currentIndex].checked;
-	        self.props.onChange.call(self, {
+	        self.props.onOptionsChange.call(self, {
 	          // target: self,
 	          options: targetOptions
 	        });
@@ -25971,13 +25971,13 @@
 	  prefixCls: _react2.default.PropTypes.string,
 	  className: _react2.default.PropTypes.string,
 	  options: _react2.default.PropTypes.array,
-	  onChange: _react2.default.PropTypes.func
+	  onOptionsChange: _react2.default.PropTypes.func
 	};
 	Checkboxgroup.defaultProps = {
 	  prefixCls: 'ui-form-checkboxgroup',
 	  className: '',
 	  options: [], // {text: '', value: {}, checked: false, disabled: false }
-	  onChange: function onChange(evt) {}
+	  onOptionsChange: function onOptionsChange(evt) {}
 	};
 	
 	exports.default = Checkboxgroup;

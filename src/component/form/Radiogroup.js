@@ -23,7 +23,7 @@ class Radiogroup extends Widget {
       targetOptions.forEach((option, x) => {
         option.checked = currentIndex === x ? true : false;
       });
-      self.props.onChange.call(self, {
+      self.props.onOptionsChange.call(self, {
         options: targetOptions,
       });
     }
@@ -56,13 +56,13 @@ Radiogroup.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
   options: React.PropTypes.array,
-  onChange: React.PropTypes.func,
+  onOptionsChange: React.PropTypes.func,
 };
 Radiogroup.defaultProps = {
   prefixCls: 'ui-form-radiogroup',
   className: '',
   options: [], // {text: '', value: {}, checked: false, disabled: false }
-  onChange: (evt) => {},
+  onOptionsChange: (evt) => {},
 };
 
 export default Radiogroup;

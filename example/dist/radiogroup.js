@@ -92,7 +92,7 @@
 	        null,
 	        _react2.default.createElement(_Radiogroup2.default, { className: "radiogroup-instance radiogroup-typical",
 	          options: example1.allOptions,
-	          onChange: function onChange(evt) {
+	          onOptionsChange: function onOptionsChange(evt) {
 	            var options = evt.options;
 	
 	            example1.allOptions = options;
@@ -25927,7 +25927,7 @@
 	        targetOptions.forEach(function (option, x) {
 	          option.checked = currentIndex === x ? true : false;
 	        });
-	        self.props.onChange.call(self, {
+	        self.props.onOptionsChange.call(self, {
 	          options: targetOptions
 	        });
 	      }
@@ -25972,13 +25972,13 @@
 	  prefixCls: _react2.default.PropTypes.string,
 	  className: _react2.default.PropTypes.string,
 	  options: _react2.default.PropTypes.array,
-	  onChange: _react2.default.PropTypes.func
+	  onOptionsChange: _react2.default.PropTypes.func
 	};
 	Radiogroup.defaultProps = {
 	  prefixCls: 'ui-form-radiogroup',
 	  className: '',
 	  options: [], // {text: '', value: {}, checked: false, disabled: false }
-	  onChange: function onChange(evt) {}
+	  onOptionsChange: function onOptionsChange(evt) {}
 	};
 	
 	exports.default = Radiogroup;

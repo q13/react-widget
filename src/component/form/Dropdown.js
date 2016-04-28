@@ -57,7 +57,7 @@ class Dropdown extends Widget {
   componentWillUnmount() {
     ReactDom.unmountComponentAtNode(this.datapaneContainer);
     document.body.removeChild(this.datapaneContainer);
-    $(document).off('mousedown.Dropdown' + this.instanceId);
+    $(document).off('.Dropdown' + this.instanceId);
     this.datapaneContainer = null;
     this.instanceId = null;
   }
@@ -170,7 +170,7 @@ class Dropdown extends Widget {
         focusOption: props.options[currentIndex],
         selectedOption: props.options[currentIndex],
       }, () => {
-        self.props.onChange.call(self, {
+        self.props.onOptionsChange.call(self, {
           options: targetOptions,
         });
       });
@@ -182,7 +182,6 @@ class Dropdown extends Widget {
     const prefixCls = props.prefixCls;
 
     const text = state.focusOption ? state.focusOption.text :
-                 props.text !== undefined ? props.text :
                  (props.options.find(i => i.selected) || {text: '--请选择--'}).text;
     return (<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''} ${(state.isEditing ? `${prefixCls}-isediting` : '')}` }>
       <div className={ `${prefixCls}-console` }
@@ -191,8 +190,7 @@ class Dropdown extends Widget {
                className={ `${prefixCls}-console-text` }
                value={ text }
                title={ text }
-               onChange={ props.onTextChange.bind(this) }
-               readOnly={ props.textReadOnly } />
+               readOnly={ true } />
         <span className={ `${prefixCls}-console-toggle` }>&nbsp;</span>
       </div>
     </div>);
@@ -290,25 +288,19 @@ Dropdown.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
   options: React.PropTypes.array,
-  onChange: React.PropTypes.func,
-  text: React.PropTypes.string,
-  textReadOnly: React.PropTypes.bool,
-  onTextChange: React.PropTypes.func,
+  onOptionsChange: React.PropTypes.func,
+  getTemplateDatapane: React.PropTypes.func,
   onEnableInputs: React.PropTypes.func,
   onDisableInputs: React.PropTypes.func,
-  getTemplateDatapane: React.PropTypes.func,
 };
 Dropdown.defaultProps = {
   prefixCls: 'ui-form-dropdown',
   className: '',
   options: [], // {text: '', value: {}, selected: false, disabled: false }
-  onChange: (evt) => {},
-  text: undefined,
-  textReadOnly: true,
-  onTextChange: (evt) => {},
+  onOptionsChange: (evt) => {},
+  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
   onEnableInputs: (evt) => {},
   onDisableInputs: (evt) => {},
-  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
 };
 
 export default Dropdown;

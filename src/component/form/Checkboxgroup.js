@@ -21,7 +21,7 @@ class Checkboxgroup extends Widget {
     if (!props.options[currentIndex].disabled) {
       const targetOptions = $.extend(true, [], props.options);
       targetOptions[currentIndex].checked = !targetOptions[currentIndex].checked;
-      self.props.onChange.call(self, {
+      self.props.onOptionsChange.call(self, {
         // target: self,
         options: targetOptions,
         // __currentIndex: currentIndex,
@@ -56,13 +56,13 @@ Checkboxgroup.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
   options: React.PropTypes.array,
-  onChange: React.PropTypes.func,
+  onOptionsChange: React.PropTypes.func,
 };
 Checkboxgroup.defaultProps = {
   prefixCls: 'ui-form-checkboxgroup',
   className: '',
   options: [], // {text: '', value: {}, checked: false, disabled: false }
-  onChange: (evt) => {},
+  onOptionsChange: (evt) => {},
 };
 
 export default Checkboxgroup;
