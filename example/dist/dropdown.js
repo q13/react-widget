@@ -123,9 +123,8 @@
 	        //     }
 	        //   </div>);
 	        // } }
-	        , onOptionsChange: function onOptionsChange(evt) {
-	          var options = evt.options;
-	
+	        , onOptionsChange: function onOptionsChange(options) {
+	          // const { options } = evt;
 	          example1.allOptions = options;
 	          runner();
 	        } }),
@@ -25939,7 +25938,7 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Dropdown).call(this, props));
 	
 	    _this.state = {
-	      isEditing: false,
+	      isInputing: false,
 	      hoverOption: undefined,
 	      focusOption: undefined,
 	      selectedOption: undefined
@@ -25963,7 +25962,7 @@
 	        visible: false
 	      });
 	      $(document).on('mousedown.Dropdown' + self.instanceId, function (evt) {
-	        if (self.state.isEditing) {
+	        if (self.state.isInputing) {
 	          var $target = $(evt.target);
 	          var $dropdown = $('.' + self.props.prefixCls + '-' + self.instanceId);
 	          var $datapane = $dropdown.find('.' + self.props.prefixCls + '-datapane');
@@ -25974,12 +25973,12 @@
 	        }
 	      });
 	      $(document).on('keydown.Dropdown' + self.instanceId, function (evt) {
-	        if (self.state.isEditing) {
+	        if (self.state.isInputing) {
 	          self.handleKeyDown(evt);
 	        }
 	      });
 	      $(document).on('keyup.Dropdown' + self.instanceId, function (evt) {
-	        if (self.state.isEditing) {
+	        if (self.state.isInputing) {
 	          self.handleKeyUp(evt);
 	        }
 	      });
@@ -25998,7 +25997,7 @@
 	    value: function componentDidUpdate() {
 	      var self = this;
 	      self.renderDatapane({
-	        visible: self.state.isEditing
+	        visible: self.state.isInputing
 	      });
 	    }
 	  }, {
@@ -26008,7 +26007,7 @@
 	
 	      var self = this;
 	      self.setState({
-	        isEditing: true
+	        isInputing: true
 	      }, function () {
 	        var inputText = self.refs.inputText;
 	        inputText.select();
@@ -26027,7 +26026,7 @@
 	
 	      var self = this;
 	      self.setState({
-	        isEditing: false,
+	        isInputing: false,
 	        focusOption: self.state.selectedOption
 	      }, function () {
 	        if (typeof self.props.onDisableInputs === 'function') {
@@ -26119,6 +26118,7 @@
 	      if (!props.options[currentIndex].disabled) {
 	        (function () {
 	          // 如果该option未被禁用
+	          // const targetOptions = $.extend(true, [], props.options);
 	          var targetOptions = JSON.parse(JSON.stringify(props.options));
 	          // 更新options下各项的被选择值
 	          targetOptions.forEach(function (option, x) {
@@ -26126,14 +26126,12 @@
 	          });
 	          // 设定focus, selected状态以及执行回调
 	          self.setState({
-	            isEditing: false,
+	            isInputing: false,
 	            focusOption: props.options[currentIndex],
 	            selectedOption: props.options[currentIndex]
 	          }, function () {
 	            self.props.onChange.call(self, targetOptions[currentIndex]);
-	            self.props.onOptionsChange.call(self, {
-	              options: targetOptions
-	            });
+	            self.props.onOptionsChange.call(self, targetOptions);
 	          });
 	        })();
 	      }
@@ -26150,11 +26148,11 @@
 	      }) || { text: '--请选择--' }).text;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isEditing ? prefixCls + '-isediting' : '') },
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isInputing ? prefixCls + '-isinputing' : '') },
 	        _react2.default.createElement(
 	          'div',
 	          { className: prefixCls + '-console',
-	            onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
+	            onClick: state.isInputing ? undefined : this.handleEnableInputs.bind(this) },
 	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
 	            className: prefixCls + '-console-text',
 	            value: text,

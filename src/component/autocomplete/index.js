@@ -55,9 +55,9 @@ class AutoComplete extends Dropdown {
     const text = state.focusOption ? state.focusOption.text :
                  props.text !== undefined ? props.text :
                  (props.options.find(i => i.selected) || {text: '--请选择--'}).text;
-    return (<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''} ${(state.isEditing ? `${prefixCls}-isediting` : '')}` }>
+    return (<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''} ${(state.isInputing ? `${prefixCls}-isinputing` : '')}` }>
       <div className={ `${prefixCls}-console` }
-           onClick={ state.isEditing ? undefined : this.handleEnableInputs.bind(this) }>
+           onClick={ state.isInputing ? undefined : this.handleEnableInputs.bind(this) }>
         <input type="text" ref="inputText"
                className={ `${prefixCls}-console-text` }
                value={ text }
@@ -91,8 +91,8 @@ AutoComplete.defaultProps = {
   onChange: (evt) => {},
   onOptionsChange: (evt) => {},
   getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
-  onEnableInputs: (evt) => {}, // Execute when Component is switched to editing state (ie. isEditing === true) - parameter: {target: Component}
-  onDisableInputs: (evt) => {}, // Execute when Component is switched off editing state (ie. isEditing === false) - parameter: {target: Component}
+  onEnableInputs: (evt) => {}, // Execute when Component is switched to editing state (ie. isInputing === true) - parameter: {target: Component}
+  onDisableInputs: (evt) => {}, // Execute when Component is switched off editing state (ie. isInputing === false) - parameter: {target: Component}
   text: '',
   searchMinLength: 2,
   searchInterval: .5,

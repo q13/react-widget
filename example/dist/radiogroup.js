@@ -92,9 +92,8 @@
 	        null,
 	        _react2.default.createElement(_Radiogroup2.default, { className: "radiogroup-instance radiogroup-typical",
 	          options: example1.allOptions,
-	          onOptionsChange: function onOptionsChange(evt) {
-	            var options = evt.options;
-	
+	          onOptionsChange: function onOptionsChange(options) {
+	            // const { options } = evt;
 	            example1.allOptions = options;
 	            runner();
 	          } })
@@ -25923,14 +25922,13 @@
 	      var self = this;
 	      var props = self.props;
 	      if (!props.options[currentIndex].disabled) {
+	        // const targetOptions = $.extend(true, [], props.options);
 	        var targetOptions = JSON.parse(JSON.stringify(props.options));
 	        targetOptions.forEach(function (option, x) {
 	          option.checked = currentIndex === x ? true : false;
 	        });
 	        self.props.onChange.call(self, targetOptions[currentIndex]);
-	        self.props.onOptionsChange.call(self, {
-	          options: targetOptions
-	        });
+	        self.props.onOptionsChange.call(self, targetOptions);
 	      }
 	    }
 	  }, {

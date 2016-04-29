@@ -19,14 +19,13 @@ class Radiogroup extends Widget {
     const self = this;
     const props = self.props;
     if (!props.options[currentIndex].disabled) {
+      // const targetOptions = $.extend(true, [], props.options);
       const targetOptions = JSON.parse(JSON.stringify(props.options));
       targetOptions.forEach((option, x) => {
         option.checked = currentIndex === x ? true : false;
       });
       self.props.onChange.call(self, targetOptions[currentIndex]);
-      self.props.onOptionsChange.call(self, {
-        options: targetOptions,
-      });
+      self.props.onOptionsChange.call(self, targetOptions);
     }
   }
   render() {

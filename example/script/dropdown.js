@@ -82,8 +82,8 @@ function runner () {
                 //     }
                 //   </div>);
                 // } }
-                onOptionsChange={ (evt) => {
-                  const { options } = evt;
+                onOptionsChange={ (options) => {
+                  // const { options } = evt;
                   example1.allOptions = options;
                   runner();
                 } } />

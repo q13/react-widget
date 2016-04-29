@@ -13,7 +13,7 @@ class Dropdown extends Widget {
   constructor(props) {
     super(props);
     this.state = {
-      isEditing: false,
+      isInputing: false,
       hoverOption: undefined,
       focusOption: undefined,
       selectedOption: undefined,
@@ -31,7 +31,7 @@ class Dropdown extends Widget {
       visible: false
     });
     $(document).on('mousedown.Dropdown' + self.instanceId, (evt) => {
-      if(self.state.isEditing) {
+      if(self.state.isInputing) {
         const $target = $(evt.target);
         const $dropdown = $(`.${self.props.prefixCls}-${self.instanceId}`);
         const $datapane = $dropdown.find(`.${self.props.prefixCls}-datapane`);
@@ -44,12 +44,12 @@ class Dropdown extends Widget {
       }
     });
     $(document).on('keydown.Dropdown' + self.instanceId, (evt) => {
-      if(self.state.isEditing) {
+      if(self.state.isInputing) {
         self.handleKeyDown(evt);
       }
     });
     $(document).on('keyup.Dropdown' + self.instanceId, (evt) => {
-      if(self.state.isEditing) {
+      if(self.state.isInputing) {
         self.handleKeyUp(evt);
       }
     });
@@ -64,13 +64,13 @@ class Dropdown extends Widget {
   componentDidUpdate() {
     const self = this;
     self.renderDatapane({
-      visible: self.state.isEditing
+      visible: self.state.isInputing
     });
   }
   handleEnableInputs(evt) {
     const self = this;
     self.setState({
-      isEditing: true
+      isInputing: true
     }, () => {
       const inputText = self.refs.inputText;
       inputText.select();
@@ -85,7 +85,7 @@ class Dropdown extends Widget {
   handleDisableInputs(evt) {
     const self = this;
     self.setState({
-      isEditing: false,
+      isInputing: false,
       focusOption: self.state.selectedOption,
     }, () => {
       if (typeof self.props.onDisableInputs === 'function') {
@@ -159,6 +159,7 @@ class Dropdown extends Widget {
     const props = self.props;
     if (!(currentIndex >= 0)) return;
     if (!props.options[currentIndex].disabled) { // 如果该option未被禁用
+      // const targetOptions = $.extend(true, [], props.options);
       const targetOptions = JSON.parse(JSON.stringify(props.options));
       // 更新options下各项的被选择值
       targetOptions.forEach((option, x) => {
@@ -166,14 +167,12 @@ class Dropdown extends Widget {
       });
       // 设定focus, selected状态以及执行回调
       self.setState({
-        isEditing: false,
+        isInputing: false,
         focusOption: props.options[currentIndex],
         selectedOption: props.options[currentIndex],
       }, () => {
         self.props.onChange.call(self, targetOptions[currentIndex]);
-        self.props.onOptionsChange.call(self, {
-          options: targetOptions,
-        });
+        self.props.onOptionsChange.call(self, targetOptions);
       });
     }
   }
@@ -184,9 +183,9 @@ class Dropdown extends Widget {
 
     const text = state.focusOption ? state.focusOption.text :
                  (props.options.find(i => i.selected) || {text: '--请选择--'}).text;
-    return (<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''} ${(state.isEditing ? `${prefixCls}-isediting` : '')}` }>
+    return (<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''} ${(state.isInputing ? `${prefixCls}-isinputing` : '')}` }>
       <div className={ `${prefixCls}-console` }
-           onClick={ state.isEditing ? undefined : this.handleEnableInputs.bind(this) }>
+           onClick={ state.isInputing ? undefined : this.handleEnableInputs.bind(this) }>
         <input type="text" ref="inputText"
                className={ `${prefixCls}-console-text` }
                value={ text }

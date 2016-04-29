@@ -19,14 +19,11 @@ class Checkboxgroup extends Widget {
     const self = this;
     const props = self.props;
     if (!props.options[currentIndex].disabled) {
+      // const targetOptions = $.extend(true, [], props.options);
       const targetOptions = JSON.parse(JSON.stringify(props.options));
       targetOptions[currentIndex].checked = !targetOptions[currentIndex].checked;
       self.props.onChange.call(self, targetOptions[currentIndex]);
-      self.props.onOptionsChange.call(self, {
-        // target: self,
-        options: targetOptions,
-        // __currentIndex: currentIndex,
-      });
+      self.props.onOptionsChange.call(self, targetOptions);
     }
   }
   render() {

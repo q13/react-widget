@@ -40,8 +40,8 @@ function runner () {
       <div>
         <Checkboxgroup className="checkboxgroup-instance checkboxgroup-typical"
                        options={ example1.allOptions }
-                       onOptionsChange={ (evt) => {
-                         const { options } = evt;
+                       onOptionsChange={ (options) => {
+                         // const { options } = evt;
                          example1.allOptions = options;
                          runner();
                        } } />

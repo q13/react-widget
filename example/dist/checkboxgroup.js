@@ -92,9 +92,8 @@
 	        null,
 	        _react2.default.createElement(_Checkboxgroup2.default, { className: "checkboxgroup-instance checkboxgroup-typical",
 	          options: example1.allOptions,
-	          onOptionsChange: function onOptionsChange(evt) {
-	            var options = evt.options;
-	
+	          onOptionsChange: function onOptionsChange(options) {
+	            // const { options } = evt;
 	            example1.allOptions = options;
 	            runner();
 	          } })
@@ -25924,18 +25923,15 @@
 	      var self = this;
 	      var props = self.props;
 	      if (!props.options[currentIndex].disabled) {
+	        // const targetOptions = $.extend(true, [], props.options);
 	        var targetOptions = JSON.parse(JSON.stringify(props.options));
 	        targetOptions[currentIndex].checked = !targetOptions[currentIndex].checked;
 	        self.props.onChange.call(self, targetOptions[currentIndex]);
-	        self.props.onOptionsChange.call(self, {
-	          // target: self,
-	          options: targetOptions
-	        });
+	        self.props.onOptionsChange.call(self, targetOptions);
 	      }
 	    }
 	  }, {
 	    key: 'render',
-	    // __currentIndex: currentIndex,
 	    value: function render() {
 	      var _this2 = this;
 	

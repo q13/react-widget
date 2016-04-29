@@ -40,8 +40,8 @@ function runner () {
       <div>
         <Radiogroup className="radiogroup-instance radiogroup-typical"
                     options={ example1.allOptions }
-                    onOptionsChange={ (evt) => {
-                      const { options } = evt;
+                    onOptionsChange={ (options) => {
+                      // const { options } = evt;
                       example1.allOptions = options;
                       runner();
                     } } />

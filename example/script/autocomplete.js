@@ -94,9 +94,9 @@ function runner () {
                       example2.currentInput = { text: newText, value: newText};
                       runner();
                     } }
-                    onOptionsChange={ (evt) => {
+                    onOptionsChange={ (options) => {
                       console.log('onChange Triggered:', evt);
-                      const { options } = evt;
+                      // const { options } = evt;
                       const selectedOption = options.find(i => i.selected);
                       example2.currentInput = $.extend(true, {}, selectedOption);
                       example2.options = options; // reset options to reflect selection status

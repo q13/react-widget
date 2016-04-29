@@ -147,10 +147,9 @@
 	          example2.currentInput = { text: newText, value: newText };
 	          runner();
 	        },
-	        onOptionsChange: function onOptionsChange(evt) {
+	        onOptionsChange: function onOptionsChange(options) {
 	          console.log('onChange Triggered:', evt);
-	          var options = evt.options;
-	
+	          // const { options } = evt;
 	          var selectedOption = options.find(function (i) {
 	            return i.selected;
 	          });
@@ -36507,11 +36506,11 @@
 	      }) || { text: '--请选择--' }).text;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isEditing ? prefixCls + '-isediting' : '') },
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isInputing ? prefixCls + '-isinputing' : '') },
 	        _react2.default.createElement(
 	          'div',
 	          { className: prefixCls + '-console',
-	            onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
+	            onClick: state.isInputing ? undefined : this.handleEnableInputs.bind(this) },
 	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
 	            className: prefixCls + '-console-text',
 	            value: text,
@@ -36553,8 +36552,8 @@
 	  onChange: function onChange(evt) {},
 	  onOptionsChange: function onOptionsChange(evt) {},
 	  getTemplateDatapane: _Dropdown3.default.defaultGetTemplateDatapane,
-	  onEnableInputs: function onEnableInputs(evt) {}, // Execute when Component is switched to editing state (ie. isEditing === true) - parameter: {target: Component}
-	  onDisableInputs: function onDisableInputs(evt) {}, // Execute when Component is switched off editing state (ie. isEditing === false) - parameter: {target: Component}
+	  onEnableInputs: function onEnableInputs(evt) {}, // Execute when Component is switched to editing state (ie. isInputing === true) - parameter: {target: Component}
+	  onDisableInputs: function onDisableInputs(evt) {}, // Execute when Component is switched off editing state (ie. isInputing === false) - parameter: {target: Component}
 	  text: '',
 	  searchMinLength: 2,
 	  searchInterval: .5,
@@ -37122,7 +37121,7 @@
 	
 	
 	// module
-	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n \r\n\r\n.ui-form-autocomplete {\r\n}\r\n \r\n\r\n.ui-form-autocomplete.ui-form-autocomplete-isediting {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-text {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-toggle {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-options {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-hover {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-focus {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-selected {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-disabled {\r\n}\r\n", "", {"version":3,"sources":["/../../src/component/autocomplete/autocomplete.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AACH;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC","file":"autocomplete.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n.ui-form-autocomplete {\r\n}\r\n.ui-form-autocomplete.ui-form-autocomplete-isediting {\r\n}\r\n.ui-form-autocomplete-console {\r\n}\r\n.ui-form-autocomplete-console-text {\r\n}\r\n.ui-form-autocomplete-console-toggle {\r\n}\r\n.ui-form-autocomplete-datapane {\r\n}\r\n.ui-form-autocomplete-datapane-options {\r\n}\r\n.ui-form-autocomplete-datapane-option {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-hover {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-focus {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-selected {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-disabled {\r\n}\r\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n \r\n\r\n.ui-form-autocomplete {\r\n}\r\n \r\n\r\n.ui-form-autocomplete.ui-form-autocomplete-isinputing {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-text {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-toggle {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-options {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-hover {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-focus {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-selected {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-disabled {\r\n}\r\n", "", {"version":3,"sources":["/../../src/component/autocomplete/autocomplete.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AACH;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC","file":"autocomplete.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n.ui-form-autocomplete {\r\n}\r\n.ui-form-autocomplete.ui-form-autocomplete-isinputing {\r\n}\r\n.ui-form-autocomplete-console {\r\n}\r\n.ui-form-autocomplete-console-text {\r\n}\r\n.ui-form-autocomplete-console-toggle {\r\n}\r\n.ui-form-autocomplete-datapane {\r\n}\r\n.ui-form-autocomplete-datapane-options {\r\n}\r\n.ui-form-autocomplete-datapane-option {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-hover {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-focus {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-selected {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-disabled {\r\n}\r\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -37552,7 +37551,7 @@
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Dropdown).call(this, props));
 	
 	    _this.state = {
-	      isEditing: false,
+	      isInputing: false,
 	      hoverOption: undefined,
 	      focusOption: undefined,
 	      selectedOption: undefined
@@ -37576,7 +37575,7 @@
 	        visible: false
 	      });
 	      $(document).on('mousedown.Dropdown' + self.instanceId, function (evt) {
-	        if (self.state.isEditing) {
+	        if (self.state.isInputing) {
 	          var $target = $(evt.target);
 	          var $dropdown = $('.' + self.props.prefixCls + '-' + self.instanceId);
 	          var $datapane = $dropdown.find('.' + self.props.prefixCls + '-datapane');
@@ -37587,12 +37586,12 @@
 	        }
 	      });
 	      $(document).on('keydown.Dropdown' + self.instanceId, function (evt) {
-	        if (self.state.isEditing) {
+	        if (self.state.isInputing) {
 	          self.handleKeyDown(evt);
 	        }
 	      });
 	      $(document).on('keyup.Dropdown' + self.instanceId, function (evt) {
-	        if (self.state.isEditing) {
+	        if (self.state.isInputing) {
 	          self.handleKeyUp(evt);
 	        }
 	      });
@@ -37611,7 +37610,7 @@
 	    value: function componentDidUpdate() {
 	      var self = this;
 	      self.renderDatapane({
-	        visible: self.state.isEditing
+	        visible: self.state.isInputing
 	      });
 	    }
 	  }, {
@@ -37621,7 +37620,7 @@
 	
 	      var self = this;
 	      self.setState({
-	        isEditing: true
+	        isInputing: true
 	      }, function () {
 	        var inputText = self.refs.inputText;
 	        inputText.select();
@@ -37640,7 +37639,7 @@
 	
 	      var self = this;
 	      self.setState({
-	        isEditing: false,
+	        isInputing: false,
 	        focusOption: self.state.selectedOption
 	      }, function () {
 	        if (typeof self.props.onDisableInputs === 'function') {
@@ -37732,6 +37731,7 @@
 	      if (!props.options[currentIndex].disabled) {
 	        (function () {
 	          // 如果该option未被禁用
+	          // const targetOptions = $.extend(true, [], props.options);
 	          var targetOptions = JSON.parse(JSON.stringify(props.options));
 	          // 更新options下各项的被选择值
 	          targetOptions.forEach(function (option, x) {
@@ -37739,14 +37739,12 @@
 	          });
 	          // 设定focus, selected状态以及执行回调
 	          self.setState({
-	            isEditing: false,
+	            isInputing: false,
 	            focusOption: props.options[currentIndex],
 	            selectedOption: props.options[currentIndex]
 	          }, function () {
 	            self.props.onChange.call(self, targetOptions[currentIndex]);
-	            self.props.onOptionsChange.call(self, {
-	              options: targetOptions
-	            });
+	            self.props.onOptionsChange.call(self, targetOptions);
 	          });
 	        })();
 	      }
@@ -37763,11 +37761,11 @@
 	      }) || { text: '--请选择--' }).text;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isEditing ? prefixCls + '-isediting' : '') },
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isInputing ? prefixCls + '-isinputing' : '') },
 	        _react2.default.createElement(
 	          'div',
 	          { className: prefixCls + '-console',
-	            onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
+	            onClick: state.isInputing ? undefined : this.handleEnableInputs.bind(this) },
 	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
 	            className: prefixCls + '-console-text',
 	            value: text,
