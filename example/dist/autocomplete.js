@@ -1,5 +1,5 @@
 /*!
- * Build at Fri Feb 26 2016 18:55:55 GMT+0800 (China Standard Time)
+ * Build at Mon Apr 25 2016 21:02:53 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -62,46 +62,34 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _moment = __webpack_require__(348);
-	
-	var _moment2 = _interopRequireDefault(_moment);
-	
 	var _index = __webpack_require__(436);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	// enable es6 to es5 transform
+	/**
+	 * AutoComplete demo
+	 */
 	
-	var availableOptions = [{ text: 'parent instance', value: document.getElementById("container") }, { text: 'jQuery instance', value: $ }, { text: 'AutoComplete class', value: _index2.default }, { text: 'window', value: window }, { text: 'document', value: document }, { text: 'navigator.userAgent', value: navigator.userAgent }, { text: 'navigator.languages', value: navigator.languages }, { text: 'document.head', value: document.head }, { text: 'document.body', value: document.body }, { text: 'document.scripts', value: document.scripts }, { text: '$("body")', value: $("body") }, { text: "* RegExp characters: a.b*c+d?e^f$g{h}i(j)k|l[m]n\\ escaped", value: undefined }]; /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   * AutoComplete demo
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   */
+	var allOptions = [{ selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container").toString() }, { selected: false, disabled: false, text: 'jQuery instance', value: $.toString() }, { selected: false, disabled: false, text: 'AutoComplete class', value: _index2.default.toString() }, { selected: false, disabled: true, text: 'window', value: window.toString() }, { selected: false, disabled: true, text: 'document', value: document.toString() }, { selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent.toString() }, { selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages.toString() }, { selected: false, disabled: false, text: 'document.head', value: document.head.toString() }, { selected: false, disabled: false, text: 'document.body', value: document.body.toString() }, { selected: false, disabled: false, text: 'document.scripts', value: document.scripts.toString() }, { selected: false, disabled: false, text: '$("body")', value: $("body").toString() }, { selected: false, disabled: false, text: "* RegExp characters: a.b*c+d?e^f$g{h}i(j)k|l[m]n\\ escaped", value: undefined }]; // enable es6 to es5 transform
 	
-	var example1 = {
-	  inputOption: { text: 'click me to start Case-Insensitive text search', value: 'out of scope value 1' },
-	  allOptions: availableOptions
-	};
 	var example2 = {
-	  initialOption: { text: 'click me to start Case-Sensitive search with all options listed initially', value: 'out of scope value 2' },
-	  inputOption: { text: 'click me to start Case-Sensitive search with all options listed initially', value: 'out of scope value 2' },
-	  allOptions: availableOptions
-	};
+	  currentInput: { text: 'click me to start Case-Sensitive search with all options listed initially', value: 'out of scope value 2' },
+	  options: allOptions, // search result list
+	  allOptions: $.extend(true, [], allOptions) };
+	// search through list
 	function runner() {
 	  _reactDom2.default.render(_react2.default.createElement(
 	    "div",
 	    null,
-	    _react2.default.createElement(
-	      "style",
-	      null,
-	      "\n      .autocomplete-instance input[type=text] {\n        width: 400px;\n      }\n      .autocomplete-instance li.highlight {\n        background: #ff0;\n      }\n      .autocomplete-instance ul {\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n      }\n    "
-	    ),
+	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .autocomplete-instance input[type=text] {\n        width: 400px;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-options {\n        background: #ccc;\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n        overflow-y: auto;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option:before {\n        content: \" - \";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-hover {\n        background: #ff0;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-focus {\n        background: #0f0;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-selected:before {\n        content: \" + \";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-selected:after {\n        content: \"(selected)\";\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-disabled {\n        opacity: .5;\n      }\n      .autocomplete-instance .ui-form-autocomplete-datapane-option.ui-common-disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
 	    _react2.default.createElement(
 	      "div",
 	      null,
 	      "Available Text Options:",
 	      _react2.default.createElement("br", null),
-	      availableOptions.map(function (i, x) {
+	      allOptions.map(function (i, x) {
 	        return _react2.default.createElement(
 	          "div",
 	          { key: x },
@@ -115,84 +103,85 @@
 	    _react2.default.createElement(
 	      "div",
 	      { style: { display: 'inline-block' } },
-	      "Typical use:",
-	      _react2.default.createElement("br", null),
-	      _react2.default.createElement(_index2.default, { className: "autocomplete-instance autocomplete-typical",
-	        text: example1.inputOption.text,
-	        value: example1.inputOption.value,
-	        allOptions: example1.allOptions,
-	        minLengthToSearch: 3,
-	        minSearchInterval: .2,
-	        onChange: function onChange(evt) {
-	          var target = evt.target;
-	          var currentOption = evt.currentOption;
-	
-	          example1.inputOption.text = currentOption.text;
-	          runner();
-	        },
-	        onSelect: function onSelect(evt) {
-	          var target = evt.target;
-	          var selectedOption = evt.selectedOption;
-	
-	          example1.inputOption.text = selectedOption.text;
-	          example1.inputOption.value = selectedOption.value;
-	          runner();
-	        } })
-	    ),
-	    _react2.default.createElement(
-	      "div",
-	      { style: { display: 'inline-block' } },
 	      "Customized use:",
 	      _react2.default.createElement("br", null),
 	      _react2.default.createElement(_index2.default, { className: "autocomplete-instance autocomplete-custom",
-	        text: example2.inputOption.text,
-	        value: example2.inputOption.value,
-	        allOptions: example2.allOptions,
-	        minLengthToSearch: 3,
-	        minSearchInterval: .2,
-	        onChange: function onChange(evt) {
+	        text: example2.currentInput.text,
+	        value: example2.currentInput.value,
+	        options: example2.options,
+	        searchMinLength: 3,
+	        searchInterval: .2,
+	        getTemplateDatapane: function getTemplateDatapane(self) {
+	          return _react2.default.createElement(
+	            "div",
+	            { className: self.props.prefixCls + "-datapane-options" },
+	            _react2.default.createElement(
+	              "div",
+	              null,
+	              _react2.default.createElement(
+	                "b",
+	                null,
+	                "Customized AutoComplete Datapane:"
+	              )
+	            ),
+	            self.props.options.map(function (option, x, options) {
+	              return _react2.default.createElement(
+	                "div",
+	                { key: x, title: option.text,
+	                  className: self.getOptionClass(x),
+	                  onClick: self.handleOptionClick.bind(self, x),
+	                  onMouseEnter: function onMouseEnter(e) {
+	                    self.setState({ hoverOption: options[x] });
+	                  },
+	                  onMouseLeave: function onMouseLeave(e) {
+	                    self.setState({ hoverOption: undefined });
+	                  } },
+	                option.text
+	              );
+	            })
+	          );
+	        },
+	        onTextChange: function onTextChange(evt) {
+	          // console.log('onTextChange Triggered:', evt);
+	          var newText = evt.target.value;
+	          example2.currentInput = { text: newText, value: newText };
+	          runner();
+	        },
+	        onOptionsChange: function onOptionsChange(options) {
 	          console.log('onChange Triggered:', evt);
-	          var target = evt.target;
-	          var currentOption = evt.currentOption;
-	
-	          example2.inputOption.text = currentOption.text;
+	          // const { options } = evt;
+	          var selectedOption = options.find(function (i) {
+	            return i.selected;
+	          });
+	          example2.currentInput = $.extend(true, {}, selectedOption);
+	          example2.options = options; // reset options to reflect selection status
 	          runner();
 	        },
-	        onSelect: function onSelect(evt) {
-	          console.log('onSelect Triggered:', evt);
-	          var target = evt.target;
-	          var selectedOption = evt.selectedOption;
-	
-	          example2.inputOption.text = selectedOption.text;
-	          example2.inputOption.value = selectedOption.value;
-	          example2.initialOption.text = selectedOption.text;
-	          example2.initialOption.value = selectedOption.value;
-	          runner();
-	        },
-	        onSearch: function onSearch(evt) {
-	          console.log('onSearch Triggered:', evt);
-	          var target = evt.target;
+	        onTextSearch: function onTextSearch(evt) {
 	          var searchText = evt.searchText;
 	
-	          example2.allOptions = availableOptions.filter(function (i) {
-	            return new RegExp(searchText).exec(i.text);
+	          console.log('onSearch Triggered:', searchText);
+	          example2.options = example2.allOptions.filter(function (i) {
+	            return new RegExp(searchText, 'i').exec(i.text);
 	          });
 	          runner();
 	        },
-	        onEnableInput: function onEnableInput(evt) {
+	        onEnableInputs: function onEnableInputs(evt) {
 	          console.log('onEnableInput Triggered:', evt);
 	          var target = evt.target;
-	          var currentOption = evt.currentOption;
 	
-	          example2.allOptions = availableOptions;
+	          var searchText = '';
+	          example2.options = example2.allOptions.filter(function (i) {
+	            return new RegExp(searchText, 'i').exec(i.text);
+	          });
 	          runner();
 	        },
-	        onDisableInput: function onDisableInput(evt) {
+	        onDisableInputs: function onDisableInputs(evt) {
 	          console.log('onDisableInput Triggered:', evt);
 	          var target = evt.target;
-	          var currentOption = evt.currentOption;
 	
-	          example2.inputOption = Object.assign({}, example2.initialOption);
+	          var newText = evt.target.refs.inputText.value;
+	          example2.currentInput = { text: newText, value: newText };
 	          runner();
 	        } })
 	    )
@@ -36439,6 +36428,10 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
+	var _Dropdown2 = __webpack_require__(478);
+	
+	var _Dropdown3 = _interopRequireDefault(_Dropdown2);
+	
 	var _autocomplete = __webpack_require__(444);
 	
 	var _autocomplete2 = _interopRequireDefault(_autocomplete);
@@ -36453,284 +36446,81 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * AutoComplete组件实现
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
-	var instanceId = 0;
 	function escapeRegExp(string) {
 	  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
 	}
 	
-	var AutoComplete = function (_Widget) {
-	  _inherits(AutoComplete, _Widget);
+	var AutoComplete = function (_Dropdown) {
+	  _inherits(AutoComplete, _Dropdown);
 	
 	  function AutoComplete(props) {
 	    _classCallCheck(this, AutoComplete);
 	
 	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(AutoComplete).call(this, props));
 	
-	    _this.state = {
-	      isEditing: false,
-	      currentOptions: []
-	    };
 	    _this.searchAvailableFrom = (0, _moment2.default)()._d;
 	    _this.searchTimeout = null;
-	    _this.instanceId = instanceId++;
 	    return _this;
 	  }
 	
 	  _createClass(AutoComplete, [{
-	    key: 'componentWillMount',
-	    value: function componentWillMount() {
-	      this.proceedWillReceiveProps(this.props, {});
-	    }
-	  }, {
-	    key: 'componentDidMount',
-	    value: function componentDidMount() {
+	    key: 'handleTextChange',
+	    value: function handleTextChange(evt) {
 	      var self = this;
-	      $(document).on('mousedown.AutoComplete' + self.instanceId, function (evt) {
-	        if (self.state.isEditing) {
-	          var $target = $(evt.target);
-	          var $autocomplete = $('.' + self.props.prefixCls + '-' + self.instanceId);
-	          var $dropdown = $autocomplete.find('.' + self.props.prefixCls + '-dropdown');
-	          var $consoleText = $autocomplete.find('.' + self.props.prefixCls + '-console-text');
-	          if (!$target.is($dropdown) && !$target.closest($dropdown).length && !$target.is($consoleText)) {
-	            self.handleDisableInputs(self);
-	          }
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'componentWillUnmount',
-	    value: function componentWillUnmount() {
-	      clearTimeout(this.searchTimeout);
-	      $(document).off('mousedown.AutoComplete' + this.instanceId);
-	      this.searchTimeout = null;
-	      this.instanceId = null;
-	    }
-	  }, {
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {
-	      this.proceedWillReceiveProps(nextProps, this.props);
-	    }
-	  }, {
-	    key: 'proceedWillReceiveProps',
-	    value: function proceedWillReceiveProps(nextProps, prevProps) {
-	      var state = {};
-	      nextProps.allOptions !== prevProps.allOptions && (state.currentOptions = nextProps.allOptions);
-	      this.setState(state);
-	    }
-	  }, {
-	    key: 'handleEnableInputs',
-	    value: function handleEnableInputs(e) {
-	      var _this2 = this;
-	
-	      var self = this;
-	      self.setState({ isEditing: true }, function () {
-	        var domInput = self.refs.inputText;
-	        domInput.select();
-	        domInput.focus();
-	        if (self.props.onEnableInput) {
-	          self.props.onEnableInput.call(_this2, {
-	            target: self,
-	            currentOption: {
-	              text: self.props.text,
-	              value: self.props.value
-	            }
-	          });
-	        } else {
-	          self.handleSearch(self.props.text);
-	        }
-	      });
-	    }
-	  }, {
-	    key: 'handleDisableInputs',
-	    value: function handleDisableInputs(e) {
-	      var _this3 = this;
-	
-	      var self = this;
-	      self.setState({ isEditing: false }, function () {
-	        if (self.props.onDisableInput) {
-	          self.props.onDisableInput.call(_this3, {
-	            target: self,
-	            currentOption: {
-	              text: self.props.text,
-	              value: self.props.value
-	            }
-	          });
-	        } else {}
-	      });
-	    }
-	  }, {
-	    key: 'handleInputChange',
-	    value: function handleInputChange(e) {
-	      var self = this;
-	      self.setState({ isEditing: true });
-	      self.props.onChange.call(this, {
-	        target: self,
-	        currentOption: {
-	          text: e.target.value,
-	          value: e.target.value
-	        }
-	      });
-	      self.searchAvailableFrom = (0, _moment2.default)((0, _moment2.default)() + self.props.minSearchInterval * 1000)._d;
-	      self.searchTimeout = setTimeout(function () {
-	        if (self.searchAvailableFrom <= (0, _moment2.default)()._d) {
-	          self.handleSearch(self.props.text);
-	          clearTimeout(self.searchTimeout);
-	        }
-	      }, self.props.minSearchInterval * 1000);
-	    }
-	  }, {
-	    key: 'handleKeyDown',
-	    value: function handleKeyDown(e) {
-	      var self = this;
-	      var stroke = e.which || e.keyCode;
-	      switch (stroke) {
-	        case 38:
-	          e.preventDefault(); // prevent cursor move
-	          self.handleDropdownRoam('up');
-	          break;
-	        case 40:
-	          e.preventDefault(); // prevent cursor move
-	          self.handleDropdownRoam('down');
-	          break;
-	        case 13:
-	          e.preventDefault();
-	          break;
-	      }
-	    }
-	  }, {
-	    key: 'handleKeyUp',
-	    value: function handleKeyUp(e) {
-	      var self = this;
-	      var stroke = e.which || e.keyCode;
-	      switch (stroke) {
-	        case 13:
-	          e.preventDefault();
-	          var $li = $(self.refs.ulItems).children('li');
-	          var $highlightLi = $(self.refs.ulItems).children('li.highlight');
-	          if ($highlightLi.length) {
-	            var selectedOption = undefined;
-	            self.state.currentOptions.forEach(function (itm, x) {
-	              if ($li[x] === $highlightLi[0]) selectedOption = itm;
-	            });
-	            self.handleSelect(selectedOption);
-	          }
-	          break;
-	      }
-	    }
-	  }, {
-	    key: 'handleDropdownRoam',
-	    value: function handleDropdownRoam(roamType) {
-	      var self = this;
-	      var $autocomplete = $('.' + self.props.prefixCls + '-' + self.instanceId);
-	      var $ul = $autocomplete.find('ul.' + self.props.prefixCls + '-dropdown-items');
-	      var $li = $ul.children('li');
-	      if (!$li.length) return false;
-	      var $oldHighlightLi = $li.filter('.highlight');
-	      var $newHighlightLi = $li.first();
-	      if (roamType == 'up') {
-	        if ($oldHighlightLi.length) {
-	          $newHighlightLi = $oldHighlightLi.prev();
-	          $newHighlightLi.length || ($newHighlightLi = $li.last());
-	        }
-	      }
-	      if (roamType == 'down') {
-	        if ($oldHighlightLi.length) {
-	          $newHighlightLi = $oldHighlightLi.next();
-	          $newHighlightLi.length || ($newHighlightLi = $li.first());
-	        }
-	      }
-	      $newHighlightLi.addClass('highlight').siblings().removeClass('highlight');
-	
-	      var maxHeight = parseInt($ul.css('maxHeight'));
-	      var visible_top = $ul.scrollTop();
-	      var visible_bottom = maxHeight + visible_top;
-	      var newHighlightLi_top = $newHighlightLi.position().top + visible_top;
-	      var newHighlightLi_bottom = newHighlightLi_top + $newHighlightLi.outerHeight();
-	      if (newHighlightLi_bottom >= visible_bottom) {
-	        $ul.scrollTop(newHighlightLi_bottom - maxHeight > 0 ? newHighlightLi_bottom - maxHeight : 0);
-	      } else if (newHighlightLi_top < visible_top) {
-	        $ul.scrollTop(newHighlightLi_top);
-	      }
-	    }
-	  }, {
-	    key: 'handleSearch',
-	    value: function handleSearch(text) {
-	      var self = this;
-	      text = escapeRegExp(text || '');
-	      if (!text || !text.trim || !(text = text.trim()) || ('' + text).length < self.props.minLengthToSearch) return;
-	      if (self.props.onSearch) {
-	        self.props.onSearch.call(this, {
-	          target: self,
-	          searchText: '' + text
-	        });
-	      } else {
-	        var currentOptions = self.props.allOptions.filter(function (itm) {
-	          return new RegExp(text, 'i').exec(itm.text);
-	        });
-	        self.setState({ currentOptions: currentOptions });
-	      }
-	    }
-	  }, {
-	    key: 'handleSelect',
-	    value: function handleSelect(curOption) {
-	      var self = this;
+	      // 更新props文本内容
+	      self.props.onTextChange.call(self, evt);
+	      // 设定focus状态以及执行回调
 	      self.setState({
-	        isEditing: false
+	        focusOption: undefined
+	      }, function () {
+	        self.searchAvailableFrom = (0, _moment2.default)((0, _moment2.default)() + self.props.searchInterval * 1000)._d;
+	        self.searchTimeout = setTimeout(function () {
+	          if (self.searchAvailableFrom <= (0, _moment2.default)()._d) {
+	            self.handleTextSearch(evt.target.value);
+	            clearTimeout(self.searchTimeout);
+	          }
+	        }, self.props.searchInterval * 1000);
 	      });
-	      self.props.onSelect.call(this, {
-	        target: self,
-	        selectedOption: curOption
-	      });
+	    }
+	  }, {
+	    key: 'handleTextSearch',
+	    value: function handleTextSearch(text) {
+	      var self = this;
+	      text = escapeRegExp('' + text || '').trim();
+	      if (text.length && text.length < self.props.searchMinLength) return;
+	      if (self.props.onTextSearch) {
+	        self.props.onTextSearch.call(this, {
+	          searchText: text
+	        });
+	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this4 = this;
+	      var props = this.props;
+	      var state = this.state;
+	      var prefixCls = props.prefixCls;
 	
-	      var props = this.props,
-	          state = this.state,
-	          prefixCls = props.prefixCls;
+	      var text = state.focusOption ? state.focusOption.text : props.text !== undefined ? props.text : (props.options.find(function (i) {
+	        return i.selected;
+	      }) || { text: '--请选择--' }).text;
 	      return _react2.default.createElement(
 	        'div',
-	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isEditing ? prefixCls + '-isediting' : '') },
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isInputing ? prefixCls + '-isinputing' : '') },
 	        _react2.default.createElement(
 	          'div',
 	          { className: prefixCls + '-console',
-	            onClick: state.isEditing ? undefined : this.handleEnableInputs.bind(this) },
+	            onClick: state.isInputing ? undefined : this.handleEnableInputs.bind(this) },
 	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
 	            className: prefixCls + '-console-text',
-	            value: props.text,
-	            title: props.text,
-	            onKeyDown: this.handleKeyDown.bind(this),
-	            onKeyUp: this.handleKeyUp.bind(this),
-	            onChange: this.handleInputChange.bind(this) }),
+	            value: text,
+	            title: text,
+	            onChange: this.handleTextChange.bind(this),
+	            readOnly: false }),
 	          _react2.default.createElement(
 	            'span',
 	            { className: prefixCls + '-console-toggle' },
 	            ' '
-	          )
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: prefixCls + '-dropdown',
-	            style: { display: !state.isEditing ? 'none' : undefined } },
-	          _react2.default.createElement(
-	            'ul',
-	            { ref: 'ulItems', className: prefixCls + '-dropdown-items' },
-	            state.currentOptions.map(function (itm, x) {
-	              return _react2.default.createElement(
-	                'li',
-	                { key: x, title: itm.text,
-	                  onClick: _this4.handleSelect.bind(_this4, itm),
-	                  onMouseEnter: function onMouseEnter(e) {
-	                    $(e.currentTarget).addClass('highlight').siblings().removeClass('highlight');
-	                  },
-	                  onMouseLeave: function onMouseLeave(e) {
-	                    $(e.currentTarget).removeClass('highlight');
-	                  } },
-	                itm.text
-	              );
-	            })
 	          )
 	        )
 	      );
@@ -36738,23 +36528,40 @@
 	  }]);
 	
 	  return AutoComplete;
-	}(_component.Widget);
+	}(_Dropdown3.default);
 	
-	exports.default = AutoComplete;
-	
+	AutoComplete.propTypes = {
+	  prefixCls: _react2.default.PropTypes.string,
+	  className: _react2.default.PropTypes.string,
+	  options: _react2.default.PropTypes.array,
+	  onChange: _react2.default.PropTypes.func,
+	  onOptionsChange: _react2.default.PropTypes.func,
+	  getTemplateDatapane: _react2.default.PropTypes.func,
+	  onEnableInputs: _react2.default.PropTypes.func,
+	  onDisableInputs: _react2.default.PropTypes.func,
+	  text: _react2.default.PropTypes.string,
+	  searchMinLength: _react2.default.PropTypes.number,
+	  searchInterval: _react2.default.PropTypes.number,
+	  onTextChange: _react2.default.PropTypes.func,
+	  onTextSearch: _react2.default.PropTypes.func
+	};
 	AutoComplete.defaultProps = {
 	  prefixCls: 'ui-form-autocomplete',
 	  className: '',
+	  options: [], // {text: '', value: {}, selected: false, disabled: false }
+	  onChange: function onChange(evt) {},
+	  onOptionsChange: function onOptionsChange(evt) {},
+	  getTemplateDatapane: _Dropdown3.default.defaultGetTemplateDatapane,
+	  onEnableInputs: function onEnableInputs(evt) {}, // Execute when Component is switched to editing state (ie. isInputing === true) - parameter: {target: Component}
+	  onDisableInputs: function onDisableInputs(evt) {}, // Execute when Component is switched off editing state (ie. isInputing === false) - parameter: {target: Component}
 	  text: '',
-	  value: null,
-	  allOptions: [], // {text: '', value: {} }
-	  minLengthToSearch: 2,
-	  minSearchInterval: .5,
-	  onChange: function onChange() {},
-	  onSelect: function onSelect() {},
-	  onSearch: undefined, // Execute default search logic when value is undefined, otherwise value is a function to override this logic
-	  onEnableInput: undefined, // Search props.text when value is undefined, otherwise value is a function to override this logic
-	  onDisableInput: undefined };
+	  searchMinLength: 2,
+	  searchInterval: .5,
+	  onTextChange: function onTextChange(evt) {},
+	  onTextSearch: undefined };
+	
+	// Execute when a text search is required - parameter: {searchText: ''}
+	exports.default = AutoComplete;
 
 /***/ },
 /* 437 */
@@ -37314,7 +37121,7 @@
 	
 	
 	// module
-	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n \r\n\r\n.ui-form-autocomplete {\r\n  display: inline-block;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-text {\r\n  border: none;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-toggle {\r\n  display: inline-block;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown {\r\n  position: absolute;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul {\r\n  overflow: auto;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul li {\r\n  cursor: pointer;\r\n}\r\n \r\n\r\n.ui-form-autocomplete-dropdown ul li:hover {\r\n}\r\n", "", {"version":3,"sources":["/../../src/component/autocomplete/autocomplete.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AACH;EACE,sBAAsB;CACvB;;;AACD;CACC;;;AACD;EACE,aAAa;CACd;;;AACD;EACE,sBAAsB;CACvB;;;AACD;EACE,mBAAmB;CACpB;;;AACD;EACE,eAAe;CAChB;;;AACD;EACE,gBAAgB;CACjB;;;AACD;CACC","file":"autocomplete.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n.ui-form-autocomplete {\r\n  display: inline-block;\r\n}\r\n.ui-form-autocomplete-console {\r\n}\r\n.ui-form-autocomplete-console-text {\r\n  border: none;\r\n}\r\n.ui-form-autocomplete-console-toggle {\r\n  display: inline-block;\r\n}\r\n.ui-form-autocomplete-dropdown {\r\n  position: absolute;\r\n}\r\n.ui-form-autocomplete-dropdown ul {\r\n  overflow: auto;\r\n}\r\n.ui-form-autocomplete-dropdown ul li {\r\n  cursor: pointer;\r\n}\r\n.ui-form-autocomplete-dropdown ul li:hover {\r\n}\r\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n \r\n\r\n.ui-form-autocomplete {\r\n}\r\n \r\n\r\n.ui-form-autocomplete.ui-form-autocomplete-isinputing {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-text {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-console-toggle {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-options {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-hover {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-focus {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-selected {\r\n}\r\n \r\n\r\n.ui-form-autocomplete-datapane-option.ui-common-disabled {\r\n}\r\n", "", {"version":3,"sources":["/../../src/component/autocomplete/autocomplete.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AACH;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC;;;AACD;CACC","file":"autocomplete.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * AutoComplete\r\n */\r\n.ui-form-autocomplete {\r\n}\r\n.ui-form-autocomplete.ui-form-autocomplete-isinputing {\r\n}\r\n.ui-form-autocomplete-console {\r\n}\r\n.ui-form-autocomplete-console-text {\r\n}\r\n.ui-form-autocomplete-console-toggle {\r\n}\r\n.ui-form-autocomplete-datapane {\r\n}\r\n.ui-form-autocomplete-datapane-options {\r\n}\r\n.ui-form-autocomplete-datapane-option {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-hover {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-focus {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-selected {\r\n}\r\n.ui-form-autocomplete-datapane-option.ui-common-disabled {\r\n}\r\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
@@ -37628,6 +37435,491 @@
 			URL.revokeObjectURL(oldSrc);
 	}
 
+
+/***/ },
+/* 448 */,
+/* 449 */,
+/* 450 */,
+/* 451 */,
+/* 452 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(453);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(447)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./form.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./form.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 453 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(446)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * DateInput\r\n */\r\n \r\n\r\n/**\r\n * ColorInput\r\n */\r\n", "", {"version":3,"sources":["/../../src/component/form/form.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AAEH;;GAEG","file":"form.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * DateInput\r\n */\r\n\r\n/**\r\n * ColorInput\r\n */\r\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 454 */,
+/* 455 */,
+/* 456 */,
+/* 457 */,
+/* 458 */,
+/* 459 */,
+/* 460 */,
+/* 461 */,
+/* 462 */,
+/* 463 */,
+/* 464 */,
+/* 465 */,
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _component = __webpack_require__(437);
+	
+	var _react = __webpack_require__(191);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(347);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _form = __webpack_require__(452);
+	
+	var _form2 = _interopRequireDefault(_form);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Dropdown组件实现
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var instanceId = 0;
+	
+	var Dropdown = function (_Widget) {
+	  _inherits(Dropdown, _Widget);
+	
+	  function Dropdown(props) {
+	    _classCallCheck(this, Dropdown);
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Dropdown).call(this, props));
+	
+	    _this.state = {
+	      isInputing: false,
+	      hoverOption: undefined,
+	      focusOption: undefined,
+	      selectedOption: undefined
+	    };
+	    _this.instanceId = instanceId++;
+	    _this.datapaneContainer = null;
+	    return _this;
+	  }
+	
+	  _createClass(Dropdown, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.datapaneContainer = document.createElement("div");
+	      document.body.appendChild(this.datapaneContainer);
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var self = this;
+	      self.renderDatapane({
+	        visible: false
+	      });
+	      $(document).on('mousedown.Dropdown' + self.instanceId, function (evt) {
+	        if (self.state.isInputing) {
+	          var $target = $(evt.target);
+	          var $dropdown = $('.' + self.props.prefixCls + '-' + self.instanceId);
+	          var $datapane = $dropdown.find('.' + self.props.prefixCls + '-datapane');
+	          var $consoleText = $dropdown.find('.' + self.props.prefixCls + '-console-text');
+	          if (!$target.is($datapane) && !$target.closest($datapane).length && !$target.is($consoleText)) {
+	            self.handleDisableInputs(self);
+	          }
+	        }
+	      });
+	      $(document).on('keydown.Dropdown' + self.instanceId, function (evt) {
+	        if (self.state.isInputing) {
+	          self.handleKeyDown(evt);
+	        }
+	      });
+	      $(document).on('keyup.Dropdown' + self.instanceId, function (evt) {
+	        if (self.state.isInputing) {
+	          self.handleKeyUp(evt);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _reactDom2.default.unmountComponentAtNode(this.datapaneContainer);
+	      document.body.removeChild(this.datapaneContainer);
+	      $(document).off('.Dropdown' + this.instanceId);
+	      this.datapaneContainer = null;
+	      this.instanceId = null;
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      var self = this;
+	      self.renderDatapane({
+	        visible: self.state.isInputing
+	      });
+	    }
+	  }, {
+	    key: 'handleEnableInputs',
+	    value: function handleEnableInputs(evt) {
+	      var _this2 = this;
+	
+	      var self = this;
+	      self.setState({
+	        isInputing: true
+	      }, function () {
+	        var inputText = self.refs.inputText;
+	        inputText.select();
+	        inputText.focus();
+	        if (typeof self.props.onEnableInputs === 'function') {
+	          self.props.onEnableInputs.call(_this2, {
+	            target: self
+	          });
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'handleDisableInputs',
+	    value: function handleDisableInputs(evt) {
+	      var _this3 = this;
+	
+	      var self = this;
+	      self.setState({
+	        isInputing: false,
+	        focusOption: self.state.selectedOption
+	      }, function () {
+	        if (typeof self.props.onDisableInputs === 'function') {
+	          self.props.onDisableInputs.call(_this3, {
+	            target: self
+	          });
+	        } else {}
+	      });
+	    }
+	  }, {
+	    key: 'handleKeyDown',
+	    value: function handleKeyDown(e) {
+	      var self = this;
+	      var stroke = e.which || e.keyCode;
+	      switch (stroke) {
+	        case 38:
+	          // 上
+	          e.preventDefault(); // prevent cursor move
+	          self.handleOptionsRoam('up');
+	          break;
+	        case 40:
+	          // 下
+	          e.preventDefault(); // prevent cursor move
+	          self.handleOptionsRoam('down');
+	          break;
+	        case 13:
+	          // 回车
+	          e.preventDefault();
+	          break;
+	      }
+	    }
+	  }, {
+	    key: 'handleKeyUp',
+	    value: function handleKeyUp(e) {
+	      var self = this;
+	      var stroke = e.which || e.keyCode;
+	      switch (stroke) {
+	        case 13:
+	          // 回车
+	          e.preventDefault();
+	          if (self.state.focusOption !== undefined) {
+	            var focusIndex = self.props.options.findIndex(function (i) {
+	              return i === self.state.focusOption;
+	            });
+	            self.handleOptionClick(focusIndex);
+	          }
+	          break;
+	      }
+	    }
+	  }, {
+	    key: 'handleOptionsRoam',
+	    value: function handleOptionsRoam(roamType) {
+	      var self = this;
+	      var optionsLength = self.props.options.length;
+	      if (!optionsLength) return;
+	      var focusIndex = self.props.options.findIndex(function (i) {
+	        return i === self.state.focusOption;
+	      });
+	      if (roamType == 'up') {
+	        focusIndex = !(focusIndex >= 0) ? 0 : focusIndex - 1 >= 0 ? focusIndex - 1 : optionsLength - 1;
+	      }
+	      if (roamType == 'down') {
+	        focusIndex = !(focusIndex >= 0) ? 0 : focusIndex + 1 <= optionsLength - 1 ? focusIndex + 1 : 0;
+	      }
+	      // UI定位与翻页
+	      var $ul = $('.' + self.props.prefixCls + '-datapane-options', self.datapaneContainer);
+	      var $newHighlightLi = $ul.children('.' + self.props.prefixCls + '-datapane-option-' + focusIndex);
+	      var maxHeight = parseInt($ul.css('maxHeight'));
+	      var visibleTop = $ul.scrollTop();
+	      var visibleBottom = maxHeight + visibleTop;
+	      var newHighlightLiTop = $newHighlightLi.position().top + visibleTop;
+	      var newHighlightLiBottom = newHighlightLiTop + $newHighlightLi.outerHeight();
+	      if (newHighlightLiBottom >= visibleBottom) {
+	        $ul.scrollTop(newHighlightLiBottom - maxHeight > 0 ? newHighlightLiBottom - maxHeight : 0);
+	      } else if (newHighlightLiTop < visibleTop) {
+	        $ul.scrollTop(newHighlightLiTop);
+	      }
+	      // 设定focus状态
+	      self.setState({
+	        focusOption: self.props.options[focusIndex]
+	      });
+	    }
+	  }, {
+	    key: 'handleOptionClick',
+	    value: function handleOptionClick(currentIndex) {
+	      var self = this;
+	      var props = self.props;
+	      if (!(currentIndex >= 0)) return;
+	      if (!props.options[currentIndex].disabled) {
+	        (function () {
+	          // 如果该option未被禁用
+	          // const targetOptions = $.extend(true, [], props.options);
+	          var targetOptions = JSON.parse(JSON.stringify(props.options));
+	          // 更新options下各项的被选择值
+	          targetOptions.forEach(function (option, x) {
+	            option.selected = currentIndex === x ? true : false;
+	          });
+	          // 设定focus, selected状态以及执行回调
+	          self.setState({
+	            isInputing: false,
+	            focusOption: props.options[currentIndex],
+	            selectedOption: props.options[currentIndex]
+	          }, function () {
+	            self.props.onChange.call(self, targetOptions[currentIndex]);
+	            self.props.onOptionsChange.call(self, targetOptions);
+	          });
+	        })();
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var props = this.props;
+	      var state = this.state;
+	      var prefixCls = props.prefixCls;
+	
+	      var text = state.focusOption ? state.focusOption.text : (props.options.find(function (i) {
+	        return i.selected;
+	      }) || { text: '--请选择--' }).text;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isInputing ? prefixCls + '-isinputing' : '') },
+	        _react2.default.createElement(
+	          'div',
+	          { className: prefixCls + '-console',
+	            onClick: state.isInputing ? undefined : this.handleEnableInputs.bind(this) },
+	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
+	            className: prefixCls + '-console-text',
+	            value: text,
+	            title: text,
+	            readOnly: true }),
+	          _react2.default.createElement(
+	            'span',
+	            { className: prefixCls + '-console-toggle' },
+	            ' '
+	          )
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'getOptionClass',
+	    value: function getOptionClass(currentIndex) {
+	      var _props = this.props;
+	      var prefixCls = _props.prefixCls;
+	      var options = _props.options;
+	      var _state = this.state;
+	      var hoverOption = _state.hoverOption;
+	      var focusOption = _state.focusOption;
+	
+	      var option = options[currentIndex];
+	      var classString = prefixCls + '-datapane-option ' + prefixCls + '-datapane-option-' + currentIndex;
+	      if (hoverOption === options[currentIndex]) classString += ' ui-common-hover';
+	      if (focusOption === options[currentIndex]) classString += ' ui-common-focus';
+	      if (option.disabled) classString += ' ui-common-disabled';
+	      if (option.selected && options.findIndex(function (i) {
+	        return i.selected;
+	      }) === currentIndex) classString += ' ui-common-selected';
+	      return classString;
+	    }
+	  }, {
+	    key: 'renderDatapane',
+	    value: function renderDatapane(data) {
+	      var props = this.props,
+	          state = this.state,
+	          prefixCls = props.prefixCls;
+	      var visible = data.visible;
+	      var inputEl,
+	          datapaneEl,
+	          winEl,
+	          inputOffset,
+	          inputHeight,
+	          inputWidth,
+	          datapaneHeight,
+	          datapaneWidth,
+	          winWidth,
+	          winHeight,
+	          winScrollTop,
+	          winScrollLeft,
+	          top = 0,
+	          left = 0;
+	      if (visible) {
+	        inputEl = $(_reactDom2.default.findDOMNode(this.refs.inputText));
+	        datapaneEl = $('.' + prefixCls + '-datapane', this.datapaneContainer);
+	        winEl = $(window);
+	        inputOffset = inputEl.offset();
+	        inputHeight = inputEl.outerHeight();
+	        inputWidth = inputEl.outerWidth();
+	        datapaneHeight = datapaneEl.outerHeight();
+	        datapaneWidth = datapaneEl.outerWidth();
+	        winWidth = winEl.width();
+	        winHeight = winEl.height();
+	        winScrollTop = winEl.scrollTop();
+	        winScrollLeft = winEl.scrollLeft();
+	        if (inputOffset.top - winScrollTop >= datapaneHeight) {
+	          if (winHeight - (inputOffset.top - winScrollTop) - inputHeight >= datapaneHeight) {
+	            //下面放得下优先放下面
+	            top = inputOffset.top + inputHeight - 1;
+	          } else {
+	            top = inputOffset.top - datapaneHeight + 1;
+	          }
+	        } else {
+	          //上面放不下直接放下面
+	          top = inputOffset.top + inputHeight - 1;
+	        }
+	        if (inputOffset.left - winScrollLeft + inputWidth >= datapaneWidth) {
+	          if (winWidth - (inputOffset.left - winScrollLeft) >= datapaneWidth) {
+	            //左面放得下优先放右面
+	            left = inputOffset.left;
+	          } else {
+	            left = inputOffset.left + inputWidth - datapaneWidth;
+	          }
+	        } else {
+	          //左面放不下直接放右面
+	          left = inputOffset.left;
+	        }
+	      }
+	      _reactDom2.default.render(_react2.default.createElement(
+	        'div',
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || ''), style: {
+	            "zIndex": 10000,
+	            "display": visible ? "block" : "none",
+	            "position": "absolute",
+	            "top": top + "px",
+	            "left": left + "px"
+	          } },
+	        _react2.default.createElement(
+	          'div',
+	          { className: prefixCls + '-datapane' },
+	          props.getTemplateDatapane.call(this, this)
+	        )
+	      ), this.datapaneContainer);
+	    }
+	  }]);
+	
+	  return Dropdown;
+	}(_component.Widget);
+	
+	Dropdown.defaultGetTemplateDatapane = function (self) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: self.props.prefixCls + '-datapane-options' },
+	    self.props.options.map(function (option, x, options) {
+	      return _react2.default.createElement(
+	        'div',
+	        { key: x, title: option.text,
+	          className: self.getOptionClass(x),
+	          onClick: self.handleOptionClick.bind(self, x),
+	          onMouseEnter: function onMouseEnter(e) {
+	            self.setState({ hoverOption: options[x] });
+	          },
+	          onMouseLeave: function onMouseLeave(e) {
+	            self.setState({ hoverOption: undefined });
+	          } },
+	        option.text
+	      );
+	    })
+	  );
+	};
+	Dropdown.propTypes = {
+	  prefixCls: _react2.default.PropTypes.string,
+	  className: _react2.default.PropTypes.string,
+	  options: _react2.default.PropTypes.array,
+	  onChange: _react2.default.PropTypes.func,
+	  onOptionsChange: _react2.default.PropTypes.func,
+	  getTemplateDatapane: _react2.default.PropTypes.func,
+	  onEnableInputs: _react2.default.PropTypes.func,
+	  onDisableInputs: _react2.default.PropTypes.func
+	};
+	Dropdown.defaultProps = {
+	  prefixCls: 'ui-form-dropdown',
+	  className: '',
+	  options: [], // {text: '', value: {}, selected: false, disabled: false }
+	  onChange: function onChange(evt) {},
+	  onOptionsChange: function onOptionsChange(evt) {},
+	  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
+	  onEnableInputs: function onEnableInputs(evt) {},
+	  onDisableInputs: function onDisableInputs(evt) {}
+	};
+	
+	exports.default = Dropdown;
 
 /***/ }
 /******/ ]);

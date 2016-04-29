@@ -1,5 +1,5 @@
 /*!
- * Build at Mon Apr 11 2016 14:01:17 GMT+0800 (China Standard Time)
+ * Build at Mon Apr 25 2016 21:02:53 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -50,8 +50,6 @@
 
 	"use strict";
 	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
 	var _babelPolyfill = __webpack_require__(1);
 	
 	var _babelPolyfill2 = _interopRequireDefault(_babelPolyfill);
@@ -64,270 +62,89 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _index = __webpack_require__(470);
+	var _Dropdown = __webpack_require__(478);
 	
-	var _index2 = _interopRequireDefault(_index);
+	var _Dropdown2 = _interopRequireDefault(_Dropdown);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { "default": obj }; }
 	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	/**
+	 * Dropdown demo
+	 */
 	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	var allOptions = [{ selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container").toString() }, { selected: false, disabled: false, text: 'jQuery instance', value: $.toString() }, { selected: true, disabled: false, text: 'Dropdown class', value: _Dropdown2.default.toString() }, { selected: false, disabled: false, text: 'window', value: window.toString() }, { selected: false, disabled: false, text: 'document', value: document.toString() }, { selected: false, disabled: false, text: 'navigator.userAgent', value: navigator.userAgent.toString() }, { selected: false, disabled: false, text: 'navigator.languages', value: navigator.languages.toString() }, { selected: false, disabled: true, text: 'document.head', value: document.head.toString() }, { selected: false, disabled: true, text: 'document.body', value: document.body.toString() }, { selected: false, disabled: true, text: 'document.scripts', value: document.scripts.toString() }, { selected: false, disabled: false, text: '$("body")', value: $("body").toString() }]; // enable es6 to es5 transform
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Modal demo
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-	// enable es6 to es5 transform
-	
-	// import "./modal.css";
-	
-	var pageContainer = document.getElementById("container");
-	// 测试页面组件
-	
-	var Page = function (_React$Component) {
-	  _inherits(Page, _React$Component);
-	
-	  function Page() {
-	    _classCallCheck(this, Page);
-	
-	    var _this2 = _possibleConstructorReturn(this, Object.getPrototypeOf(Page).call(this));
-	
-	    _this2.state = {
-	      visible1: true,
-	      visible2: false
-	    };
-	    return _this2;
-	  }
-	
-	  _createClass(Page, [{
-	    key: "jsxModals",
-	    value: function jsxModals() {
-	      var _this3 = this;
-	
-	      //JSX描述第一个弹框：简单调用
-	      var jsxModal1 = _react2.default.createElement(
-	        _index2.default,
-	        { ref: "jsxModal1",
-	          isLocal: true,
-	          visible: this.state.visible1,
-	          onClickSubmit: function onClickSubmit() {
-	            _this3.setState({ visible1: false });
-	          },
-	          onClickClose: function onClickClose() {
-	            _this3.setState({ visible1: false });
-	          }
-	        },
-	        "这是在弹框1内显示的内容-开始",
-	        _react2.default.createElement("br", null),
-	        _react2.default.createElement(
-	          "button",
-	          { onClick: function onClick() {
-	              _this3.setState({ visible2: true });
-	            } },
-	          "显示第2个弹框"
-	        ),
-	        _react2.default.createElement("hr", null),
-	        "点击右上×按钮关闭本弹框",
-	        _react2.default.createElement("hr", null),
-	        _react2.default.createElement("br", null),
-	        "这是在弹框1内显示的内容-结束"
-	      );
-	      //JSX描述第二个弹框：参数调用
-	      var jsxModal2 = _react2.default.createElement(
-	        _index2.default,
-	        { ref: "jsxModal2",
-	          prefixCls: "ui-modal",
-	          className: "class-modal-test",
-	          isLocal: false,
-	          centerFixed: false,
-	          width: "400",
-	          height: "1800",
-	          visible: this.state.visible2,
-	          paneType: this.props.paneType2 || _index2.default.PaneType.Dialog,
-	          hasTitleBar: true,
-	          hasActionBar: true,
-	          title: "第2个弹框的标题 by x",
-	          closeText: "Close Now",
-	          submitText: "Submit Now",
-	          onClickClose: function onClickClose() {
-	            _this3.setState({ visible2: false });
-	          },
-	          onClickSubmit: function onClickSubmit() {
-	            alert('确定被点击');
-	          },
-	          onBeforeMount: function onBeforeMount(_this) {
-	            alert('即将生成弹框');
-	          },
-	          onAfterMount: function onAfterMount(_this) {
-	            alert('弹框已生成');
-	          },
-	          onBeforeDestroy: function onBeforeDestroy(_this) {
-	            alert('即将销毁弹框');
-	          }
-	        },
-	        _react2.default.createElement(
+	var example1 = {
+	  allOptions: allOptions,
+	  selectedOptions: [allOptions.find(function (i) {
+	    return i.selected;
+	  })]
+	};
+	function runner() {
+	  _reactDom2.default.render(_react2.default.createElement(
+	    "div",
+	    null,
+	    _react2.default.createElement("style", { dangerouslySetInnerHTML: { __html: "\n      .dropdown-instance input[type=text] {\n        width: 400px;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-options {\n        background: #ccc;\n        margin-top: 0;\n        width: 300px;\n        max-height: 150px;\n        overflow-y: auto;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option:before {\n        content: \" - \";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-hover {\n        background: #ff0;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-focus {\n        background: #0f0;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-selected:before {\n        content: \" + \";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-selected:after {\n        content: \"(selected)\";\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-disabled {\n        opacity: .5;\n      }\n      .dropdown-instance .ui-form-dropdown-datapane-option.ui-common-disabled:after {\n        content: \"(disabled)\";\n      }\n    " } }),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      "Available Text Options:",
+	      _react2.default.createElement("br", null),
+	      allOptions.map(function (i, x) {
+	        return _react2.default.createElement(
 	          "div",
-	          null,
-	          _react2.default.createElement(
-	            "b",
-	            null,
-	            "这是在弹框2内显示的内容-开始"
-	          )
-	        ),
-	        _react2.default.createElement("hr", null),
-	        _react2.default.createElement(
-	          "button",
-	          { onClick: function onClick() {
-	              var toggledType = _this3.refs.jsxModal2.props.paneType === _index2.default.PaneType.Popup ? _index2.default.PaneType.Dialog : _index2.default.PaneType.Popup;
-	              _reactDom2.default.render(_react2.default.createElement(Page, { paneType2: toggledType, isVisibleInitial2: true }), pageContainer);
-	            } },
-	          "更改本弹框类型"
-	        ),
-	        _react2.default.createElement(
-	          "button",
-	          { onClick: function onClick() {
-	              _this3.setState({ visible2: false });
-	            } },
-	          "关闭本弹框"
-	        ),
-	        _react2.default.createElement(
-	          "button",
-	          { onClick: function onClick() {
-	              _reactDom2.default.render(_react2.default.createElement("div", null), pageContainer);
-	            } },
-	          "销毁页面内容"
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          _react2.default.createElement(
-	            "b",
-	            null,
-	            "这是在弹框2内显示的内容-结束"
-	          )
-	        )
-	      );
-	      return { jsxModal1: jsxModal1, jsxModal2: jsxModal2 };
-	      // classTitleBarOuter="ui-titlebar-outer-2"
-	      // titleContent="第2个弹框的标题"
-	      // classActionBarOuter="ui-actionbar-outer-2"
-	      // actionContent="第2个弹框的行动栏"
-	      // classPaneOuter="ui-pane-outer-2"
-	      // classPopupOuter="ui-popup-outer-2"
-	      // classDialogOuter="ui-dialog-outer-2"
-	      // hasTitleBar={true}
-	      // hasActionBar={true}
-	      // classMaskOuter="ui-mask-outer-2"
-	      // classModalOuter="ui-modal-outer-2"
-	      // isVisibleInitial={this.props.isVisibleInitial2||false}
-	      // paneType={this.props.paneType2||Modal.PaneType.Dialog}
-	      // onBeforeMount={(_this)=>{alert('即将生成弹框')}}
-	      // onAfterMount={(_this)=>{alert('弹框已生成')}}
-	      // onBeforeDestroy={(_this)=>{alert('即将销毁弹框')}}
-	    }
-	  }, {
-	    key: "render",
-	    value: function render() {
-	      var _this4 = this;
-	
-	      var styleTmpl = "\n      .ui-modal .----class-modal-test {\n        position: fixed;\n        left: 25%;\n        top: 25%;\n        right: 25%;\n        bottom: 25%;\n        background: rgba(0, 128, 196, 1);\n      }\n    ";
-	      var myjsxModals = this.jsxModals();
-	      var jsxPage = _react2.default.createElement(
-	        "div",
-	        { style: { background: '#036', width: '800px', height: '800px' } },
-	        _react2.default.createElement(
-	          "style",
-	          null,
-	          styleTmpl
-	        ),
-	        _react2.default.createElement(
-	          "table",
-	          null,
-	          _react2.default.createElement(
-	            "tbody",
-	            null,
-	            _react2.default.createElement(
-	              "tr",
-	              null,
-	              _react2.default.createElement(
-	                "td",
-	                { colSpan: "20" },
-	                "弹框测试页"
-	              )
-	            ),
-	            _react2.default.createElement(
-	              "tr",
-	              null,
-	              _react2.default.createElement(
-	                "td",
-	                { colSpan: "20" },
-	                _react2.default.createElement(
-	                  "button",
-	                  { onClick: function onClick() {
-	                      _this4.setState({ visible1: true });
-	                    } },
-	                  "显示第1个弹框"
-	                ),
-	                _react2.default.createElement(
-	                  "button",
-	                  { onClick: function onClick() {
-	                      _reactDom2.default.render(_react2.default.createElement("div", null), pageContainer);
-	                    } },
-	                  "销毁页面内容"
-	                )
-	              )
-	            )
-	          )
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          "文本行 1"
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          "文本行 2"
-	        ),
-	        myjsxModals.jsxModal1,
-	        myjsxModals.jsxModal2,
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          "文本行 n"
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          "文本行 n+1"
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          null,
-	          "文本行 n+2"
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { style: { position: 'absolute', zIndex: 300, width: '200px', height: '200px', background: 'lightgreen' } },
-	          "z-index:300"
-	        ),
-	        _react2.default.createElement(
-	          "div",
-	          { style: { position: 'absolute', zIndex: 200, width: '400px', height: '400px', background: 'pink', textAlign: 'right' } },
-	          "z-index:200"
-	        )
-	      );
-	      return jsxPage;
-	    }
-	  }]);
-	
-	  return Page;
-	}(_react2.default.Component);
-	
-	function run() {
-	  _reactDom2.default.render(_react2.default.createElement(Page, null), pageContainer);
+	          { key: x },
+	          " - ",
+	          i.text
+	        );
+	      }),
+	      " ",
+	      _react2.default.createElement("br", null)
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      { style: { display: 'inline-block' } },
+	      "Typical use:",
+	      _react2.default.createElement("br", null),
+	      _react2.default.createElement(_Dropdown2.default, { className: "dropdown-instance dropdown-typical",
+	        options: example1.allOptions
+	        // getTemplateDatapane={ (self) => {
+	        //   return (<div className={ `${self.props.prefixCls}-datapane-options` }>
+	        //     <div><b>Customized Dropdown Datapane:</b></div>
+	        //     {
+	        //       self.props.options.map((option, x, options) =>
+	        //       (<div key={x} title={ option.text }
+	        //             className={ self.getOptionClass(x) }
+	        //             onClick={ self.handleOptionClick.bind(self, x) }
+	        //             onMouseEnter={ (e)=>{ self.setState({hoverOption: options[x]}); } }
+	        //             onMouseLeave={ (e)=>{ self.setState({hoverOption: undefined}); } }>
+	        //         { option.text }
+	        //       </div>))
+	        //     }
+	        //   </div>);
+	        // } }
+	        , onOptionsChange: function onOptionsChange(options) {
+	          // const { options } = evt;
+	          example1.allOptions = options;
+	          runner();
+	        } }),
+	      " ",
+	      _react2.default.createElement("br", null)
+	    ),
+	    _react2.default.createElement(
+	      "div",
+	      null,
+	      "Selected options:",
+	      _react2.default.createElement("br", null),
+	      example1.allOptions.filter(function (i) {
+	        return i.selected;
+	      }).map(function (i) {
+	        return " [" + i.text + "] ";
+	      })
+	    )
+	  ), document.getElementById("container"));
 	}
-	run();
+	runner();
 
 /***/ },
 /* 1 */
@@ -26011,8 +25828,46 @@
 /* 449 */,
 /* 450 */,
 /* 451 */,
-/* 452 */,
-/* 453 */,
+/* 452 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(453);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(447)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./form.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./form.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
+/* 453 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(446)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * DateInput\r\n */\r\n \r\n\r\n/**\r\n * ColorInput\r\n */\r\n", "", {"version":3,"sources":["/../../src/component/form/form.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AAEH;;GAEG","file":"form.css","sourcesContent":["/**\r\n * form样式\r\n */\r\n \r\n\r\n/**\r\n * DateInput\r\n */\r\n\r\n/**\r\n * ColorInput\r\n */\r\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
 /* 454 */,
 /* 455 */,
 /* 456 */,
@@ -26029,12 +25884,18 @@
 /* 467 */,
 /* 468 */,
 /* 469 */,
-/* 470 */
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
-	
-	var _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; };
 	
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
@@ -26052,518 +25913,401 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _Dialog = __webpack_require__(471);
+	var _form = __webpack_require__(452);
 	
-	var _Dialog2 = _interopRequireDefault(_Dialog);
-	
-	__webpack_require__(472);
+	var _form2 = _interopRequireDefault(_form);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _objectWithoutProperties(obj, keys) { var target = {}; for (var i in obj) { if (keys.indexOf(i) >= 0) continue; if (!Object.prototype.hasOwnProperty.call(obj, i)) continue; target[i] = obj[i]; } return target; }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
 	
 	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Modal组件实现
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Dropdown组件实现
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
-	var eventNSId = 0;
-	var instances = [];
-	var $maskEl = $('<div class="ui-modal-mask"></div>');
+	var instanceId = 0;
 	
-	// 模式对话框组件
+	var Dropdown = function (_Widget) {
+	  _inherits(Dropdown, _Widget);
 	
-	var Modal = function (_Widget) {
-	  _inherits(Modal, _Widget);
+	  function Dropdown(props) {
+	    _classCallCheck(this, Dropdown);
 	
-	  function Modal(props) {
-	    _classCallCheck(this, Modal);
-	
-	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Modal).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Dropdown).call(this, props));
 	
 	    _this.state = {
-	      parentWidth: $(window).width(),
-	      parentHeight: $(window).height(),
-	      needPositioning: true
+	      isInputing: false,
+	      hoverOption: undefined,
+	      focusOption: undefined,
+	      selectedOption: undefined
 	    };
-	    _this.eventNSId = eventNSId++;
-	    _this.$containerNonLocal = null;
+	    _this.instanceId = instanceId++;
+	    _this.datapaneContainer = null;
 	    return _this;
 	  }
 	
-	  _createClass(Modal, [{
+	  _createClass(Dropdown, [{
 	    key: 'componentWillMount',
-	    value: function componentWillMount() {}
+	    value: function componentWillMount() {
+	      this.datapaneContainer = document.createElement("div");
+	      document.body.appendChild(this.datapaneContainer);
+	    }
 	  }, {
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var _this2 = this;
-	
-	      $(window).on('resize.Modal' + this.eventNSId, function (evt) {
-	        _this2.handleResize.call(_this2);
+	      var self = this;
+	      self.renderDatapane({
+	        visible: false
 	      });
-	      this.handleResize(); // trigger repositioning
-	      this.forceUpdate(); // for calling componentDidUpdate
-	    }
-	  }, {
-	    key: 'componentWillReceiveProps',
-	    value: function componentWillReceiveProps(nextProps) {}
-	  }, {
-	    key: 'componentDidUpdate',
-	    value: function componentDidUpdate(prevProps, prevState) {
-	      var _this3 = this;
-	
-	      if (false == this.props.isLocal) {
-	        if (!this.$containerNonLocal) {
-	          // 如果尚未创建global container
-	          this.$containerNonLocal = $('<div style="position:absolute;left:0;top:0;"></div>');
-	          this.$containerNonLocal.appendTo($(document.body));
-	        }
-	        _reactDom2.default.render(this.getJsxToRender(), this.$containerNonLocal[0], function () {
-	          _this3.proceedDidUpdate(prevProps, prevState, _this3.props, _this3.state);
-	        });
-	      } else this.proceedDidUpdate(prevProps, prevState, this.props, this.state);
-	    }
-	  }, {
-	    key: 'proceedDidUpdate',
-	    value: function proceedDidUpdate(prevProps, prevState, nextProps, nextState) {
-	      if (!this.props.visible && prevProps.visible) {
-	        this.setState({ needPositioning: true });
-	      }
-	      if (this.props.visible && this.state.needPositioning) {
-	        var $dialog = $('.' + this.props.prefixCls + '-dialog', this.$containerNonLocal && this.$containerNonLocal[0] || _reactDom2.default.findDOMNode(this));
-	        var dialogOffsets = $dialog.offset(),
-	            width = isNaN(parseInt(this.props.width)) ? $dialog.width() : this.props.width,
-	            height = isNaN(parseInt(this.props.height)) ? $dialog.height() : this.props.height,
-	            winScrollLeft = $(window).scrollLeft(),
-	            winScrollTop = $(window).scrollTop(),
-	            winHeight = $(window).height(),
-	            parentLeftOffset = 0,
-	            parentTopOffset = 0,
-	            parentWinWidth = this.state.parentWidth,
-	            parentWinHeight = this.state.parentHeight;
-	        var styleTmpl = {};
-	        styleTmpl.position = 'absolute';
-	        if (false == this.props.isLocal) {
-	          if (this.props.centerFixed) {
-	            // fixed position/centerFixed only applies to non-local dialogs
-	            styleTmpl.position = 'fixed';
-	          } else {
-	            parentLeftOffset = winScrollLeft;
-	            parentTopOffset = winScrollTop;
+	      $(document).on('mousedown.Dropdown' + self.instanceId, function (evt) {
+	        if (self.state.isInputing) {
+	          var $target = $(evt.target);
+	          var $dropdown = $('.' + self.props.prefixCls + '-' + self.instanceId);
+	          var $datapane = $dropdown.find('.' + self.props.prefixCls + '-datapane');
+	          var $consoleText = $dropdown.find('.' + self.props.prefixCls + '-console-text');
+	          if (!$target.is($datapane) && !$target.closest($datapane).length && !$target.is($consoleText)) {
+	            self.handleDisableInputs(self);
 	          }
-	        } else {
-	          parentWinHeight = Math.min(parentWinHeight, winHeight + winScrollTop - dialogOffsets.top);
 	        }
-	        // 将组件位置居中
-	        styleTmpl.left = parentLeftOffset + (parentWinWidth - width) / 2;
-	        styleTmpl.top = parentTopOffset + (parentWinHeight < height ? 0 : (parentWinHeight - height) / 2);
-	        $dialog.css(styleTmpl);
-	        this.setState({ needPositioning: false });
-	      }
-	      this.updateMask(this.props.visible);
+	      });
+	      $(document).on('keydown.Dropdown' + self.instanceId, function (evt) {
+	        if (self.state.isInputing) {
+	          self.handleKeyDown(evt);
+	        }
+	      });
+	      $(document).on('keyup.Dropdown' + self.instanceId, function (evt) {
+	        if (self.state.isInputing) {
+	          self.handleKeyUp(evt);
+	        }
+	      });
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
 	    value: function componentWillUnmount() {
-	      var _this4 = this;
-	
-	      if (this.$containerNonLocal && this.$containerNonLocal.length) {
-	        _reactDom2.default.unmountComponentAtNode(this.$containerNonLocal[0]);
-	        this.$containerNonLocal.remove();
-	      }
-	      $(window).off('resize.Modal' + this.eventNSId);
-	      this.$containerNonLocal = null;
-	      this.eventNSId = null;
-	      instances && (instances = instances.filter(function (x) {
-	        return x != _this4;
-	      }));
-	      instances && instances[0] && instances[0].forceUpdate(); // enable its mask if there is any
-	
-	      if (this.props.onBeforeDestroy) this.props.onBeforeDestroy(this);
+	      _reactDom2.default.unmountComponentAtNode(this.datapaneContainer);
+	      document.body.removeChild(this.datapaneContainer);
+	      $(document).off('.Dropdown' + this.instanceId);
+	      this.datapaneContainer = null;
+	      this.instanceId = null;
 	    }
 	  }, {
-	    key: 'updateMask',
-	    value: function updateMask(propsVisible) {
-	      var _this5 = this;
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      var self = this;
+	      self.renderDatapane({
+	        visible: self.state.isInputing
+	      });
+	    }
+	  }, {
+	    key: 'handleEnableInputs',
+	    value: function handleEnableInputs(evt) {
+	      var _this2 = this;
 	
-	      if (propsVisible) {
-	        instances = [].concat(_toConsumableArray(new Set([this].concat(_toConsumableArray(instances))))); // map in the instance to array
-	      } else {
-	          instances = instances.filter(function (x) {
-	            return x != _this5;
-	          }); // map out the instance from array
+	      var self = this;
+	      self.setState({
+	        isInputing: true
+	      }, function () {
+	        var inputText = self.refs.inputText;
+	        inputText.select();
+	        inputText.focus();
+	        if (typeof self.props.onEnableInputs === 'function') {
+	          self.props.onEnableInputs.call(_this2, {
+	            target: self
+	          });
 	        }
-	      if (instances && instances[0]) {
-	        var $instanceContainer = instances[0].props.isLocal ? $(_reactDom2.default.findDOMNode(instances[0])).parent() : instances[0].$containerNonLocal;
-	        $('.ui-modal-mask-container', $instanceContainer).empty().append($maskEl);
-	        var $parentContainer = instances[0].props.isLocal ? $instanceContainer : $(window);
-	        this.setupMaskStyle($maskEl, $parentContainer);
-	        // $parentContainer.resize(this.setupMaskStyle($maskEl, $parentContainer));
-	      } else {
-	          $maskEl.remove();
-	        }
+	      });
 	    }
 	  }, {
-	    key: 'setupMaskStyle',
-	    value: function setupMaskStyle($maskEl, $parentContainer) {
-	      var myStyle = {};
-	      if ($parentContainer[0] === window) {
-	        myStyle = {
-	          position: 'fixed',
-	          left: '0',
-	          top: '0',
-	          width: $(window).width() + 'px',
-	          height: $(window).height() + 'px'
-	        };
-	      } else {
-	        // const valPosition = $parentContainer.css('position')=='absolute' ? 'absolute' : 'relative';
-	        if ($parentContainer.css('position') == 'static') $parentContainer.css('position', 'relative');
-	        myStyle = {
-	          position: 'absolute',
-	          left: '0',
-	          top: '0',
-	          width: $parentContainer.outerWidth() + 'px',
-	          height: $parentContainer.outerHeight() + 'px'
-	        };
-	      }
-	      $maskEl.css(myStyle);
+	    key: 'handleDisableInputs',
+	    value: function handleDisableInputs(evt) {
+	      var _this3 = this;
+	
+	      var self = this;
+	      self.setState({
+	        isInputing: false,
+	        focusOption: self.state.selectedOption
+	      }, function () {
+	        if (typeof self.props.onDisableInputs === 'function') {
+	          self.props.onDisableInputs.call(_this3, {
+	            target: self
+	          });
+	        } else {}
+	      });
 	    }
 	  }, {
-	    key: 'handleResize',
-	    value: function handleResize() {
-	      if (false == this.props.isLocal) {
-	        this.setState({
-	          parentWidth: $(window).width(),
-	          parentHeight: $(window).height(),
-	          needPositioning: true
-	        });
-	      } else {
-	        var $parentContainer = $(_reactDom2.default.findDOMNode(this)).parent();
-	        this.setState({
-	          parentWidth: $parentContainer.outerWidth(),
-	          parentHeight: $parentContainer.outerHeight(),
-	          needPositioning: true
-	        });
+	    key: 'handleKeyDown',
+	    value: function handleKeyDown(e) {
+	      var self = this;
+	      var stroke = e.which || e.keyCode;
+	      switch (stroke) {
+	        case 38:
+	          // 上
+	          e.preventDefault(); // prevent cursor move
+	          self.handleOptionsRoam('up');
+	          break;
+	        case 40:
+	          // 下
+	          e.preventDefault(); // prevent cursor move
+	          self.handleOptionsRoam('down');
+	          break;
+	        case 13:
+	          // 回车
+	          e.preventDefault();
+	          break;
 	      }
 	    }
 	  }, {
-	    key: 'getJsxToRender',
-	    value: function getJsxToRender() {
-	      var props = this.props;
-	      var jsxElement = _react2.default.createElement('div', null);
-	      var _props = this.props;
-	      var prefixCls = _props.prefixCls;
-	      var className = _props.className;
-	      var isLocal = _props.isLocal;
-	      var centerFixed = _props.centerFixed;
-	      var width = _props.width;
-	      var height = _props.height;
-	      var visible = _props.visible;
-	      var paneType = _props.paneType;
-	      var onClickClose = _props.onClickClose;
-	      var onClickSubmit = _props.onClickSubmit;
-	      var onBeforeDestroy = _props.onBeforeDestroy;
-	
-	      var otherProps = _objectWithoutProperties(_props, ['prefixCls', 'className', 'isLocal', 'centerFixed', 'width', 'height', 'visible', 'paneType', 'onClickClose', 'onClickSubmit', 'onBeforeDestroy']);
-	
-	      var styleTmpl = {};
-	      styleTmpl.width = width;
-	      styleTmpl.height = height;
-	
-	      var jsxPane = null;
-	      switch (props.paneType) {
-	        case Modal.PaneType.Popup:
-	          jsxPane = _react2.default.createElement(_Dialog2.default, _extends({}, otherProps, { prefixCls: props.prefixCls + '-dialog', hasTitleBar: false, hasActionBar: false,
-	            styleTmpl: styleTmpl, onClickClose: props.onClickClose, onClickSubmit: props.onClickSubmit }));
-	          break;
-	        case Modal.PaneType.Dialog:
-	          jsxPane = _react2.default.createElement(_Dialog2.default, _extends({}, otherProps, { prefixCls: props.prefixCls + '-dialog',
-	            styleTmpl: styleTmpl, onClickClose: props.onClickClose, onClickSubmit: props.onClickSubmit }));
-	          break;
-	        default:
+	    key: 'handleKeyUp',
+	    value: function handleKeyUp(e) {
+	      var self = this;
+	      var stroke = e.which || e.keyCode;
+	      switch (stroke) {
+	        case 13:
+	          // 回车
+	          e.preventDefault();
+	          if (self.state.focusOption !== undefined) {
+	            var focusIndex = self.props.options.findIndex(function (i) {
+	              return i === self.state.focusOption;
+	            });
+	            self.handleOptionClick(focusIndex);
+	          }
 	          break;
 	      }
-	      if (true) {
-	        var classNameString = [].concat(_toConsumableArray(new Set([props.prefixCls].concat(_toConsumableArray((props.className || '').split(' ')))))).join(' ');
-	        jsxElement = _react2.default.createElement(
-	          'div',
-	          { name: 'RCZModal', className: classNameString, style: { display: props.visible ? 'block' : 'none' } },
-	          _react2.default.createElement('div', { className: 'ui-modal-mask-container' }),
-	          jsxPane
-	        );
+	    }
+	  }, {
+	    key: 'handleOptionsRoam',
+	    value: function handleOptionsRoam(roamType) {
+	      var self = this;
+	      var optionsLength = self.props.options.length;
+	      if (!optionsLength) return;
+	      var focusIndex = self.props.options.findIndex(function (i) {
+	        return i === self.state.focusOption;
+	      });
+	      if (roamType == 'up') {
+	        focusIndex = !(focusIndex >= 0) ? 0 : focusIndex - 1 >= 0 ? focusIndex - 1 : optionsLength - 1;
 	      }
-	      return jsxElement;
+	      if (roamType == 'down') {
+	        focusIndex = !(focusIndex >= 0) ? 0 : focusIndex + 1 <= optionsLength - 1 ? focusIndex + 1 : 0;
+	      }
+	      // UI定位与翻页
+	      var $ul = $('.' + self.props.prefixCls + '-datapane-options', self.datapaneContainer);
+	      var $newHighlightLi = $ul.children('.' + self.props.prefixCls + '-datapane-option-' + focusIndex);
+	      var maxHeight = parseInt($ul.css('maxHeight'));
+	      var visibleTop = $ul.scrollTop();
+	      var visibleBottom = maxHeight + visibleTop;
+	      var newHighlightLiTop = $newHighlightLi.position().top + visibleTop;
+	      var newHighlightLiBottom = newHighlightLiTop + $newHighlightLi.outerHeight();
+	      if (newHighlightLiBottom >= visibleBottom) {
+	        $ul.scrollTop(newHighlightLiBottom - maxHeight > 0 ? newHighlightLiBottom - maxHeight : 0);
+	      } else if (newHighlightLiTop < visibleTop) {
+	        $ul.scrollTop(newHighlightLiTop);
+	      }
+	      // 设定focus状态
+	      self.setState({
+	        focusOption: self.props.options[focusIndex]
+	      });
+	    }
+	  }, {
+	    key: 'handleOptionClick',
+	    value: function handleOptionClick(currentIndex) {
+	      var self = this;
+	      var props = self.props;
+	      if (!(currentIndex >= 0)) return;
+	      if (!props.options[currentIndex].disabled) {
+	        (function () {
+	          // 如果该option未被禁用
+	          // const targetOptions = $.extend(true, [], props.options);
+	          var targetOptions = JSON.parse(JSON.stringify(props.options));
+	          // 更新options下各项的被选择值
+	          targetOptions.forEach(function (option, x) {
+	            option.selected = currentIndex === x ? true : false;
+	          });
+	          // 设定focus, selected状态以及执行回调
+	          self.setState({
+	            isInputing: false,
+	            focusOption: props.options[currentIndex],
+	            selectedOption: props.options[currentIndex]
+	          }, function () {
+	            self.props.onChange.call(self, targetOptions[currentIndex]);
+	            self.props.onOptionsChange.call(self, targetOptions);
+	          });
+	        })();
+	      }
 	    }
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      // return this.getJsxToRender();
-	      return this.props.isLocal ? this.getJsxToRender() : null;
-	    }
-	  }]);
-	
-	  return Modal;
-	}(_component.Widget);
-	
-	Modal.PaneType = {
-	  Popup: Symbol(),
-	  Dialog: Symbol()
-	};
-	Modal.defaultProps = {
-	  prefixCls: 'ui-modal',
-	  className: '', // ui-dialog-outer||ui-popup-outer
-	  isLocal: false,
-	  centerFixed: true,
-	  width: 600,
-	  height: 600,
-	  visible: true,
-	  paneType: Modal.PaneType.Dialog,
-	  hasTitleBar: undefined,
-	  hasActionBar: undefined,
-	  title: undefined,
-	  closeText: undefined,
-	  closeOption: undefined,
-	  submitText: undefined,
-	  submitOption: undefined,
-	  onClickClose: function onClickClose() {},
-	  onClickSubmit: function onClickSubmit() {},
-	  // onBeforeMount : ()=>{},
-	  // onAfterMount : ()=>{},
-	  onBeforeDestroy: function onBeforeDestroy() {}
-	};
-	_Dialog2.default.propTypes = {
-	  prefixCls: _react2.default.PropTypes.string,
-	  className: _react2.default.PropTypes.string,
-	  isLocal: _react2.default.PropTypes.bool,
-	  centerFixed: _react2.default.PropTypes.bool,
-	  width: _react2.default.PropTypes.number,
-	  height: _react2.default.PropTypes.number,
-	  visible: _react2.default.PropTypes.bool,
-	  // paneType: React.PropTypes.symbol,
-	  // hasTitleBar: undefined,
-	  // hasActionBar: undefined,
-	  // title: undefined,
-	  // closeText: undefined,
-	  // closeOption: undefined,
-	  // submitText: undefined,
-	  // submitOption: undefined,
-	  onClickClose: _react2.default.PropTypes.func,
-	  onClickSubmit: _react2.default.PropTypes.func,
-	  // onBeforeMount : React.PropTypes.func,
-	  // onAfterMount : React.PropTypes.func,
-	  onBeforeDestroy: _react2.default.PropTypes.func
-	};
-	
-	exports.default = Modal;
-
-/***/ },
-/* 471 */
-/***/ function(module, exports, __webpack_require__) {
-
-	'use strict';
-	
-	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
-	
-	Object.defineProperty(exports, "__esModule", {
-	  value: true
-	});
-	
-	var _component = __webpack_require__(437);
-	
-	var _react = __webpack_require__(191);
-	
-	var _react2 = _interopRequireDefault(_react);
-	
-	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
-	
-	function _toConsumableArray(arr) { if (Array.isArray(arr)) { for (var i = 0, arr2 = Array(arr.length); i < arr.length; i++) { arr2[i] = arr[i]; } return arr2; } else { return Array.from(arr); } }
-	
-	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-	
-	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
-	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Dialog组件实现
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
-	
-	// 对话框组件
-	
-	var Dialog = function (_Widget) {
-	  _inherits(Dialog, _Widget);
-	
-	  function Dialog(props) {
-	    _classCallCheck(this, Dialog);
-	
-	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Dialog).call(this, props));
-	  }
-	
-	  _createClass(Dialog, [{
-	    key: 'render',
-	    value: function render() {
 	      var props = this.props;
+	      var state = this.state;
 	      var prefixCls = props.prefixCls;
-	      var hasTitleBar = props.hasTitleBar;
-	      var hasActionBar = props.hasActionBar;
-	      var title = props.title;
-	      var closeText = props.closeText;
-	      var closeOption = props.closeOption;
-	      var submitText = props.submitText;
-	      var submitOption = props.submitOption;
-	      var onClickClose = props.onClickClose;
-	      var onClickSubmit = props.onClickSubmit;
 	
-	      var titleBarProps = {
-	        title: title,
-	        onClickClose: onClickClose
-	      };
-	      var actionbarProps = {
-	        closeText: closeText,
-	        closeOption: closeOption,
-	        submitText: submitText,
-	        submitOption: submitOption,
-	        onClickClose: onClickClose,
-	        onClickSubmit: onClickSubmit
-	      };
-	      var jsxTitlebar = !props.hasTitleBar ? null : _react2.default.createElement(
-	        'div',
-	        { className: props.prefixCls + '-titlebar' },
-	        _react2.default.createElement(
-	          'div',
-	          { className: props.prefixCls + '-float-right ' + props.prefixCls + '-cmdbutton',
-	            style: { display: ['hidden', 'disabled'].some(function (x) {
-	                return x == closeOption;
-	              }) ? 'none' : undefined },
-	            onClick: props.onClickClose },
-	          '×'
-	        ),
-	        _react2.default.createElement(
-	          'div',
-	          { className: props.prefixCls + '-title', title: props.title },
-	          props.title
-	        )
-	      );
-	      var jsxActionbar = !props.hasActionBar ? null : _react2.default.createElement(
-	        'div',
-	        { className: props.prefixCls + '-actionbar' },
-	        _react2.default.createElement(
-	          'button',
-	          { className: props.prefixCls + '-btn-cancel',
-	            style: { display: closeOption == 'hidden' ? 'none' : undefined },
-	            disabled: closeOption == 'disabled',
-	            onClick: props.onClickClose },
-	          props.closeText
-	        ),
-	        _react2.default.createElement('span', { className: props.prefixCls + '-btn-separator',
-	          style: { display: [closeOption, submitOption].some(function (x) {
-	              return x == 'hidden';
-	            }) ? 'none' : undefined } }),
-	        _react2.default.createElement(
-	          'button',
-	          { className: props.prefixCls + '-btn-submit',
-	            style: { display: submitOption == 'hidden' ? 'none' : undefined },
-	            disabled: submitOption == 'disabled',
-	            onClick: props.onClickSubmit },
-	          props.submitText
-	        )
-	      );
-	      var jsxPane = _react2.default.createElement(
-	        'div',
-	        { className: props.prefixCls + '-pane' },
-	        props.children
-	      );
-	      var classNameString = [].concat(_toConsumableArray(new Set([props.prefixCls].concat(_toConsumableArray((props.className || '').split(' ')))))).join(' ');
+	      var text = state.focusOption ? state.focusOption.text : (props.options.find(function (i) {
+	        return i.selected;
+	      }) || { text: '--请选择--' }).text;
 	      return _react2.default.createElement(
 	        'div',
-	        { name: 'RCZDialog', className: classNameString, style: props.styleTmpl },
-	        jsxTitlebar,
-	        jsxPane,
-	        jsxActionbar
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isInputing ? prefixCls + '-isinputing' : '') },
+	        _react2.default.createElement(
+	          'div',
+	          { className: prefixCls + '-console',
+	            onClick: state.isInputing ? undefined : this.handleEnableInputs.bind(this) },
+	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
+	            className: prefixCls + '-console-text',
+	            value: text,
+	            title: text,
+	            readOnly: true }),
+	          _react2.default.createElement(
+	            'span',
+	            { className: prefixCls + '-console-toggle' },
+	            ' '
+	          )
+	        )
 	      );
+	    }
+	  }, {
+	    key: 'getOptionClass',
+	    value: function getOptionClass(currentIndex) {
+	      var _props = this.props;
+	      var prefixCls = _props.prefixCls;
+	      var options = _props.options;
+	      var _state = this.state;
+	      var hoverOption = _state.hoverOption;
+	      var focusOption = _state.focusOption;
+	
+	      var option = options[currentIndex];
+	      var classString = prefixCls + '-datapane-option ' + prefixCls + '-datapane-option-' + currentIndex;
+	      if (hoverOption === options[currentIndex]) classString += ' ui-common-hover';
+	      if (focusOption === options[currentIndex]) classString += ' ui-common-focus';
+	      if (option.disabled) classString += ' ui-common-disabled';
+	      if (option.selected && options.findIndex(function (i) {
+	        return i.selected;
+	      }) === currentIndex) classString += ' ui-common-selected';
+	      return classString;
+	    }
+	  }, {
+	    key: 'renderDatapane',
+	    value: function renderDatapane(data) {
+	      var props = this.props,
+	          state = this.state,
+	          prefixCls = props.prefixCls;
+	      var visible = data.visible;
+	      var inputEl,
+	          datapaneEl,
+	          winEl,
+	          inputOffset,
+	          inputHeight,
+	          inputWidth,
+	          datapaneHeight,
+	          datapaneWidth,
+	          winWidth,
+	          winHeight,
+	          winScrollTop,
+	          winScrollLeft,
+	          top = 0,
+	          left = 0;
+	      if (visible) {
+	        inputEl = $(_reactDom2.default.findDOMNode(this.refs.inputText));
+	        datapaneEl = $('.' + prefixCls + '-datapane', this.datapaneContainer);
+	        winEl = $(window);
+	        inputOffset = inputEl.offset();
+	        inputHeight = inputEl.outerHeight();
+	        inputWidth = inputEl.outerWidth();
+	        datapaneHeight = datapaneEl.outerHeight();
+	        datapaneWidth = datapaneEl.outerWidth();
+	        winWidth = winEl.width();
+	        winHeight = winEl.height();
+	        winScrollTop = winEl.scrollTop();
+	        winScrollLeft = winEl.scrollLeft();
+	        if (inputOffset.top - winScrollTop >= datapaneHeight) {
+	          if (winHeight - (inputOffset.top - winScrollTop) - inputHeight >= datapaneHeight) {
+	            //下面放得下优先放下面
+	            top = inputOffset.top + inputHeight - 1;
+	          } else {
+	            top = inputOffset.top - datapaneHeight + 1;
+	          }
+	        } else {
+	          //上面放不下直接放下面
+	          top = inputOffset.top + inputHeight - 1;
+	        }
+	        if (inputOffset.left - winScrollLeft + inputWidth >= datapaneWidth) {
+	          if (winWidth - (inputOffset.left - winScrollLeft) >= datapaneWidth) {
+	            //左面放得下优先放右面
+	            left = inputOffset.left;
+	          } else {
+	            left = inputOffset.left + inputWidth - datapaneWidth;
+	          }
+	        } else {
+	          //左面放不下直接放右面
+	          left = inputOffset.left;
+	        }
+	      }
+	      _reactDom2.default.render(_react2.default.createElement(
+	        'div',
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || ''), style: {
+	            "zIndex": 10000,
+	            "display": visible ? "block" : "none",
+	            "position": "absolute",
+	            "top": top + "px",
+	            "left": left + "px"
+	          } },
+	        _react2.default.createElement(
+	          'div',
+	          { className: prefixCls + '-datapane' },
+	          props.getTemplateDatapane.call(this, this)
+	        )
+	      ), this.datapaneContainer);
 	    }
 	  }]);
 	
-	  return Dialog;
+	  return Dropdown;
 	}(_component.Widget);
 	
-	Dialog.defaultProps = {
-	  prefixCls: 'ui-dialog',
-	  className: '',
-	  hasTitleBar: true,
-	  hasActionBar: true,
-	  // version: '2015.12.10',
-	  title: '标题栏',
-	  closeText: '取消',
-	  closeOption: '', // Accepted values: 'disabled'(disabling button click), 'hidden'(display no button), or any other value for default logic
-	  submitText: '确定',
-	  submitOption: '', // Accepted values: 'disabled'(disabling button click), 'hidden'(display no button), or any other value for default logic
-	  onClickClose: function onClickClose() {},
-	  onClickSubmit: function onClickSubmit() {},
-	  styleTmpl: undefined
+	Dropdown.defaultGetTemplateDatapane = function (self) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: self.props.prefixCls + '-datapane-options' },
+	    self.props.options.map(function (option, x, options) {
+	      return _react2.default.createElement(
+	        'div',
+	        { key: x, title: option.text,
+	          className: self.getOptionClass(x),
+	          onClick: self.handleOptionClick.bind(self, x),
+	          onMouseEnter: function onMouseEnter(e) {
+	            self.setState({ hoverOption: options[x] });
+	          },
+	          onMouseLeave: function onMouseLeave(e) {
+	            self.setState({ hoverOption: undefined });
+	          } },
+	        option.text
+	      );
+	    })
+	  );
 	};
-	Dialog.propTypes = {
+	Dropdown.propTypes = {
 	  prefixCls: _react2.default.PropTypes.string,
 	  className: _react2.default.PropTypes.string,
-	  hasTitleBar: _react2.default.PropTypes.bool,
-	  hasActionBar: _react2.default.PropTypes.bool,
-	  // version: React.PropTypes.string,
-	  title: _react2.default.PropTypes.string,
-	  closeText: _react2.default.PropTypes.string,
-	  closeOption: _react2.default.PropTypes.string,
-	  submitText: _react2.default.PropTypes.string,
-	  submitOption: _react2.default.PropTypes.string,
-	  onClickClose: _react2.default.PropTypes.func,
-	  onClickSubmit: _react2.default.PropTypes.func,
-	  styleTmpl: _react2.default.PropTypes.object
+	  options: _react2.default.PropTypes.array,
+	  onChange: _react2.default.PropTypes.func,
+	  onOptionsChange: _react2.default.PropTypes.func,
+	  getTemplateDatapane: _react2.default.PropTypes.func,
+	  onEnableInputs: _react2.default.PropTypes.func,
+	  onDisableInputs: _react2.default.PropTypes.func
+	};
+	Dropdown.defaultProps = {
+	  prefixCls: 'ui-form-dropdown',
+	  className: '',
+	  options: [], // {text: '', value: {}, selected: false, disabled: false }
+	  onChange: function onChange(evt) {},
+	  onOptionsChange: function onOptionsChange(evt) {},
+	  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
+	  onEnableInputs: function onEnableInputs(evt) {},
+	  onDisableInputs: function onDisableInputs(evt) {}
 	};
 	
-	exports.default = Dialog;
-
-/***/ },
-/* 472 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some css to the DOM by adding a <style> tag
-	
-	// load the styles
-	var content = __webpack_require__(473);
-	if(typeof content === 'string') content = [[module.id, content, '']];
-	// add the styles to the DOM
-	var update = __webpack_require__(447)(content, {});
-	if(content.locals) module.exports = content.locals;
-	// Hot Module Replacement
-	if(false) {
-		// When the styles change, update the <style> tags
-		if(!content.locals) {
-			module.hot.accept("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./index.css", function() {
-				var newContent = require("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./index.css");
-				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
-				update(newContent);
-			});
-		}
-		// When the module is disposed, remove the <style> tags
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 473 */
-/***/ function(module, exports, __webpack_require__) {
-
-	exports = module.exports = __webpack_require__(446)();
-	// imports
-	
-	
-	// module
-	exports.push([module.id, ".ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: 10000;\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel[disabled] {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit[disabled] {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separator {\r\n  ;\r\n}\r\n\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}", "", {"version":3,"sources":["/../../src/component/modal/index.css"],"names":[],"mappings":"AAIA;EACE,mBAAmB;EACnB,QAAQ;EACR,OAAO;EACP,eAAiC;CAClC;;AAED;;CAEC;;AAED;EACE,iBAAiB;CAClB;;AAED;;CAEC;;AAED;EACE,YAAY;CACb;;AAED;EACE,mBAAmB;CACpB;;AAED;EACE,YAAY;CACb;;AAED;EACE,aAAa;CACd;;AAED;;CAEC;;AACD;;CAEC;;AAED;;CAEC;;AACD;;CAEC;;AAED;;CAEC;;AACD;EACE,mBAAmB;EACnB,oBAAoB;EACpB,UAAU;EACV,kEAAkE;EAClE,aAAa;CACd","file":"index.css","sourcesContent":[":root {\r\n  --uiModalTopZIndex: 10000;\r\n}\r\n\r\n.ui-modal {\r\n  position: absolute;\r\n  left: 0;\r\n  top: 0;\r\n  z-index: var(--uiModalTopZIndex);\r\n}\r\n\r\n.ui-modal-popup {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog {\r\n  background: #fff;\r\n}\r\n\r\n.ui-modal-dialog-titlebar {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-pane {\r\n  clear: both;\r\n}\r\n\r\n.ui-modal-dialog-actionbar {\r\n  text-align: center;\r\n}\r\n\r\n.ui-modal-dialog-float-left {\r\n  float: left;\r\n}\r\n\r\n.ui-modal-dialog-float-right {\r\n  float: right;\r\n}\r\n\r\n.ui-modal-dialog-btn-cancel {\r\n  ;\r\n}\r\n.ui-modal-dialog-btn-cancel[disabled] {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-submit {\r\n  ;\r\n}\r\n.ui-modal-dialog-btn-submit[disabled] {\r\n  ;\r\n}\r\n\r\n.ui-modal-dialog-btn-separator {\r\n  ;\r\n}\r\n.ui-modal-mask {\r\n  position: absolute;\r\n  background: #000000;\r\n  /* IE 8 */\r\n  -ms-filter: \"progid:DXImageTransform.Microsoft.Alpha(Opacity=50)\";\r\n  opacity: 0.5;\r\n}"],"sourceRoot":"webpack://"}]);
-	
-	// exports
-
+	exports.default = Dropdown;
 
 /***/ }
 /******/ ]);
-//# sourceMappingURL=modal.js.map
+//# sourceMappingURL=dropdown.js.map

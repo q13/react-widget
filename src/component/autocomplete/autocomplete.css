@@ -7,24 +7,26 @@
  * AutoComplete
  */
 .ui-form-autocomplete {
-  display: inline-block;
+}
+.ui-form-autocomplete.ui-form-autocomplete-isinputing {
 }
 .ui-form-autocomplete-console {
 }
 .ui-form-autocomplete-console-text {
-  border: none;
 }
 .ui-form-autocomplete-console-toggle {
-  display: inline-block;
 }
-.ui-form-autocomplete-dropdown {
-  position: absolute;
+.ui-form-autocomplete-datapane {
 }
-.ui-form-autocomplete-dropdown ul {
-  overflow: auto;
+.ui-form-autocomplete-datapane-options {
 }
-.ui-form-autocomplete-dropdown ul li {
-  cursor: pointer;
+.ui-form-autocomplete-datapane-option {
 }
-.ui-form-autocomplete-dropdown ul li:hover {
+.ui-form-autocomplete-datapane-option.ui-common-hover {
+}
+.ui-form-autocomplete-datapane-option.ui-common-focus {
+}
+.ui-form-autocomplete-datapane-option.ui-common-selected {
+}
+.ui-form-autocomplete-datapane-option.ui-common-disabled {
 }
