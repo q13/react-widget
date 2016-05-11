@@ -56,3 +56,7 @@
 .ui-pagination-inputs-down-btn {
     background: url(./chosen-sprite.png) no-repeat 2px -5px;
 }
+.ui-paginationswitch-dd input {
+  width: 100px;
+}
+

@@ -92,26 +92,29 @@ class Grid extends Widget {
                 </table>
             </div>
             <Pagination { ...paginationProps } onPageChange={ (currentPage) => {
-                props.onPageChange.call(this, {
-                    currentPage: currentPage,
-                    pageSize: props.data.pageSize
-                });
-            }}/>
+              props.onPageChange.call(this, currentPage);
+            }} onPageSizeChange={
+              (pageSize) => {
+                props.onPageSizeChange.call(this, pageSize);
+              }
+            }/>
         </div>);
     }
 }
 
 Grid.defaultProps = {
     data: {
-        currentPage: 1,
-        total: 0,
-        pageSize: 10,
-        rows: []
+      currentPage: 1,
+      total: 0,
+      pageSize: 10,
+      rows: []
     },
     useFixedHeader: false,
     columns: [],
     prefixCls: 'ui-grid',
-    emptyText: '无数据'
+    emptyText: '无数据',
+    onPageChange: () => {},
+    onPageSizeChange: () => {}
 };
 
 export default Grid;
