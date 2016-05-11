@@ -185,6 +185,7 @@ class Dropdown extends Widget {
                  (props.options.find(i => i.selected) || {text: '--请选择--'}).text;
     return (<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''} ${(state.isInputing ? `${prefixCls}-isinputing` : '')}` }>
       <div className={ `${prefixCls}-console` }
+        ref='console'
            onClick={ state.isInputing ? undefined : this.handleEnableInputs.bind(this) }>
         <input type="text" ref="inputText"
                className={ `${prefixCls}-console-text` }
@@ -211,7 +212,7 @@ class Dropdown extends Widget {
         state = this.state,
         prefixCls = props.prefixCls;
     var visible = data.visible;
-    var inputEl,
+    var consoleEl,
         datapaneEl,
         winEl,
         inputOffset,
@@ -226,12 +227,12 @@ class Dropdown extends Widget {
         top = 0,
         left = 0;
     if (visible) {
-        inputEl = $(ReactDom.findDOMNode(this.refs.inputText));
+        consoleEl = $(ReactDom.findDOMNode(this.refs.console));
         datapaneEl = $(`.${prefixCls}-datapane`, this.datapaneContainer);
         winEl = $(window);
-        inputOffset = inputEl.offset();
-        inputHeight = inputEl.outerHeight();
-        inputWidth = inputEl.outerWidth();
+        inputOffset = consoleEl.offset();
+        inputHeight = consoleEl.outerHeight();
+        inputWidth = consoleEl.outerWidth();
         datapaneHeight = datapaneEl.outerHeight();
         datapaneWidth = datapaneEl.outerWidth();
         winWidth = winEl.width();
@@ -264,7 +265,9 @@ class Dropdown extends Widget {
       "top": top + "px",
       "left": left + "px"
     }}>
-      <div className={ `${prefixCls}-datapane` }>
+    <div className={ `${prefixCls}-datapane` } style={{
+      minWidth: $(`.${prefixCls}-${this.instanceId}`).outerWidth(true)
+    }}>
         { props.getTemplateDatapane.call(this, this) }
       </div>
     </div>, this.datapaneContainer);
