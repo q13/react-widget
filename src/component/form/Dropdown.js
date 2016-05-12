@@ -14,9 +14,9 @@ class Dropdown extends Widget {
     super(props);
     this.state = {
       isInputing: false,
-      hoverOption: undefined,
-      focusOption: undefined,
-      selectedOption: undefined,
+      hoverOption: null,
+      focusOption: null,
+      selectedOption: null,
     };
     this.instanceId = instanceId++;
     this.datapaneContainer = null;
@@ -52,6 +52,13 @@ class Dropdown extends Widget {
       if(self.state.isInputing) {
         self.handleKeyUp(evt);
       }
+    });
+  }
+  componentWillReceiveProps(nextProps) {
+    this.setState({
+      hoverOption: null,
+      focusOption: null,
+      selectedOption: null,
     });
   }
   componentWillUnmount() {
