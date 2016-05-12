@@ -101,15 +101,27 @@ class Pagination extends Widget {
     }
 
     handleInputChange({ range, value }, e) {
-      var currentPage = ensureRange(value === undefined ? (+e.target.value) : value, range.min, range.max);
+      var currentPage = this.getPropertyRange(value === undefined ? (+e.target.value) : value, range.min, range.max);
       this.setState({ currentInput: currentPage });
       this.props.onPageChange(currentPage);
-
-      function ensureRange(number, min, max) {
-        return isNaN(number) || number < min ? min : number > max ? max : number;
-      }
     }
+    handleClickArrowNav(direction) {
+      var { max } = this.getPages();
+      const range = { min: 1, max: max === 0 ? 1 : max };
+      var currentPage = this.state.currentPage;
+      if (direction === 'prev') {
+        currentPage--;
+      } else if (direction === 'next') {
+        currentPage++;
+      }
+      currentPage = this.getPropertyRange(currentPage, range.min, range.max);
 
+      this.setState({ currentInput: currentPage });
+      this.props.onPageChange(currentPage);
+    }
+    getPropertyRange(number, min, max) {
+      return isNaN(number) || number < min ? min : number > max ? max : number;
+    }
     render() {
       var currentInput = this.state.currentInput;
       var currentPage = this.state.currentPage;
@@ -133,7 +145,7 @@ class Pagination extends Widget {
       );
       //向前箭头
       items.push(
-        <li className={ prefixCls + '-prev'} key="prev"><a href="javascript:;">&lt;</a></li>
+        <li className={ prefixCls + '-prev'} key="prev" onClick={this.handleClickArrowNav.bind(this, 'prev')}><a href="javascript:;">&lt;</a></li>
       );
       //items.push(
         //<li className="ui-pagination-pole" key="current">第<a>{ currentPage }</a>页</li>
@@ -154,7 +166,7 @@ class Pagination extends Widget {
       });
       //向后箭头
       items.push(
-        <li className={ prefixCls + '-next'} key="next"><a href="javascript:;">&gt;</a></li>
+        <li className={ prefixCls + '-next'} key="next" onClick={this.handleClickArrowNav.bind(this, 'next')}><a href="javascript:;">&gt;</a></li>
       );
       //每页记录数切换
       items.push(
