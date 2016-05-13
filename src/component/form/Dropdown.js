@@ -11,6 +11,15 @@ import style from './form.css';
 let instanceId = 0;
 class Dropdown extends Widget {
   constructor(props) {
+    if (typeof props.value !== 'undefined') {
+      props.forEach((itemData) => {
+        if (itemData.value === nextProps.value) {
+          itemData.selected = true;
+        } else {
+          itemData.selected = false;
+        }
+      });
+    }
     super(props);
     this.state = {
       isInputing: false,
@@ -55,6 +64,15 @@ class Dropdown extends Widget {
     });
   }
   componentWillReceiveProps(nextProps) {
+    if (typeof nextProps.value !== 'undefined') {
+      nextProps.forEach((itemData) => {
+        if (itemData.value === nextProps.value) {
+          itemData.selected = true;
+        } else {
+          itemData.selected = false;
+        }
+      });
+    }
     this.setState({
       hoverOption: null,
       focusOption: null,
@@ -308,6 +326,7 @@ Dropdown.defaultProps = {
   prefixCls: 'ui-form-dropdown',
   className: '',
   options: [], // {text: '', value: {}, selected: false, disabled: false }
+  value: void(0),  //value 比options里selected优先级大
   onChange: (evt) => {},
   onOptionsChange: (evt) => {},
   getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
