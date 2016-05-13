@@ -57,6 +57,7 @@ class AutoComplete extends Dropdown {
                  (props.options.find(i => i.selected) || {text: '--请选择--'}).text;
     return (<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''} ${(state.isInputing ? `${prefixCls}-isinputing` : '')}` }>
       <div className={ `${prefixCls}-console` }
+        ref='console'
            onClick={ state.isInputing ? undefined : this.handleEnableInputs.bind(this) }>
         <input type="text" ref="inputText"
                className={ `${prefixCls}-console-text` }
