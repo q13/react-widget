@@ -35,6 +35,12 @@ class Pagination extends Widget {
       this.setState({
         currentInput: nextProps.currentPage,
         currentPage: nextProps.currentPage,
+        max: Math.ceil(nextProps.total / nextProps.pageSize),
+        pageSizeList: this.state.pageSizeList.map((itemData) => {
+          return Object.assign(itemData, {
+            selected: itemData.value == nextProps.pageSize
+          });
+        })
       });
     }
 
@@ -131,7 +137,6 @@ class Pagination extends Widget {
         state = this.state,
         prefixCls = props.prefixCls; 
       var self = this;
-      var pageSizeList = [1, 2, 3, 4, 5, 6];
       /*
       items.push(
         <li key="previous" onClick={currentPage <= 1 ? null : this.handleChange.bind(this, currentPage - 1)} className={currentPage <= 1 ? 'disabled' : '' }>
