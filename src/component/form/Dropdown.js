@@ -12,8 +12,8 @@ let instanceId = 0;
 class Dropdown extends Widget {
   constructor(props) {
     if (typeof props.value !== 'undefined') {
-      props.forEach((itemData) => {
-        if (itemData.value === nextProps.value) {
+      props.options.forEach((itemData) => {
+        if (itemData.value === props.value) {
           itemData.selected = true;
         } else {
           itemData.selected = false;
@@ -65,7 +65,7 @@ class Dropdown extends Widget {
   }
   componentWillReceiveProps(nextProps) {
     if (typeof nextProps.value !== 'undefined') {
-      nextProps.forEach((itemData) => {
+      nextProps.options.forEach((itemData) => {
         if (itemData.value === nextProps.value) {
           itemData.selected = true;
         } else {
