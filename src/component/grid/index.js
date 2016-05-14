@@ -91,13 +91,16 @@ class Grid extends Widget {
                     </tbody>
                 </table>
             </div>
-            <Pagination { ...paginationProps } onPageChange={ (currentPage) => {
-              props.onPageChange.call(this, currentPage);
-            }} onPageSizeChange={
-              (pageSize) => {
-                props.onPageSizeChange.call(this, pageSize);
-              }
-            }/>
+            {
+            paginationProps.pageSize !== Number.MAX_VALUE ?
+              <Pagination { ...paginationProps } onPageChange={ (currentPage) => {
+                props.onPageChange.call(this, currentPage);
+              }} onPageSizeChange={
+                (pageSize) => {
+                  props.onPageSizeChange.call(this, pageSize);
+                }
+              }/> : null
+            }
         </div>);
     }
 }
