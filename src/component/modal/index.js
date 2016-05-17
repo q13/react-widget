@@ -163,7 +163,7 @@ class Modal extends Widget {
   getJsxToRender() {
     const props = this.props;
     let jsxElement = <div></div>;
-    const {prefixCls, className, isLocal, centerFixed, width, height, visible, paneType, onClickClose, onClickSubmit, onBeforeDestroy, ...otherProps} = this.props;
+    const {prefixCls, className, isLocal, centerFixed, width, height, visible, paneType, onCloseClick, onSubmitClick, onBeforeDestroy, ...otherProps} = this.props;
     const styleTmpl = {};
     styleTmpl.width = width;
     styleTmpl.height = height;
@@ -172,11 +172,11 @@ class Modal extends Widget {
     switch(props.paneType) {
       case Modal.PaneType.Popup:
         jsxPane = (<Dialog {...otherProps} prefixCls={props.prefixCls+'-dialog'} hasTitleBar={false} hasActionBar={false}
-                      styleTmpl={styleTmpl} onClickClose={props.onClickClose} onClickSubmit={props.onClickSubmit} />);
+                      styleTmpl={styleTmpl} onCloseClick={props.onCloseClick} onSubmitClick={props.onSubmitClick} />);
         break;
       case Modal.PaneType.Dialog:
         jsxPane = (<Dialog {...otherProps} prefixCls={props.prefixCls+'-dialog'}
-                      styleTmpl={styleTmpl} onClickClose={props.onClickClose} onClickSubmit={props.onClickSubmit} />);
+                      styleTmpl={styleTmpl} onCloseClick={props.onCloseClick} onSubmitClick={props.onSubmitClick} />);
         break;
       default: break;
     }
@@ -214,8 +214,8 @@ Modal.defaultProps = {
   closeOption: undefined,
   submitText: undefined,
   submitOption: undefined,
-  onClickClose: ()=>{},
-  onClickSubmit: ()=>{},
+  onCloseClick: ()=>{},
+  onSubmitClick: ()=>{},
   // onBeforeMount : ()=>{},
   // onAfterMount : ()=>{},
   onBeforeDestroy : ()=>{},
@@ -236,8 +236,8 @@ Dialog.propTypes = {
   // closeOption: undefined,
   // submitText: undefined,
   // submitOption: undefined,
-  onClickClose: React.PropTypes.func,
-  onClickSubmit: React.PropTypes.func,
+  onCloseClick: React.PropTypes.func,
+  onSubmitClick: React.PropTypes.func,
   // onBeforeMount : React.PropTypes.func,
   // onAfterMount : React.PropTypes.func,
   onBeforeDestroy : React.PropTypes.func,

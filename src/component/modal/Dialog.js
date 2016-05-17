@@ -13,23 +13,23 @@ class Dialog extends Widget {
   }
   render() {
     const props = this.props;
-    const {prefixCls, hasTitleBar, hasActionBar, title, closeText, closeOption, submitText, submitOption, onClickClose, onClickSubmit} = props;
+    const {prefixCls, hasTitleBar, hasActionBar, title, closeText, closeOption, submitText, submitOption, onCloseClick, onSubmitClick} = props;
     const titleBarProps = {
       title,
-      onClickClose,
+      onCloseClick,
     };
     const actionbarProps = {
       closeText,
       closeOption,
       submitText,
       submitOption,
-      onClickClose,
-      onClickSubmit,
+      onCloseClick,
+      onSubmitClick,
     };
     const jsxTitlebar = !props.hasTitleBar ? null : (<div className={props.prefixCls+'-titlebar'}>
       <div className={ `${props.prefixCls}-float-right ${props.prefixCls}-cmdbutton` }
            style={ {display: (['hidden', 'disabled'].some(x=>x==closeOption)?'none':undefined)} }
-           onClick={ props.onClickClose }>
+           onClick={ props.onCloseClick }>
         ×
       </div>
       <div className={props.prefixCls+'-title'} title={props.title}>{props.title}</div>
@@ -38,7 +38,7 @@ class Dialog extends Widget {
       <button className={ `${props.prefixCls}-btn-cancel` }
               style={ {display: (closeOption=='hidden'?'none':undefined)} }
               disabled={ closeOption=='disabled' }
-              onClick={ props.onClickClose }>
+              onClick={ props.onCloseClick }>
         { props.closeText }
       </button>
       <span className={ `${props.prefixCls}-btn-separator` }
@@ -47,7 +47,7 @@ class Dialog extends Widget {
       <button className={ `${props.prefixCls}-btn-submit` }
               style={ {display: (submitOption=='hidden'?'none':undefined)} }
               disabled={ submitOption=='disabled' }
-              onClick={ props.onClickSubmit }>
+              onClick={ props.onSubmitClick }>
         { props.submitText }
       </button>
     </div>);
@@ -73,8 +73,8 @@ Dialog.defaultProps = {
   closeOption: '',  // Accepted values: 'disabled'(disabling button click), 'hidden'(display no button), or any other value for default logic
   submitText: '确定',
   submitOption: '',  // Accepted values: 'disabled'(disabling button click), 'hidden'(display no button), or any other value for default logic
-  onClickClose : ()=>{},
-  onClickSubmit : ()=>{},
+  onCloseClick : ()=>{},
+  onSubmitClick : ()=>{},
   styleTmpl: undefined,
 }
 Dialog.propTypes = {
@@ -88,8 +88,8 @@ Dialog.propTypes = {
   closeOption: React.PropTypes.string,
   submitText: React.PropTypes.string,
   submitOption: React.PropTypes.string,
-  onClickClose : React.PropTypes.func,
-  onClickSubmit : React.PropTypes.func,
+  onCloseClick : React.PropTypes.func,
+  onSubmitClick : React.PropTypes.func,
   styleTmpl: React.PropTypes.object,
 };
 
