@@ -11,7 +11,7 @@ import './index.css';
 
 let eventNSId = 0;
 let instances = [];
-const $maskEl = $('<div class="ui-modal-mask"></div>');
+const maskTmpl = '<div class="ui-modal-mask"></div>';
 
 // 模式对话框组件
 class Modal extends Widget {
@@ -110,13 +110,14 @@ class Modal extends Widget {
     }
     if(instances && instances[0]) {
       const $instanceContainer = instances[0].props.isLocal ? $(ReactDOM.findDOMNode(instances[0])).parent() : instances[0].$containerNonLocal;
-      $('.ui-modal-mask-container', $instanceContainer).empty().append($maskEl);
+      $('.ui-modal-mask-container', $instanceContainer).empty().append(maskTmpl);
       const $parentContainer = instances[0].props.isLocal ? $instanceContainer : $(window);
-      this.setupMaskStyle($maskEl, $parentContainer);
+      this.setupMaskStyle($('.ui-modal-mask-container .ui-modal-mask', $instanceContainer), $parentContainer);
       // $parentContainer.resize(this.setupMaskStyle($maskEl, $parentContainer));
     }
     else {
-      $maskEl.remove();
+      //$maskEl.remove(); //注释掉
+      //$('.ui-modal-mask-container', $instanceContainer).empty();
     }
   }
   setupMaskStyle($maskEl, $parentContainer) {
