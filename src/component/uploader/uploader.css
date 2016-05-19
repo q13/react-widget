@@ -1,0 +1,26 @@
+/**
+ * Uploader.css
+ */
+.ui-uploader {
+  display: inline-block;
+  position: relative;
+  vertical-align: top;
+}
+.ui-uploader-form,
+.ui-uploader-handler {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+.ui-uploader-form {
+  z-index: 10;
+  opacity: 0;
+}
+.ui-uploader-form input {
+  display: inline-block;
+  width: 100%;
+  height: 100%;
+}

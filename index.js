@@ -11,6 +11,7 @@ import Radiogroup from "./src/component/form/Radiogroup";
 import Dropdown from "./src/component/form/Dropdown";
 import AutoComplete from "./src/component/autocomplete";
 import ColorInput from "./src/component/form/ColorInput.js";
+import Uploader from "./src/component/uploader";
 export {
     Grid,
     Validation,
@@ -21,5 +22,6 @@ export {
     Radiogroup,
     Dropdown,
     AutoComplete,
-    ColorInput
+    ColorInput,
+    Uploader
 };
