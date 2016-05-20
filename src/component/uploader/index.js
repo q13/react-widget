@@ -16,7 +16,7 @@ class Uploader extends Widget {
   }
   componentDidMount() {}
   componentWillUnmount() {}
-  uploadFile() {
+  uploadFile(filePath) {
     var props = this.props,
       prefixCls = props.prefixCls;
     var ifrEl = $(`${prefixCls}-ifr`),
@@ -29,23 +29,32 @@ class Uploader extends Widget {
         left: '-10000px'
       }).appendTo('body');
     }
-    form.setAttribute('target', 'upload-result-iframe')
-
-    ifrEl[0].onload = function() {
-      var responseText = $(ifrEl[0].contentWindow.document.body).text(),
-        responseData = JSON.parse(responseText);
-      ifrEl[0].onload = null;
-      if (responseData.flag) {
-        props.onSuccess(responseData.data);
-      } else {
-        props.onFailure(responseData);
-      }
-    };
-    form.submit();
+    form.setAttribute('target', 'upload-result-iframe');
+    if (filePath) { //有值的情况下才会上传
+      ifrEl[0].onload = function() {
+        var responseText = $(ifrEl[0].contentWindow.document.body).text(),
+          responseData;
+        try {
+          responseData = JSON.parse(responseText);
+          ifrEl[0].onload = null;
+          if (responseData.flag) {
+            props.onSuccess(responseData.data);
+          } else {
+            props.onFailure(responseData);
+          }
+        } catch(evt) {
+          props.onFailure({
+            flag: 0,
+            message: evt.message
+          });
+        }
+      };
+      form.submit();
+    }
   }
-  handleChange() {
+  handleChange(evt) {
     if (this.props.autoUpload) {  //自动上传
-      this.uploadFile();
+      this.uploadFile(evt.target.value);
     }
   }
   render() {
@@ -59,7 +68,7 @@ class Uploader extends Widget {
         height: props.height
       }}>
       <form className={`${prefixCls}-form`} action={props.url} ref="form" method="post" encType="multipart/form-data">
-        <input type="file" name={props.fieldName} className={`${prefixCls}-file`} onChange={this.handleChange.bind(this)} />
+        <input type="file" accept={props.accept} name={props.fieldName} className={`${prefixCls}-file`} onChange={this.handleChange.bind(this)} />
         {!additionalRequestParams ? null : 
             Object.keys(additionalRequestParams).map((i,x)=>
                 (<input type="hidden" key={x} name={i} value={additionalRequestParams[i]} />))}
