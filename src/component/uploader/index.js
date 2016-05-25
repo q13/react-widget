@@ -37,6 +37,7 @@ class Uploader extends Widget {
         try {
           responseData = JSON.parse(responseText);
           ifrEl[0].onload = null;
+          ifrEl.remove(); //每次都重新创建
           if (responseData.flag) {
             props.onSuccess(responseData.data);
           } else {
