@@ -35,20 +35,20 @@ class Dialog extends Widget {
       <div className={props.prefixCls+'-title'} title={props.title}>{props.title}</div>
     </div>);
     const jsxActionbar = !props.hasActionBar ? null : (<div className={props.prefixCls+'-actionbar'}>
-      <button className={ `${props.prefixCls}-btn-cancel` }
-              style={ {display: (closeOption=='hidden'?'none':undefined)} }
-              disabled={ closeOption=='disabled' }
-              onClick={ props.onCloseClick }>
-        { props.closeText }
-      </button>
-      <span className={ `${props.prefixCls}-btn-separator` }
-            style={ {display: ([closeOption, submitOption].some(x=>x=='hidden')?'none':undefined)} }>
-      </span>
       <button className={ `${props.prefixCls}-btn-submit` }
               style={ {display: (submitOption=='hidden'?'none':undefined)} }
               disabled={ submitOption=='disabled' }
               onClick={ props.onSubmitClick }>
         { props.submitText }
+      </button>
+      <span className={ `${props.prefixCls}-btn-separator` }
+            style={ {display: ([closeOption, submitOption].some(x=>x=='hidden')?'none':undefined)} }>
+      </span>
+      <button className={ `${props.prefixCls}-btn-cancel` }
+              style={ {display: (closeOption=='hidden'?'none':undefined)} }
+              disabled={ closeOption=='disabled' }
+              onClick={ props.onCloseClick }>
+        { props.closeText }
       </button>
     </div>);
     const jsxPane = (<div className={props.prefixCls+'-pane'}>
