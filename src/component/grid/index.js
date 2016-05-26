@@ -33,7 +33,7 @@ class Grid extends Widget {
             );
         }
         if(rst.length == 0) {
-            return <tr><td colSpan={ columns.length } className="ui-grid-empty">{ this.props.emptyText }</td></tr>
+          return <tr><td colSpan={ columns.length } className="ui-grid-empty"><span className="empty-text">{ this.props.emptyText }</span></td></tr>
         } else {
             return rst;
         }

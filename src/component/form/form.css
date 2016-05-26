@@ -10,3 +10,10 @@
 /**
  * ColorInput
  */
+
+/**
+ * Dropdown
+ */
+.ui-form-dropdown-datapane {
+  overflow: auto;
+}

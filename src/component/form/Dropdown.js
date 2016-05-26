@@ -250,7 +250,8 @@ class Dropdown extends Widget {
         winScrollTop,
         winScrollLeft,
         top = 0,
-        left = 0;
+        left = 0,
+        maxInputHeight = 0;
     if (visible) {
         consoleEl = $(ReactDom.findDOMNode(this.refs.console));
         datapaneEl = $(`.${prefixCls}-datapane`, this.datapaneContainer);
@@ -267,11 +268,14 @@ class Dropdown extends Widget {
         if (inputOffset.top - winScrollTop >= datapaneHeight) {
             if (winHeight - (inputOffset.top - winScrollTop) - inputHeight >= datapaneHeight) {   //下面放得下优先放下面
                 top = inputOffset.top + inputHeight - 1;
+                maxInputHeight = winHeight - top +  winScrollTop - 8;
             } else {
                 top = inputOffset.top - datapaneHeight + 1;
+                maxInputHeight = inputOffset.top;
             }
         } else {    //上面放不下直接放下面
             top = inputOffset.top + inputHeight - 1;
+            maxInputHeight = winHeight - top + winScrollTop - 8;
         }
         if (inputOffset.left - winScrollLeft + inputWidth >= datapaneWidth) {
             if (winWidth - (inputOffset.left - winScrollLeft) >= datapaneWidth) {   //左面放得下优先放右面
@@ -282,6 +286,12 @@ class Dropdown extends Widget {
         } else {    //左面放不下直接放右面
             left = inputOffset.left;
         }
+        if (top < 0) {
+          top = 0;
+        }
+        if (left < 0) {
+          left = 0;
+        }
     }
     ReactDom.render(<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''}` } style={{
       "zIndex": 10000,
@@ -291,7 +301,8 @@ class Dropdown extends Widget {
       "left": left + "px"
     }}>
     <div className={ `${prefixCls}-datapane` } style={{
-      minWidth: $(`.${prefixCls}-${this.instanceId}`).outerWidth(true)
+      minWidth: $(`.${prefixCls}-${this.instanceId}`).outerWidth(true),
+      maxHeight: maxInputHeight + 'px'
     }}>
         { props.getTemplateDatapane.call(this, this) }
       </div>
