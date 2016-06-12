@@ -3,6 +3,7 @@
  */
 import Grid from "./src/component/grid";
 import Validation from "./src/component/validation";
+import Validator from "./src/component/validator";
 import Calendar from "./src/component/calendar";
 import DateInput from "./src/component/form/DateInput.js";
 import Modal from "./src/component/modal";
@@ -15,6 +16,7 @@ import Uploader from "./src/component/uploader";
 export {
     Grid,
     Validation,
+    Validator,
     Calendar,
     DateInput,
     Modal,

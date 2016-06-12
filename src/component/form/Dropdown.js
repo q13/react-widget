@@ -94,6 +94,10 @@ class Dropdown extends Widget {
   }
   handleEnableInputs(evt) {
     const self = this;
+    console.log(11111);
+    self.renderDatapane({
+      visible: true
+    });
     self.setState({
       isInputing: true
     }, () => {
@@ -251,7 +255,7 @@ class Dropdown extends Widget {
         winScrollLeft,
         top = 0,
         left = 0,
-        maxInputHeight = 0;
+        maxInputHeight = 130;
     if (visible) {
         consoleEl = $(ReactDom.findDOMNode(this.refs.console));
         datapaneEl = $(`.${prefixCls}-datapane`, this.datapaneContainer);
@@ -265,6 +269,12 @@ class Dropdown extends Widget {
         winHeight = winEl.height();
         winScrollTop = winEl.scrollTop();
         winScrollLeft = winEl.scrollLeft();
+        if (datapaneHeight < maxInputHeight) {
+          datapaneHeight = maxInputHeight;
+          datapaneEl.css({
+            minHeight: maxInputHeight
+          });
+        }
         if (inputOffset.top - winScrollTop >= datapaneHeight) {
             if (winHeight - (inputOffset.top - winScrollTop) - inputHeight >= datapaneHeight) {   //下面放得下优先放下面
                 top = inputOffset.top + inputHeight - 1;
@@ -291,6 +301,9 @@ class Dropdown extends Widget {
         }
         if (left < 0) {
           left = 0;
+        }
+        if (maxInputHeight < 130) {
+          maxInputHeight = 130;
         }
     }
     ReactDom.render(<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''}` } style={{

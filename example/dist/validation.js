@@ -1,5 +1,5 @@
 /*!
- * Build at Fri Jan 29 2016 14:56:07 GMT+0800 (China Standard Time)
+ * Build at Wed Jun 08 2016 10:50:24 GMT+0800 (CST)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -62,7 +62,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _index = __webpack_require__(466);
+	var _index = __webpack_require__(478);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
@@ -14508,6 +14508,7 @@
 	 */
 	var EventInterface = {
 	  type: null,
+	  target: null,
 	  // currentTarget is set when dispatching; no use in copying it here
 	  currentTarget: emptyFunction.thatReturnsNull,
 	  eventPhase: null,
@@ -14541,8 +14542,6 @@
 	  this.dispatchConfig = dispatchConfig;
 	  this.dispatchMarker = dispatchMarker;
 	  this.nativeEvent = nativeEvent;
-	  this.target = nativeEventTarget;
-	  this.currentTarget = nativeEventTarget;
 	
 	  var Interface = this.constructor.Interface;
 	  for (var propName in Interface) {
@@ -14553,7 +14552,11 @@
 	    if (normalize) {
 	      this[propName] = normalize(nativeEvent);
 	    } else {
-	      this[propName] = nativeEvent[propName];
+	      if (propName === 'target') {
+	        this.target = nativeEventTarget;
+	      } else {
+	        this[propName] = nativeEvent[propName];
+	      }
 	    }
 	  }
 	
@@ -18402,7 +18405,10 @@
 	      }
 	    });
 	
-	    nativeProps.children = content;
+	    if (content) {
+	      nativeProps.children = content;
+	    }
+	
 	    return nativeProps;
 	  }
 	
@@ -23875,7 +23881,7 @@
 	
 	'use strict';
 	
-	module.exports = '0.14.6';
+	module.exports = '0.14.7';
 
 /***/ },
 /* 336 */
@@ -24848,101 +24854,15 @@
 
 /***/ },
 /* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */,
-/* 354 */,
-/* 355 */,
-/* 356 */,
-/* 357 */,
-/* 358 */,
-/* 359 */,
-/* 360 */,
-/* 361 */,
-/* 362 */,
-/* 363 */,
-/* 364 */,
-/* 365 */,
-/* 366 */,
-/* 367 */,
-/* 368 */,
-/* 369 */,
-/* 370 */,
-/* 371 */,
-/* 372 */,
-/* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */,
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */,
-/* 423 */,
-/* 424 */,
-/* 425 */,
-/* 426 */,
-/* 427 */,
-/* 428 */,
-/* 429 */,
-/* 430 */,
-/* 431 */,
-/* 432 */,
-/* 433 */,
-/* 434 */,
-/* 435 */,
-/* 436 */,
-/* 437 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	exports.Widget = undefined;
 	
@@ -24950,11 +24870,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactAddonsPureRenderMixin = __webpack_require__(438);
+	var _reactAddonsPureRenderMixin = __webpack_require__(350);
 	
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 	
-	var _reactMixin = __webpack_require__(441);
+	var _reactMixin = __webpack_require__(353);
 	
 	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 	
@@ -24973,28 +24893,43 @@
 	 */
 	
 	var Widget = function (_Component) {
-	    _inherits(Widget, _Component);
+	  _inherits(Widget, _Component);
 	
-	    function Widget(props) {
-	        _classCallCheck(this, Widget);
+	  function Widget(props) {
+	    _classCallCheck(this, Widget);
 	
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Widget).call(this, props));
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Widget).call(this, props));
+	  }
+	
+	  _createClass(Widget, [{
+	    key: "di",
+	    value: function di(callback, property) {
+	      var args = Array.prototype.slice.call(arguments, 2) || [];
+	      if (this[property]) {
+	        //不存在的化默默失效
+	        if (typeof this[property] === 'function') {
+	          callback(this[property].apply(this, args));
+	        } else {
+	          callback(this[property]);
+	        }
+	      }
 	    }
+	  }]);
 	
-	    return Widget;
+	  return Widget;
 	}(_react.Component);
 	
 	_reactMixin2.default.onClass(Widget, _reactAddonsPureRenderMixin2.default);
 	exports.Widget = Widget;
 
 /***/ },
-/* 438 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(439);
+	module.exports = __webpack_require__(351);
 
 /***/ },
-/* 439 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25010,7 +24945,7 @@
 	
 	'use strict';
 	
-	var shallowCompare = __webpack_require__(440);
+	var shallowCompare = __webpack_require__(352);
 	
 	/**
 	 * If your React component's render function is "pure", e.g. it will render the
@@ -25045,7 +24980,7 @@
 	module.exports = ReactComponentWithPureRenderMixin;
 
 /***/ },
-/* 440 */
+/* 352 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25074,11 +25009,11 @@
 	module.exports = shallowCompare;
 
 /***/ },
-/* 441 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mixin = __webpack_require__(442);
-	var assign = __webpack_require__(443);
+	var mixin = __webpack_require__(354);
+	var assign = __webpack_require__(355);
 	
 	var mixinProto = mixin({
 	  // lifecycle stuff is as you'd expect
@@ -25231,7 +25166,7 @@
 
 
 /***/ },
-/* 442 */
+/* 354 */
 /***/ function(module, exports) {
 
 	var objToStr = function(x){ return Object.prototype.toString.call(x); };
@@ -25414,7 +25349,7 @@
 
 
 /***/ },
-/* 443 */
+/* 355 */
 /***/ function(module, exports) {
 
 	/* eslint-disable no-unused-vars */
@@ -25459,6 +25394,94 @@
 
 
 /***/ },
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */,
+/* 360 */,
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */,
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */,
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */,
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */,
+/* 425 */,
+/* 426 */,
+/* 427 */,
+/* 428 */,
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */,
+/* 433 */,
+/* 434 */,
+/* 435 */,
+/* 436 */,
+/* 437 */,
+/* 438 */,
+/* 439 */,
+/* 440 */,
+/* 441 */,
+/* 442 */,
+/* 443 */,
 /* 444 */,
 /* 445 */,
 /* 446 */,
@@ -25481,7 +25504,19 @@
 /* 463 */,
 /* 464 */,
 /* 465 */,
-/* 466 */
+/* 466 */,
+/* 467 */,
+/* 468 */,
+/* 469 */,
+/* 470 */,
+/* 471 */,
+/* 472 */,
+/* 473 */,
+/* 474 */,
+/* 475 */,
+/* 476 */,
+/* 477 */,
+/* 478 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
@@ -25494,7 +25529,7 @@
 	    value: true
 	});
 	
-	var _component = __webpack_require__(437);
+	var _component = __webpack_require__(349);
 	
 	var _react = __webpack_require__(191);
 	

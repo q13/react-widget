@@ -1,5 +1,5 @@
 /*!
- * Build at Fri Feb 26 2016 18:55:55 GMT+0800 (China Standard Time)
+ * Build at Wed Jun 08 2016 10:50:24 GMT+0800 (CST)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -64,7 +64,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _index = __webpack_require__(462);
+	var _index = __webpack_require__(464);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
@@ -6352,7 +6352,7 @@
 	 * will remain to ensure logic does not differ in production.
 	 */
 	
-	var invariant = function (condition, format, a, b, c, d, e, f) {
+	function invariant(condition, format, a, b, c, d, e, f) {
 	  if (process.env.NODE_ENV !== 'production') {
 	    if (format === undefined) {
 	      throw new Error('invariant requires an error message argument');
@@ -6366,15 +6366,16 @@
 	    } else {
 	      var args = [a, b, c, d, e, f];
 	      var argIndex = 0;
-	      error = new Error('Invariant Violation: ' + format.replace(/%s/g, function () {
+	      error = new Error(format.replace(/%s/g, function () {
 	        return args[argIndex++];
 	      }));
+	      error.name = 'Invariant Violation';
 	    }
 	
 	    error.framesToPop = 1; // we don't care about invariant's own frame
 	    throw error;
 	  }
-	};
+	}
 	
 	module.exports = invariant;
 	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(190)))
@@ -14593,6 +14594,7 @@
 	 */
 	var EventInterface = {
 	  type: null,
+	  target: null,
 	  // currentTarget is set when dispatching; no use in copying it here
 	  currentTarget: emptyFunction.thatReturnsNull,
 	  eventPhase: null,
@@ -14626,8 +14628,6 @@
 	  this.dispatchConfig = dispatchConfig;
 	  this.dispatchMarker = dispatchMarker;
 	  this.nativeEvent = nativeEvent;
-	  this.target = nativeEventTarget;
-	  this.currentTarget = nativeEventTarget;
 	
 	  var Interface = this.constructor.Interface;
 	  for (var propName in Interface) {
@@ -14638,7 +14638,11 @@
 	    if (normalize) {
 	      this[propName] = normalize(nativeEvent);
 	    } else {
-	      this[propName] = nativeEvent[propName];
+	      if (propName === 'target') {
+	        this.target = nativeEventTarget;
+	      } else {
+	        this[propName] = nativeEvent[propName];
+	      }
 	    }
 	  }
 	
@@ -15801,8 +15805,8 @@
 	     */
 	    // autoCapitalize and autoCorrect are supported in Mobile Safari for
 	    // keyboard hints.
-	    autoCapitalize: null,
-	    autoCorrect: null,
+	    autoCapitalize: MUST_USE_ATTRIBUTE,
+	    autoCorrect: MUST_USE_ATTRIBUTE,
 	    // autoSave allows WebKit/Blink to persist values of input fields on page reloads
 	    autoSave: null,
 	    // color is for Safari mask-icon link
@@ -15833,9 +15837,7 @@
 	    httpEquiv: 'http-equiv'
 	  },
 	  DOMPropertyNames: {
-	    autoCapitalize: 'autocapitalize',
 	    autoComplete: 'autocomplete',
-	    autoCorrect: 'autocorrect',
 	    autoFocus: 'autofocus',
 	    autoPlay: 'autoplay',
 	    autoSave: 'autosave',
@@ -18489,7 +18491,10 @@
 	      }
 	    });
 	
-	    nativeProps.children = content;
+	    if (content) {
+	      nativeProps.children = content;
+	    }
+	
 	    return nativeProps;
 	  }
 	
@@ -18914,7 +18919,7 @@
 	    var value = LinkedValueUtils.getValue(props);
 	
 	    if (value != null) {
-	      updateOptions(this, props, value);
+	      updateOptions(this, Boolean(props.multiple), value);
 	    }
 	  }
 	}
@@ -21949,11 +21954,14 @@
 	 * @typechecks
 	 */
 	
+	/* eslint-disable fb-www/typeof-undefined */
+	
 	/**
 	 * Same as document.activeElement but wraps in a try-catch block. In IE it is
 	 * not safe to call document.activeElement if there is nothing focused.
 	 *
-	 * The activeElement will be null only if the document or document body is not yet defined.
+	 * The activeElement will be null only if the document or document body is not
+	 * yet defined.
 	 */
 	'use strict';
 	
@@ -21961,7 +21969,6 @@
 	  if (typeof document === 'undefined') {
 	    return null;
 	  }
-	
 	  try {
 	    return document.activeElement || document.body;
 	  } catch (e) {
@@ -23701,7 +23708,9 @@
 	  'setValueForProperty': 'update attribute',
 	  'setValueForAttribute': 'update attribute',
 	  'deleteValueForProperty': 'remove attribute',
-	  'dangerouslyReplaceNodeWithMarkupByID': 'replace'
+	  'setValueForStyles': 'update styles',
+	  'replaceNodeWithMarkup': 'replace',
+	  'updateTextContent': 'set textContent'
 	};
 	
 	function getTotalTime(measurements) {
@@ -23893,18 +23902,23 @@
 	'use strict';
 	
 	var performance = __webpack_require__(334);
-	var curPerformance = performance;
+	
+	var performanceNow;
 	
 	/**
 	 * Detect if we can use `window.performance.now()` and gracefully fallback to
 	 * `Date.now()` if it doesn't exist. We need to support Firefox < 15 for now
 	 * because of Facebook's testing infrastructure.
 	 */
-	if (!curPerformance || !curPerformance.now) {
-	  curPerformance = Date;
+	if (performance.now) {
+	  performanceNow = function () {
+	    return performance.now();
+	  };
+	} else {
+	  performanceNow = function () {
+	    return Date.now();
+	  };
 	}
-	
-	var performanceNow = curPerformance.now.bind(curPerformance);
 	
 	module.exports = performanceNow;
 
@@ -23953,7 +23967,7 @@
 	
 	'use strict';
 	
-	module.exports = '0.14.3';
+	module.exports = '0.14.7';
 
 /***/ },
 /* 336 */
@@ -24926,101 +24940,15 @@
 
 /***/ },
 /* 348 */,
-/* 349 */,
-/* 350 */,
-/* 351 */,
-/* 352 */,
-/* 353 */,
-/* 354 */,
-/* 355 */,
-/* 356 */,
-/* 357 */,
-/* 358 */,
-/* 359 */,
-/* 360 */,
-/* 361 */,
-/* 362 */,
-/* 363 */,
-/* 364 */,
-/* 365 */,
-/* 366 */,
-/* 367 */,
-/* 368 */,
-/* 369 */,
-/* 370 */,
-/* 371 */,
-/* 372 */,
-/* 373 */,
-/* 374 */,
-/* 375 */,
-/* 376 */,
-/* 377 */,
-/* 378 */,
-/* 379 */,
-/* 380 */,
-/* 381 */,
-/* 382 */,
-/* 383 */,
-/* 384 */,
-/* 385 */,
-/* 386 */,
-/* 387 */,
-/* 388 */,
-/* 389 */,
-/* 390 */,
-/* 391 */,
-/* 392 */,
-/* 393 */,
-/* 394 */,
-/* 395 */,
-/* 396 */,
-/* 397 */,
-/* 398 */,
-/* 399 */,
-/* 400 */,
-/* 401 */,
-/* 402 */,
-/* 403 */,
-/* 404 */,
-/* 405 */,
-/* 406 */,
-/* 407 */,
-/* 408 */,
-/* 409 */,
-/* 410 */,
-/* 411 */,
-/* 412 */,
-/* 413 */,
-/* 414 */,
-/* 415 */,
-/* 416 */,
-/* 417 */,
-/* 418 */,
-/* 419 */,
-/* 420 */,
-/* 421 */,
-/* 422 */,
-/* 423 */,
-/* 424 */,
-/* 425 */,
-/* 426 */,
-/* 427 */,
-/* 428 */,
-/* 429 */,
-/* 430 */,
-/* 431 */,
-/* 432 */,
-/* 433 */,
-/* 434 */,
-/* 435 */,
-/* 436 */,
-/* 437 */
+/* 349 */
 /***/ function(module, exports, __webpack_require__) {
 
 	"use strict";
 	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	exports.Widget = undefined;
 	
@@ -25028,11 +24956,11 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _reactAddonsPureRenderMixin = __webpack_require__(438);
+	var _reactAddonsPureRenderMixin = __webpack_require__(350);
 	
 	var _reactAddonsPureRenderMixin2 = _interopRequireDefault(_reactAddonsPureRenderMixin);
 	
-	var _reactMixin = __webpack_require__(441);
+	var _reactMixin = __webpack_require__(353);
 	
 	var _reactMixin2 = _interopRequireDefault(_reactMixin);
 	
@@ -25051,28 +24979,43 @@
 	 */
 	
 	var Widget = function (_Component) {
-	    _inherits(Widget, _Component);
+	  _inherits(Widget, _Component);
 	
-	    function Widget(props) {
-	        _classCallCheck(this, Widget);
+	  function Widget(props) {
+	    _classCallCheck(this, Widget);
 	
-	        return _possibleConstructorReturn(this, Object.getPrototypeOf(Widget).call(this, props));
+	    return _possibleConstructorReturn(this, Object.getPrototypeOf(Widget).call(this, props));
+	  }
+	
+	  _createClass(Widget, [{
+	    key: "di",
+	    value: function di(callback, property) {
+	      var args = Array.prototype.slice.call(arguments, 2) || [];
+	      if (this[property]) {
+	        //不存在的化默默失效
+	        if (typeof this[property] === 'function') {
+	          callback(this[property].apply(this, args));
+	        } else {
+	          callback(this[property]);
+	        }
+	      }
 	    }
+	  }]);
 	
-	    return Widget;
+	  return Widget;
 	}(_react.Component);
 	
 	_reactMixin2.default.onClass(Widget, _reactAddonsPureRenderMixin2.default);
 	exports.Widget = Widget;
 
 /***/ },
-/* 438 */
+/* 350 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(439);
+	module.exports = __webpack_require__(351);
 
 /***/ },
-/* 439 */
+/* 351 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25088,7 +25031,7 @@
 	
 	'use strict';
 	
-	var shallowCompare = __webpack_require__(440);
+	var shallowCompare = __webpack_require__(352);
 	
 	/**
 	 * If your React component's render function is "pure", e.g. it will render the
@@ -25123,7 +25066,7 @@
 	module.exports = ReactComponentWithPureRenderMixin;
 
 /***/ },
-/* 440 */
+/* 352 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -25152,11 +25095,11 @@
 	module.exports = shallowCompare;
 
 /***/ },
-/* 441 */
+/* 353 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var mixin = __webpack_require__(442);
-	var assign = __webpack_require__(443);
+	var mixin = __webpack_require__(354);
+	var assign = __webpack_require__(355);
 	
 	var mixinProto = mixin({
 	  // lifecycle stuff is as you'd expect
@@ -25309,7 +25252,7 @@
 
 
 /***/ },
-/* 442 */
+/* 354 */
 /***/ function(module, exports) {
 
 	var objToStr = function(x){ return Object.prototype.toString.call(x); };
@@ -25492,7 +25435,7 @@
 
 
 /***/ },
-/* 443 */
+/* 355 */
 /***/ function(module, exports) {
 
 	/* eslint-disable no-unused-vars */
@@ -25537,9 +25480,608 @@
 
 
 /***/ },
-/* 444 */,
-/* 445 */,
+/* 356 */,
+/* 357 */,
+/* 358 */,
+/* 359 */,
+/* 360 */,
+/* 361 */,
+/* 362 */,
+/* 363 */,
+/* 364 */,
+/* 365 */,
+/* 366 */,
+/* 367 */,
+/* 368 */,
+/* 369 */,
+/* 370 */,
+/* 371 */,
+/* 372 */,
+/* 373 */,
+/* 374 */,
+/* 375 */,
+/* 376 */,
+/* 377 */,
+/* 378 */,
+/* 379 */,
+/* 380 */,
+/* 381 */,
+/* 382 */,
+/* 383 */,
+/* 384 */,
+/* 385 */,
+/* 386 */,
+/* 387 */,
+/* 388 */,
+/* 389 */,
+/* 390 */,
+/* 391 */,
+/* 392 */,
+/* 393 */,
+/* 394 */,
+/* 395 */,
+/* 396 */,
+/* 397 */,
+/* 398 */,
+/* 399 */,
+/* 400 */,
+/* 401 */,
+/* 402 */,
+/* 403 */,
+/* 404 */,
+/* 405 */,
+/* 406 */,
+/* 407 */,
+/* 408 */,
+/* 409 */,
+/* 410 */,
+/* 411 */,
+/* 412 */,
+/* 413 */,
+/* 414 */,
+/* 415 */,
+/* 416 */,
+/* 417 */,
+/* 418 */,
+/* 419 */,
+/* 420 */,
+/* 421 */,
+/* 422 */,
+/* 423 */,
+/* 424 */,
+/* 425 */,
+/* 426 */,
+/* 427 */,
+/* 428 */,
+/* 429 */,
+/* 430 */,
+/* 431 */,
+/* 432 */,
+/* 433 */,
+/* 434 */,
+/* 435 */,
+/* 436 */,
+/* 437 */,
+/* 438 */,
+/* 439 */,
+/* 440 */,
+/* 441 */,
+/* 442 */,
+/* 443 */,
+/* 444 */
+/***/ function(module, exports, __webpack_require__) {
+
+	'use strict';
+	
+	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+	
+	Object.defineProperty(exports, "__esModule", {
+	  value: true
+	});
+	
+	var _component = __webpack_require__(349);
+	
+	var _react = __webpack_require__(191);
+	
+	var _react2 = _interopRequireDefault(_react);
+	
+	var _reactDom = __webpack_require__(347);
+	
+	var _reactDom2 = _interopRequireDefault(_reactDom);
+	
+	var _form = __webpack_require__(445);
+	
+	var _form2 = _interopRequireDefault(_form);
+	
+	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
+	
+	function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+	
+	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+	
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Dropdown组件实现
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	
+	var instanceId = 0;
+	
+	var Dropdown = function (_Widget) {
+	  _inherits(Dropdown, _Widget);
+	
+	  function Dropdown(props) {
+	    _classCallCheck(this, Dropdown);
+	
+	    if (typeof props.value !== 'undefined') {
+	      props.options.forEach(function (itemData) {
+	        if (itemData.value === props.value) {
+	          itemData.selected = true;
+	        } else {
+	          itemData.selected = false;
+	        }
+	      });
+	    }
+	
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Dropdown).call(this, props));
+	
+	    _this.state = {
+	      isInputing: false,
+	      hoverOption: null,
+	      focusOption: null,
+	      selectedOption: null
+	    };
+	    _this.instanceId = instanceId++;
+	    _this.datapaneContainer = null;
+	    return _this;
+	  }
+	
+	  _createClass(Dropdown, [{
+	    key: 'componentWillMount',
+	    value: function componentWillMount() {
+	      this.datapaneContainer = document.createElement("div");
+	      document.body.appendChild(this.datapaneContainer);
+	    }
+	  }, {
+	    key: 'componentDidMount',
+	    value: function componentDidMount() {
+	      var self = this;
+	      self.renderDatapane({
+	        visible: false
+	      });
+	      $(document).on('mousedown.Dropdown' + self.instanceId, function (evt) {
+	        if (self.state.isInputing) {
+	          var $target = $(evt.target);
+	          var $dropdown = $('.' + self.props.prefixCls + '-' + self.instanceId);
+	          var $datapane = $dropdown.find('.' + self.props.prefixCls + '-datapane');
+	          var $consoleText = $dropdown.find('.' + self.props.prefixCls + '-console-text');
+	          if (!$target.is($datapane) && !$target.closest($datapane).length && !$target.is($consoleText)) {
+	            self.handleDisableInputs(self);
+	          }
+	        }
+	      });
+	      $(document).on('keydown.Dropdown' + self.instanceId, function (evt) {
+	        if (self.state.isInputing) {
+	          self.handleKeyDown(evt);
+	        }
+	      });
+	      $(document).on('keyup.Dropdown' + self.instanceId, function (evt) {
+	        if (self.state.isInputing) {
+	          self.handleKeyUp(evt);
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      if (typeof nextProps.value !== 'undefined') {
+	        nextProps.options.forEach(function (itemData) {
+	          if (itemData.value === nextProps.value) {
+	            itemData.selected = true;
+	          } else {
+	            itemData.selected = false;
+	          }
+	        });
+	      }
+	      this.setState({
+	        hoverOption: null,
+	        focusOption: null,
+	        selectedOption: null
+	      });
+	    }
+	  }, {
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      _reactDom2.default.unmountComponentAtNode(this.datapaneContainer);
+	      document.body.removeChild(this.datapaneContainer);
+	      $(document).off('.Dropdown' + this.instanceId);
+	      this.datapaneContainer = null;
+	      this.instanceId = null;
+	    }
+	  }, {
+	    key: 'componentDidUpdate',
+	    value: function componentDidUpdate() {
+	      var self = this;
+	      self.renderDatapane({
+	        visible: self.state.isInputing
+	      });
+	    }
+	  }, {
+	    key: 'handleEnableInputs',
+	    value: function handleEnableInputs(evt) {
+	      var _this2 = this;
+	
+	      var self = this;
+	      console.log(11111);
+	      self.renderDatapane({
+	        visible: true
+	      });
+	      self.setState({
+	        isInputing: true
+	      }, function () {
+	        var inputText = self.refs.inputText;
+	        inputText.select();
+	        inputText.focus();
+	        if (typeof self.props.onEnableInputs === 'function') {
+	          self.props.onEnableInputs.call(_this2, {
+	            target: self
+	          });
+	        }
+	      });
+	    }
+	  }, {
+	    key: 'handleDisableInputs',
+	    value: function handleDisableInputs(evt) {
+	      var _this3 = this;
+	
+	      var self = this;
+	      self.setState({
+	        isInputing: false,
+	        focusOption: self.state.selectedOption
+	      }, function () {
+	        if (typeof self.props.onDisableInputs === 'function') {
+	          self.props.onDisableInputs.call(_this3, {
+	            target: self
+	          });
+	        } else {}
+	      });
+	    }
+	  }, {
+	    key: 'handleKeyDown',
+	    value: function handleKeyDown(e) {
+	      var self = this;
+	      var stroke = e.which || e.keyCode;
+	      switch (stroke) {
+	        case 38:
+	          // 上
+	          e.preventDefault(); // prevent cursor move
+	          self.handleOptionsRoam('up');
+	          break;
+	        case 40:
+	          // 下
+	          e.preventDefault(); // prevent cursor move
+	          self.handleOptionsRoam('down');
+	          break;
+	        case 13:
+	          // 回车
+	          e.preventDefault();
+	          break;
+	      }
+	    }
+	  }, {
+	    key: 'handleKeyUp',
+	    value: function handleKeyUp(e) {
+	      var self = this;
+	      var stroke = e.which || e.keyCode;
+	      switch (stroke) {
+	        case 13:
+	          // 回车
+	          e.preventDefault();
+	          if (self.state.focusOption !== undefined) {
+	            var focusIndex = self.props.options.findIndex(function (i) {
+	              return i === self.state.focusOption;
+	            });
+	            self.handleOptionClick(focusIndex);
+	          }
+	          break;
+	      }
+	    }
+	  }, {
+	    key: 'handleOptionsRoam',
+	    value: function handleOptionsRoam(roamType) {
+	      var self = this;
+	      var optionsLength = self.props.options.length;
+	      if (!optionsLength) return;
+	      var focusIndex = self.props.options.findIndex(function (i) {
+	        return i === self.state.focusOption;
+	      });
+	      if (roamType == 'up') {
+	        focusIndex = !(focusIndex >= 0) ? 0 : focusIndex - 1 >= 0 ? focusIndex - 1 : optionsLength - 1;
+	      }
+	      if (roamType == 'down') {
+	        focusIndex = !(focusIndex >= 0) ? 0 : focusIndex + 1 <= optionsLength - 1 ? focusIndex + 1 : 0;
+	      }
+	      // UI定位与翻页
+	      var $ul = $('.' + self.props.prefixCls + '-datapane-options', self.datapaneContainer);
+	      var $newHighlightLi = $ul.children('.' + self.props.prefixCls + '-datapane-option-' + focusIndex);
+	      var maxHeight = parseInt($ul.css('maxHeight'));
+	      var visibleTop = $ul.scrollTop();
+	      var visibleBottom = maxHeight + visibleTop;
+	      var newHighlightLiTop = $newHighlightLi.position().top + visibleTop;
+	      var newHighlightLiBottom = newHighlightLiTop + $newHighlightLi.outerHeight();
+	      if (newHighlightLiBottom >= visibleBottom) {
+	        $ul.scrollTop(newHighlightLiBottom - maxHeight > 0 ? newHighlightLiBottom - maxHeight : 0);
+	      } else if (newHighlightLiTop < visibleTop) {
+	        $ul.scrollTop(newHighlightLiTop);
+	      }
+	      // 设定focus状态
+	      self.setState({
+	        focusOption: self.props.options[focusIndex]
+	      });
+	    }
+	  }, {
+	    key: 'handleOptionClick',
+	    value: function handleOptionClick(currentIndex) {
+	      var self = this;
+	      var props = self.props;
+	      if (!(currentIndex >= 0)) return;
+	      if (!props.options[currentIndex].disabled) {
+	        (function () {
+	          // 如果该option未被禁用
+	          // const targetOptions = $.extend(true, [], props.options);
+	          var targetOptions = JSON.parse(JSON.stringify(props.options));
+	          // 更新options下各项的被选择值
+	          targetOptions.forEach(function (option, x) {
+	            option.selected = currentIndex === x ? true : false;
+	          });
+	          // 设定focus, selected状态以及执行回调
+	          self.setState({
+	            isInputing: false,
+	            focusOption: props.options[currentIndex],
+	            selectedOption: props.options[currentIndex]
+	          }, function () {
+	            self.props.onChange.call(self, targetOptions[currentIndex]);
+	            self.props.onOptionsChange.call(self, targetOptions);
+	          });
+	        })();
+	      }
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var props = this.props;
+	      var state = this.state;
+	      var prefixCls = props.prefixCls;
+	
+	      var text = state.focusOption ? state.focusOption.text : (props.options.find(function (i) {
+	        return i.selected;
+	      }) || { text: '--请选择--' }).text;
+	      return _react2.default.createElement(
+	        'div',
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || '') + ' ' + (state.isInputing ? prefixCls + '-isinputing' : '') },
+	        _react2.default.createElement(
+	          'div',
+	          { className: prefixCls + '-console',
+	            ref: 'console',
+	            onClick: state.isInputing ? undefined : this.handleEnableInputs.bind(this) },
+	          _react2.default.createElement('input', { type: 'text', ref: 'inputText',
+	            className: prefixCls + '-console-text',
+	            value: text,
+	            title: text,
+	            readOnly: true }),
+	          _react2.default.createElement(
+	            'span',
+	            { className: prefixCls + '-console-toggle' },
+	            ' '
+	          )
+	        )
+	      );
+	    }
+	  }, {
+	    key: 'getOptionClass',
+	    value: function getOptionClass(currentIndex) {
+	      var _props = this.props;
+	      var prefixCls = _props.prefixCls;
+	      var options = _props.options;
+	      var _state = this.state;
+	      var hoverOption = _state.hoverOption;
+	      var focusOption = _state.focusOption;
+	
+	      var option = options[currentIndex];
+	      var classString = prefixCls + '-datapane-option ' + prefixCls + '-datapane-option-' + currentIndex;
+	      if (hoverOption === options[currentIndex]) classString += ' ui-common-hover';
+	      if (focusOption === options[currentIndex]) classString += ' ui-common-focus';
+	      if (option.disabled) classString += ' ui-common-disabled';
+	      if (option.selected && options.findIndex(function (i) {
+	        return i.selected;
+	      }) === currentIndex) classString += ' ui-common-selected';
+	      return classString;
+	    }
+	  }, {
+	    key: 'renderDatapane',
+	    value: function renderDatapane(data) {
+	      var props = this.props,
+	          state = this.state,
+	          prefixCls = props.prefixCls;
+	      var visible = data.visible;
+	      var consoleEl,
+	          datapaneEl,
+	          winEl,
+	          inputOffset,
+	          inputHeight,
+	          inputWidth,
+	          datapaneHeight,
+	          datapaneWidth,
+	          winWidth,
+	          winHeight,
+	          winScrollTop,
+	          winScrollLeft,
+	          top = 0,
+	          left = 0,
+	          maxInputHeight = 130;
+	      if (visible) {
+	        consoleEl = $(_reactDom2.default.findDOMNode(this.refs.console));
+	        datapaneEl = $('.' + prefixCls + '-datapane', this.datapaneContainer);
+	        winEl = $(window);
+	        inputOffset = consoleEl.offset();
+	        inputHeight = consoleEl.outerHeight();
+	        inputWidth = consoleEl.outerWidth();
+	        datapaneHeight = datapaneEl.outerHeight();
+	        datapaneWidth = datapaneEl.outerWidth();
+	        winWidth = winEl.width();
+	        winHeight = winEl.height();
+	        winScrollTop = winEl.scrollTop();
+	        winScrollLeft = winEl.scrollLeft();
+	        if (datapaneHeight < maxInputHeight) {
+	          datapaneHeight = maxInputHeight;
+	          datapaneEl.css({
+	            minHeight: maxInputHeight
+	          });
+	        }
+	        if (inputOffset.top - winScrollTop >= datapaneHeight) {
+	          if (winHeight - (inputOffset.top - winScrollTop) - inputHeight >= datapaneHeight) {
+	            //下面放得下优先放下面
+	            top = inputOffset.top + inputHeight - 1;
+	            maxInputHeight = winHeight - top + winScrollTop - 8;
+	          } else {
+	            top = inputOffset.top - datapaneHeight + 1;
+	            maxInputHeight = inputOffset.top;
+	          }
+	        } else {
+	          //上面放不下直接放下面
+	          top = inputOffset.top + inputHeight - 1;
+	          maxInputHeight = winHeight - top + winScrollTop - 8;
+	        }
+	        if (inputOffset.left - winScrollLeft + inputWidth >= datapaneWidth) {
+	          if (winWidth - (inputOffset.left - winScrollLeft) >= datapaneWidth) {
+	            //左面放得下优先放右面
+	            left = inputOffset.left;
+	          } else {
+	            left = inputOffset.left + inputWidth - datapaneWidth;
+	          }
+	        } else {
+	          //左面放不下直接放右面
+	          left = inputOffset.left;
+	        }
+	        if (top < 0) {
+	          top = 0;
+	        }
+	        if (left < 0) {
+	          left = 0;
+	        }
+	        if (maxInputHeight < 130) {
+	          maxInputHeight = 130;
+	        }
+	      }
+	      _reactDom2.default.render(_react2.default.createElement(
+	        'div',
+	        { className: prefixCls + ' ' + prefixCls + '-' + this.instanceId + ' ' + (props.className || ''), style: {
+	            "zIndex": 10000,
+	            "display": visible ? "block" : "none",
+	            "position": "absolute",
+	            "top": top + "px",
+	            "left": left + "px"
+	          } },
+	        _react2.default.createElement(
+	          'div',
+	          { className: prefixCls + '-datapane', style: {
+	              minWidth: $('.' + prefixCls + '-' + this.instanceId).outerWidth(true),
+	              maxHeight: maxInputHeight + 'px'
+	            } },
+	          props.getTemplateDatapane.call(this, this)
+	        )
+	      ), this.datapaneContainer);
+	    }
+	  }]);
+	
+	  return Dropdown;
+	}(_component.Widget);
+	
+	Dropdown.defaultGetTemplateDatapane = function (self) {
+	  return _react2.default.createElement(
+	    'div',
+	    { className: self.props.prefixCls + '-datapane-options' },
+	    self.props.options.map(function (option, x, options) {
+	      return _react2.default.createElement(
+	        'div',
+	        { key: x, title: option.text,
+	          className: self.getOptionClass(x),
+	          onClick: self.handleOptionClick.bind(self, x),
+	          onMouseEnter: function onMouseEnter(e) {
+	            self.setState({ hoverOption: options[x] });
+	          },
+	          onMouseLeave: function onMouseLeave(e) {
+	            self.setState({ hoverOption: undefined });
+	          } },
+	        option.text
+	      );
+	    })
+	  );
+	};
+	Dropdown.propTypes = {
+	  prefixCls: _react2.default.PropTypes.string,
+	  className: _react2.default.PropTypes.string,
+	  options: _react2.default.PropTypes.array,
+	  onChange: _react2.default.PropTypes.func,
+	  onOptionsChange: _react2.default.PropTypes.func,
+	  getTemplateDatapane: _react2.default.PropTypes.func,
+	  onEnableInputs: _react2.default.PropTypes.func,
+	  onDisableInputs: _react2.default.PropTypes.func
+	};
+	Dropdown.defaultProps = {
+	  prefixCls: 'ui-form-dropdown',
+	  className: '',
+	  options: [], // {text: '', value: {}, selected: false, disabled: false }
+	  value: void 0, //value 比options里selected优先级大
+	  onChange: function onChange(evt) {},
+	  onOptionsChange: function onOptionsChange(evt) {},
+	  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
+	  onEnableInputs: function onEnableInputs(evt) {},
+	  onDisableInputs: function onDisableInputs(evt) {}
+	};
+	
+	exports.default = Dropdown;
+
+/***/ },
+/* 445 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// style-loader: Adds some css to the DOM by adding a <style> tag
+	
+	// load the styles
+	var content = __webpack_require__(446);
+	if(typeof content === 'string') content = [[module.id, content, '']];
+	// add the styles to the DOM
+	var update = __webpack_require__(448)(content, {});
+	if(content.locals) module.exports = content.locals;
+	// Hot Module Replacement
+	if(false) {
+		// When the styles change, update the <style> tags
+		if(!content.locals) {
+			module.hot.accept("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./form.css", function() {
+				var newContent = require("!!./../../../node_modules/css-loader/index.js?sourceMap!./../../../node_modules/postcss-loader/index.js!./form.css");
+				if(typeof newContent === 'string') newContent = [[module.id, newContent, '']];
+				update(newContent);
+			});
+		}
+		// When the module is disposed, remove the <style> tags
+		module.hot.dispose(function() { update(); });
+	}
+
+/***/ },
 /* 446 */
+/***/ function(module, exports, __webpack_require__) {
+
+	exports = module.exports = __webpack_require__(447)();
+	// imports
+	
+	
+	// module
+	exports.push([module.id, "/**\n * form样式\n */\n \n\n/**\n * DateInput\n */\n \n\n/**\n * ColorInput\n */\n \n\n/**\n * Dropdown\n */\n \n\n.ui-form-dropdown-datapane {\n  overflow: auto;\n}\n", "", {"version":3,"sources":["/../../src/component/form/form.css"],"names":[],"mappings":"AAAA;;GAEG;;;AAGH;;GAEG;;;AAEH;;GAEG;;;AAEH;;GAEG;;;AACH;EACE,eAAe;CAChB","file":"form.css","sourcesContent":["/**\n * form样式\n */\n \n\n/**\n * DateInput\n */\n\n/**\n * ColorInput\n */\n\n/**\n * Dropdown\n */\n.ui-form-dropdown-datapane {\n  overflow: auto;\n}\n"],"sourceRoot":"webpack://"}]);
+	
+	// exports
+
+
+/***/ },
+/* 447 */
 /***/ function(module, exports) {
 
 	/*
@@ -25595,7 +26137,7 @@
 
 
 /***/ },
-/* 447 */
+/* 448 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/*
@@ -25849,7 +26391,6 @@
 
 
 /***/ },
-/* 448 */,
 /* 449 */,
 /* 450 */,
 /* 451 */,
@@ -25863,7 +26404,9 @@
 /* 459 */,
 /* 460 */,
 /* 461 */,
-/* 462 */
+/* 462 */,
+/* 463 */,
+/* 464 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -25876,21 +26419,21 @@
 	    value: true
 	});
 	
-	var _component = __webpack_require__(437);
+	var _component = __webpack_require__(349);
 	
 	var _react = __webpack_require__(191);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _GridRow = __webpack_require__(463);
+	var _GridRow = __webpack_require__(465);
 	
 	var _GridRow2 = _interopRequireDefault(_GridRow);
 	
-	var _pagination = __webpack_require__(464);
+	var _pagination = __webpack_require__(466);
 	
 	var _pagination2 = _interopRequireDefault(_pagination);
 	
-	var _grid = __webpack_require__(468);
+	var _grid = __webpack_require__(470);
 	
 	var _grid2 = _interopRequireDefault(_grid);
 	
@@ -25946,7 +26489,11 @@
 	                    _react2.default.createElement(
 	                        'td',
 	                        { colSpan: columns.length, className: 'ui-grid-empty' },
-	                        this.props.emptyText
+	                        _react2.default.createElement(
+	                            'span',
+	                            { className: 'empty-text' },
+	                            this.props.emptyText
+	                        )
 	                    )
 	                );
 	            } else {
@@ -26036,12 +26583,11 @@
 	                        )
 	                    )
 	                ),
-	                _react2.default.createElement(_pagination2.default, _extends({}, paginationProps, { onPageChange: function onPageChange(currentPage) {
-	                        props.onPageChange.call(_this2, {
-	                            currentPage: currentPage,
-	                            pageSize: props.data.pageSize
-	                        });
-	                    } }))
+	                paginationProps.pageSize !== Number.MAX_VALUE ? _react2.default.createElement(_pagination2.default, _extends({}, paginationProps, { onPageChange: function onPageChange(currentPage) {
+	                        props.onPageChange.call(_this2, currentPage);
+	                    }, onPageSizeChange: function onPageSizeChange(pageSize) {
+	                        props.onPageSizeChange.call(_this2, pageSize);
+	                    } })) : null
 	            );
 	        }
 	    }]);
@@ -26059,13 +26605,15 @@
 	    useFixedHeader: false,
 	    columns: [],
 	    prefixCls: 'ui-grid',
-	    emptyText: '无数据'
+	    emptyText: '无数据',
+	    onPageChange: function onPageChange() {},
+	    onPageSizeChange: function onPageSizeChange() {}
 	};
 	
 	exports.default = Grid;
 
 /***/ },
-/* 463 */
+/* 465 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26080,7 +26628,7 @@
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _component = __webpack_require__(437);
+	var _component = __webpack_require__(349);
 	
 	function _interopRequireDefault(obj) { return obj && obj.__esModule ? obj : { 'default': obj }; }
 	
@@ -26168,7 +26716,7 @@
 	exports.default = GridRow;
 
 /***/ },
-/* 464 */
+/* 466 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -26176,16 +26724,20 @@
 	var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 	
 	Object.defineProperty(exports, "__esModule", {
-	    value: true
+	  value: true
 	});
 	
 	var _react = __webpack_require__(191);
 	
 	var _react2 = _interopRequireDefault(_react);
 	
-	var _component = __webpack_require__(437);
+	var _component = __webpack_require__(349);
 	
-	var _pagination = __webpack_require__(465);
+	var _Dropdown = __webpack_require__(444);
+	
+	var _Dropdown2 = _interopRequireDefault(_Dropdown);
+	
+	var _pagination = __webpack_require__(467);
 	
 	var _pagination2 = _interopRequireDefault(_pagination);
 	
@@ -26195,261 +26747,330 @@
 	
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
-	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * 分页控件
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * @require jQuery
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
 	
 	var Pagination = function (_Widget) {
-	    _inherits(Pagination, _Widget);
+	  _inherits(Pagination, _Widget);
 	
-	    function Pagination(props) {
-	        _classCallCheck(this, Pagination);
+	  function Pagination(props) {
+	    _classCallCheck(this, Pagination);
 	
-	        var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Pagination).call(this, props));
+	    var _this = _possibleConstructorReturn(this, Object.getPrototypeOf(Pagination).call(this, props));
 	
-	        _this.state = {
-	            currentInput: props.currentPage,
-	            currentPage: props.currentPage,
-	            max: Math.ceil(props.total / props.pageSize)
+	    _this.state = {
+	      currentInput: props.currentPage,
+	      currentPage: props.currentPage,
+	      max: Math.ceil(props.total / props.pageSize),
+	      pageSizeList: [1, 2, 3, 4, 5, 6].map(function (v) {
+	        var pageSize = v * props.pageSize;
+	        return {
+	          value: pageSize,
+	          text: pageSize + '条/页',
+	          selected: pageSize == props.pageSize
 	        };
-	        return _this;
+	      })
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(Pagination, [{
+	    key: 'componentWillUnmount',
+	    value: function componentWillUnmount() {
+	      // this.props.onBeforeDestroy(this.props.record);
 	    }
+	  }, {
+	    key: 'componentWillReceiveProps',
+	    value: function componentWillReceiveProps(nextProps) {
+	      this.setState({
+	        currentInput: nextProps.currentPage,
+	        currentPage: nextProps.currentPage,
+	        max: Math.ceil(nextProps.total / nextProps.pageSize),
+	        pageSizeList: this.state.pageSizeList.map(function (itemData) {
+	          return Object.assign(itemData, {
+	            selected: itemData.value == nextProps.pageSize
+	          });
+	        })
+	      });
+	    }
+	  }, {
+	    key: 'getPages',
+	    value: function getPages() {
+	      var total = this.props.total,
+	          size = this.props.pageSize,
+	          currentPage = this.state.currentPage,
+	          span = this.props.pages,
+	          max = Math.ceil(total / size),
+	          pages = [],
+	          left = undefined,
+	          right = undefined;
 	
-	    _createClass(Pagination, [{
-	        key: 'componentWillUnmount',
-	        value: function componentWillUnmount() {
-	            // this.props.onBeforeDestroy(this.props.record);
+	      if (currentPage > max) {
+	        currentPage = max;
+	      }
+	
+	      left = currentPage - Math.floor(span / 2) + 1;
+	      if (left < 1) {
+	        left = 1;
+	      }
+	
+	      right = left + span - 2;
+	      if (right >= max) {
+	        right = max;
+	        left = right - span + 2;
+	        if (left < 1) {
+	          left = 1;
 	        }
-	    }, {
-	        key: 'componentWillReceiveProps',
-	        value: function componentWillReceiveProps(nextProps) {
-	            this.setState({
-	                currentInput: nextProps.currentPage,
-	                currentPage: nextProps.currentPage
-	            });
-	        }
-	    }, {
-	        key: 'getPages',
-	        value: function getPages() {
-	            var total = this.props.total,
-	                size = this.props.pageSize,
-	                currentPage = this.state.currentPage,
-	                span = this.props.pages,
-	                max = Math.ceil(total / size),
-	                pages = [],
-	                left = undefined,
-	                right = undefined;
+	      } else {
+	        right -= left > 1 ? 1 : 0;
+	      }
 	
-	            if (currentPage > max) {
-	                currentPage = max;
-	            }
+	      // add first
+	      if (left > 1) {
+	        pages.push(1);
+	        if (left !== 2) pages.push(-1);
+	      }
 	
-	            left = currentPage - Math.floor(span / 2) + 1;
-	            if (left < 1) {
-	                left = 1;
-	            }
-	            right = left + span - 2;
-	            if (right >= max) {
-	                right = max;
-	                left = right - span + 2;
-	                if (left < 1) {
-	                    left = 1;
-	                }
-	            } else {
-	                right -= left > 1 ? 1 : 0;
-	            }
+	      for (var i = left; i < right + 1; i++) {
+	        pages.push(i);
+	      }
 	
-	            // add first
-	            if (left > 1) {
-	                pages.push(1);
-	                if (left !== 2) pages.push(-1);
-	            }
-	            for (var i = left; i < right + 1; i++) {
-	                pages.push(i);
-	            }
-	            // add last
-	            if (right < max) {
-	                if (right + 1 != max) pages.push(-2);
-	                pages.push(max);
-	            }
-	            return { pages: pages, max: max };
-	        }
-	    }, {
-	        key: 'setCurrent',
-	        value: function setCurrent(currentPage) {
-	            currentPage = parseInt(currentPage);
-	            this.setState({
-	                currentInput: currentPage,
-	                currentPage: currentPage
-	            });
-	        }
-	    }, {
-	        key: 'handleChange',
-	        value: function handleChange(currentPage) {
-	            this.setCurrent(currentPage);
-	            if (this.props.onPageChange) {
-	                this.props.onPageChange(currentPage);
-	            }
-	        }
-	    }, {
-	        key: 'handleInputChange',
-	        value: function handleInputChange(_ref, e) {
-	            var range = _ref.range;
-	            var value = _ref.value;
+	      // add last
+	      if (right < max) {
+	        if (right + 1 != max) pages.push(-2);
+	        pages.push(max);
+	      }
 	
-	            function ensureRange(number, min, max) {
-	                return isNaN(number) || number < min ? min : number > max ? max : number;
-	            }
-	            this.setState({ currentInput: ensureRange(value === undefined ? +e.target.value : value, range.min, range.max) });
-	        }
-	    }, {
-	        key: 'render',
-	        value: function render() {
-	            var currentInput = this.state.currentInput;
-	            var currentPage = this.state.currentPage;
+	      return { pages: pages, max: max };
+	    }
+	  }, {
+	    key: 'setCurrent',
+	    value: function setCurrent(currentPage) {
+	      currentPage = parseInt(currentPage);
+	      this.setState({
+	        currentInput: currentPage,
+	        currentPage: currentPage
+	      });
+	    }
+	  }, {
+	    key: 'handleChange',
+	    value: function handleChange(currentPage) {
+	      this.setCurrent(currentPage);
+	      this.props.onPageChange(currentPage);
+	    }
+	  }, {
+	    key: 'handleInputChange',
+	    value: function handleInputChange(_ref, e) {
+	      var range = _ref.range;
+	      var value = _ref.value;
 	
-	            var _getPages = this.getPages();
+	      var currentPage = this.getPropertyRange(value === undefined ? +e.target.value : value, range.min, range.max);
+	      this.setState({ currentInput: currentPage });
+	      this.props.onPageChange(currentPage);
+	    }
+	  }, {
+	    key: 'handleClickArrowNav',
+	    value: function handleClickArrowNav(direction) {
+	      var _getPages = this.getPages();
 	
-	            var pages = _getPages.pages;
-	            var max = _getPages.max;
+	      var max = _getPages.max;
 	
-	            var items = [];
-	            var self = this;
-	            /*
-	            items.push(
-	              <li key="previous" onClick={currentPage <= 1 ? null : this.handleChange.bind(this, currentPage - 1)} className={currentPage <= 1 ? 'disabled' : '' }>
-	                <a>prev</a>
-	              </li>
+	      var range = { min: 1, max: max === 0 ? 1 : max };
+	      var currentPage = this.state.currentPage;
+	      if (direction === 'prev') {
+	        currentPage--;
+	      } else if (direction === 'next') {
+	        currentPage++;
+	      }
+	      currentPage = this.getPropertyRange(currentPage, range.min, range.max);
+	
+	      this.setState({ currentInput: currentPage });
+	      this.props.onPageChange(currentPage);
+	    }
+	  }, {
+	    key: 'getPropertyRange',
+	    value: function getPropertyRange(number, min, max) {
+	      return isNaN(number) || number < min ? min : number > max ? max : number;
+	    }
+	  }, {
+	    key: 'render',
+	    value: function render() {
+	      var _this2 = this;
+	
+	      var currentInput = this.state.currentInput;
+	      var currentPage = this.state.currentPage;
+	
+	      var _getPages2 = this.getPages();
+	
+	      var pages = _getPages2.pages;
+	      var max = _getPages2.max;
+	
+	      var items = [];
+	      var props = this.props,
+	          state = this.state,
+	          prefixCls = props.prefixCls;
+	      var self = this;
+	      /*
+	      items.push(
+	        <li key="previous" onClick={currentPage <= 1 ? null : this.handleChange.bind(this, currentPage - 1)} className={currentPage <= 1 ? 'disabled' : '' }>
+	          <a>prev</a>
+	        </li>
+	      )
+	      */
+	      //总记录数
+	      items.push(_react2.default.createElement(
+	        'li',
+	        { className: prefixCls + '-total', key: 'total' },
+	        '共',
+	        _react2.default.createElement(
+	          'a',
+	          { href: 'javascript:;' },
+	          this.props.total
+	        ),
+	        '个记录'
+	      ));
+	      //向前箭头
+	      items.push(_react2.default.createElement(
+	        'li',
+	        { className: prefixCls + '-prev', key: 'prev', onClick: this.handleClickArrowNav.bind(this, 'prev') },
+	        _react2.default.createElement(
+	          'a',
+	          { href: 'javascript:;' },
+	          '<'
+	        )
+	      ));
+	      //items.push(
+	      //<li className="ui-pagination-pole" key="current">第<a>{ currentPage }</a>页</li>
+	      //);
+	
+	      pages.forEach(function (page) {
+	        if (page === -1 || page === -2) {
+	          items.push(_react2.default.createElement(
+	            'li',
+	            { className: prefixCls + '-ellipsis', key: page },
+	            _react2.default.createElement(
+	              'a',
+	              null,
+	              '...'
 	            )
-	            */
-	            items.push(_react2.default.createElement(
-	                'li',
-	                { className: 'ui-pagination-pole', key: 'current' },
-	                '第',
-	                _react2.default.createElement(
-	                    'a',
-	                    null,
-	                    currentPage
-	                ),
-	                '页'
-	            ));
-	
-	            pages.forEach(function (page) {
-	                if (page === -1 || page === -2) {
-	                    items.push(_react2.default.createElement(
-	                        'li',
-	                        { className: 'ui-pagination-ellipsis', key: page },
-	                        _react2.default.createElement(
-	                            'a',
-	                            null,
-	                            '...'
-	                        )
-	                    ));
-	                } else {
-	                    items.push(_react2.default.createElement(
-	                        'li',
-	                        { onClick: self.handleChange.bind(self, page), className: page === currentPage ? 'active' : '', key: page },
-	                        _react2.default.createElement(
-	                            'a',
-	                            null,
-	                            page
-	                        )
-	                    ));
-	                }
-	            });
-	            items.push(_react2.default.createElement(
-	                'li',
-	                { className: 'ui-pagination-pole', key: 'total' },
-	                ' 共',
-	                _react2.default.createElement(
-	                    'a',
-	                    null,
-	                    max === 0 ? 1 : max
-	                ),
-	                '页'
-	            ));
-	            /*
-	            items.push(
-	              <li key="next" onClick={currentPage >= max ? null : this.handleChange.bind(this, currentPage + 1)} className={currentPage >= max ? ' disabled' : '' }>
-	                <a>next</a>
-	              </li>
-	            )*/
-	            var range = { min: 1, max: max === 0 ? 1 : max };
-	            items.push(_react2.default.createElement(
-	                'li',
-	                { className: 'ui-pagination-pole', key: 'input' },
-	                ' 到第 ',
-	                _react2.default.createElement(
-	                    'span',
-	                    { className: 'ui-pagination-inputs' },
-	                    _react2.default.createElement('input', { type: 'text', ref: 'number', className: 'ui-pagination-inputs-number', min: range.min, max: range.max,
-	                        value: currentInput, onFocus: function onFocus(e) {
-	                            e.target.select();
-	                        },
-	                        onChange: this.handleInputChange.bind(self, { range: range }) }),
-	                    _react2.default.createElement('button', { className: 'ui-pagination-inputs-btn ui-pagination-inputs-up-btn',
-	                        onClick: this.handleInputChange.bind(self, { range: range, value: currentInput + 1 }) }),
-	                    _react2.default.createElement('button', { className: 'ui-pagination-inputs-btn ui-pagination-inputs-down-btn',
-	                        onClick: this.handleInputChange.bind(self, { range: range, value: currentInput - 1 }) })
-	                ),
-	                ' 页 ',
-	                _react2.default.createElement(
-	                    'button',
-	                    { className: 'ui-pagination-submit-btn', onClick: self.handleChange.bind(self, (currentInput > max ? max : currentInput) || 1) },
-	                    '确定'
-	                )
-	            ));
-	            return _react2.default.createElement(
-	                'div',
-	                { className: 'ui-pagination' },
-	                _react2.default.createElement(
-	                    'ul',
-	                    null,
-	                    items
-	                ),
-	                _react2.default.createElement(
-	                    'div',
-	                    { className: 'total' },
-	                    '共',
-	                    _react2.default.createElement(
-	                        'a',
-	                        { href: 'javascript:;' },
-	                        this.props.total
-	                    ),
-	                    '条记录'
-	                )
-	            );
+	          ));
+	        } else {
+	          items.push(_react2.default.createElement(
+	            'li',
+	            { onClick: self.handleChange.bind(self, page), className: page === currentPage ? prefixCls + '-item ' + prefixCls + '-active' : prefixCls + '-item', key: page },
+	            _react2.default.createElement(
+	              'a',
+	              null,
+	              page
+	            )
+	          ));
 	        }
-	    }]);
+	      });
+	      //向后箭头
+	      items.push(_react2.default.createElement(
+	        'li',
+	        { className: prefixCls + '-next', key: 'next', onClick: this.handleClickArrowNav.bind(this, 'next') },
+	        _react2.default.createElement(
+	          'a',
+	          { href: 'javascript:;' },
+	          '>'
+	        )
+	      ));
+	      //每页记录数切换
+	      items.push(_react2.default.createElement(
+	        'li',
+	        { className: prefixCls + '-switch', key: 'switch' },
+	        _react2.default.createElement(_Dropdown2.default, { className: prefixCls + 'switch-dd', options: state.pageSizeList, onOptionsChange: function onOptionsChange(v) {
+	            _this2.setState({
+	              pageSizeList: v
+	            });
+	            props.onPageSizeChange.call(_this2, v.filter(function (itemData) {
+	              return itemData.selected;
+	            })[0].value);
+	          } })
+	      ));
 	
-	    return Pagination;
+	      //items.push(
+	      //<li className="ui-pagination-pole" key="total"> 共<a>{ max === 0 ? 1 : max }</a>页</li>
+	      //);
+	      /*
+	      items.push(
+	        <li key="next" onClick={currentPage >= max ? null : this.handleChange.bind(this, currentPage + 1)} className={currentPage >= max ? ' disabled' : '' }>
+	          <a>next</a>
+	        </li>
+	      )*/
+	      var range = { min: 1, max: max === 0 ? 1 : max };
+	      items.push(_react2.default.createElement(
+	        'li',
+	        { className: prefixCls + '-pole', key: 'input' },
+	        '跳至',
+	        _react2.default.createElement(
+	          'span',
+	          { className: prefixCls + '-inputs' },
+	          _react2.default.createElement('input', { type: 'text', ref: 'number', className: prefixCls + '-inputs-number', min: range.min, max: range.max,
+	            value: currentInput, onFocus: function onFocus(e) {
+	              e.target.select();
+	            },
+	            onChange: this.handleInputChange.bind(self, { range: range }) }),
+	          _react2.default.createElement('button', { className: prefixCls + '-inputs-btn ' + prefixCls + '-inputs-up-btn',
+	            onClick: this.handleInputChange.bind(self, { range: range, value: currentInput + 1 }) }),
+	          _react2.default.createElement('button', { className: prefixCls + '-inputs-btn ' + prefixCls + '-inputs-down-btn',
+	            onClick: this.handleInputChange.bind(self, { range: range, value: currentInput - 1 }) })
+	        ),
+	        '页'
+	      ));
+	      //<button className={prefixCls + '-submit-btn'} onClick={ self.handleChange.bind(self, (currentInput > max ? max : currentInput) || 1)}>确定</button>
+	      return _react2.default.createElement(
+	        'div',
+	        { className: prefixCls + ' ' + props.className },
+	        _react2.default.createElement(
+	          'ul',
+	          null,
+	          items
+	        )
+	      );
+	    }
+	  }]);
+	
+	  return Pagination;
 	}(_component.Widget);
 	
 	Pagination.propTypes = {
-	    currentPage: _react2.default.PropTypes.number, // 当前页
-	    total: _react2.default.PropTypes.number, // 记录总条数
-	    pageSize: _react2.default.PropTypes.number, // 每页条数
-	    pages: _react2.default.PropTypes.number, // 显示页码数
-	    onPageChange: _react2.default.PropTypes.func // 翻页后回调
-	};
+	  prefixCls: _react2.default.PropTypes.string,
+	  className: _react2.default.PropTypes.string,
+	  currentPage: _react2.default.PropTypes.number, // 当前页
+	  total: _react2.default.PropTypes.number, // 记录总条数
+	  pageSize: _react2.default.PropTypes.number, // 每页条数
+	  pages: _react2.default.PropTypes.number, // 显示页码数
+	  onPageChange: _react2.default.PropTypes.func, // 翻页后回调
+	  onPageSizeChange: _react2.default.PropTypes.func };
+	//pageSize反射
 	Pagination.defaultProps = {
-	    currentPage: 1,
-	    pageSize: 10,
-	    pages: 6,
-	    total: 0
+	  prefixCls: 'ui-pagination',
+	  className: '',
+	  currentPage: 1,
+	  pageSize: 10,
+	  pages: 6,
+	  total: 0,
+	  onPageChange: function onPageChange() {},
+	  onPageSizeChange: function onPageSizeChange() {}
 	};
 	
 	exports.default = Pagination;
 
 /***/ },
-/* 465 */
+/* 467 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(466);
+	var content = __webpack_require__(468);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(447)(content, {});
+	var update = __webpack_require__(448)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -26466,36 +27087,36 @@
 	}
 
 /***/ },
-/* 466 */
+/* 468 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(446)();
+	exports = module.exports = __webpack_require__(447)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, ".ui-pagination {\r\n    position: relative;\r\n}\r\n.ui-pagination ul {\r\n    text-align: center;\r\n}\r\n.ui-pagination li {\r\n    display: inline-block;\r\n}\r\n.ui-pagination li a {\r\n    cursor: pointer;\r\n    display: inline-block;\r\n}\r\n.ui-pagination .total {\r\n    position: absolute;\r\n    right: 0;\r\n    top: 0;\r\n}\r\n.ui-pagination .total a {\r\n    text-decoration: none;\r\n}\r\n.ui-pagination-ellipsis {\r\n\r\n}\r\n.ui-pagination-inputs {\r\n    display: inline-block;\r\n    vertical-align: text-bottom;\r\n\r\n    border: 1px solid #888;\r\n}\r\n.ui-pagination-inputs-number {\r\n    float: left;\r\n    border: none;\r\n    padding: 0;\r\n    margin: 0;\r\n    text-align: right;\r\n    height: 1.4em;\r\n    line-height: 1.4em;\r\n\r\n    width: 60px;\r\n}\r\n.ui-pagination-inputs-btn {\r\n    clear: right;\r\n    float: right;\r\n    border: none;\r\n    padding: 0;\r\n    margin: 0;\r\n    text-align: center;\r\n    height: 0.7em;\r\n\r\n    width: 15px;\r\n}\r\n.ui-pagination-inputs-up-btn {\r\n    background: url(" + __webpack_require__(467) + ") no-repeat -16px -5px;\r\n}\r\n.ui-pagination-inputs-down-btn {\r\n    background: url(" + __webpack_require__(467) + ") no-repeat 2px -5px;\r\n}\r\n", "", {"version":3,"sources":["/../../src/component/pagination/pagination.css"],"names":[],"mappings":"AAAA;IACI,mBAAmB;CACtB;AACD;IACI,mBAAmB;CACtB;AACD;IACI,sBAAsB;CACzB;AACD;IACI,gBAAgB;IAChB,sBAAsB;CACzB;AACD;IACI,mBAAmB;IACnB,SAAS;IACT,OAAO;CACV;AACD;IACI,sBAAsB;CACzB;AACD;;CAEC;AACD;IACI,sBAAsB;IACtB,4BAA4B;;IAE5B,uBAAuB;CAC1B;AACD;IACI,YAAY;IACZ,aAAa;IACb,WAAW;IACX,UAAU;IACV,kBAAkB;IAClB,cAAc;IACd,mBAAmB;;IAEnB,YAAY;CACf;AACD;IACI,aAAa;IACb,aAAa;IACb,aAAa;IACb,WAAW;IACX,UAAU;IACV,mBAAmB;IACnB,cAAc;;IAEd,YAAY;CACf;AACD;IACI,+DAA0D;CAC7D;AACD;IACI,6DAAwD;CAC3D","file":"pagination.css","sourcesContent":[".ui-pagination {\r\n    position: relative;\r\n}\r\n.ui-pagination ul {\r\n    text-align: center;\r\n}\r\n.ui-pagination li {\r\n    display: inline-block;\r\n}\r\n.ui-pagination li a {\r\n    cursor: pointer;\r\n    display: inline-block;\r\n}\r\n.ui-pagination .total {\r\n    position: absolute;\r\n    right: 0;\r\n    top: 0;\r\n}\r\n.ui-pagination .total a {\r\n    text-decoration: none;\r\n}\r\n.ui-pagination-ellipsis {\r\n\r\n}\r\n.ui-pagination-inputs {\r\n    display: inline-block;\r\n    vertical-align: text-bottom;\r\n\r\n    border: 1px solid #888;\r\n}\r\n.ui-pagination-inputs-number {\r\n    float: left;\r\n    border: none;\r\n    padding: 0;\r\n    margin: 0;\r\n    text-align: right;\r\n    height: 1.4em;\r\n    line-height: 1.4em;\r\n\r\n    width: 60px;\r\n}\r\n.ui-pagination-inputs-btn {\r\n    clear: right;\r\n    float: right;\r\n    border: none;\r\n    padding: 0;\r\n    margin: 0;\r\n    text-align: center;\r\n    height: 0.7em;\r\n\r\n    width: 15px;\r\n}\r\n.ui-pagination-inputs-up-btn {\r\n    background: url(./chosen-sprite.png) no-repeat -16px -5px;\r\n}\r\n.ui-pagination-inputs-down-btn {\r\n    background: url(./chosen-sprite.png) no-repeat 2px -5px;\r\n}\r\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, ".ui-pagination {\n    position: relative;\n}\n.ui-pagination ul {\n    text-align: center;\n}\n.ui-pagination li {\n    display: inline-block;\n}\n.ui-pagination li a {\n    cursor: pointer;\n    display: inline-block;\n}\n.ui-pagination .total {\n    position: absolute;\n    right: 0;\n    top: 0;\n}\n.ui-pagination .total a {\n    text-decoration: none;\n}\n.ui-pagination-ellipsis {\n\n}\n.ui-pagination-inputs {\n    display: inline-block;\n    vertical-align: text-bottom;\n\n    border: 1px solid #888;\n}\n.ui-pagination-inputs-number {\n    float: left;\n    border: none;\n    padding: 0;\n    margin: 0;\n    text-align: right;\n    height: 1.4em;\n    line-height: 1.4em;\n\n    width: 60px;\n}\n.ui-pagination-inputs-btn {\n    clear: right;\n    float: right;\n    border: none;\n    padding: 0;\n    margin: 0;\n    text-align: center;\n    height: 0.7em;\n\n    width: 15px;\n}\n.ui-pagination-inputs-up-btn {\n    background: url(" + __webpack_require__(469) + ") no-repeat -16px -5px;\n}\n.ui-pagination-inputs-down-btn {\n    background: url(" + __webpack_require__(469) + ") no-repeat 2px -5px;\n}\n.ui-paginationswitch-dd input {\n  width: 100px;\n}\n\n", "", {"version":3,"sources":["/../../src/component/pagination/pagination.css"],"names":[],"mappings":"AAAA;IACI,mBAAmB;CACtB;AACD;IACI,mBAAmB;CACtB;AACD;IACI,sBAAsB;CACzB;AACD;IACI,gBAAgB;IAChB,sBAAsB;CACzB;AACD;IACI,mBAAmB;IACnB,SAAS;IACT,OAAO;CACV;AACD;IACI,sBAAsB;CACzB;AACD;;CAEC;AACD;IACI,sBAAsB;IACtB,4BAA4B;;IAE5B,uBAAuB;CAC1B;AACD;IACI,YAAY;IACZ,aAAa;IACb,WAAW;IACX,UAAU;IACV,kBAAkB;IAClB,cAAc;IACd,mBAAmB;;IAEnB,YAAY;CACf;AACD;IACI,aAAa;IACb,aAAa;IACb,aAAa;IACb,WAAW;IACX,UAAU;IACV,mBAAmB;IACnB,cAAc;;IAEd,YAAY;CACf;AACD;IACI,+DAA0D;CAC7D;AACD;IACI,6DAAwD;CAC3D;AACD;EACE,aAAa;CACd","file":"pagination.css","sourcesContent":[".ui-pagination {\n    position: relative;\n}\n.ui-pagination ul {\n    text-align: center;\n}\n.ui-pagination li {\n    display: inline-block;\n}\n.ui-pagination li a {\n    cursor: pointer;\n    display: inline-block;\n}\n.ui-pagination .total {\n    position: absolute;\n    right: 0;\n    top: 0;\n}\n.ui-pagination .total a {\n    text-decoration: none;\n}\n.ui-pagination-ellipsis {\n\n}\n.ui-pagination-inputs {\n    display: inline-block;\n    vertical-align: text-bottom;\n\n    border: 1px solid #888;\n}\n.ui-pagination-inputs-number {\n    float: left;\n    border: none;\n    padding: 0;\n    margin: 0;\n    text-align: right;\n    height: 1.4em;\n    line-height: 1.4em;\n\n    width: 60px;\n}\n.ui-pagination-inputs-btn {\n    clear: right;\n    float: right;\n    border: none;\n    padding: 0;\n    margin: 0;\n    text-align: center;\n    height: 0.7em;\n\n    width: 15px;\n}\n.ui-pagination-inputs-up-btn {\n    background: url(./chosen-sprite.png) no-repeat -16px -5px;\n}\n.ui-pagination-inputs-down-btn {\n    background: url(./chosen-sprite.png) no-repeat 2px -5px;\n}\n.ui-paginationswitch-dd input {\n  width: 100px;\n}\n\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
 
 /***/ },
-/* 467 */
+/* 469 */
 /***/ function(module, exports) {
 
 	module.exports = "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADQAAAAlCAYAAAAN8srVAAACTUlEQVR42u3Wv2sTcRiA8VPBxUKwEAxU3NxPIoFAl1bIkkmwYKAKRbqbRSWQCGJ+rMUibjo4FARBl0AgUIh/QXFxFIpKJHAQKA56r0/hDbyEK5VrDH2hBx+ud+Ga9+G+uSQQkVOv0+lMZNBFHoFRwABZb0F9CCITVdRjQd9b0CoOTNSGiRkidBWkljGGINb9CCECd0FqE7GJqkxeMxccK8UbJzppUPGIO5SfR9DCjINsTIR1RDbKXvAakuB9yqAsvuLaDIN6Jqag5/IaIxjYCxaxDzFGyKUMegdBb4ZBGfQmMUaIXeSmLyhDjHspl9wdiPHgJEGlUumf2UGml96HlJ+hRQwhRoSleQfZgfawlDJoB5KgO4OgDLrIT4UUMEA2xdNpro/t6aA+BJGJKuqxoJ9ikLmzQas4MFEbJmYIHz99GNRaxhiCWPcjhAjcBalNxCaqgsBrUPGIO5T3GGRjIqwjslHegnompqDn8hojGHgLyqA3iTFC7CLnLOh4Z0Gn3FnQf2O3ZrN5iZ9aVw81Go3zQfLmI4iIx/gBUXvtdnvNXZDGbEMI2Gf/BFsQPXffVRADr+jgn1hylwPdOL6Bn7w2brVaV9wEMfALBheGDu3QGvVQ79RtT0FvGDyu1WoXE4JWNKjiack916HXEoJecT7GLTdBLLXrDPwbEX+Xq9XqucPHNzFVzv3B93q9fsHbU+4uhAhh/wXfIMaWqyBdXjfxluE/63fQM/Yt8/je9hQ0vdnQpybqJRZcB2nUI4J+QVB2H6RRHzUoTPo/fwGr9gNcek8bXAAAAABJRU5ErkJggg=="
 
 /***/ },
-/* 468 */
+/* 470 */
 /***/ function(module, exports, __webpack_require__) {
 
 	// style-loader: Adds some css to the DOM by adding a <style> tag
 	
 	// load the styles
-	var content = __webpack_require__(469);
+	var content = __webpack_require__(471);
 	if(typeof content === 'string') content = [[module.id, content, '']];
 	// add the styles to the DOM
-	var update = __webpack_require__(447)(content, {});
+	var update = __webpack_require__(448)(content, {});
 	if(content.locals) module.exports = content.locals;
 	// Hot Module Replacement
 	if(false) {
@@ -26512,15 +27133,15 @@
 	}
 
 /***/ },
-/* 469 */
+/* 471 */
 /***/ function(module, exports, __webpack_require__) {
 
-	exports = module.exports = __webpack_require__(446)();
+	exports = module.exports = __webpack_require__(447)();
 	// imports
 	
 	
 	// module
-	exports.push([module.id, "/**\r\n * 组件简单样式\r\n */\r\n.ui-grid table{\r\n    width: 100%;\r\n    border-collapse: collapse;\r\n    border-spacing: 0;\r\n}\r\n", "", {"version":3,"sources":["/../../src/component/grid/grid.css"],"names":[],"mappings":"AAAA;;GAEG;AACH;IACI,YAAY;IACZ,0BAA0B;IAC1B,kBAAkB;CACrB","file":"grid.css","sourcesContent":["/**\r\n * 组件简单样式\r\n */\r\n.ui-grid table{\r\n    width: 100%;\r\n    border-collapse: collapse;\r\n    border-spacing: 0;\r\n}\r\n"],"sourceRoot":"webpack://"}]);
+	exports.push([module.id, "/**\n * 组件简单样式\n */\n.ui-grid table{\n    width: 100%;\n    border-collapse: collapse;\n    border-spacing: 0;\n}\n", "", {"version":3,"sources":["/../../src/component/grid/grid.css"],"names":[],"mappings":"AAAA;;GAEG;AACH;IACI,YAAY;IACZ,0BAA0B;IAC1B,kBAAkB;CACrB","file":"grid.css","sourcesContent":["/**\n * 组件简单样式\n */\n.ui-grid table{\n    width: 100%;\n    border-collapse: collapse;\n    border-spacing: 0;\n}\n"],"sourceRoot":"webpack://"}]);
 	
 	// exports
 
