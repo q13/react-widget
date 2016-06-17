@@ -12,13 +12,16 @@ import style from './uploader.css';
 class Uploader extends Widget {
   constructor(props) {
     super(props);
-    this.state = {};
+    this.state = {
+      filePath: ''
+    };
   }
   componentDidMount() {}
   componentWillUnmount() {}
   uploadFile(filePath) {
     var props = this.props,
       prefixCls = props.prefixCls;
+    var this_ = this;
     var ifrEl = $(`${prefixCls}-ifr`),
     form = this.refs.form;
     if (!ifrEl.length) {
@@ -41,9 +44,15 @@ class Uploader extends Widget {
           if (responseData.flag) {
             props.onSuccess(responseData.data);
           } else {
+            this_.setState({
+              filePath: ''
+            });
             props.onFailure(responseData);
           }
         } catch(evt) {
+          this_.setState({
+            filePath: ''
+          });
           props.onFailure({
             flag: 0,
             message: evt.message
@@ -55,6 +64,9 @@ class Uploader extends Widget {
   }
   handleChange(evt) {
     if (this.props.autoUpload) {  //自动上传
+      this.setState({
+        filePath: evt.target.value
+      });
       this.uploadFile(evt.target.value);
     }
   }
@@ -69,8 +81,8 @@ class Uploader extends Widget {
         height: props.height
       }}>
       <form className={`${prefixCls}-form`} action={props.url} ref="form" method="post" encType="multipart/form-data">
-        <input type="file" accept={props.accept} name={props.fieldName} className={`${prefixCls}-file`} onChange={this.handleChange.bind(this)} />
-        {!additionalRequestParams ? null : 
+        <input type="file" value={state.filePath} accept={props.accept} name={props.fieldName} className={`${prefixCls}-file`} onChange={this.handleChange.bind(this)} />
+        {!additionalRequestParams ? null :
             Object.keys(additionalRequestParams).map((i,x)=>
                 (<input type="hidden" key={x} name={i} value={additionalRequestParams[i]} />))}
       </form>
@@ -103,4 +115,3 @@ Uploader.defaultProps = {
 };
 
 export default Uploader;
-
