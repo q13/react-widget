@@ -148,12 +148,13 @@ class DateInput extends Widget {
     render() {
         var props = this.props,
             prefixCls = props.prefixCls;
-        return (<input {...props} className={`${prefixCls}` + ` ${prefixCls}-` + this.cptId + ' ' + (props.className || '')} type="text" ref="input" value={props.value} readOnly={true} onClick={this.handleClick.bind(this)} />);
+        return (<input {...props} className={`${prefixCls}` + ` ${prefixCls}-` + this.cptId + ' ' + (props.className || '')} type="text" ref="input" value={props.value} readOnly={true} placeholder={props.placeholder} onClick={this.handleClick.bind(this)} />);
     }
 }
 export default DateInput;
 DateInput.defaultProps = {
     calendarProps: null,
+    placeholder: '',
     onChange: () => {},
     prefixCls: "ui-form-dateinput"
 };
