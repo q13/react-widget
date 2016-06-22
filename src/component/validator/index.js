@@ -1,4 +1,11 @@
 /**
+* @Author: 13
+* @Date:   2016-06-17T16:39:09+08:00
+* @Last modified by:   13
+* @Last modified time: 2016-06-22T17:10:16+08:00
+*/
+
+/**
  * 验证组件，多用于表单
  */
 import {
@@ -6,6 +13,7 @@ import {
 } from "../component.js";
 import React from 'react';
 import ReactDom from 'react-dom';
+import equal from 'deep-equal';
 
 class Validator extends Widget {
   constructor(props) {
@@ -21,9 +29,19 @@ class Validator extends Widget {
     var message = [].concat(field.message);
     var value = field.value + '';
     var allowBlank = field.allowBlank;
-    if (allowBlank) {
+    if (allowBlank === true) {
       rule = [true, function (v) {
         if (!v) { //如果为空，忽略后面的验证
+          return 'abort';
+        }
+      }].concat(rule);
+    } else {
+      rule = [true, function (v) {
+        if (!v) { //如果为空，给予空值提示
+          return (typeof allowBlank === 'string' ? allowBlank : false);
+        }
+      }, function (v) {
+        if (!v) { //如果为空，中断后面的验证
           return 'abort';
         }
       }].concat(rule);
@@ -60,7 +78,7 @@ class Validator extends Widget {
         }, (() => {
           if (pv.firstInvalidIndex < 0) {
             return {
-              firstInvalidIndex: allowBlank ? (ci - 2) : ci,
+              firstInvalidIndex: allowBlank === true ? (ci - 2) : (ci - 3),
               message: validateResult
             };
           }
@@ -71,7 +89,7 @@ class Validator extends Widget {
         }, (() => {
           if (validateResult === false && pv.firstInvalidIndex < 0) {
             return {
-              firstInvalidIndex: allowBlank ? (ci - 2) : ci
+              firstInvalidIndex: allowBlank === true ? (ci - 2) : (ci - 3)
             };
           }
         })());
@@ -81,7 +99,7 @@ class Validator extends Widget {
         }, (() => {
           if (validateResult.isValid === false && pv.firstInvalidIndex < 0) {
             let rs = {
-              firstInvalidIndex: allowBlank ? (ci - 2) : ci
+              firstInvalidIndex: allowBlank === true ? (ci - 2) : (ci - 3)
             };
             if (validateResult.message) {
               rs.message = validateResult.message;
@@ -122,19 +140,22 @@ class Validator extends Widget {
     var props = this.props;
     var fields = props.fields;
     var values = {};
+    var isValid = true;
     Object.keys(fields).forEach((fieldName) => {
-      var fieldValidateResult = this.validate(fieldName);
-      var value = fields[fieldName].value + ''; 
-      if (fieldValidateResult.isValid) {
-        if (excludeEmpty) {
-          if (value) {
-            values[fields[fieldName].name || fieldName] = value;
-          }
-        } else {
+      var value = fields[fieldName].value + '';
+      if (excludeEmpty) {
+        if (value) {
           values[fields[fieldName].name || fieldName] = value;
         }
+      } else {
+        values[fields[fieldName].name || fieldName] = value;
       }
     });
+
+    return {
+      isValid: this.validate('all').isValid,
+      values: values
+    };
   }
   validate(fieldName) {
     var props = this.props;
@@ -146,7 +167,9 @@ class Validator extends Widget {
     var returnData;
     if (fieldName) {  //单field验证
       if (fieldName === 'all') {  //all表示验证所有fields
-        diffValueOfFields = Object.keys(fields);
+        Object.keys(fields).forEach((key) => {
+          diffValueOfFields[fields[key].index] = key;
+        });
       } else if (fields[fieldName]) {
         diffValueOfFields = [];
         diffValueOfFields.push(fieldName);
@@ -188,7 +211,7 @@ class Validator extends Widget {
       return !itemData.isValid;
     });
     let newFields = {};
-
+    //构建验证返回结果和新的fields
     if (validateErrorResult.length) {
       returnData = {
         isValid: false,
@@ -225,7 +248,9 @@ class Validator extends Widget {
         newFields[k] = fields[k];
       }
     });
-    if (JSON.stringify(newFields) !== JSON.stringify(fields)) {
+    //对比fields是否发生了改变，有改变触发反射
+
+    if (!equal(newFields, fields)) {
       props.onFieldsChange(newFields);
     }
     //构建整体验证结果
@@ -241,8 +266,8 @@ class Validator extends Widget {
     }, {
       isValid: true
     });
-    
-    if (fieldName === 'all' && JSON.stringify(state.validateResult) !== JSON.stringify(returnData)) { //validate all才触发
+
+    if (fieldName === 'all' && !equal(state.validateResult, returnData)) { //validate all才触发
       this.setState({
         validateResult: returnData
       }, () => {
@@ -263,7 +288,7 @@ class Validator extends Widget {
     const props = this.props;
     const state = this.state;
     const prefixCls = props.prefixCls;
-    return (<div className={ `${prefixCls} ${props.className || ''}`} data-test={JSON.stringify(props.fields)}>
+    return (<div className={ `${prefixCls} ${props.className || ''}`}>
       {props.children}
     </div>);
   }
@@ -282,7 +307,7 @@ Validator.defaultProps = {
       name: '',   //用于取值函数getValidValue返回值key
       value: '',
       isValid: null,  //not true or false
-      allowBlank: true, //是否必填
+      allowBlank: true, //是否必填，只有值为true时空值才允许进行rule的验证, false和string表示不允许为空，string为提示内容
       bindField: [],  // string or array 用于处理field间的关联验证
       rule: [], //第一个rule function 返回abort将会忽略后面的验证，在取值函数getValidValue返回值里被忽略
       message: [],
@@ -361,7 +386,23 @@ Validator.getNewFields = function (value, key, fields) {
   });
   return result;
 };
+/**
+ * 按顺序构建fields object.
+ */
+Validator.getOrderFields = function (fields) {
+  return fields.reduce((pv, cv, ci) => {
+    pv[cv.name] = Object.assign({}, cv, {
+      index: ci
+    });
+    if (typeof pv[cv.name].allowBlank === 'undefined') {  //默认允许为空
+      pv[cv.name].allowBlank = true;
+    }
+    if (typeof pv[cv.name].rule === 'undefined') {  //添加默认rule
+      pv[cv.name].rule = [true];
+      pv[cv.name].message = [];
+    }
+    return pv;
+  }, {});
+};
 
 export default Validator;
-
-

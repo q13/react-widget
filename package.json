@@ -1,6 +1,6 @@
 {
     "name": "react-widget",
-    "version": "1.5.7",
+    "version": "1.5.8",
     "description": "Some component base on React framework.",
     "main": "index.js",
     "scripts": {
@@ -24,6 +24,7 @@
         "react-addons-css-transition-group": "0.14.3",
         "react-mixin": "3.0.3",
         "immutable": "latest",
+        "deep-equal": "latest",
         "babel-polyfill": "latest",
         "moment": "~2.10.6"
     },
