@@ -1,361 +1,340 @@
 /**
+* @Date:   2016-06-23T19:18:04+08:00
+* @Last modified time: 2016-06-24T15:07:04+08:00
+*/
+
+/**
  * Dropdown组件实现
  */
-import {
-  Widget
-} from "../component.js";
+import {Widget} from "../component.js";
 import React from 'react';
 import ReactDom from 'react-dom';
 import style from './form.css';
 
-let instanceId = 0;
+var activeInstanceId; //当前激活的实例Id
+var instanceId = 0;
+var panelContainer;
+
 class Dropdown extends Widget {
   constructor(props) {
+    super(props);
+    this.adaptProps(props);
+    this.state = {
+      text: '',
+      panelStyle: {
+        display: 'none'
+      }
+    };
+    this.instanceId = instanceId++;
+  }
+  adaptProps(props) {
+    //同步value
     if (typeof props.value !== 'undefined') {
-      props.options.forEach((itemData) => {
-        if (itemData.value === props.value) {
-          itemData.selected = true;
+      props.options.forEach((option) => {
+        if (option.value === props.value) {
+          option.selected = true;
         } else {
-          itemData.selected = false;
+          option.selected = false;
         }
       });
     }
-    super(props);
-    this.state = {
-      isInputing: false,
-      hoverOption: null,
-      focusOption: null,
-      selectedOption: null,
-    };
-    this.instanceId = instanceId++;
-    this.datapaneContainer = null;
+    //默认选中第一个
+    if (props.options.length) {
+      if (!props.options.some((itemData) => {
+        return itemData.selected;
+      })) {
+        props.options[0].selected = true;
+      }
+    }
+  }
+  syncStateFromProps(props) {
+    var selectedOption = props.options.find((itemData) => {
+      return itemData.selected;
+    });
+    if (selectedOption) {
+      this.setState({
+        text: selectedOption.text
+      });
+    }
   }
   componentWillMount() {
-    this.datapaneContainer = document.createElement("div");
-    document.body.appendChild(this.datapaneContainer);
+    if (!panelContainer) { //不存在panel容器，动态创建
+      panelContainer = $(`<div class="${Dropdown.defaultProps.prefixCls}-panel-manager"></div>`);
+      panelContainer.appendTo('body');
+      panelContainer = panelContainer[0];
+    }
   }
   componentDidMount() {
-    const self = this;
-    self.renderDatapane({
-      visible: false
-    });
-    $(document).on('mousedown.Dropdown' + self.instanceId, (evt) => {
-      if(self.state.isInputing) {
-        const $target = $(evt.target);
-        const $dropdown = $(`.${self.props.prefixCls}-${self.instanceId}`);
-        const $datapane = $dropdown.find(`.${self.props.prefixCls}-datapane`);
-        const $consoleText = $dropdown.find(`.${self.props.prefixCls}-console-text`);
-        if (!$target.is($datapane) &&
-            !$target.closest($datapane).length &&
-            !$target.is($consoleText)) {
-          self.handleDisableInputs(self);
-        }
-      }
-    });
-    $(document).on('keydown.Dropdown' + self.instanceId, (evt) => {
-      if(self.state.isInputing) {
-        self.handleKeyDown(evt);
-      }
-    });
-    $(document).on('keyup.Dropdown' + self.instanceId, (evt) => {
-      if(self.state.isInputing) {
-        self.handleKeyUp(evt);
+    const state = this.state;
+    this.syncStateFromProps(this.props);
+    $('body').on('mousedown.Dropdown' + this.instanceId, (evt) => {
+      if (!Dropdown.isInContainer(evt.target, [ReactDom.findDOMNode(this), panelContainer])) {
+        this.setState({
+          panelStyle: {
+            display: 'none'
+          }
+        });
       }
     });
   }
   componentWillReceiveProps(nextProps) {
-    if (typeof nextProps.value !== 'undefined') {
-      nextProps.options.forEach((itemData) => {
-        if (itemData.value === nextProps.value) {
-          itemData.selected = true;
-        } else {
-          itemData.selected = false;
-        }
-      });
-    }
-    this.setState({
-      hoverOption: null,
-      focusOption: null,
-      selectedOption: null,
-    });
+    this.adaptProps(nextProps);
+    this.syncStateFromProps(nextProps);
   }
   componentWillUnmount() {
-    ReactDom.unmountComponentAtNode(this.datapaneContainer);
-    document.body.removeChild(this.datapaneContainer);
-    $(document).off('.Dropdown' + this.instanceId);
-    this.datapaneContainer = null;
+    if (activeInstanceId === this.instanceId) {
+      ReactDom.unmountComponentAtNode(panelContainer);
+      activeInstanceId = -1;
+    }
+    $('body').off('mousedown.Dropdown' + this.instanceId);
     this.instanceId = null;
   }
-  componentDidUpdate() {
-    const self = this;
-    self.renderDatapane({
-      visible: self.state.isInputing
-    });
-  }
-  handleEnableInputs(evt) {
-    const self = this;
-    console.log(11111);
-    self.renderDatapane({
-      visible: true
-    });
-    self.setState({
-      isInputing: true
-    }, () => {
-      const inputText = self.refs.inputText;
-      inputText.select();
-      inputText.focus();
-      if (typeof self.props.onEnableInputs === 'function') {
-        self.props.onEnableInputs.call(this, {
-          target: self,
-        });
-      }
-    });
-  }
-  handleDisableInputs(evt) {
-    const self = this;
-    self.setState({
-      isInputing: false,
-      focusOption: self.state.selectedOption,
-    }, () => {
-      if (typeof self.props.onDisableInputs === 'function') {
-        self.props.onDisableInputs.call(this, {
-          target: self,
-        });
-      } else {}
-    });
-  }
-  handleKeyDown(e) {
-    const self = this;
-    const stroke = e.which || e.keyCode;
-    switch (stroke) {
-      case 38: // 上
-        e.preventDefault(); // prevent cursor move
-        self.handleOptionsRoam('up');
-        break;
-      case 40: // 下
-        e.preventDefault(); // prevent cursor move
-        self.handleOptionsRoam('down');
-        break;
-      case 13: // 回车
-        e.preventDefault();
-        break;
-    }
-  }
-  handleKeyUp(e) {
-    const self = this;
-    const stroke = e.which || e.keyCode;
-    switch (stroke) {
-      case 13: // 回车
-        e.preventDefault();
-        if (self.state.focusOption !== undefined) {
-          const focusIndex = self.props.options.findIndex(i => i === self.state.focusOption);
-          self.handleOptionClick(focusIndex);
-        }
-      break;
-    }
-  }
-  handleOptionsRoam(roamType) {
-    const self = this;
-    const optionsLength = self.props.options.length;
-    if (!optionsLength) return;
-    let focusIndex = self.props.options.findIndex(i => i === self.state.focusOption);
-    if (roamType == 'up') {
-      focusIndex = !(focusIndex >= 0) ? 0 : focusIndex - 1 >= 0 ? focusIndex - 1 : optionsLength - 1;
-    }
-    if (roamType == 'down') {
-      focusIndex = !(focusIndex >= 0) ? 0 : focusIndex + 1 <= optionsLength - 1 ? focusIndex + 1 : 0;
-    }
-    // UI定位与翻页
-    const $ul = $(`.${self.props.prefixCls}-datapane-options`, self.datapaneContainer);
-    const $newHighlightLi = $ul.children(`.${self.props.prefixCls}-datapane-option-${focusIndex}`);
-    const maxHeight = parseInt($ul.css('maxHeight'));
-    let visibleTop = $ul.scrollTop();
-    let visibleBottom = maxHeight + visibleTop;
-    let newHighlightLiTop = $newHighlightLi.position().top + visibleTop;
-    let newHighlightLiBottom = newHighlightLiTop + $newHighlightLi.outerHeight();
-    if (newHighlightLiBottom >= visibleBottom) {
-      $ul.scrollTop((newHighlightLiBottom - maxHeight) > 0 ? newHighlightLiBottom - maxHeight : 0);
-    } else if (newHighlightLiTop < visibleTop) {
-      $ul.scrollTop(newHighlightLiTop);
-    }
-    // 设定focus状态
-    self.setState({
-      focusOption: self.props.options[focusIndex]
-    });
-  }
-  handleOptionClick(currentIndex) {
-    const self = this;
-    const props = self.props;
-    if (!(currentIndex >= 0)) return;
-    if (!props.options[currentIndex].disabled) { // 如果该option未被禁用
-      // const targetOptions = $.extend(true, [], props.options);
-      const targetOptions = JSON.parse(JSON.stringify(props.options));
-      // 更新options下各项的被选择值
-      targetOptions.forEach((option, x) => {
-        option.selected = currentIndex === x ? true : false;
-      });
-      // 设定focus, selected状态以及执行回调
-      self.setState({
-        isInputing: false,
-        focusOption: props.options[currentIndex],
-        selectedOption: props.options[currentIndex],
+  componentDidUpdate() {}
+  handleInputClick() {
+    const props = this.props;
+    const state = this.state;
+    if (!props.disabled) {
+      activeInstanceId = this.instanceId;
+      this.setState({
+        display: 'none'
       }, () => {
-        self.props.onChange.call(self, targetOptions[currentIndex]);
-        self.props.onOptionsChange.call(self, targetOptions);
+        Dropdown.renderPanel(this, () => {
+          this.setState({
+            panelStyle: Dropdown.getPanelStyle(ReactDom.findDOMNode(this), panelContainer.firstChild)
+          });
+        });
       });
     }
+  }
+  handleInputKeydown(evt) {
+    const props = this.props;
+    const state = this.state;
+    var currentSelectedIndex = -1;
+    var expr = 0;
+    if (evt.keyCode === 38) {
+      expr = -1;
+    } else if (evt.keyCode === 40) {
+      expr = 1;
+    } else if (evt.keyCode === 13) { //回车
+      let selectedOption = props.options.find((itemData) => {
+        return itemData.selected;
+      });
+      this.setState({
+        text: selectedOption.text,
+        panelStyle: {
+          display: 'none'
+        }
+      });
+      props.onChange.call(this, selectedOption);
+    }
+    if (expr) {
+      currentSelectedIndex = props.options.findIndex((itemData) => {
+        return itemData.selected;
+      });
+      if (currentSelectedIndex + expr >= props.options.length) {
+        currentSelectedIndex = 0;
+      } else if (currentSelectedIndex + expr < 0) {
+        currentSelectedIndex = props.options.length - 1;
+      } else {
+        currentSelectedIndex = currentSelectedIndex + expr;
+      }
+      this.setState({
+        text: props.options[currentSelectedIndex].text
+      });
+      //反射
+      props.onOptionsChange.call(this, [].concat(props.options).map((itemData, i) => {
+        itemData.selected = (i === currentSelectedIndex
+          ? true
+          : false);
+        return itemData;
+      }));
+    }
+  }
+  handleOptionClick(option) {
+    const props = this.props;
+    if (!option.disabled) { // 如果该option未被禁用
+      let newOptions = [].concat(props.options);
+      // 更新options下各项的被选择值
+      newOptions.forEach((itemData) => {
+        itemData.selected = itemData.value === option.value
+          ? true
+          : false;
+      });
+      this.setState({
+        text: option.text,
+        panelStyle: {
+          display: 'none'
+        }
+      });
+      //反射
+      props.onOptionsChange.call(this, newOptions);
+      props.onChange.call(this, option);
+    }
+  }
+  handleOptionMouseEnter(option) {
+    const props = this.props;
+    props.onOptionsChange.call(this, [].concat(props.options).map((itemData) => {
+      itemData.hover = (itemData.value === option.value
+        ? true
+        : false);
+      return itemData;
+    }));
+  }
+  handleOptionMouseLeave(option) {
+    const props = this.props;
+    props.onOptionsChange.call(this, [].concat(props.options).map((itemData) => {
+      itemData.hover = (itemData.value === option.value
+        ? false
+        : itemData.hover);
+      return itemData;
+    }));
   }
   render() {
     const props = this.props;
     const state = this.state;
     const prefixCls = props.prefixCls;
+    //渲染面板
+    if (activeInstanceId === this.instanceId) {
+      setTimeout(() => {
+        Dropdown.renderPanel(this);
+      }, 0);
+    }
+    let cls = props.disabled
+      ? prefixCls + '-disabled'
+      : '';
+    return (
+      <span className={`${prefixCls} ${prefixCls}-${this.instanceId} ${props.className} ${cls}`}>
+        <input type="text" className={`${prefixCls}-input-text`} value={state.text} title={state.text} onKeyDown={this.handleInputKeydown.bind(this)} onClick={this.handleInputClick.bind(this)} readOnly={true} placeholder={props.placeholder} /><span className={`${prefixCls}-input-icon`}></span>
+      </span>
+    );
+  }
+}
 
-    const text = state.focusOption ? state.focusOption.text :
-                 (props.options.find(i => i.selected) || {text: '--请选择--'}).text;
-    return (<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''} ${(state.isInputing ? `${prefixCls}-isinputing` : '')}` }>
-      <div className={ `${prefixCls}-console` }
-        ref='console'
-           onClick={ state.isInputing ? undefined : this.handleEnableInputs.bind(this) }>
-        <input type="text" ref="inputText"
-               className={ `${prefixCls}-console-text` }
-               value={ text }
-               title={ text }
-               readOnly={ true } />
-        <span className={ `${prefixCls}-console-toggle` }>&nbsp;</span>
-      </div>
-    </div>);
-  }
-  getOptionClass(currentIndex) {
-    const { prefixCls, options } = this.props;
-    const { hoverOption, focusOption } = this.state;
-    const option = options[currentIndex];
-    let classString = `${prefixCls}-datapane-option ${prefixCls}-datapane-option-${currentIndex}`;
-    if (hoverOption === options[currentIndex]) classString += ` ui-common-hover`;
-    if (focusOption === options[currentIndex]) classString += ` ui-common-focus`;
-    if (option.disabled) classString += ` ui-common-disabled`;
-    if (option.selected && options.findIndex(i => i.selected) === currentIndex) classString += ` ui-common-selected`;
-    return classString;
-  }
-  renderDatapane(data) {
-    var props = this.props,
-        state = this.state,
-        prefixCls = props.prefixCls;
-    var visible = data.visible;
-    var consoleEl,
-        datapaneEl,
-        winEl,
-        inputOffset,
-        inputHeight,
-        inputWidth,
-        datapaneHeight,
-        datapaneWidth,
-        winWidth,
-        winHeight,
-        winScrollTop,
-        winScrollLeft,
-        top = 0,
-        left = 0,
-        maxInputHeight = 130;
-    if (visible) {
-        consoleEl = $(ReactDom.findDOMNode(this.refs.console));
-        datapaneEl = $(`.${prefixCls}-datapane`, this.datapaneContainer);
-        winEl = $(window);
-        inputOffset = consoleEl.offset();
-        inputHeight = consoleEl.outerHeight();
-        inputWidth = consoleEl.outerWidth();
-        datapaneHeight = datapaneEl.outerHeight();
-        datapaneWidth = datapaneEl.outerWidth();
-        winWidth = winEl.width();
-        winHeight = winEl.height();
-        winScrollTop = winEl.scrollTop();
-        winScrollLeft = winEl.scrollLeft();
-        if (datapaneHeight < maxInputHeight) {
-          datapaneHeight = maxInputHeight;
-          datapaneEl.css({
-            minHeight: maxInputHeight
-          });
-        }
-        if (inputOffset.top - winScrollTop >= datapaneHeight) {
-            if (winHeight - (inputOffset.top - winScrollTop) - inputHeight >= datapaneHeight) {   //下面放得下优先放下面
-                top = inputOffset.top + inputHeight - 1;
-                maxInputHeight = winHeight - top +  winScrollTop - 8;
-            } else {
-                top = inputOffset.top - datapaneHeight + 1;
-                maxInputHeight = inputOffset.top;
-            }
-        } else {    //上面放不下直接放下面
-            top = inputOffset.top + inputHeight - 1;
-            maxInputHeight = winHeight - top + winScrollTop - 8;
-        }
-        if (inputOffset.left - winScrollLeft + inputWidth >= datapaneWidth) {
-            if (winWidth - (inputOffset.left - winScrollLeft) >= datapaneWidth) {   //左面放得下优先放右面
-                left = inputOffset.left;
-            } else {
-                left = inputOffset.left + inputWidth - datapaneWidth;
-            }
-        } else {    //左面放不下直接放右面
-            left = inputOffset.left;
-        }
-        if (top < 0) {
-          top = 0;
-        }
-        if (left < 0) {
-          left = 0;
-        }
-        if (maxInputHeight < 130) {
-          maxInputHeight = 130;
-        }
+Dropdown.renderPanel = function(cpt, callback) {
+  const props = cpt.props;
+  const state = cpt.state;
+  ReactDom.render(
+    <div className={`${props.prefixCls}-panel ${props.prefixCls}-panel-${cpt.instanceId}`} style={state.panelStyle}>
+    {props.getDefaultPanelTemplate.call(cpt)}
+  </div>, panelContainer, () => {
+    callback && callback();
+    Dropdown.scrollToSelectedItem(props.options.findIndex((itemData) => {
+      return itemData.selected;
+    }));
+  });
+};
+
+Dropdown.getPanelStyle = function(baseSelector, panelSelector) {
+  var baseEl = $(baseSelector),
+    panelEl = $(panelSelector),
+    winEl = $(window),
+    baseOffset = baseEl.offset(),
+    baseHeight = baseEl.outerHeight(),
+    baseWidth = baseEl.outerWidth(),
+    panelHeight = panelEl.outerHeight(),
+    panelWidth = panelEl.outerWidth(),
+    winHeight = winEl.height(),
+    winWidth = winEl.width(),
+    winScrollTop = winEl.scrollTop(),
+    winScrollLeft = winEl.scrollLeft();
+  var style = {
+    position: 'absolute',
+    zIndex: 10010,
+    top: '-10000px',
+    left: '-10000px',
+    minWidth: baseEl.outerWidth() - 2 + 'px'
+  };
+
+  //先垂直设置
+  if (baseOffset.top - winScrollTop > winHeight - (baseOffset.top - winScrollTop + baseHeight)) { //如果上方的高度大于下方
+    //设置面板最大高度
+
+    style.maxHeight = baseOffset.top - winScrollTop + 'px';
+    panelHeight = panelEl.outerHeight(); //重新获取面板高度
+
+    if (baseOffset.top + baseHeight + panelHeight - winScrollTop <= winHeight) {
+      style.top = baseOffset.top + baseHeight + 'px';
+    } else {
+      style.top = baseOffset.top - panelHeight + 1 + 'px';
     }
-    ReactDom.render(<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''}` } style={{
-      "zIndex": 10000,
-      "display": visible ? "block" : "none",
-      "position": "absolute",
-      "top": top + "px",
-      "left": left + "px"
-    }}>
-    <div className={ `${prefixCls}-datapane` } style={{
-      minWidth: $(`.${prefixCls}-${this.instanceId}`).outerWidth(true),
-      maxHeight: maxInputHeight + 'px'
-    }}>
-        { props.getTemplateDatapane.call(this, this) }
-      </div>
-    </div>, this.datapaneContainer);
+  } else { //否则永远从下方显示
+    //设置面板最大高度
+    style.maxHeight = winHeight - (baseOffset.top - winScrollTop + baseHeight) - 2 + 'px';
+    style.top = baseOffset.top + baseHeight + 'px';
   }
-}
-Dropdown.defaultGetTemplateDatapane = function(self) {
-  return (<div className={ `${self.props.prefixCls}-datapane-options` }>
-    {
-      self.props.options.map((option, x, options) =>
-      (<div key={x} title={ option.text }
-            className={ self.getOptionClass(x) }
-            onClick={ self.handleOptionClick.bind(self, x) }
-            onMouseEnter={ (e)=>{ self.setState({hoverOption: options[x]}); } }
-            onMouseLeave={ (e)=>{ self.setState({hoverOption: undefined}); } }>
-        { option.text }
-      </div>))
-    }
-  </div>);
-}
+  //再水平设置
+  if (baseOffset.left + panelWidth - winScrollTop <= winWidth) {
+    style.left = baseOffset.left + 'px';
+  } else {
+    style.left = baseOffset.left + baseWidth - panelWidth + 'px';
+  }
+  return style;
+};
+
+Dropdown.isInContainer = function(elemSelector, container) {
+  var elEl = $(elemSelector);
+  return [].concat(container).some((cSelector) => {
+    var cEl = $(cSelector);
+    return elEl.is(cEl) || $.contains(cEl[0], elEl[0]);
+  });
+};
+/**
+ * 跟随滚动条滚动
+ * @method scrollToSelectedItem
+ * @param  {[type]}             vm                   [description]
+ * @param  {[type]}             currentSelectedIndex [description]
+ * @return {[type]}                                  [description]
+ */
+Dropdown.scrollToSelectedItem = function(currentSelectedIndex) {
+  var panelEl = $(panelContainer.firstChild);
+  //滚动条跟随
+  panelEl && panelEl.is(':visible') && panelEl.scrollTop($('.' + Dropdown.defaultProps.prefixCls + 'options-item', panelEl).outerHeight() * (currentSelectedIndex + 1) - panelEl.height());
+};
 Dropdown.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
+  value: React.PropTypes.string,
+  disabled: React.PropTypes.bool,
+  placeholder: React.PropTypes.string,
   options: React.PropTypes.array,
   onChange: React.PropTypes.func,
   onOptionsChange: React.PropTypes.func,
-  getTemplateDatapane: React.PropTypes.func,
-  onEnableInputs: React.PropTypes.func,
-  onDisableInputs: React.PropTypes.func,
+  getDefaultPanelTemplate: React.PropTypes.func
 };
 Dropdown.defaultProps = {
   prefixCls: 'ui-form-dropdown',
   className: '',
-  options: [], // {text: '', value: {}, selected: false, disabled: false }
-  value: void(0),  //value 比options里selected优先级大
+  options: [], // {text: '', value: {}, selected: false, disabled: false, hover: false}
+  value: void(0), //value 比options里selected优先级大
+  disabled: false, //是否禁用
+  placeholder: '',
   onChange: (evt) => {},
   onOptionsChange: (evt) => {},
-  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
-  onEnableInputs: (evt) => {},
-  onDisableInputs: (evt) => {},
+  getDefaultPanelTemplate: function () {
+    const props = this.props;
+    const state = this.state;
+    return (
+      <ul className={`${props.prefixCls}-options-list`}>
+        {props.options.map((option, x, options) => {
+          var optionCls = '';
+          if (option.selected) {
+            optionCls += ` ${props.prefixCls}-options-item-selected`;
+          }
+          if (option.disabled) {
+            optionCls += ` ${props.prefixCls}-options-item-disabled`;
+          }
+          if (option.hover) {
+            optionCls += ` ${props.prefixCls}-options-item-hover`;
+          }
+          return (
+            <li key={x} title={option.text} className={`${props.prefixCls}-options-item ${optionCls}`} onMouseEnter={this.handleOptionMouseEnter.bind(this, option)} onMouseLeave={this.handleOptionMouseLeave.bind(this, option)} onClick={this.handleOptionClick.bind(this, option)}>
+              {option.text}
+            </li>
+          );
+        })}
+      </ul>
+    );
+  }
 };
 
 export default Dropdown;

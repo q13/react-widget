@@ -1,4 +1,9 @@
 /**
+* @Date:   2016-06-17T16:39:09+08:00
+* @Last modified time: 2016-06-23T14:57:07+08:00
+*/
+
+/**
  * Radiogroup组件实现
  */
 import {
@@ -11,10 +16,26 @@ import style from './form.css';
 class Radiogroup extends Widget {
   constructor(props) {
     super(props);
+    this.adaptProps(props);
     this.state = {};
   }
   componentDidMount() {}
+  componentWillReceiveProps(nextProps) {
+    this.adaptProps(nextProps);
+  }
   componentWillUnmount() {}
+  adaptProps(props) {
+    //同步value
+    if (typeof props.value !== 'undefined') {
+      props.options.forEach((option) => {
+        if (option.value === props.value) {
+          option.checked = true;
+        } else {
+          option.checked = false;
+        }
+      });
+    }
+  }
   handleOptionClick(currentIndex, evt) {
     const self = this;
     const props = self.props;
@@ -56,6 +77,7 @@ Radiogroup.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
   options: React.PropTypes.array,
+  value: React.PropTypes.any,
   onChange: React.PropTypes.func,
   onOptionsChange: React.PropTypes.func,
 };
@@ -63,6 +85,7 @@ Radiogroup.defaultProps = {
   prefixCls: 'ui-form-radiogroup',
   className: '',
   options: [], // {text: '', value: {}, checked: false, disabled: false }
+  value: null,  //默认选中值
   onChange: (evt) => {},
   onOptionsChange: (evt) => {},
 };

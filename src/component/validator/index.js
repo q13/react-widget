@@ -1,8 +1,8 @@
 /**
 * @Author: 13
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified by:   13
-* @Last modified time: 2016-06-22T17:10:16+08:00
+* @Last modified by:
+* @Last modified time: 2016-06-24T17:28:21+08:00
 */
 
 /**
@@ -118,19 +118,22 @@ class Validator extends Widget {
   componentDidMount() {
   }
   componentWillReceiveProps(nextProps) {
-    var props = this.props;
+    const props = this.props;
+    const state = this.state;
     var diffValueOfFields = [];
     Object.keys(props.fields).forEach((k) => {
-      if (props.fields[k] !== nextProps.fields[k]) {
+      //if (props.fields[k] !== nextProps.fields[k]) {
+      if (state.fields[k] && (nextProps.fields[k].value != state.fields[k].value)) {
         diffValueOfFields.push(k);
       }
     });
     this.setState({
       diffValueOfFields: diffValueOfFields
+    }, () => {
+      this.validate();
     });
   }
   componentDidUpdate() {
-    this.validate();
   }
   componentWillUnmount() {}
   /**
@@ -166,12 +169,12 @@ class Validator extends Widget {
     var validateResult = [];
     var returnData;
     if (fieldName) {  //单field验证
+      diffValueOfFields = [];
       if (fieldName === 'all') {  //all表示验证所有fields
         Object.keys(fields).forEach((key) => {
           diffValueOfFields[fields[key].index] = key;
         });
       } else if (fields[fieldName]) {
-        diffValueOfFields = [];
         diffValueOfFields.push(fieldName);
       }
     }    //验证value有差异的field，只要有一个没通过验证就算没通过
@@ -197,6 +200,8 @@ class Validator extends Widget {
         fields[fieldName].onValidate(fieldValidateResult.isValid, fieldValidateResult);
       }
       stateField.isValid = fieldValidateResult.isValid;
+      //存储新的value
+      stateField.value = fields[fieldName].value || '';
       //更新message
       stateField.message = fieldValidateResult.message;
       Object.assign(stateFields, newFields);
@@ -380,11 +385,27 @@ Validator.defaultRule = {
   }
 };
 Validator.getNewFields = function (value, key, fields) {
-  var result = Object.assign({}, fields);
-  result[key] = Object.assign({}, result[key], {
-    value: value
+  //var result = Object.assign({}, fields);
+  var result = fields;
+  var tmpResult = {};
+  let target = {};
+  if (!fields) {
+    fields = key;
+    result = fields;
+    target = value;
+  } else {
+    target[key] = value;
+  }
+  //tmpResult[key] = Object.assign({}, result[key], {
+  Object.keys(target).forEach((k) => {
+    result[k] = Object.assign({}, result[k], {
+      value: target[k]
+    });
   });
-  return result;
+  //let newFields = Object.assign({}, result, tmpResult);
+  let newFields = Object.assign({}, result);
+  //console.log('bool', newFields === result);
+  return newFields;
 };
 /**
  * 按顺序构建fields object.

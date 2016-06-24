@@ -1,4 +1,9 @@
 /**
+* @Date:   2016-06-17T16:39:08+08:00
+* @Last modified time: 2016-06-23T14:57:22+08:00
+*/
+
+/**
  * Checkboxgroup组件实现
  */
 import {
@@ -11,10 +16,28 @@ import style from './form.css';
 class Checkboxgroup extends Widget {
   constructor(props) {
     super(props);
+    this.adaptProps(props);
     this.state = {};
   }
   componentDidMount() {}
   componentWillUnmount() {}
+  componentWillReceiveProps(nextProps) {
+    this.adaptProps(nextProps);
+  }
+  adaptProps(props) {
+    //同步value
+    if (typeof props.value !== 'undefined') {
+      props.options.forEach((option) => {
+        if ([].concat(props.value).some((valueItem) => {
+          return valueItem === option.value;
+        })) {
+          option.checked = true;
+        } else {
+          option.checked = false;
+        }
+      });
+    }
+  }
   handleOptionClick(currentIndex, evt) {
     const self = this;
     const props = self.props;

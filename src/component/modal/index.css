@@ -1,63 +1,48 @@
-:root {
-  --uiModalTopZIndex: 10000;
-}
+/**
+* @Date:   2016-06-17T16:39:08+08:00
+* @Last modified time: 2016-06-24T15:30:55+08:00
+*/
 
 .ui-modal {
   position: absolute;
   left: 0;
   top: 0;
-  z-index: var(--uiModalTopZIndex);
-}
-
-.ui-modal-popup {
-  ;
-}
-
-.ui-modal-dialog {
-  background: #fff;
-}
-
-.ui-modal-dialog-titlebar {
-  ;
-}
-
-.ui-modal-dialog-pane {
-  clear: both;
-}
-
-.ui-modal-dialog-actionbar {
-  text-align: center;
-}
-
-.ui-modal-dialog-float-left {
-  float: left;
-}
-
-.ui-modal-dialog-float-right {
-  float: right;
-}
-
-.ui-modal-dialog-btn-cancel {
-  ;
-}
-.ui-modal-dialog-btn-cancel[disabled] {
-  ;
-}
-
-.ui-modal-dialog-btn-submit {
-  ;
-}
-.ui-modal-dialog-btn-submit[disabled] {
-  ;
-}
-
-.ui-modal-dialog-btn-separator {
-  ;
+  background: #ffffff;
 }
 .ui-modal-mask {
-  position: absolute;
+  position: fixed;
+  width: 100%;
+  height: 100%;
   background: #000000;
   /* IE 8 */
   -ms-filter: "progid:DXImageTransform.Microsoft.Alpha(Opacity=50)";
   opacity: 0.5;
+}
+.ui-modal-footer:before, .ui-modal-footer:after {
+  content: "";
+  display: table;
+}
+
+.ui-modal-footer:after {
+  clear: both;
+}
+
+.ui-modal-footer {
+  zoom: 1;
+  padding: 16px 0;
+}
+.ui-modal-footer .footer-l {
+  float: left;
+  width: 50%;
+}
+.ui-modal-footer .footer-l-inner {
+  margin-right: 16px;
+  float: right;
+}
+.ui-modal-footer .footer-r {
+  float: right;
+  width: 50%;
+}
+.ui-modal-footer .footer-r-inner {
+  margin-left: 16px;
 }

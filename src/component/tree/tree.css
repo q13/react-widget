@@ -1,0 +1,28 @@
+/**
+* @Date:   2016-06-23T10:24:54+08:00
+* @Last modified time: 2016-06-23T11:56:14+08:00
+*/
+
+.ui-tree-node-checkbox,
+.ui-tree-node-text {
+  display: inline-block;
+  vertical-align: middle;
+}
+.ui-tree-node-checkbox {
+  width: 1em;
+  height: 1em;
+  border: 1px solid #cccccc;
+  cursor: pointer;
+}
+.ui-tree-node-checkbox-checked {
+  background: black;
+}
+.ui-tree-node-checkbox-halfChecked {
+  background: #cccccc;
+}
+.ui-tree-list {
+  margin-left: 2em;
+}
+.ui-tree .list-0 {
+  margin-left: 0;
+}
