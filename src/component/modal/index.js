@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-24T13:59:13+08:00
-* @Last modified time: 2016-06-24T15:54:17+08:00
+* @Last modified time: 2016-06-24T18:14:01+08:00
 */
 
 import {Widget} from "../component.js";
@@ -142,7 +142,7 @@ class Modal extends Widget {
       winTop = win.scrollTop(),
       winLeft = win.scrollLeft();
     modal.css({
-      "top": winH > modalH
+      "top": winH > modalH + 30
         ? (winH - modalH) / 2 - 30 + winTop + "px"
         : (2 + 'px'),
       "left": winW > modalW
