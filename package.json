@@ -1,6 +1,6 @@
 {
     "name": "react-widget",
-    "version": "1.6.0",
+    "version": "1.6.1",
     "description": "Some component base on React framework.",
     "main": "index.js",
     "scripts": {
@@ -26,7 +26,8 @@
         "immutable": "latest",
         "deep-equal": "latest",
         "babel-polyfill": "latest",
-        "moment": "~2.10.6"
+        "moment": "~2.10.6",
+        "deep-equal": "~1.0.1"
     },
     "devDependencies": {
         "connect": "~3.4.0",
