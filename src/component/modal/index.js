@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-24T13:59:13+08:00
-* @Last modified time: 2016-06-24T18:14:01+08:00
+* @Last modified time: 2016-06-27T11:44:25+08:00
 */
 
 import {Widget} from "../component.js";
@@ -37,7 +37,7 @@ class Modal extends Widget {
       this.container.remove();
       this.container = null;
       //调整层级和遮罩
-      ajustModalZIndex();
+      Modal.ajustModalZIndex();
     }
   }
   componentWillMount() {}
@@ -120,7 +120,7 @@ class Modal extends Widget {
       //重设位置
       this.adjustPosition();
       //调整层级和遮罩
-      ajustModalZIndex();
+      Modal.ajustModalZIndex();
     });
   }
   render() {
@@ -191,7 +191,7 @@ let prefixCls = Modal.defaultProps.prefixCls;
  * 自动调整弹框层级
  * @return {[type]} [description]
  */
-function ajustModalZIndex() {
+Modal.ajustModalZIndex = function() {
   var modalVisible = modalStore.filter((itemData) => {
     return itemData.modal.props.visible;
   });
@@ -217,11 +217,11 @@ function ajustModalZIndex() {
   } else {
     mask.hide();
   }
-}
+};
 
 //初始化弹框容器和遮罩
 dm = $(`<div class="${prefixCls}-manager"></div>`);
-dm.html(`<div class="${prefixCls}-mask"></div>`);
+dm.html(`<div class="${prefixCls}-mask" style="display: none;"></div>`);
 dm.prependTo('body');
 mask = $(`.${prefixCls}-mask`, dm);
 $(window).on('resize.dm', function() {
