@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-24T13:59:13+08:00
-* @Last modified time: 2016-06-27T11:44:25+08:00
+* @Last modified time: 2016-06-29T16:33:09+08:00
 */
 
 import {Widget} from "../component.js";
@@ -71,7 +71,7 @@ class Modal extends Widget {
       "display": props.visible
         ? "block"
         : "none",
-      "zIndex": this.zIndex,
+      "zIndex": Modal.BASE_Z_INDEX + this.zIndex,
       "position": props.centerFixed ? 'fixed' : 'absolute',
       "top": 0,
       "left": 0,
@@ -204,20 +204,21 @@ Modal.ajustModalZIndex = function() {
   });
   if (modalVisible.length) {
     mask.css({
-      "zIndex": modalVisible.length
+      "zIndex": Modal.BASE_Z_INDEX + modalVisible.length
     }).show();
     //调整各modal z-index
     modalVisible.forEach((itemData) => {
       var modal = itemData.modal,
         container = modal.container;
       if (container) {
-        $(`.${prefixCls}`, container).css({"zIndex": itemData.modal.zIndex});
+        $(`.${prefixCls}`, container).css({"zIndex": Modal.BASE_Z_INDEX + itemData.modal.zIndex});
       }
     });
   } else {
     mask.hide();
   }
 };
+Modal.BASE_Z_INDEX = 10000;
 
 //初始化弹框容器和遮罩
 dm = $(`<div class="${prefixCls}-manager"></div>`);

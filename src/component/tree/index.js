@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-06-23T15:02:42+08:00
+* @Last modified time: 2016-06-29T17:22:07+08:00
 */
 
 /**
@@ -110,7 +110,7 @@ class Tree extends Widget {
               options.map((itemData, i) => {
                 //var nodeCheckedCls = '';  //节点选中状态：空/半选/全选
                 return (<li className={`${prefixCls}-item item-${level}`} key={i}>
-                  <div className={`${prefixCls}-node`}><span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}></span><span className={`${prefixCls}-node-text`}>&nbsp;{itemData.text}</span></div>
+                  <div className={`${prefixCls}-node`}><span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}>{Tree.getCheckboxTextFromStatus(itemData.checkedStatus)}</span><span className={`${prefixCls}-node-text`} title={itemData.text}>&nbsp;{itemData.text}</span></div>
                   {(itemData.children && itemData.children.length) ? <div className={`${prefixCls}-children`}>
                     {
                       (function () {
@@ -127,6 +127,23 @@ class Tree extends Widget {
     </div>);
   }
 }
+Tree.getCheckboxTextFromStatus = function (status) {
+  var text = '';
+  switch (status) {
+    case 'checked':
+      text = '√';
+    break;
+    case 'halfChecked':
+      text = '－';
+    break;
+    case 'unchecked':
+      text = '';
+    break;
+    default:
+    break;
+  }
+  return text;
+};
 Tree.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,

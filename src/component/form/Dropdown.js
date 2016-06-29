@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T19:18:04+08:00
-* @Last modified time: 2016-06-24T15:07:04+08:00
+* @Last modified time: 2016-06-29T16:33:59+08:00
 */
 
 /**
@@ -153,22 +153,34 @@ class Dropdown extends Widget {
   handleOptionClick(option) {
     const props = this.props;
     if (!option.disabled) { // 如果该option未被禁用
-      let newOptions = [].concat(props.options);
-      // 更新options下各项的被选择值
-      newOptions.forEach((itemData) => {
-        itemData.selected = itemData.value === option.value
+      let oldSelectedValue = props.options.find((itemData) => {
+        return itemData.selected;
+      });
+      oldSelectedValue = oldSelectedValue ? oldSelectedValue.value : '';
+      if (option.value !== oldSelectedValue) {  //新值和旧值不同才发生作用
+        let newOptions = [].concat(props.options);
+        // 更新options下各项的被选择值
+        newOptions.forEach((itemData) => {
+          itemData.selected = itemData.value === option.value
           ? true
           : false;
-      });
-      this.setState({
-        text: option.text,
-        panelStyle: {
-          display: 'none'
-        }
-      });
-      //反射
-      props.onOptionsChange.call(this, newOptions);
-      props.onChange.call(this, option);
+        });
+        this.setState({
+          text: option.text,
+          panelStyle: {
+            display: 'none'
+          }
+        });
+        //反射
+        props.onOptionsChange.call(this, newOptions);
+        props.onChange.call(this, option);
+      } else {
+        this.setState({
+          panelStyle: {
+            display: 'none'
+          }
+        });
+      }
     }
   }
   handleOptionMouseEnter(option) {
@@ -239,7 +251,7 @@ Dropdown.getPanelStyle = function(baseSelector, panelSelector) {
     winScrollLeft = winEl.scrollLeft();
   var style = {
     position: 'absolute',
-    zIndex: 10010,
+    zIndex: 10100,
     top: '-10000px',
     left: '-10000px',
     minWidth: baseEl.outerWidth() - 2 + 'px'
