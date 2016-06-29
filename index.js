@@ -1,4 +1,9 @@
 /**
+* @Date:   2016-06-17T14:29:19+08:00
+* @Last modified time: 2016-06-29T19:14:52+08:00
+*/
+
+/**
  * Component collection
  */
 import Grid from "./src/component/grid";
@@ -13,6 +18,7 @@ import Dropdown from "./src/component/form/Dropdown";
 import AutoComplete from "./src/component/autocomplete";
 import ColorInput from "./src/component/form/ColorInput.js";
 import Uploader from "./src/component/uploader";
+import Tree from "./src/component/tree";
 export {
     Grid,
     Validation,
@@ -25,5 +31,6 @@ export {
     Dropdown,
     AutoComplete,
     ColorInput,
-    Uploader
+    Uploader,
+    Tree
 };
