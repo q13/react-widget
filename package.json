@@ -1,6 +1,6 @@
 {
     "name": "react-widget",
-    "version": "1.6.4",
+    "version": "1.6.5",
     "description": "Some component base on React framework.",
     "main": "index.js",
     "scripts": {

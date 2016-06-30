@@ -1,4 +1,9 @@
 /**
+* @Date:   2016-06-17T14:29:19+08:00
+* @Last modified time: 2016-06-30T11:01:47+08:00
+*/
+
+/**
  * input[type="date"]
  * @require jQuery
  */
@@ -125,7 +130,7 @@ class DateInput extends Widget {
             initialDate = new Date();
         }
         ReactDom.render(<div style={{
-            "zIndex": 10000,
+            "zIndex": 10100,
             "display": visible ? "block" : "none",
             "position": "absolute",
             "top": top + "px",
