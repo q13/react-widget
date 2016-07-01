@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-24T13:59:13+08:00
-* @Last modified time: 2016-06-29T16:33:09+08:00
+* @Last modified time: 2016-07-01T10:07:23+08:00
 */
 
 import {Widget} from "../component.js";
@@ -156,6 +156,7 @@ class Modal extends Widget {
   }
   handleCloseClick() {
     var props = this.props;
+    props.onVisibleChange.call(this, false);
     props.onCloseClick.call(this);
   }
 }
@@ -168,6 +169,7 @@ Modal.propTypes = {
   width: React.PropTypes.any,
   height: React.PropTypes.any,
   visible: React.PropTypes.bool,
+  onVisibleChange: React.PropTypes.func,
   onCloseClick: React.PropTypes.func,
   onSubmitClick: React.PropTypes.func
 };
@@ -182,6 +184,7 @@ Modal.defaultProps = {
   title: '',
   closeText: '',
   submitText: '',
+  onVisibleChange: () => {},
   onCloseClick: () => {},
   onSubmitClick: () => {}
 };
