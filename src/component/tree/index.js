@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-07-01T10:32:46+08:00
+* @Last modified time: 2016-07-01T17:11:55+08:00
 */
 
 /**
@@ -20,11 +20,16 @@ class Tree extends Widget {
     this.adaptOptionStatus(props);
     this.state = {};
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.renderTid = null;  //用于延时加载
+  }
   componentWillReceiveProps(nextProps) {
     this.adaptOptionStatus(nextProps);
   }
-  componentWillUnmount() {}
+  componentWillUnmount() {
+    clearTimeout(this.renderTid);
+    this.renderTid = null;
+  }
   adaptOptionStatus(props) {
     //处理半勾选状态
     loop(props.options);
@@ -112,6 +117,47 @@ class Tree extends Widget {
     }
     props.onOptionsChange(options); //反射
   }
+  handleOptionFold(option) {
+    const props = this.props;
+    const self = this;
+    let options = props.options;
+    option.foldStatus = (option.foldStatus === 'unfold' ? 'fold' : 'unfold');
+    clearTimeout(this.renderTid);
+      // props.onOptionsChange([].concat(options)); //反射
+      // return;
+    if (option.foldStatus === 'unfold') { //分时渲染调优性能
+      if (option.children.length > 50) {
+        //let totalChildren = option.children;
+        let counts = Math.ceil(option.children.length / 50.0);
+        let i = 0;
+        //option.children = [];
+        let loop = function () {
+          self.renderTid = setTimeout(() => {
+            //option.children = option.children.concat(totalChildren.slice(i * 100, 100));
+            option.children.slice(i * 50, (i + 1) * 50).forEach((itemData) => {
+              itemData.rendered = true;
+            });
+            props.onOptionsChange([].concat(options)); //反射
+            i++;
+            if (i < counts) {
+              loop();
+            }
+          }, 0);
+        };
+        loop();
+      } else {
+        option.children.forEach((itemData) => {
+          itemData.rendered = true;
+        });
+        props.onOptionsChange([].concat(options)); //反射
+      }
+    } else {
+      option.children.forEach((itemData) => {
+        itemData.rendered = false;
+      });
+      props.onOptionsChange([].concat(options)); //反射
+    }
+  }
   render() {
     const props = this.props;
     const state = this.state;
@@ -125,16 +171,19 @@ class Tree extends Widget {
             {
               options.map((itemData, i) => {
                 //var nodeCheckedCls = '';  //节点选中状态：空/半选/全选
-                return (<li className={`${prefixCls}-item item-${level}`} key={i}>
-                  <div className={`${prefixCls}-node`}><span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}>{Tree.getCheckboxTextFromStatus(itemData.checkedStatus)}</span><span className={`${prefixCls}-node-text`} title={itemData.text}>&nbsp;{itemData.text}</span></div>
-                  {(itemData.children && itemData.children.length) ? <div className={`${prefixCls}-children`}>
+                return ((level === 0 || itemData.rendered) ? (<li className={`${prefixCls}-item item-${level}`} key={i}>
+                  <div className={`${prefixCls}-node`}>
+                    {(itemData.children && itemData.children.length) ? <span className={`${prefixCls}-node-foldder ${prefixCls}-node-foldder-${itemData.foldStatus || 'fold'}`} onClick={self.handleOptionFold.bind(self, itemData)}>{Tree.getFoldderTextFromStatus(itemData.foldStatus)}</span> : null}
+                    <span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}>{Tree.getCheckboxTextFromStatus(itemData.checkedStatus)}</span>
+                    <span className={`${prefixCls}-node-text`} title={itemData.text}>&nbsp;{itemData.text}</span></div>
+                  {(itemData.foldStatus === 'unfold' && itemData.children && itemData.children.length) ? <div className={`${prefixCls}-children`}>
                     {
                       (function () {
                         return loop(itemData.children, level + 1);
                       }())
                     }
                   </div> : null}
-                </li>);
+                </li>) : null);
               })
             }
           </ul>);
@@ -156,6 +205,19 @@ Tree.getCheckboxTextFromStatus = function (status) {
       text = '';
     break;
     default:
+    break;
+  }
+  return text;
+};
+Tree.getFoldderTextFromStatus = function (status) {
+  var text = '';
+  switch (status) {
+    case 'unfold':
+      text = '－';
+    break;
+    case 'fold':
+    default:
+      text = '＋';
     break;
   }
   return text;
