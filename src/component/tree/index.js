@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-07-01T17:11:55+08:00
+* @Last modified time: 2016-07-04T17:33:46+08:00
 */
 
 /**
@@ -34,31 +34,40 @@ class Tree extends Widget {
     //处理半勾选状态
     loop(props.options);
 
-    function loop(options) {
+    function loop(options, forceCheck) {
       options.forEach((itemData) => {
-        if (itemData.children && itemData.children.length) {
-          loop(itemData.children);
-          let checkedCounts = 0;
-          let halfCheckedCounts = 0;
-          itemData.children.forEach((itemData) => {
-            if (itemData.checkedStatus === 'checked') {
-              checkedCounts++;
-            }
-            if (itemData.checkedStatus === 'halfChecked') {
-              halfCheckedCounts++;
-            }
-          });
-          if (checkedCounts === 0) {  //没有子节点被checked
-            if (halfCheckedCounts > 0) {
-              itemData.checkedStatus = 'halfChecked';
+        if (forceCheck) { //直接选中所有的子节点
+          itemData.checkedStatus = 'checked';
+        }
+        if (itemData.checkedStatus === 'checked') {
+          if (itemData.children && itemData.children.length) {
+            loop(itemData.children, true);
+          }
+        } else {
+          if (itemData.children && itemData.children.length) {
+            loop(itemData.children);
+            let checkedCounts = 0;
+            let halfCheckedCounts = 0;
+            itemData.children.forEach((itemData) => {
+              if (itemData.checkedStatus === 'checked') {
+                checkedCounts++;
+              }
+              if (itemData.checkedStatus === 'halfChecked') {
+                halfCheckedCounts++;
+              }
+            });
+            if (checkedCounts === 0) {  //没有子节点被checked
+              if (halfCheckedCounts > 0) {
+                itemData.checkedStatus = 'halfChecked';
+              } else {
+                itemData.checkedStatus = 'unchecked';
+              }
             } else {
-              itemData.checkedStatus = 'unchecked';
-            }
-          } else {
-            if (checkedCounts === itemData.children.length) { //全部子节点被checked
-              itemData.checkedStatus = 'checked';
-            } else {  //部分子节点被checked
-              itemData.checkedStatus = 'halfChecked';
+              if (checkedCounts === itemData.children.length) { //全部子节点被checked
+                itemData.checkedStatus = 'checked';
+              } else {  //部分子节点被checked
+                itemData.checkedStatus = 'halfChecked';
+              }
             }
           }
         }
