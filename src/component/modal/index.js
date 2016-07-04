@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-24T13:59:13+08:00
-* @Last modified time: 2016-07-01T10:07:23+08:00
+* @Last modified time: 2016-07-04T16:24:49+08:00
 */
 
 import {Widget} from "../component.js";
@@ -96,15 +96,18 @@ class Modal extends Widget {
       {props.customTemplate
         ? props.children
         : <div className={`${prefixCls}-inner`}>
-          <div className={`${prefixCls}-header`}>
+          {props.title ? <div className={`${prefixCls}-header`}>
             <h3 className={`${prefixCls}-title`}>{props.title}</h3>
-            <span className={`${prefixCls}-close-btn`} onClick={this.handleCloseClick.bind(this)}>&times;</span>
-          </div>
+            {props.closeOption === 'visible' ? <span className={`${prefixCls}-close-btn`} onClick={this.handleCloseClick.bind(this)}>&times;</span> : null}
+          </div> : null}
           <div className={`${prefixCls}-body`}>
             {props.children}
           </div>
           <div className={`${prefixCls}-footer`}>
-            <div className="footer-l">
+            {props.submitOption === 'visible' ? <button type="button" className="btn-submit" onClick={this.handleSubmitClick.bind(this)}>{props.submitText}</button> : null}
+            {props.submitOption === 'visible' && props.closeOption === 'visible' ? <span>&nbsp;&nbsp;&nbsp;</span> : null}
+            {props.closeOption === 'visible' ? <button type="button" className="btn-close" onClick={this.handleCloseClick.bind(this)}>{props.closeText}</button> : null}
+            {/*<div className="footer-l">
               <div className="footer-l-inner">
                 <button type="button" className="btn-submit" onClick={this.handleSubmitClick.bind(this)}>确&nbsp;认</button>
               </div>
@@ -113,7 +116,7 @@ class Modal extends Widget {
               <div className="footer-r-inner">
                 <button type="button" className="btn-close" onClick={this.handleCloseClick.bind(this)}>取&nbsp;消</button>
               </div>
-            </div>
+            </div>*/}
           </div>
         </div>}
     </div>, container[0], () => {
@@ -169,6 +172,11 @@ Modal.propTypes = {
   width: React.PropTypes.any,
   height: React.PropTypes.any,
   visible: React.PropTypes.bool,
+  title: React.PropTypes.string,
+  closeText: React.PropTypes.string,
+  submitText: React.PropTypes.string,
+  submitOption: React.PropTypes.string,
+  closeOption: React.PropTypes.string,
   onVisibleChange: React.PropTypes.func,
   onCloseClick: React.PropTypes.func,
   onSubmitClick: React.PropTypes.func
@@ -182,8 +190,10 @@ Modal.defaultProps = {
   height: 600,
   visible: true,
   title: '',
-  closeText: '',
-  submitText: '',
+  closeText: '取消',
+  submitText: '确定',
+  submitOption: 'visible',  //hidden or visible
+  closeOption: 'visible',
   onVisibleChange: () => {},
   onCloseClick: () => {},
   onSubmitClick: () => {}

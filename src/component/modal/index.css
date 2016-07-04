@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:08+08:00
-* @Last modified time: 2016-06-29T17:50:45+08:00
+* @Last modified time: 2016-07-04T16:03:38+08:00
 */
 
 .ui-modal {
@@ -29,7 +29,8 @@
 
 .ui-modal-footer {
   zoom: 1;
-  padding: 16px 0;
+  padding: 16px;
+  text-align: center;
 }
 .ui-modal-footer .footer-l {
   float: left;
