@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:08+08:00
-* @Last modified time: 2016-06-23T14:57:22+08:00
+* @Last modified time: 2016-07-04T11:52:12+08:00
 */
 
 /**
@@ -84,6 +84,7 @@ Checkboxgroup.defaultProps = {
   prefixCls: 'ui-form-checkboxgroup',
   className: '',
   options: [], // {text: '', value: {}, checked: false, disabled: false }
+  value: void(0),
   onChange: (evt) => {},
   onOptionsChange: (evt) => {},
 };

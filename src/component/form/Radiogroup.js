@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-06-23T14:57:07+08:00
+* @Last modified time: 2016-07-04T11:51:34+08:00
 */
 
 /**
@@ -85,7 +85,7 @@ Radiogroup.defaultProps = {
   prefixCls: 'ui-form-radiogroup',
   className: '',
   options: [], // {text: '', value: {}, checked: false, disabled: false }
-  value: null,  //默认选中值
+  value: void(0),  //默认选中值
   onChange: (evt) => {},
   onOptionsChange: (evt) => {},
 };
