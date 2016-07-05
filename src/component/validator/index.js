@@ -2,7 +2,7 @@
 * @Author: 13
 * @Date:   2016-06-17T16:39:09+08:00
 * @Last modified by:
-* @Last modified time: 2016-06-24T17:28:21+08:00
+* @Last modified time: 2016-07-05T16:57:36+08:00
 */
 
 /**
@@ -29,12 +29,15 @@ class Validator extends Widget {
     var message = [].concat(field.message);
     var value = field.value + '';
     var allowBlank = field.allowBlank;
+    var ignore = field.ignore;
+    var indexOffset = 0;
     if (allowBlank === true) {
       rule = [true, function (v) {
         if (!v) { //如果为空，忽略后面的验证
           return 'abort';
         }
       }].concat(rule);
+      indexOffset = 2;
     } else {
       rule = [true, function (v) {
         if (!v) { //如果为空，给予空值提示
@@ -45,6 +48,13 @@ class Validator extends Widget {
           return 'abort';
         }
       }].concat(rule);
+      indexOffset = 3;
+    }
+    if (ignore) {
+      rule = [true, function () {
+        return 'abort';
+      }].concat(rule);
+      indexOffset = 2;
     }
     //处理不同的rule形式 string/boolean/regx/object/function
     return rule.reduce((pv, cv, ci, arr) => {
@@ -78,7 +88,7 @@ class Validator extends Widget {
         }, (() => {
           if (pv.firstInvalidIndex < 0) {
             return {
-              firstInvalidIndex: allowBlank === true ? (ci - 2) : (ci - 3),
+              firstInvalidIndex: ci - indexOffset,
               message: validateResult
             };
           }
@@ -89,7 +99,7 @@ class Validator extends Widget {
         }, (() => {
           if (validateResult === false && pv.firstInvalidIndex < 0) {
             return {
-              firstInvalidIndex: allowBlank === true ? (ci - 2) : (ci - 3)
+              firstInvalidIndex: ci - indexOffset
             };
           }
         })());
@@ -99,7 +109,7 @@ class Validator extends Widget {
         }, (() => {
           if (validateResult.isValid === false && pv.firstInvalidIndex < 0) {
             let rs = {
-              firstInvalidIndex: allowBlank === true ? (ci - 2) : (ci - 3)
+              firstInvalidIndex: ci - indexOffset
             };
             if (validateResult.message) {
               rs.message = validateResult.message;
@@ -420,7 +430,12 @@ Validator.getOrderFields = function (fields) {
     }
     if (typeof pv[cv.name].rule === 'undefined') {  //添加默认rule
       pv[cv.name].rule = [true];
+    }
+    if (typeof pv[cv.name].message === 'undefined') {
       pv[cv.name].message = [];
+    }
+    if (typeof pv[cv.name].ignore === 'undefined') {  //默认验证所有项
+      pv[cv.name].ignore = false;
     }
     return pv;
   }, {});

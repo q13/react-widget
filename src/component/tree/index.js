@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-07-04T17:33:46+08:00
+* @Last modified time: 2016-07-05T15:46:13+08:00
 */
 
 /**
@@ -83,21 +83,36 @@ class Tree extends Widget {
     const props = this.props;
     let options = [].concat(props.options);
     option.checkedStatus = (option.checkedStatus === 'checked' ? 'unchecked' : 'checked');
-    loop(options);
+    //反选其它node
+    if (props.checkMode === 'single') {
+      uncheckOtherNode(options);
+    }
+    //同步状态
+    syncStatusLoop(options);
     //向上向下控制
-    function loop(options, checkedStatus) {
+    function uncheckOtherNode(options) {
+      options.forEach((itemData) => {
+        if (itemData.value !== option.value) {
+          itemData.checkedStatus = 'unchecked';
+        }
+        if (itemData.children && itemData.children.length) {
+          uncheckOtherNode(itemData.children);
+        }
+      });
+    }
+    function syncStatusLoop(options, checkedStatus) {
       options.forEach((itemData) => {
         if (itemData.value === option.value) {  //处理当前节点
-          itemData.children && itemData.children.length && loop(itemData.children, itemData.checkedStatus);
+          itemData.children && itemData.children.length && syncStatusLoop(itemData.children, itemData.checkedStatus);
         } else {  //处理其它节点
           if (typeof checkedStatus !== 'undefined') { //children lookup
             itemData.checkedStatus = checkedStatus;
-            itemData.children && itemData.children.length && loop(itemData.children, checkedStatus);
+            itemData.children && itemData.children.length && syncStatusLoop(itemData.children, checkedStatus);
           } else {  //parent lookup
             let checkedCounts = 0;
             let halfCheckedCounts = 0;
             if (itemData.children && itemData.children.length) {
-              loop(itemData.children);
+              syncStatusLoop(itemData.children);
               itemData.children.forEach((itemData) => {
                 if (itemData.checkedStatus === 'checked') {
                   checkedCounts++;
@@ -183,7 +198,7 @@ class Tree extends Widget {
                 return ((level === 0 || itemData.rendered) ? (<li className={`${prefixCls}-item item-${level}`} key={i}>
                   <div className={`${prefixCls}-node`}>
                     {(itemData.children && itemData.children.length) ? <span className={`${prefixCls}-node-foldder ${prefixCls}-node-foldder-${itemData.foldStatus || 'fold'}`} onClick={self.handleOptionFold.bind(self, itemData)}>{Tree.getFoldderTextFromStatus(itemData.foldStatus)}</span> : null}
-                    <span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}>{Tree.getCheckboxTextFromStatus(itemData.checkedStatus)}</span>
+                    {itemData.checkType === 'checkbox' ? <span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}>{Tree.getCheckboxTextFromStatus(itemData.checkedStatus)}</span> : null}
                     <span className={`${prefixCls}-node-text`} title={itemData.text}>&nbsp;{itemData.text}</span></div>
                   {(itemData.foldStatus === 'unfold' && itemData.children && itemData.children.length) ? <div className={`${prefixCls}-children`}>
                     {
@@ -234,13 +249,15 @@ Tree.getFoldderTextFromStatus = function (status) {
 Tree.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
+  checkMode: React.PropTypes.string,
   options: React.PropTypes.array,
   onOptionsChange: React.PropTypes.func
 };
 Tree.defaultProps = {
   prefixCls: 'ui-tree',
   className: '',
-  options: [],
+  checkMode: 'multi', //multi or single
+  options: [],  //{value, text, checkedstatus, checkType} checkedStatus取值checked，halfChecked,unchecked(默认) checkType取值none(默认),checkbox
   onOptionsChange: () => {}
 };
 
