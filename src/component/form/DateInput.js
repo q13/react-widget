@@ -1,6 +1,6 @@
 /**
-* @Date:   2016-06-17T14:29:19+08:00
-* @Last modified time: 2016-06-30T11:01:47+08:00
+* @Date:   2016-06-17T16:39:08+08:00
+* @Last modified time: 2016-07-07T17:59:46+08:00
 */
 
 /**
@@ -129,13 +129,14 @@ class DateInput extends Widget {
         } else {
             initialDate = new Date();
         }
+        let appearAnimateCls = (visible ? `${prefixCls}-transition-appear` : '');
         ReactDom.render(<div style={{
             "zIndex": 10100,
             "display": visible ? "block" : "none",
             "position": "absolute",
             "top": top + "px",
             "left": left + "px"
-        }}>
+        }} className={`${appearAnimateCls}`}>
             <Calendar {...props.calendarProps} className={`${prefixCls}-calendar ${prefixCls}-calendar-` + this.cptId} initialDate={initialDate} onClickDate={
                 (date) => {
                     this.renderCalendar({
