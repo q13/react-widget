@@ -2,7 +2,7 @@
 * @Author: 13
 * @Date:   2016-06-17T16:39:09+08:00
 * @Last modified by:
-* @Last modified time: 2016-07-05T16:57:36+08:00
+* @Last modified time: 2016-07-07T16:30:26+08:00
 */
 
 /**
@@ -408,9 +408,11 @@ Validator.getNewFields = function (value, key, fields) {
   }
   //tmpResult[key] = Object.assign({}, result[key], {
   Object.keys(target).forEach((k) => {
-    result[k] = Object.assign({}, result[k], {
-      value: target[k]
-    });
+    if (result[k]) {  //保持只赋值存在的配置项
+      result[k] = Object.assign({}, result[k], {
+        value: target[k]
+      });
+    }
   });
   //let newFields = Object.assign({}, result, tmpResult);
   let newFields = Object.assign({}, result);
