@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T19:18:04+08:00
-* @Last modified time: 2016-06-29T16:33:59+08:00
+* @Last modified time: 2016-07-07T16:15:41+08:00
 */
 
 /**
@@ -95,15 +95,15 @@ class Dropdown extends Widget {
     const state = this.state;
     if (!props.disabled) {
       activeInstanceId = this.instanceId;
-      this.setState({
-        display: 'none'
-      }, () => {
-        Dropdown.renderPanel(this, () => {
-          this.setState({
-            panelStyle: Dropdown.getPanelStyle(ReactDom.findDOMNode(this), panelContainer.firstChild)
-          });
+      Dropdown.renderPanel(this, () => {
+        this.setState({
+          panelStyle: Dropdown.getPanelStyle(ReactDom.findDOMNode(this), panelContainer.firstChild)
         });
       });
+      // this.setState({
+      //   display: 'none'
+      // }, () => {
+      // });
     }
   }
   handleInputKeydown(evt) {
@@ -214,8 +214,9 @@ class Dropdown extends Widget {
     let cls = props.disabled
       ? prefixCls + '-disabled'
       : '';
+    let stateCls = (activeInstanceId === this.instanceId && state.panelStyle.display === 'block') ? `${prefixCls}-state-active` : '';
     return (
-      <span className={`${prefixCls} ${prefixCls}-${this.instanceId} ${props.className} ${cls}`}>
+      <span className={`${prefixCls} ${prefixCls}-${this.instanceId} ${props.className} ${cls} ${stateCls}`}>
         <input type="text" className={`${prefixCls}-input-text`} value={state.text} title={state.text} onKeyDown={this.handleInputKeydown.bind(this)} onClick={this.handleInputClick.bind(this)} readOnly={true} placeholder={props.placeholder} /><span className={`${prefixCls}-input-icon`}></span>
       </span>
     );
@@ -225,8 +226,10 @@ class Dropdown extends Widget {
 Dropdown.renderPanel = function(cpt, callback) {
   const props = cpt.props;
   const state = cpt.state;
+
+  let appearAnimateCls = (state.panelStyle.display === 'block' ? `${props.prefixCls}-panel-transition-appear` : '');
   ReactDom.render(
-    <div className={`${props.prefixCls}-panel ${props.prefixCls}-panel-${cpt.instanceId}`} style={state.panelStyle}>
+    <div className={`${props.prefixCls}-panel ${props.prefixCls}-panel-${cpt.instanceId} ${appearAnimateCls}`} style={state.panelStyle}>
     {props.getDefaultPanelTemplate.call(cpt)}
   </div>, panelContainer, () => {
     callback && callback();
@@ -250,6 +253,7 @@ Dropdown.getPanelStyle = function(baseSelector, panelSelector) {
     winScrollTop = winEl.scrollTop(),
     winScrollLeft = winEl.scrollLeft();
   var style = {
+    display: 'block',
     position: 'absolute',
     zIndex: 10100,
     top: '-10000px',

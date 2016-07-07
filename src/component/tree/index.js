@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-07-05T15:46:13+08:00
+* @Last modified time: 2016-07-05T19:09:38+08:00
 */
 
 /**
@@ -197,7 +197,7 @@ class Tree extends Widget {
                 //var nodeCheckedCls = '';  //节点选中状态：空/半选/全选
                 return ((level === 0 || itemData.rendered) ? (<li className={`${prefixCls}-item item-${level}`} key={i}>
                   <div className={`${prefixCls}-node`}>
-                    {(itemData.children && itemData.children.length) ? <span className={`${prefixCls}-node-foldder ${prefixCls}-node-foldder-${itemData.foldStatus || 'fold'}`} onClick={self.handleOptionFold.bind(self, itemData)}>{Tree.getFoldderTextFromStatus(itemData.foldStatus)}</span> : null}
+                    {(itemData.children && itemData.children.length) ? <span className={`${prefixCls}-node-foldder ${prefixCls}-node-foldder-${itemData.foldStatus || 'fold'}`} onClick={self.handleOptionFold.bind(self, itemData)}>{Tree.getFoldderTextFromStatus(itemData.foldStatus)}</span> : <span className={`${prefixCls}-node-foldder`}></span>}
                     {itemData.checkType === 'checkbox' ? <span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}>{Tree.getCheckboxTextFromStatus(itemData.checkedStatus)}</span> : null}
                     <span className={`${prefixCls}-node-text`} title={itemData.text}>&nbsp;{itemData.text}</span></div>
                   {(itemData.foldStatus === 'unfold' && itemData.children && itemData.children.length) ? <div className={`${prefixCls}-children`}>

@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-24T13:59:13+08:00
-* @Last modified time: 2016-07-04T16:24:49+08:00
+* @Last modified time: 2016-07-07T11:33:09+08:00
 */
 
 import {Widget} from "../component.js";
@@ -91,8 +91,9 @@ class Modal extends Widget {
         modalStore = tempModalStore;
       }
     }
+    let appearAnimateCls = (style.display === 'block' ? `${prefixCls}-transition-appear` : '');
     ReactDom.render(
-      <div className={`${prefixCls} ${props.className}`} style={style}>
+      <div className={`${prefixCls} ${props.className} ${appearAnimateCls}`} style={style}>
       {props.customTemplate
         ? props.children
         : <div className={`${prefixCls}-inner`}>
