@@ -2,7 +2,7 @@
 * @Author: 13
 * @Date:   2016-06-17T16:39:09+08:00
 * @Last modified by:
-* @Last modified time: 2016-07-07T16:30:26+08:00
+* @Last modified time: 2016-07-08T18:10:06+08:00
 */
 
 /**
@@ -51,10 +51,19 @@ class Validator extends Widget {
       indexOffset = 3;
     }
     if (ignore) {
-      rule = [true, function () {
-        return 'abort';
-      }].concat(rule);
-      indexOffset = 2;
+      if (ignore === true) {
+        rule = [true, function () {
+          return 'abort';
+        }].concat(rule);
+        indexOffset = 2;
+      } else if (typeof ignore === 'function') {
+        if (ignore()) {
+          rule = [true, function () {
+            return 'abort';
+          }].concat(rule);
+          indexOffset = 2;
+        }
+      }
     }
     //处理不同的rule形式 string/boolean/regx/object/function
     return rule.reduce((pv, cv, ci, arr) => {
@@ -408,11 +417,9 @@ Validator.getNewFields = function (value, key, fields) {
   }
   //tmpResult[key] = Object.assign({}, result[key], {
   Object.keys(target).forEach((k) => {
-    if (result[k]) {  //保持只赋值存在的配置项
-      result[k] = Object.assign({}, result[k], {
-        value: target[k]
-      });
-    }
+    result[k] = Object.assign({}, result[k], {
+      value: target[k]
+    });
   });
   //let newFields = Object.assign({}, result, tmpResult);
   let newFields = Object.assign({}, result);
