@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:08+08:00
-* @Last modified time: 2016-07-04T11:52:12+08:00
+* @Last modified time: 2016-07-08T14:51:17+08:00
 */
 
 /**
@@ -60,7 +60,8 @@ class Checkboxgroup extends Widget {
           <div key={ x }
                className={ Checkboxgroup.getOptionClass(prefixCls, option, x) }
                onClick={ this.handleOptionClick.bind(this, x) }>
-            { option.text }
+            <i className="icon-handler"></i>
+            <span className="text">{ option.text }</span>
           </div>
         ))
       }
@@ -69,8 +70,8 @@ class Checkboxgroup extends Widget {
 }
 Checkboxgroup.getOptionClass = function(prefixCls, option, x) {
   let classString = `${prefixCls}-option ${prefixCls}-option-${x}`;
-  if (option.disabled) classString += ` ui-common-disabled`;
-  if (option.checked) classString += ` ui-common-selected`;
+  if (option.disabled) classString += ` ${prefixCls}-option-state-disabled`;
+  if (option.checked) classString += ` ${prefixCls}-option-state-checked`;
   return classString;
 };
 Checkboxgroup.propTypes = {

@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-07-04T11:51:34+08:00
+* @Last modified time: 2016-07-08T14:51:24+08:00
 */
 
 /**
@@ -60,7 +60,8 @@ class Radiogroup extends Widget {
           <div key={ x }
                className={ Radiogroup.getOptionClass(prefixCls, option, x, options) }
                onClick={ this.handleOptionClick.bind(this, x) }>
-            { option.text }
+            <i className="icon-handler"></i>
+            <span className="text">{ option.text }</span>
           </div>
         ))
       }
@@ -69,8 +70,8 @@ class Radiogroup extends Widget {
 }
 Radiogroup.getOptionClass = function(prefixCls, option, x, options) {
   let classString = `${prefixCls}-option ${prefixCls}-option-${x}`;
-  if (option.disabled) classString += ` ui-common-disabled`;
-  if (option.checked && options.findIndex(i => i.checked) === x) classString += ` ui-common-selected`;
+  if (option.disabled) classString += ` ${prefixCls}-option-state-disabled`;
+  if (option.checked && options.findIndex(i => i.checked) === x) classString += ` ${prefixCls}-option-state-checked`;
   return classString;
 };
 Radiogroup.propTypes = {
