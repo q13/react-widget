@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-07-05T19:09:38+08:00
+* @Last modified time: 2016-07-11T14:15:07+08:00
 */
 
 /**
@@ -18,7 +18,10 @@ class Tree extends Widget {
   constructor(props) {
     super(props);
     this.adaptOptionStatus(props);
-    this.state = {};
+    this.state = {
+      checkedStatusRecord: null, //checked记录
+      selectedStatusRecord: null  //selected记录
+    };
   }
   componentDidMount() {
     this.renderTid = null;  //用于延时加载
@@ -141,6 +144,26 @@ class Tree extends Widget {
     }
     props.onOptionsChange(options); //反射
   }
+  handleOptionSelect(option) {
+    const props = this.props;
+    let options = [].concat(props.options);
+    option.selectedStatus = (option.selectedStatus === 'selected' ? 'unselected' : 'selected');
+    //反选其它node
+    if (props.selectMode === 'single') {
+      unselectOtherNode(options);
+    }
+    function unselectOtherNode(options) {
+      options.forEach((itemData) => {
+        if (itemData.value !== option.value) {
+          itemData.selectedStatus = 'unselected';
+        }
+        if (itemData.children && itemData.children.length) {
+          unselectOtherNode(itemData.children);
+        }
+      });
+    }
+    props.onOptionsChange(options); //反射
+  }
   handleOptionFold(option) {
     const props = this.props;
     const self = this;
@@ -195,11 +218,12 @@ class Tree extends Widget {
             {
               options.map((itemData, i) => {
                 //var nodeCheckedCls = '';  //节点选中状态：空/半选/全选
+                var nodeSelectedCls = itemData.selectedStatus === 'selected' ? `${prefixCls}-node-text-selected` : '';
                 return ((level === 0 || itemData.rendered) ? (<li className={`${prefixCls}-item item-${level}`} key={i}>
                   <div className={`${prefixCls}-node`}>
                     {(itemData.children && itemData.children.length) ? <span className={`${prefixCls}-node-foldder ${prefixCls}-node-foldder-${itemData.foldStatus || 'fold'}`} onClick={self.handleOptionFold.bind(self, itemData)}>{Tree.getFoldderTextFromStatus(itemData.foldStatus)}</span> : <span className={`${prefixCls}-node-foldder`}></span>}
                     {itemData.checkType === 'checkbox' ? <span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}>{Tree.getCheckboxTextFromStatus(itemData.checkedStatus)}</span> : null}
-                    <span className={`${prefixCls}-node-text`} title={itemData.text}>&nbsp;{itemData.text}</span></div>
+                    <span className={`${prefixCls}-node-text ${nodeSelectedCls}`} title={itemData.text} onClick={self.handleOptionSelect.bind(self, itemData)}>&nbsp;{itemData.text}</span></div>
                   {(itemData.foldStatus === 'unfold' && itemData.children && itemData.children.length) ? <div className={`${prefixCls}-children`}>
                     {
                       (function () {
@@ -250,15 +274,21 @@ Tree.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
   checkMode: React.PropTypes.string,
+  selectMode: React.PropTypes.string,
   options: React.PropTypes.array,
-  onOptionsChange: React.PropTypes.func
+  onOptionsChange: React.PropTypes.func,
+  onCheckedChange: React.PropTypes.func,
+  onSelectedChange: React.PropTypes.func
 };
 Tree.defaultProps = {
   prefixCls: 'ui-tree',
   className: '',
   checkMode: 'multi', //multi or single
-  options: [],  //{value, text, checkedstatus, checkType} checkedStatus取值checked，halfChecked,unchecked(默认) checkType取值none(默认),checkbox
-  onOptionsChange: () => {}
+  selectMode: 'single', //multi or single
+  options: [],  //{value, text, checkedStatus, checkType, selectedStatus} checkedStatus取值checked，halfChecked,unchecked(默认) checkType取值none(默认),checkbox
+  onOptionsChange: () => {},
+  onCheckedChange: () => {},
+  onSelectedChange: () => {}
 };
 
 export default Tree;
