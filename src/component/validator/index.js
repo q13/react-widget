@@ -2,7 +2,7 @@
 * @Author: 13
 * @Date:   2016-06-17T16:39:09+08:00
 * @Last modified by:
-* @Last modified time: 2016-07-11T10:20:27+08:00
+* @Last modified time: 2016-07-11T15:02:09+08:00
 */
 
 /**
@@ -32,7 +32,8 @@ class Validator extends Widget {
     var ignore = field.ignore;
     var indexOffset = 0;
     if (typeof allowBlank === 'function') { //用作及时判定
-      allowBlank = allowBlank();
+      let params = [value].concat(bindFieldValue);
+      allowBlank = allowBlank(...params);
     }
     if (allowBlank === true) {
       rule = [true, function (v) {
@@ -60,7 +61,8 @@ class Validator extends Widget {
         }].concat(rule);
         indexOffset = 2;
       } else if (typeof ignore === 'function') {
-        if (ignore()) {
+        let params = [value].concat(bindFieldValue);
+        if (ignore(...params)) {
           rule = [true, function () {
             return 'abort';
           }].concat(rule);
