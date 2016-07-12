@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T10:24:54+08:00
-* @Last modified time: 2016-06-23T11:56:14+08:00
+* @Last modified time: 2016-07-12T13:02:49+08:00
 */
 
 .ui-tree-node-checkbox,
@@ -21,7 +21,7 @@
   background: #cccccc;
 }
 .ui-tree-list {
-  margin-left: 2em;
+  margin-left: 1em;
 }
 .ui-tree .list-0 {
   margin-left: 0;
