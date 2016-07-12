@@ -1,4 +1,9 @@
 /**
+* @Date:   2016-06-17T14:29:19+08:00
+* @Last modified time: 2016-07-12T19:00:05+08:00
+*/
+
+/**
  * Uploader
  * @require Jquery
  */
@@ -18,10 +23,11 @@ class Uploader extends Widget {
   }
   componentDidMount() {}
   componentWillUnmount() {}
-  uploadFile(filePath) {
-    var props = this.props,
-      prefixCls = props.prefixCls;
-    var this_ = this;
+  upload() {
+    const props = this.props;
+    const state = this.state;
+    const prefixCls = props.prefixCls;
+    const self = this;
     var ifrEl = $(`${prefixCls}-ifr`),
     form = this.refs.form;
     if (!ifrEl.length) {
@@ -33,6 +39,7 @@ class Uploader extends Widget {
       }).appendTo('body');
     }
     form.setAttribute('target', 'upload-result-iframe');
+    let filePath = state.filePath;
     if (filePath) { //有值的情况下才会上传
       ifrEl[0].onload = function() {
         var responseText = $(ifrEl[0].contentWindow.document.body).text(),
@@ -44,13 +51,13 @@ class Uploader extends Widget {
           if (responseData.flag) {
             props.onSuccess(responseData.data);
           } else {
-            this_.setState({
+            self.setState({
               filePath: ''
             });
             props.onFailure(responseData);
           }
         } catch(evt) {
-          this_.setState({
+          self.setState({
             filePath: ''
           });
           props.onFailure({
@@ -66,15 +73,16 @@ class Uploader extends Widget {
     if (this.props.autoUpload) {  //自动上传
       this.setState({
         filePath: evt.target.value
+      }, () => {
+        this.upload();
       });
-      this.uploadFile(evt.target.value);
     }
   }
   render() {
     const props = this.props;
     const state = this.state;
     const prefixCls = props.prefixCls;
-    var additionalRequestParams = props.additionalRequestParams;
+    var requestData = props.requestData;
 
     return (<div className={ `${prefixCls} ${props.className || ''}`} style={{
         width: props.width,
@@ -82,16 +90,16 @@ class Uploader extends Widget {
       }}>
       <form className={`${prefixCls}-form`} action={props.url} ref="form" method="post" encType="multipart/form-data">
         <input type="file" value={state.filePath} accept={props.accept} name={props.fieldName} className={`${prefixCls}-file`} onChange={this.handleChange.bind(this)} />
-        {!additionalRequestParams ? null :
-            Object.keys(additionalRequestParams).map((i,x)=>
-                (<input type="hidden" key={x} name={i} value={additionalRequestParams[i]} />))}
+        {!requestData ? null :
+            Object.keys(requestData).map((i,x)=>
+                (<input type="hidden" key={x} name={i} value={requestData[i]} />))}
       </form>
       <div className={`${prefixCls}-handler`}>{props.children}</div>
     </div>);
   }
 }
 Uploader.propTypes = {
-  additionalRequestParams: React.PropTypes.object,
+  requestData: React.PropTypes.object,
   url: React.PropTypes.string,
   text: React.PropTypes.string,
   fieldName: React.PropTypes.string,
@@ -105,6 +113,7 @@ Uploader.defaultProps = {
   prefixCls: 'ui-uploader',
   className: '',
   autoUpload: true,  //自定上传
+  requestData: null,  //默认上传参数
   width: 'auto',
   height: 'auto',
   fieldName: 'file',
