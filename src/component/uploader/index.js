@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T14:29:19+08:00
-* @Last modified time: 2016-07-12T19:00:05+08:00
+* @Last modified time: 2016-07-12T20:00:21+08:00
 */
 
 /**
@@ -70,13 +70,14 @@ class Uploader extends Widget {
     }
   }
   handleChange(evt) {
-    if (this.props.autoUpload) {  //自动上传
-      this.setState({
-        filePath: evt.target.value
-      }, () => {
+    const props = this.props;
+    this.setState({
+      filePath: evt.target.value
+    }, () => {
+      if (props.autoUpload) {  //自动上传
         this.upload();
-      });
-    }
+      }
+    });
   }
   render() {
     const props = this.props;
