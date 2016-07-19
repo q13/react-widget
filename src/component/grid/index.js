@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-07-11T14:20:03+08:00
-* @Last modified time: 2016-07-19T16:37:42+08:00
+* @Last modified time: 2016-07-19T16:43:49+08:00
 */
 
 /**
@@ -97,7 +97,7 @@ class Grid extends Widget {
                 </table>
             </div>
             {
-            (props.pagination && Props.pageSize !== Number.MAX_VALUE) ?
+            (props.pagination && paginationProps.pageSize) !== Number.MAX_VALUE ?
               <Pagination { ...paginationProps } onPageChange={ (currentPage) => {
                 props.onPageChange.call(this, currentPage);
               }} onPageSizeChange={
@@ -121,7 +121,7 @@ Grid.defaultProps = {
     columns: [],
     prefixCls: 'ui-grid',
     emptyText: '无数据',
-    pagination: true, //是否存在分页
+    pagination: true,
     onPageChange: () => {},
     onPageSizeChange: () => {}
 };
