@@ -1,4 +1,9 @@
 /**
+* @Date:   2016-07-11T14:20:03+08:00
+* @Last modified time: 2016-07-19T16:37:42+08:00
+*/
+
+/**
  * Grid组件实现
  */
 import {
@@ -92,7 +97,7 @@ class Grid extends Widget {
                 </table>
             </div>
             {
-            paginationProps.pageSize !== Number.MAX_VALUE ?
+            (props.pagination && Props.pageSize !== Number.MAX_VALUE) ?
               <Pagination { ...paginationProps } onPageChange={ (currentPage) => {
                 props.onPageChange.call(this, currentPage);
               }} onPageSizeChange={
@@ -116,6 +121,7 @@ Grid.defaultProps = {
     columns: [],
     prefixCls: 'ui-grid',
     emptyText: '无数据',
+    pagination: true, //是否存在分页
     onPageChange: () => {},
     onPageSizeChange: () => {}
 };
