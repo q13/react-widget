@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-07-12T14:15:48+08:00
+* @Last modified time: 2016-07-20T16:54:44+08:00
 */
 
 /**
@@ -32,6 +32,12 @@ class Tree extends Widget {
         this.lazyUnfoldOption(itemData, () => {
           props.onOptionsChange([].concat(props.options)); //反射
         }, true);
+      });
+    } else if (props.unfoldMode === 1) {  //只展开第一层
+      props.options.forEach((itemData) => {
+        this.lazyUnfoldOption(itemData, () => {
+          props.onOptionsChange([].concat(props.options)); //反射
+        });
       });
     }
   }
@@ -353,7 +359,7 @@ Tree.propTypes = {
   className: React.PropTypes.string,
   checkMode: React.PropTypes.string,
   selectMode: React.PropTypes.string,
-  unfoldMode: React.PropTypes.string,
+  unfoldMode: React.PropTypes.any,
   options: React.PropTypes.array,
   onOptionsChange: React.PropTypes.func,
   onCheckedChange: React.PropTypes.func,
