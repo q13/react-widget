@@ -37,17 +37,11 @@ class Checkboxgroup extends Widget {
         }
       });
     }
-    //同步disabled
-    if (props.disabled) {
-      props.options.forEach((option) => {
-        option.disabled = true;
-      });
-    }
   }
   handleOptionClick(currentIndex, evt) {
     const self = this;
     const props = self.props;
-    if (!props.options[currentIndex].disabled) {
+    if (!props.disabled && !props.options[currentIndex].disabled) {
       // const targetOptions = $.extend(true, [], props.options);
       const targetOptions = JSON.parse(JSON.stringify(props.options));
       targetOptions[currentIndex].checked = !targetOptions[currentIndex].checked;
@@ -64,7 +58,7 @@ class Checkboxgroup extends Widget {
       {
         props.options.map((option, x) => (
           <div key={ x }
-               className={ Checkboxgroup.getOptionClass(prefixCls, option, x) }
+               className={ Checkboxgroup.getOptionClass(prefixCls, option, x, props) }
                onClick={ this.handleOptionClick.bind(this, x) }>
             <i className="icon-handler"></i>
             <span className="text">{ option.text }</span>
@@ -74,10 +68,14 @@ class Checkboxgroup extends Widget {
     </div>);
   }
 }
-Checkboxgroup.getOptionClass = function(prefixCls, option, x) {
+Checkboxgroup.getOptionClass = function(prefixCls, option, x, props) {
   let classString = `${prefixCls}-option ${prefixCls}-option-${x}`;
-  if (option.disabled) classString += ` ${prefixCls}-option-state-disabled`;
-  if (option.checked) classString += ` ${prefixCls}-option-state-checked`;
+  if (option.disabled || props.disabled) {
+    classString += ` ${prefixCls}-option-state-disabled`;
+  }
+  if (option.checked) {
+    classString += ` ${prefixCls}-option-state-checked`;
+  }
   return classString;
 };
 Checkboxgroup.propTypes = {

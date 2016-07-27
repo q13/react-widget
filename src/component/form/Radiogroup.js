@@ -35,17 +35,11 @@ class Radiogroup extends Widget {
         }
       });
     }
-    //同步disabled
-    if (props.disabled) {
-      props.options.forEach((option) => {
-        option.disabled = true;
-      });
-    }
   }
   handleOptionClick(currentIndex, evt) {
     const self = this;
     const props = self.props;
-    if (!props.options[currentIndex].disabled) {
+    if (!props.disabled && !props.options[currentIndex].disabled) {
       // const targetOptions = $.extend(true, [], props.options);
       const targetOptions = JSON.parse(JSON.stringify(props.options));
       targetOptions.forEach((option, x) => {
@@ -64,7 +58,7 @@ class Radiogroup extends Widget {
       {
         props.options.map((option, x, options) => (
           <div key={ x }
-               className={ Radiogroup.getOptionClass(prefixCls, option, x, options) }
+               className={ Radiogroup.getOptionClass(prefixCls, option, x, options, props) }
                onClick={ this.handleOptionClick.bind(this, x) }>
             <i className="icon-handler"></i>
             <span className="text">{ option.text }</span>
@@ -74,10 +68,14 @@ class Radiogroup extends Widget {
     </div>);
   }
 }
-Radiogroup.getOptionClass = function(prefixCls, option, x, options) {
+Radiogroup.getOptionClass = function(prefixCls, option, x, options, props) {
   let classString = `${prefixCls}-option ${prefixCls}-option-${x}`;
-  if (option.disabled) classString += ` ${prefixCls}-option-state-disabled`;
-  if (option.checked && options.findIndex(i => i.checked) === x) classString += ` ${prefixCls}-option-state-checked`;
+  if (option.disabled || props.disabled) {
+    classString += ` ${prefixCls}-option-state-disabled`;
+  }
+  if (option.checked && options.findIndex(i => i.checked) === x) {
+    classString += ` ${prefixCls}-option-state-checked`;
+  }
   return classString;
 };
 Radiogroup.propTypes = {
