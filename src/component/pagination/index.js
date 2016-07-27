@@ -102,16 +102,23 @@ class Pagination extends Widget {
     }
 
     handleChange(currentPage) {
-      this.setCurrent(currentPage);
-      this.props.onPageChange(currentPage);
+      const state = this.state;
+      if (state.currentPage != currentPage) {
+        this.setCurrent(currentPage);
+        this.props.onPageChange(currentPage);
+      }
     }
 
     handleInputChange({ range, value }, e) {
+      const state = this.state;
       var currentPage = this.getPropertyRange(value === undefined ? (+e.target.value) : value, range.min, range.max);
-      this.setState({ currentInput: currentPage });
-      this.props.onPageChange(currentPage);
+      if (state.currentPage != currentPage) {
+        this.setState({ currentInput: currentPage });
+        this.props.onPageChange(currentPage);
+      }
     }
     handleClickArrowNav(direction) {
+      const state = this.state;
       var { max } = this.getPages();
       const range = { min: 1, max: max === 0 ? 1 : max };
       var currentPage = this.state.currentPage;
@@ -121,9 +128,10 @@ class Pagination extends Widget {
         currentPage++;
       }
       currentPage = this.getPropertyRange(currentPage, range.min, range.max);
-
-      this.setState({ currentInput: currentPage });
-      this.props.onPageChange(currentPage);
+      if (state.currentPage != currentPage) {
+        this.setState({ currentInput: currentPage });
+        this.props.onPageChange(currentPage);
+      }
     }
     getPropertyRange(number, min, max) {
       return isNaN(number) || number < min ? min : number > max ? max : number;
@@ -181,9 +189,11 @@ class Pagination extends Widget {
               this.setState({
                 pageSizeList: v
               });
-              props.onPageSizeChange.call(this, v.filter((itemData) => {
-                return itemData.selected;
-              })[0].value);
+              setTimeout(() => {
+                props.onPageSizeChange.call(this, v.filter((itemData) => {
+                  return itemData.selected;
+                })[0].value);
+              }, 0);
             }
           }/>
         </li>
