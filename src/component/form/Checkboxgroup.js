@@ -37,6 +37,12 @@ class Checkboxgroup extends Widget {
         }
       });
     }
+    //同步disabled
+    if (props.disabled) {
+      props.options.forEach((option) => {
+        option.disabled = true;
+      });
+    }
   }
   handleOptionClick(currentIndex, evt) {
     const self = this;
@@ -78,6 +84,7 @@ Checkboxgroup.propTypes = {
   prefixCls: React.PropTypes.string,
   className: React.PropTypes.string,
   options: React.PropTypes.array,
+  disabled: React.PropTypes.bool,
   onChange: React.PropTypes.func,
   onOptionsChange: React.PropTypes.func,
 };
@@ -85,6 +92,7 @@ Checkboxgroup.defaultProps = {
   prefixCls: 'ui-form-checkboxgroup',
   className: '',
   options: [], // {text: '', value: {}, checked: false, disabled: false }
+  disabled: false,
   value: void(0),
   onChange: (evt) => {},
   onOptionsChange: (evt) => {},
