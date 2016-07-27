@@ -117,6 +117,10 @@ class Pagination extends Widget {
         this.props.onPageChange(currentPage);
       }
     }
+    handlePageSizeChange(data) {
+      const props = this.props;
+      props.onPageSizeChange.call(this, data.value);
+    }
     handleClickArrowNav(direction) {
       const state = this.state;
       var { max } = this.getPages();
@@ -189,13 +193,8 @@ class Pagination extends Widget {
               this.setState({
                 pageSizeList: v
               });
-              setTimeout(() => {
-                props.onPageSizeChange.call(this, v.filter((itemData) => {
-                  return itemData.selected;
-                })[0].value);
-              }, 0);
             }
-          }/>
+          } onChange={this.handlePageSizeChange.bind(this)} />
         </li>
       );
 
