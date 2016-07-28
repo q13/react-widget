@@ -38,8 +38,20 @@ class Widget extends Component {
       }
     }
   }
+  onPropertyChange(propertyName, value) { //Concurrency way
+    setTimeout(() => {
+      let callbackName = 'on' + propertyName.slice(0, 1).toUpperCase() + propertyName.slice(1) + 'Change';
+      this.props[callbackName] && this.props[callbackName](value);
+    }, 0);
+  }
+  nextTick(callback) {
+    setTimeout(() => {
+      callback && callback();
+    }, 0);
+  }
 }
 reactMixin.onClass(Widget, PureRenderMixin);
+
 export {
   Widget
 }

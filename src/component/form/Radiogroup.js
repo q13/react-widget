@@ -45,8 +45,10 @@ class Radiogroup extends Widget {
       targetOptions.forEach((option, x) => {
         option.checked = currentIndex === x ? true : false;
       });
-      self.props.onChange.call(self, targetOptions[currentIndex]);
-      self.props.onOptionsChange.call(self, targetOptions);
+      this.onPropertyChange('options', targetOptions);
+      this.nextTick(() => {
+        props.onChange(targetOptions[currentIndex]);
+      });
     }
   }
   render() {
