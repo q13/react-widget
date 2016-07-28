@@ -32,7 +32,7 @@ class Validator extends Widget {
     var ignore = field.ignore;
     var indexOffset = 0;
     if (typeof allowBlank === 'function') { //用作及时判定
-      allowBlank = allowBlank();
+      allowBlank = allowBlank(value);
     }
     if (allowBlank === true) {
       rule = [true, function (v) {
@@ -60,7 +60,7 @@ class Validator extends Widget {
         }].concat(rule);
         indexOffset = 2;
       } else if (typeof ignore === 'function') {
-        if (ignore()) {
+        if (ignore(value)) {
           rule = [true, function () {
             return 'abort';
           }].concat(rule);
