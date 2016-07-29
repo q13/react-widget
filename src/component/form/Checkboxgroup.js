@@ -16,26 +16,43 @@ import style from './form.css';
 class Checkboxgroup extends Widget {
   constructor(props) {
     super(props);
-    this.adaptProps(props);
     this.state = {};
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.adaptOptions();
+  }
+  componentDidUpdate() {
+    this.adaptOptions();
+  }
   componentWillUnmount() {}
   componentWillReceiveProps(nextProps) {
-    this.adaptProps(nextProps);
   }
-  adaptProps(props) {
-    //同步value
+  /**
+   * 根据value值调整option的checked状态
+   */
+  adaptOptions() {
+    const props = this.props;
+    const options = [].concat(props.options);
+    let needChange = false;
     if (typeof props.value !== 'undefined') {
-      props.options.forEach((option) => {
+      options.forEach((option) => {
         if ([].concat(props.value).some((valueItem) => {
-          return valueItem === option.value;
-        })) {
+            return valueItem === option.value;
+          })) {
+          if (!option.checked) {
+            needChange = true;
+          }
           option.checked = true;
         } else {
+          if (option.checked) {
+            needChange = true;
+          }
           option.checked = false;
         }
       });
+    }
+    if (needChange) {
+      this.onPropertyChange('options', options);
     }
   }
   handleOptionClick(currentIndex, evt) {
@@ -45,9 +62,10 @@ class Checkboxgroup extends Widget {
       // const targetOptions = $.extend(true, [], props.options);
       const targetOptions = JSON.parse(JSON.stringify(props.options));
       targetOptions[currentIndex].checked = !targetOptions[currentIndex].checked;
+      let result = Object.assign({}, targetOptions[currentIndex]);
       this.onPropertyChange('options', targetOptions);
       this.nextTick(() => {
-        props.onChange(targetOptions[currentIndex]);
+        props.onChange(result);
       });
     }
   }

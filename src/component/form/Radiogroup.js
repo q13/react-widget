@@ -16,24 +16,43 @@ import style from './form.css';
 class Radiogroup extends Widget {
   constructor(props) {
     super(props);
-    this.adaptProps(props);
+    //this.adaptProps(props);
     this.state = {};
   }
-  componentDidMount() {}
+  componentDidMount() {
+    this.adaptOptions();
+  }
+  componentDidUpdate() {
+    this.adaptOptions();
+  }
   componentWillReceiveProps(nextProps) {
-    this.adaptProps(nextProps);
+    //this.adaptProps(nextProps);
   }
   componentWillUnmount() {}
-  adaptProps(props) {
-    //同步value
+  /**
+   * 根据value值调整option的checked状态
+   */
+  adaptOptions() {
+    const props = this.props;
+    const options = [].concat(props.options);
+    let needChange = false;
     if (typeof props.value !== 'undefined') {
-      props.options.forEach((option) => {
+      options.forEach((option) => {
         if (option.value === props.value) {
+          if (!option.checked) {
+            needChange = true;
+          }
           option.checked = true;
         } else {
+          if (option.checked) {
+            needChange = true;
+          }
           option.checked = false;
         }
       });
+    }
+    if (needChange) {
+      this.onPropertyChange('options', options);
     }
   }
   handleOptionClick(currentIndex, evt) {
@@ -45,9 +64,10 @@ class Radiogroup extends Widget {
       targetOptions.forEach((option, x) => {
         option.checked = currentIndex === x ? true : false;
       });
+      let result = Object.assign({}, targetOptions[currentIndex]);
       this.onPropertyChange('options', targetOptions);
       this.nextTick(() => {
-        props.onChange(targetOptions[currentIndex]);
+        props.onChange(result);
       });
     }
   }

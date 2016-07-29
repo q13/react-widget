@@ -18,7 +18,7 @@ var panelContainer;
 class Dropdown extends Widget {
   constructor(props) {
     super(props);
-    this.adaptProps(props);
+    //this.adaptProps(props);
     this.state = {
       text: '',
       panelStyle: {
@@ -47,6 +47,43 @@ class Dropdown extends Widget {
       }
     }
   }
+  /**
+   * 根据value值调整option
+   */
+  adaptOptions() {
+    const props = this.props;
+    const options = [].concat(props.options);
+    let needChange = false;
+    if (typeof props.value !== 'undefined') {
+      options.forEach((option) => {
+        if (option.value === props.value) {
+          if (!option.selected) {
+            needChange = true;
+          }
+          option.selected = true;
+        } else {
+          if (option.selected) {
+            needChange = true;
+          }
+          option.selected = false;
+        }
+      });
+    }
+    //默认选中第一个
+    if (options.length) {
+      if (!options.some((itemData) => {
+          return itemData.selected;
+        })) {
+        if (!options[0].selected) {
+          needChange = true;
+        }
+        options[0].selected = true;
+      }
+    }
+    if (needChange) {
+      this.onPropertyChange('options', options);
+    }
+  }
   syncStateFromProps(props) {
     var selectedOption = props.options.find((itemData) => {
       return itemData.selected;
@@ -66,7 +103,10 @@ class Dropdown extends Widget {
   }
   componentDidMount() {
     const state = this.state;
-    this.syncStateFromProps(this.props);
+    this.adaptOptions();
+    this.nextTick(() => {
+      this.syncStateFromProps(this.props);
+    });
     $('body').on('mousedown.Dropdown' + this.instanceId, (evt) => {
       if (!Dropdown.isInContainer(evt.target, [ReactDom.findDOMNode(this), panelContainer])) {
         this.setState({
@@ -78,7 +118,7 @@ class Dropdown extends Widget {
     });
   }
   componentWillReceiveProps(nextProps) {
-    this.adaptProps(nextProps);
+    //this.adaptProps(nextProps);
     this.syncStateFromProps(nextProps);
   }
   componentWillUnmount() {
@@ -89,7 +129,9 @@ class Dropdown extends Widget {
     $('body').off('mousedown.Dropdown' + this.instanceId);
     this.instanceId = null;
   }
-  componentDidUpdate() {}
+  componentDidUpdate() {
+    this.adaptOptions();
+  }
   handleInputClick() {
     const props = this.props;
     const state = this.state;
