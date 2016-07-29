@@ -222,7 +222,7 @@ class Calendar extends Widget {
         this.setState(({
             focusDate
         }) => ({
-            focusDate: moment(focusDate).set("month", target.value / 1)._d,
+            focusDate: moment(focusDate).set("month", target.value / 1 - 1)._d,
             panelState: "date"
         }));
     }
@@ -307,7 +307,7 @@ class Calendar extends Widget {
                         return (<option key={i} value={v.value}>{v.text}</option>);
                     })
                 }
-                </select>年<span
+                </select>&nbsp;年&nbsp;<span
                 className={`${prefixCls}-label-month`} style={{
                     "display": panelState !== "month" ? "inline-block": "none"
                 }} onClick={this.handleClickLabelMonth.bind(this)}>{moment(focusDate).format("MM")}</span><select className={`${prefixCls}-month-selector`} style={{
@@ -320,7 +320,7 @@ class Calendar extends Widget {
                         return (<option key={i} value={v.value}>{v.text}</option>);
                     })
                 }
-                </select>月
+                </select>&nbsp;月
                 </div>
                 <div className={`${prefixCls}-nav-next`} style={{
                     "display": enableYearMonthChange ? "block": "none"
