@@ -52,7 +52,9 @@ class Dropdown extends Widget {
    */
   adaptOptions() {
     const props = this.props;
-    const options = [].concat(props.options);
+    let options = props.options.map((itemData) => {
+      return Object.assign({}, itemData);
+    });
     let needChange = false;
     if (typeof props.value !== 'undefined') {
       options.forEach((option) => {

@@ -27,16 +27,17 @@ class Tree extends Widget {
     const props = this.props;
     this.renderTid = null;  //用于延时加载
     //判定初始状态下是否需要展开节点
+    let options = Tree.getCloneOptions(props.options);
     if (props.unfoldMode === 'all') {
-      props.options.forEach((itemData) => {
+      options.forEach((itemData) => {
         this.lazyUnfoldOption(itemData, () => {
-          props.onOptionsChange([].concat(props.options)); //反射
+          props.onOptionsChange([].concat(options)); //反射
         }, true);
       });
     } else if (props.unfoldMode === 1) {  //只展开第一层
-      props.options.forEach((itemData) => {
+      options.forEach((itemData) => {
         this.lazyUnfoldOption(itemData, () => {
-          props.onOptionsChange([].concat(props.options)); //反射
+          props.onOptionsChange([].concat(options)); //反射
         });
       });
     }
@@ -174,7 +175,7 @@ class Tree extends Widget {
   handleOptionCheck(option) {
     const props = this.props;
     const state = this.state;
-    let options = [].concat(props.options);
+    let options = Tree.getCloneOptions(props.options);
     option.checkedStatus = (option.checkedStatus === 'checked' ? 'unchecked' : 'checked');
     //反选其它node
     if (props.checkMode === 'single') {
@@ -245,7 +246,7 @@ class Tree extends Widget {
   handleOptionSelect(option) {
     const props = this.props;
     const state = this.state;
-    let options = [].concat(props.options);
+    let options = Tree.getCloneOptions(props.options);
     option.selectedStatus = (option.selectedStatus === 'selected' ? 'unselected' : 'selected');
     //反选其它node
     if (props.selectMode === 'single') {
@@ -273,7 +274,7 @@ class Tree extends Widget {
   handleOptionFold(option) {
     const props = this.props;
     const self = this;
-    let options = props.options;
+    let options = Tree.getCloneOptions(props.options);
     option.foldStatus = (option.foldStatus === 'unfold' ? 'fold' : 'unfold');
     clearTimeout(this.renderTid);
       // props.onOptionsChange([].concat(options)); //反射
@@ -353,6 +354,11 @@ Tree.getFoldderTextFromStatus = function (status) {
     break;
   }
   return text;
+};
+Tree.getCloneOptions = function (options) {
+  return options.map((itemData) => {
+    return Object.assign({}, itemData);
+  });
 };
 Tree.propTypes = {
   prefixCls: React.PropTypes.string,
