@@ -17,3 +17,11 @@
 .ui-form-dropdown-datapane {
   overflow: auto;
 }
+.ui-form-dateinput-calendar-panel {
+  position: relative;
+}
+.ui-form-dateinput-clear-btn {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+}

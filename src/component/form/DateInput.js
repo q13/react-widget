@@ -36,7 +36,7 @@ class DateInput extends Widget {
     });
     $(document).on('mousedown.DateInput' + this.cptId, (evt) => {
       let target = evt.target;
-      if (!$(target).is(`.${this.props.prefixCls}-` + this.cptId) && !$(target).closest(`.${this.props.prefixCls}-` + this.cptId).length && !$(target).is(`.${this.props.prefixCls}-calendar-` + this.cptId) && !$(target).closest(`.${this.props.prefixCls}-calendar-` + this.cptId).length) {
+      if (!$(target).is(`.${this.props.prefixCls}-` + this.cptId) && !$(target).closest(`.${this.props.prefixCls}-` + this.cptId).length && !$(target).is(`.${this.props.prefixCls}-calendar-` + this.cptId) && !$(target).closest(`.${this.props.prefixCls}-calendar-` + this.cptId).length && !$(target).is(`.${this.props.prefixCls}-clear-btn`)) {
         this.renderCalendar({
           visible: false
         });
@@ -61,6 +61,17 @@ class DateInput extends Widget {
         visible: true
       });
     }
+  }
+  handleClearClick() {
+    const props = this.props;
+    this.renderCalendar({
+      visible: false
+    });
+    props.onChange.call(this, {
+      target: {
+        value: ''
+      }
+    });
   }
 
   renderCalendar(data) {
@@ -140,7 +151,7 @@ class DateInput extends Widget {
       "position": "absolute",
       "top": top + "px",
       "left": left + "px"
-    }} className={`${appearAnimateCls}`}>
+    }} className={`${prefixCls}-calendar-panel ${appearAnimateCls}`}>
       <Calendar {...props.calendarProps} className={`${prefixCls}-calendar ${prefixCls}-calendar-` + this.cptId}
                 initialDate={initialDate} onClickDate={
         (date) => {
@@ -154,6 +165,7 @@ class DateInput extends Widget {
           });
         }
       }/>
+      <button type="button" className={`${prefixCls}-clear-btn`} onClick={this.handleClearClick.bind(this)}>清除</button>
     </div>, this.calendarContainer);
   }
 
@@ -165,7 +177,7 @@ class DateInput extends Widget {
       otherCls += `${prefixCls}-input-state-disabled`;
     }
     return (<input {...props} className={`${prefixCls}` + ` ${prefixCls}-` + this.cptId + ' ' + (props.className || '') + ' ' + otherCls}
-                   type="text" ref="input" value={props.value} readOnly={true} onClick={this.handleClick.bind(this)}/>);
+                   type="text" ref="input" value={props.value === 'Invalid date' ? '' : props.value} readOnly={true} onClick={this.handleClick.bind(this)}/>);
   }
 }
 DateInput.defaultProps = {
