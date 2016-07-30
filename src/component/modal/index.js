@@ -42,6 +42,8 @@ class Modal extends Widget {
   }
   componentWillMount() {}
   componentDidMount() {
+    const props = this.props;
+    const container = this.container;
     modalIndex++;
     //存起来
     modalStore.push({"index": modalIndex, "modal": this});
@@ -49,7 +51,10 @@ class Modal extends Widget {
     this.zIndex = 1;
     //初始化后调整一次
     if (this.props.visible) {
-      this.forceUpdate();
+      this.forceUpdate(() => {
+        //定位到一个footer里的第一个button
+        //$(`.${props.prefixCls}-footer button`, this.container)[0].focus();
+      });
     }
   }
   componentWillReceiveProps() {}
@@ -136,6 +141,7 @@ class Modal extends Widget {
     }
   }
   adjustPosition() {
+    const props = this.props;
     var container = this.container,
       modal = $(`.${this.props.prefixCls}`, container),
       modalH = modal.outerHeight(),
@@ -147,10 +153,10 @@ class Modal extends Widget {
       winLeft = win.scrollLeft();
     modal.css({
       "top": winH > modalH + 30
-        ? (winH - modalH) / 2 - 30 + winTop + "px"
+        ? (winH - modalH) / 2 - 30 + (props.centerFixed ? 0 : winTop) + "px"
         : (2 + 'px'),
       "left": winW > modalW
-        ? (winW - modalW) / 2 + winLeft + "px"
+        ? (winW - modalW) / 2 + (props.centerFixed ? 0 : winLeft) + "px"
         : 0
     });
   }
