@@ -176,6 +176,7 @@ class Tree extends Widget {
     const props = this.props;
     const state = this.state;
     let options = Tree.getCloneOptions(props.options);
+    option = Tree.getOptionFromValue(option.value, options)
     option.checkedStatus = (option.checkedStatus === 'checked' ? 'unchecked' : 'checked');
     //反选其它node
     if (props.checkMode === 'single') {
@@ -247,6 +248,7 @@ class Tree extends Widget {
     const props = this.props;
     const state = this.state;
     let options = Tree.getCloneOptions(props.options);
+    option = Tree.getOptionFromValue(option.value, options)
     option.selectedStatus = (option.selectedStatus === 'selected' ? 'unselected' : 'selected');
     //反选其它node
     if (props.selectMode === 'single') {
@@ -275,6 +277,7 @@ class Tree extends Widget {
     const props = this.props;
     const self = this;
     let options = Tree.getCloneOptions(props.options);
+    option = Tree.getOptionFromValue(option.value, options)
     option.foldStatus = (option.foldStatus === 'unfold' ? 'fold' : 'unfold');
     clearTimeout(this.renderTid);
       // props.onOptionsChange([].concat(options)); //反射
@@ -356,9 +359,26 @@ Tree.getFoldderTextFromStatus = function (status) {
   return text;
 };
 Tree.getCloneOptions = function (options) {
-  return options.map((itemData) => {
-    return Object.assign({}, itemData);
-  });
+  // return options.map((itemData) => {
+  //   return Object.assign({}, itemData);
+  // });
+  return JSON.parse(JSON.stringify(options));
+};
+Tree.getOptionFromValue = function (value, options) {
+  let option = null;
+  loop(options);
+  function loop(options) {
+    options.some((itemData) => {
+      if (itemData.value === value) {
+        option = itemData;
+        return true;
+      }
+      if (itemData.children && itemData.children.length) {
+        loop(itemData.children);
+      }
+    });
+  }
+  return option;
 };
 Tree.propTypes = {
   prefixCls: React.PropTypes.string,
