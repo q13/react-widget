@@ -419,8 +419,12 @@ Validator.getNewFields = function (value, key, fields) {
     target[key] = value;
   }
   Object.keys(target).forEach((k) => {
+    let v = target[k];
+    if (typeof v === 'undefined') {
+      v = '';
+    }
     result[k] = Object.assign({}, result[k], {
-      value: target[k] || ''
+      value: v
     });
   });
   return result;
