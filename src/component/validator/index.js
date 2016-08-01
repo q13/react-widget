@@ -32,7 +32,7 @@ class Validator extends Widget {
     var ignore = field.ignore;
     var indexOffset = 0;
     if (typeof allowBlank === 'function') { //用作及时判定
-      allowBlank = allowBlank(value, ...bindFieldValue);
+      allowBlank = allowBlank();
     }
     if (allowBlank === true) {
       rule = [true, function (v) {
@@ -60,7 +60,7 @@ class Validator extends Widget {
         }].concat(rule);
         indexOffset = 2;
       } else if (typeof ignore === 'function') {
-        if (ignore(value, ...bindFieldValue)) {
+        if (ignore()) {
           rule = [true, function () {
             return 'abort';
           }].concat(rule);
@@ -420,7 +420,7 @@ Validator.getNewFields = function (value, key, fields) {
   }
   Object.keys(target).forEach((k) => {
     result[k] = Object.assign({}, result[k], {
-      value: target[k]
+      value: target[k] || ''
     });
   });
   return result;
@@ -448,6 +448,9 @@ Validator.getOrderFields = function (fields) {
     }
     if (typeof pv[cv.name].ignore === 'undefined') {  //默认验证所有项
       pv[cv.name].ignore = false;
+    }
+    if (typeof pv[cv.name].value === 'undefined') {  //默认值
+      pv[cv.name].value = '';
     }
     return pv;
   }, {});
