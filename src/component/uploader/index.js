@@ -1,9 +1,4 @@
 /**
-* @Date:   2016-06-17T14:29:19+08:00
-* @Last modified time: 2016-07-12T20:00:21+08:00
-*/
-
-/**
  * Uploader
  * @require Jquery
  */
@@ -23,13 +18,14 @@ class Uploader extends Widget {
   }
   componentDidMount() {}
   componentWillUnmount() {}
-  upload() {
+  uploadFile() {
     const props = this.props;
     const state = this.state;
     const prefixCls = props.prefixCls;
-    const self = this;
-    var ifrEl = $(`${prefixCls}-ifr`),
-    form = this.refs.form;
+    var self = this;
+    var ifrEl = $(`${prefixCls}-ifr`);
+    var form = this.refs.form;
+    var filePath = state.filePath;
     if (!ifrEl.length) {
       ifrEl = $(`<iframe name="upload-result-iframe" class="${prefixCls}-ifr"/>`);
       ifrEl.css({
@@ -39,7 +35,6 @@ class Uploader extends Widget {
       }).appendTo('body');
     }
     form.setAttribute('target', 'upload-result-iframe');
-    let filePath = state.filePath;
     if (filePath) { //有值的情况下才会上传
       ifrEl[0].onload = function() {
         var responseText = $(ifrEl[0].contentWindow.document.body).text(),
@@ -53,12 +48,16 @@ class Uploader extends Widget {
           } else {
             self.setState({
               filePath: ''
+            }, () => {
+              props.onChange('');
             });
             props.onFailure(responseData);
           }
         } catch(evt) {
           self.setState({
             filePath: ''
+          }, () => {
+            props.onChange('');
           });
           props.onFailure({
             flag: 0,
@@ -69,15 +68,28 @@ class Uploader extends Widget {
       form.submit();
     }
   }
+  upload() {
+    if (this.state.filePath) {
+      this.uploadFile();
+    }
+  }
   handleChange(evt) {
     const props = this.props;
-    this.setState({
-      filePath: evt.target.value
-    }, () => {
-      if (props.autoUpload) {  //自动上传
-        this.upload();
-      }
-    });
+    let value = evt.target.value;
+    if (props.autoUpload) {  //自动上传
+      this.setState({
+        filePath: value
+      }, () => {
+        props.onChange(value);
+        this.uploadFile();
+      });
+    } else {
+      this.setState({
+        filePath: value
+      }, () => {
+        props.onChange(value);
+      });
+    }
   }
   render() {
     const props = this.props;
@@ -106,6 +118,7 @@ Uploader.propTypes = {
   fieldName: React.PropTypes.string,
   accept: React.PropTypes.string,
   className: React.PropTypes.string,
+  onChange: React.PropTypes.func,
   onProgress: React.PropTypes.func,
   onSuccess: React.PropTypes.func,
   onFailure: React.PropTypes.func
@@ -114,11 +127,11 @@ Uploader.defaultProps = {
   prefixCls: 'ui-uploader',
   className: '',
   autoUpload: true,  //自定上传
-  requestData: null,  //默认上传参数
   width: 'auto',
   height: 'auto',
   fieldName: 'file',
   accept: '*',
+  onChange: () => {},
   onProgress: () => {},
   onSuccess: () => {},
   onFailure: () => {}
