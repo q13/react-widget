@@ -249,6 +249,9 @@ class Tree extends Widget {
   handleOptionSelect(option) {
     const props = this.props;
     const state = this.state;
+    if (props.selectMode === 'none') {
+      return;
+    }
     let options = Tree.getCloneOptions(props.options);
     option = Tree.getOptionFromValue(option.value, options)
     option.selectedStatus = (option.selectedStatus === 'selected' ? 'unselected' : 'selected');
@@ -397,7 +400,7 @@ Tree.defaultProps = {
   prefixCls: 'ui-tree',
   className: '',
   checkMode: 'multi', //multi or single or none
-  selectMode: 'single', //multi or single
+  selectMode: 'single', //multi or single or none
   unfoldMode: 'none', // none or all
   options: [],  //{value, text, checkedStatus, checkType, selectedStatus} checkedStatus取值checked，halfChecked,unchecked(默认) checkType取值none(默认),checkbox
   onOptionsChange: () => {},
