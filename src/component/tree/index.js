@@ -30,14 +30,14 @@ class Tree extends Widget {
     let options = Tree.getCloneOptions(props.options);
     if (props.unfoldMode === 'all') {
       options.forEach((itemData) => {
-        this.lazyUnfoldOption(itemData, () => {
-          props.onOptionsChange([].concat(options)); //反射
+        this.lazyUnfoldOption(itemData, (options) => {
+          props.onOptionsChange(options); //反射
         }, true);
       });
     } else if (props.unfoldMode === 1) {  //只展开第一层
       options.forEach((itemData) => {
-        this.lazyUnfoldOption(itemData, () => {
-          props.onOptionsChange([].concat(options)); //反射
+        this.lazyUnfoldOption(itemData, (options) => {
+          props.onOptionsChange(options); //反射
         });
       });
     }
@@ -118,6 +118,8 @@ class Tree extends Widget {
   }
   lazyUnfoldOption(option, callback, isDeepin) {
     const self = this;
+    let options_ = Tree.getCloneOptions(this.props.options);
+    option = Tree.getOptionFromValue(option.value, options_);
     option.foldStatus = 'unfold';
     if (option.children && option.children.length) {
       let loop = function (options) {
@@ -132,7 +134,7 @@ class Tree extends Widget {
               options.slice(i * 50, (i + 1) * 50).forEach((itemData) => {
                 itemData.rendered = true;
               });
-              callback();
+              callback(Tree.getCloneOptions(options_));
               i++;
               if (i < counts) {
                 unfoldLoop();
@@ -153,7 +155,7 @@ class Tree extends Widget {
           options.forEach((itemData) => {
             itemData.rendered = true;
           });
-          callback();
+          callback(options_);
           if (isDeepin) { //判定是否做深层次展开
             options.forEach((itemData) => {
               itemData.foldStatus = 'unfold';
@@ -283,8 +285,8 @@ class Tree extends Widget {
       // props.onOptionsChange([].concat(options)); //反射
       // return;
     if (option.foldStatus === 'unfold') { //分时渲染调优性能
-      this.lazyUnfoldOption(option, () => {
-        props.onOptionsChange([].concat(options)); //反射
+      this.lazyUnfoldOption(option, (options) => {
+        props.onOptionsChange(options); //反射
       });
     } else {
       option.children.forEach((itemData) => {
