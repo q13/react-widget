@@ -273,7 +273,7 @@ Dropdown.renderPanel = function(cpt, callback) {
 
   let appearAnimateCls = (state.panelStyle.display === 'block' ? `${props.prefixCls}-panel-transition-appear` : '');
   ReactDom.render(
-    <div className={`${props.prefixCls}-panel ${props.prefixCls}-panel-${cpt.instanceId} ${appearAnimateCls}`} style={state.panelStyle}>
+    <div className={`${props.prefixCls}-panel ${props.prefixCls}-panel-${cpt.instanceId} ${appearAnimateCls}`} style={state.panelStyle} key={`${cpt.instanceId}`}>
     {props.getDefaultPanelTemplate.call(cpt)}
   </div>, panelContainer, () => {
     callback && callback();
