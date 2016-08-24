@@ -1,4 +1,9 @@
 /**
+* @Date:   2016-08-24T13:57:16+08:00
+* @Last modified time: 2016-08-24T16:38:45+08:00
+*/
+
+/**
  * AutoComplete组件实现
  */
 import {
@@ -10,95 +15,68 @@ import ReactDom from 'react-dom';
 import Dropdown from '../form/Dropdown.js';
 import style from './autocomplete.css';
 
-function escapeRegExp(string) {
-  return string.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); // $& means the whole matched string
+function escapeRegExp(text) {
+  return text.replace(/[\-\[\]\/\{\}\(\)\*\+\?\.\\\^\$\|]/g, "\\$&");
 }
 class AutoComplete extends Dropdown {
   constructor(props) {
     super(props);
-
-    this.searchAvailableFrom = moment()._d;
-    this.searchTimeout = null;
+    this.queryTid = null;
   }
   handleTextChange(evt) {
-    const self = this;
-    // 更新props文本内容
-    self.props.onTextChange.call(self, evt);
-    // 设定focus状态以及执行回调
-    self.setState({
-      focusOption: undefined,
+    const props = this.props;
+    let text = escapeRegExp(evt.target.value.trim());
+    this.setState({
+      text: text
     }, () => {
-      self.searchAvailableFrom = moment(moment() + self.props.searchInterval * 1000)._d;
-      self.searchTimeout = setTimeout(() => {
-        if (self.searchAvailableFrom <= moment()._d) {
-          self.handleTextSearch(evt.target.value);
-          clearTimeout(self.searchTimeout);
-        }
-      }, self.props.searchInterval * 1000);
+      // 更新props文本内容
+      clearTimeout(this.queryTid);
+      if (text.length >= props.minQueryLength) {
+        this.queryTid = setTimeout(() => {
+          props.onTextChange.call(this, text);
+        }, props.delayQueryTime);
+      } else {
+        props.onOptionsChange([]);
+        this.nextTick(() => {
+          props.onTextChange.call(this, text);
+        });
+      }
     });
-  }
-  handleTextSearch(text) {
-    const self = this;
-    text = escapeRegExp('' + text || '').trim();
-    if (text.length && text.length < self.props.searchMinLength) return;
-    if (self.props.onTextSearch) {
-      self.props.onTextSearch.call(this, {
-        searchText: text,
-      });
-    }
   }
   render() {
     const props = this.props;
     const state = this.state;
     const prefixCls = props.prefixCls;
-
-    const text = state.focusOption ? state.focusOption.text :
-                 props.text !== undefined ? props.text :
-                 (props.options.find(i => i.selected) || {text: '--请选择--'}).text;
-    return (<div className={ `${prefixCls} ${prefixCls}-${this.instanceId} ${props.className || ''} ${(state.isInputing ? `${prefixCls}-isinputing` : '')}` }>
-      <div className={ `${prefixCls}-console` }
-        ref='console'
-           onClick={ state.isInputing ? undefined : this.handleEnableInputs.bind(this) }>
-        <input type="text" ref="inputText"
-               className={ `${prefixCls}-console-text` }
-               value={ text }
-               title={ text }
-               onChange={ this.handleTextChange.bind(this) }
-               readOnly={ false } />
-        <span className={ `${prefixCls}-console-toggle` }>&nbsp;</span>
-      </div>
-    </div>);
+    //渲染面板
+    if (Dropdown.activeInstanceId === this.instanceId) {
+      setTimeout(() => {
+        Dropdown.renderPanel(this);
+      }, 0);
+    }
+    let cls = props.disabled
+      ? prefixCls + '-disabled'
+      : '';
+    let stateCls = (Dropdown.activeInstanceId === this.instanceId && state.panelStyle.display === 'block') ? `${prefixCls}-state-active ${Dropdown.defaultProps.prefixCls}-state-active` : '';
+    return (
+      <span className={`${prefixCls} ${prefixCls}-${this.instanceId} ${props.className} ${cls} ${stateCls}`}>
+        <input type="text" className={`${prefixCls}-input-text ${Dropdown.defaultProps.prefixCls}-input-text`} value={state.text} title={state.text} onKeyDown={this.handleInputKeydown.bind(this)} onClick={this.handleInputClick.bind(this)} onChange={this.handleTextChange.bind(this)} placeholder={props.placeholder} /><span className={`${prefixCls}-input-icon ${Dropdown.defaultProps.prefixCls}-input-icon`}></span>
+      </span>
+    );
   }
 }
-AutoComplete.propTypes = {
-  prefixCls: React.PropTypes.string,
-  className: React.PropTypes.string,
-  options: React.PropTypes.array,
-  onChange: React.PropTypes.func,
-  onOptionsChange: React.PropTypes.func,
-  getTemplateDatapane: React.PropTypes.func,
-  onEnableInputs: React.PropTypes.func,
-  onDisableInputs: React.PropTypes.func,
-  text: React.PropTypes.string,
-  searchMinLength: React.PropTypes.number,
-  searchInterval: React.PropTypes.number,
+AutoComplete.propTypes = Object.assign({
   onTextChange: React.PropTypes.func,
-  onTextSearch: React.PropTypes.func,
-};
-AutoComplete.defaultProps = {
+  minQueryLength: React.PropTypes.number,
+  delayQueryTime: React.PropTypes.number
+}, Dropdown.propTypes);
+
+AutoComplete.defaultProps = Object.assign({
+  onTextChange: () => {}
+}, Dropdown.defaultProps, {
   prefixCls: 'ui-form-autocomplete',
-  className: '',
-  options: [], // {text: '', value: {}, selected: false, disabled: false }
-  onChange: (evt) => {},
-  onOptionsChange: (evt) => {},
-  getTemplateDatapane: Dropdown.defaultGetTemplateDatapane,
-  onEnableInputs: (evt) => {}, // Execute when Component is switched to editing state (ie. isInputing === true) - parameter: {target: Component}
-  onDisableInputs: (evt) => {}, // Execute when Component is switched off editing state (ie. isInputing === false) - parameter: {target: Component}
-  text: '',
-  searchMinLength: 2,
-  searchInterval: .5,
-  onTextChange: (evt) => {},
-  onTextSearch: undefined, // Execute when a text search is required - parameter: {searchText: ''}
-};
+  minQueryLength: 1, //最小查询长度
+  delayQueryTime: 600,
+  autoSelectFirstOption: false
+});
 
 export default AutoComplete;

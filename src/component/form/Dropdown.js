@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T19:18:04+08:00
-* @Last modified time: 2016-07-07T16:15:41+08:00
+* @Last modified time: 2016-08-24T16:31:39+08:00
 */
 
 /**
@@ -11,8 +11,6 @@ import React from 'react';
 import ReactDom from 'react-dom';
 import style from './form.css';
 
-var activeInstanceId; //当前激活的实例Id
-var instanceId = 0;
 var panelContainer;
 
 class Dropdown extends Widget {
@@ -25,7 +23,7 @@ class Dropdown extends Widget {
         display: 'none'
       }
     };
-    this.instanceId = instanceId++;
+    this.instanceId = Dropdown.instanceId++;
   }
   adaptProps(props) {
     //同步value
@@ -39,11 +37,13 @@ class Dropdown extends Widget {
       });
     }
     //默认选中第一个
-    if (props.options.length) {
-      if (!props.options.some((itemData) => {
-        return itemData.selected;
-      })) {
-        props.options[0].selected = true;
+    if (props.autoSelectFirstOption) {
+      if (props.options.length) {
+        if (!props.options.some((itemData) => {
+          return itemData.selected;
+        })) {
+          props.options[0].selected = true;
+        }
       }
     }
   }
@@ -72,18 +72,20 @@ class Dropdown extends Widget {
       });
     }
     //默认选中第一个
-    if (options.length) {
-      if (!options.some((itemData) => {
+    if (props.autoSelectFirstOption) {
+      if (options.length) {
+        if (!options.some((itemData) => {
           return itemData.selected;
         })) {
-        if (!options[0].selected) {
-          needChange = true;
+          if (!options[0].selected) {
+            needChange = true;
+          }
+          options[0].selected = true;
         }
-        options[0].selected = true;
       }
-    }
-    if (needChange) {
-      this.onPropertyChange('options', options);
+      if (needChange) {
+        this.onPropertyChange('options', options);
+      }
     }
   }
   syncStateFromProps(props) {
@@ -124,9 +126,9 @@ class Dropdown extends Widget {
     this.syncStateFromProps(nextProps);
   }
   componentWillUnmount() {
-    if (activeInstanceId === this.instanceId) {
+    if (Dropdown.activeInstanceId === this.instanceId) {
       ReactDom.unmountComponentAtNode(panelContainer);
-      activeInstanceId = -1;
+      Dropdown.activeInstanceId = -1;
     }
     $('body').off('mousedown.Dropdown' + this.instanceId);
     this.instanceId = null;
@@ -138,7 +140,7 @@ class Dropdown extends Widget {
     const props = this.props;
     const state = this.state;
     if (!props.disabled) {
-      activeInstanceId = this.instanceId;
+      Dropdown.activeInstanceId = this.instanceId;
       Dropdown.renderPanel(this, () => {
         this.setState({
           panelStyle: Dropdown.getPanelStyle(ReactDom.findDOMNode(this), panelContainer.firstChild)
@@ -250,7 +252,7 @@ class Dropdown extends Widget {
     const state = this.state;
     const prefixCls = props.prefixCls;
     //渲染面板
-    if (activeInstanceId === this.instanceId) {
+    if (Dropdown.activeInstanceId === this.instanceId) {
       setTimeout(() => {
         Dropdown.renderPanel(this);
       }, 0);
@@ -258,7 +260,7 @@ class Dropdown extends Widget {
     let cls = props.disabled
       ? prefixCls + '-disabled'
       : '';
-    let stateCls = (activeInstanceId === this.instanceId && state.panelStyle.display === 'block') ? `${prefixCls}-state-active` : '';
+    let stateCls = (Dropdown.activeInstanceId === this.instanceId && state.panelStyle.display === 'block') ? `${prefixCls}-state-active` : '';
     return (
       <span className={`${prefixCls} ${prefixCls}-${this.instanceId} ${props.className} ${cls} ${stateCls}`}>
         <input type="text" className={`${prefixCls}-input-text`} value={state.text} title={state.text} onKeyDown={this.handleInputKeydown.bind(this)} onClick={this.handleInputClick.bind(this)} readOnly={true} placeholder={props.placeholder} /><span className={`${prefixCls}-input-icon`}></span>
@@ -266,6 +268,8 @@ class Dropdown extends Widget {
     );
   }
 }
+Dropdown.activeInstanceId = -1;
+Dropdown.instanceId = 0;
 
 Dropdown.renderPanel = function(cpt, callback) {
   const props = cpt.props;
@@ -356,6 +360,7 @@ Dropdown.propTypes = {
   value: React.PropTypes.string,
   disabled: React.PropTypes.bool,
   placeholder: React.PropTypes.string,
+  autoSelectFirstOption: React.PropTypes.bool,
   options: React.PropTypes.array,
   onChange: React.PropTypes.func,
   onOptionsChange: React.PropTypes.func,
@@ -368,6 +373,7 @@ Dropdown.defaultProps = {
   value: void(0), //value 比options里selected优先级大
   disabled: false, //是否禁用
   placeholder: '',
+  autoSelectFirstOption: true,
   onChange: (evt) => {},
   onOptionsChange: (evt) => {},
   getDefaultPanelTemplate: function () {
