@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T14:29:19+08:00
-* @Last modified time: 2016-06-29T19:14:52+08:00
+* @Last modified time: 2016-08-25T17:48:23+08:00
 */
 
 /**
@@ -19,6 +19,7 @@ import AutoComplete from "./src/component/autocomplete";
 import ColorInput from "./src/component/form/ColorInput.js";
 import Uploader from "./src/component/uploader";
 import Tree from "./src/component/tree";
+import Dnd from "./src/component/dnd";
 export {
     Grid,
     Validation,
@@ -32,5 +33,6 @@ export {
     AutoComplete,
     ColorInput,
     Uploader,
-    Tree
+    Tree,
+    Dnd
 };

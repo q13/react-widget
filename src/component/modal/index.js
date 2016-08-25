@@ -1,11 +1,12 @@
 /**
 * @Date:   2016-06-24T13:59:13+08:00
-* @Last modified time: 2016-07-07T11:33:09+08:00
+* @Last modified time: 2016-08-25T17:45:55+08:00
 */
 
 import {Widget} from "../component.js";
 import React from 'react';
 import ReactDom from 'react-dom';
+import Dnd from '../dnd/index.js';
 import uiStyle from './index.css';
 
 //渲染到body下
@@ -32,6 +33,7 @@ class Modal extends Widget {
     modalStore = modalStore.filter((itemData) => itemData.index !== this.index);
     this.index = null;
     this.zIndex = null;
+    this.dnd && this.dnd.destroy();
     if (this.container) {
       ReactDom.unmountComponentAtNode(this.container[0]);
       this.container.remove();
@@ -130,6 +132,8 @@ class Modal extends Widget {
       this.adjustPosition();
       //调整层级和遮罩
       Modal.ajustModalZIndex();
+      //初始化dnd
+      this.initailDndEffect();
     });
   }
   render() {
@@ -138,6 +142,17 @@ class Modal extends Widget {
 
     } else {  //全局modal
       return false;
+    }
+  }
+  initailDndEffect() {
+    const props = this.props;
+    const container = this.container;
+    if (!props.isLocal) {
+      this.dnd = new Dnd($(`.${props.prefixCls}`, container), {
+        container: $('body'),
+        limit: true,
+        handler: `.${props.prefixCls}-header`
+      });
     }
   }
   adjustPosition() {
@@ -180,6 +195,7 @@ Modal.propTypes = {
   height: React.PropTypes.any,
   visible: React.PropTypes.bool,
   title: React.PropTypes.string,
+  ddSelector: React.PropTypes.string,
   closeText: React.PropTypes.string,
   submitText: React.PropTypes.string,
   submitOption: React.PropTypes.string,
@@ -197,6 +213,7 @@ Modal.defaultProps = {
   height: 600,
   visible: true,
   title: '',
+  ddSelector: '.ui-modal-header', //被拖拽DOM选择符
   closeText: '取消',
   submitText: '确定',
   submitOption: 'visible',  //hidden or visible
