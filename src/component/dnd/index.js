@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-08-25T11:12:41+08:00
-* @Last modified time: 2016-08-25T17:43:56+08:00
+* @Last modified time: 2016-08-25T19:31:47+08:00
 */
 /**
  * Drag and drop
@@ -10,9 +10,12 @@ import uiStyle from './dnd.css';
 var isIE = (document.all) ? true : false;
 
 var Dnd = function(selector, options) {
-  if (!$(selector).data('dndInited')) {
+  var elEl = $(selector);
+  if (!elEl.data('dnd')) {
     this.initialize(selector, options);
-    $(selector).data('dndInited', true);
+    elEl.data('dnd', this);
+  } else {
+    return elEl.data('dnd');
   }
 };
 Object.assign(Dnd.prototype, {
@@ -172,7 +175,7 @@ Object.assign(Dnd.prototype, {
   stop: function() {
     //移除事件
     $(document).off('mousemove', this.move_);
-    $(document).off('mouseup', this.start_);
+    $(document).off('mouseup', this.stop_);
     if (isIE) {
       this.handler.off('losecapture');
       this.handler[0].releaseCapture();
@@ -190,13 +193,14 @@ Object.assign(Dnd.prototype, {
   },
   destroy: function () {
     this.handler.off();
+    $(window).off('blur', this.stop_);
     this.handler.css({
       cursor: this.originCursor
     });
     this.handler = null;
     this.core.css({
       position: this.originPosition
-    }).removeData('dndInited');
+    }).removeData('dnd');
     this.core = null;
   }
 });

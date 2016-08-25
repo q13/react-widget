@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-24T13:59:13+08:00
-* @Last modified time: 2016-08-25T17:45:55+08:00
+* @Last modified time: 2016-08-25T19:51:59+08:00
 */
 
 import {Widget} from "../component.js";
@@ -56,12 +56,13 @@ class Modal extends Widget {
       this.forceUpdate(() => {
         //定位到一个footer里的第一个button
         //$(`.${props.prefixCls}-footer button`, this.container)[0].focus();
+        this.adjustPosition();
       });
     }
   }
   componentWillReceiveProps() {}
   componentWillUpdate() {}
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     var container = this.container,
       props = this.props,
       atIndex = -1,
@@ -129,7 +130,9 @@ class Modal extends Widget {
         </div>}
     </div>, container[0], () => {
       //重设位置
-      this.adjustPosition();
+      if (!prevProps.visible && props.visible) {
+        this.adjustPosition();
+      }
       //调整层级和遮罩
       Modal.ajustModalZIndex();
       //初始化dnd
@@ -211,7 +214,7 @@ Modal.defaultProps = {
   centerFixed: false,
   width: 600,
   height: 600,
-  visible: true,
+  visible: false,
   title: '',
   ddSelector: '.ui-modal-header', //被拖拽DOM选择符
   closeText: '取消',
