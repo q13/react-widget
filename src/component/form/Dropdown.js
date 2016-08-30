@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T19:18:04+08:00
-* @Last modified time: 2016-08-24T16:31:39+08:00
+* @Last modified time: 2016-08-30T16:46:06+08:00
 */
 
 /**
@@ -24,28 +24,6 @@ class Dropdown extends Widget {
       }
     };
     this.instanceId = Dropdown.instanceId++;
-  }
-  adaptProps(props) {
-    //同步value
-    if (typeof props.value !== 'undefined') {
-      props.options.forEach((option) => {
-        if (option.value === props.value) {
-          option.selected = true;
-        } else {
-          option.selected = false;
-        }
-      });
-    }
-    //默认选中第一个
-    if (props.autoSelectFirstOption) {
-      if (props.options.length) {
-        if (!props.options.some((itemData) => {
-          return itemData.selected;
-        })) {
-          props.options[0].selected = true;
-        }
-      }
-    }
   }
   /**
    * 根据value值调整option
@@ -84,7 +62,7 @@ class Dropdown extends Widget {
         }
       }
       if (needChange) {
-        this.onPropertyChange('options', options);
+        props.onOptionsChange(options);
       }
     }
   }
@@ -112,12 +90,16 @@ class Dropdown extends Widget {
       this.syncStateFromProps(this.props);
     });
     $('body').on('mousedown.Dropdown' + this.instanceId, (evt) => {
-      if (!Dropdown.isInContainer(evt.target, [ReactDom.findDOMNode(this), panelContainer])) {
-        this.setState({
-          panelStyle: {
-            display: 'none'
-          }
-        });
+      if (Dropdown.activeInstanceId === this.instanceId) {
+        if (!Dropdown.isInContainer(evt.target, [ReactDom.findDOMNode(this), panelContainer])) {
+          this.setState({
+            panelStyle: {
+              display: 'none'
+            }
+          }, () => {
+            Dropdown.activeInstanceId = -1;
+          });
+        }
       }
     });
   }
@@ -133,7 +115,7 @@ class Dropdown extends Widget {
     $('body').off('mousedown.Dropdown' + this.instanceId);
     this.instanceId = null;
   }
-  componentDidUpdate() {
+  componentDidUpdate(prevProps, prevState) {
     this.adaptOptions();
   }
   handleInputClick() {
@@ -393,7 +375,7 @@ Dropdown.defaultProps = {
             optionCls += ` ${props.prefixCls}-options-item-hover`;
           }
           return (
-            <li key={x} title={option.text} className={`${props.prefixCls}-options-item ${optionCls}`} onMouseEnter={this.handleOptionMouseEnter.bind(this, option)} onMouseLeave={this.handleOptionMouseLeave.bind(this, option)} onClick={this.handleOptionClick.bind(this, option)}>
+            <li key={`${x}-${option.value}`} title={option.text} className={`${props.prefixCls}-options-item ${optionCls}`} onMouseEnter={this.handleOptionMouseEnter.bind(this, option)} onMouseLeave={this.handleOptionMouseLeave.bind(this, option)} onClick={this.handleOptionClick.bind(this, option)}>
               {option.text}
             </li>
           );

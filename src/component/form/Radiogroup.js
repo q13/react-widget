@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-07-08T14:51:24+08:00
+* @Last modified time: 2016-08-30T16:44:43+08:00
 */
 
 /**
@@ -54,7 +54,7 @@ class Radiogroup extends Widget {
       });
     }
     if (needChange) {
-      this.onPropertyChange('options', options);
+      props.onOptionsChange(options);
     }
   }
   handleOptionClick(currentIndex, evt) {
@@ -67,7 +67,7 @@ class Radiogroup extends Widget {
         option.checked = currentIndex === x ? true : false;
       });
       let result = Object.assign({}, targetOptions[currentIndex]);
-      this.onPropertyChange('options', targetOptions);
+      props.onOptionsChange(targetOptions);
       this.nextTick(() => {
         props.onChange(result);
       });

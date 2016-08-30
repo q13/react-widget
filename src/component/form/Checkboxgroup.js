@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:08+08:00
-* @Last modified time: 2016-07-08T14:51:17+08:00
+* @Last modified time: 2016-08-30T16:44:02+08:00
 */
 
 /**
@@ -54,7 +54,7 @@ class Checkboxgroup extends Widget {
       });
     }
     if (needChange) {
-      this.onPropertyChange('options', options);
+      props.onOptionsChange(options);
     }
   }
   handleOptionClick(currentIndex, evt) {
@@ -65,7 +65,7 @@ class Checkboxgroup extends Widget {
       const targetOptions = JSON.parse(JSON.stringify(props.options));
       targetOptions[currentIndex].checked = !targetOptions[currentIndex].checked;
       let result = Object.assign({}, targetOptions[currentIndex]);
-      this.onPropertyChange('options', targetOptions);
+      props.onOptionsChange(targetOptions);
       this.nextTick(() => {
         props.onChange(result);
       });
