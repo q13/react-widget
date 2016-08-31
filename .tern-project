@@ -2,19 +2,29 @@
   "ecmaVersion": 6,
   "libs": [
     "browser",
-    "jquery"
+    "chai",
+    "jquery",
+    "underscore"
   ],
-  "loadEagerly": [],
-  "dontLoad": ["node_modules/**/*.js", "dist/**/*.js"],
   "plugins": {
-    "complete_strings": {},
-    "node": {},
-    "lint": {},
-    "angular": {},
-    "requirejs": {},
-    "es_modules": {},
+    "complete_strings": {
+      "maxLength": 15
+    },
     "doc_comment": {
-      "fullDocs": true
-    }
+      "fullDocs": true,
+      "strong": false
+    },
+    "modules": {
+      "dontLoad": "",
+      "load": "",
+      "modules": ""
+    },
+    "es_modules": {},
+    "requirejs": {
+      "baseURL": "",
+      "paths": "",
+      "override": ""
+    },
+    "commonjs": {}
   }
 }
