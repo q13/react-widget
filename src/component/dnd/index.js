@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-08-25T11:12:41+08:00
-* @Last modified time: 2016-08-25T19:31:47+08:00
+* @Last modified time: 2016-09-01T18:25:48+08:00
 */
 /**
  * Drag and drop
@@ -79,7 +79,7 @@ Object.assign(Dnd.prototype, {
       return;
     }
     this.core.css({
-      position: 'absolute'
+      position: this.originPosition === 'fixed' ? 'fixed' : 'absolute'
     });
     //透明
     if (isIE && !!this.options.transparent) {

@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-24T13:59:13+08:00
-* @Last modified time: 2016-08-25T19:51:59+08:00
+* @Last modified time: 2016-09-01T18:16:58+08:00
 */
 
 import {Widget} from "../component.js";
@@ -154,7 +154,7 @@ class Modal extends Widget {
       this.dnd = new Dnd($(`.${props.prefixCls}`, container), {
         container: $('body'),
         limit: true,
-        handler: `.${props.prefixCls}-header`
+        handler: `.${props.prefixCls}-title`
       });
     }
   }
