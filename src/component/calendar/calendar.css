@@ -1,55 +1,73 @@
+/**
+* @Date:   2016-09-02T14:48:41+08:00
+* @Last modified time: 2016-09-05T15:54:52+08:00
+*/
+
 @import "../../asset/base.css";
 .ui-calendar {
-    width: 300px;
-    height: 220px;
+  width: 300px;
+  /*height: 220px;*/
 }
+
 .ui-calendar-header {
-    position: relative;
+  position: relative;
 }
-.ui-calendar-header .ui-calendar-nav-prev,
-.ui-calendar-header .ui-calendar-nav-next {
-    position: absolute;
-    line-height: 1em;
-    font-size: 16px;
-    cursor: pointer;
+
+.ui-calendar-header .ui-calendar-nav-prev, .ui-calendar-header .ui-calendar-nav-next {
+  position: absolute;
+  line-height: 1em;
+  font-size: 16px;
+  cursor: pointer;
 }
+
 .ui-calendar-header .ui-calendar-nav-prev {
-    top: 50%;
-    left: 8px;
-    margin-top: -0.5em;
+  top: 50%;
+  left: 8px;
+  margin-top: -0.5em;
 }
+
 .ui-calendar-header .ui-calendar-nav-next {
-    top: 50%;
-    right: 8px;
-    margin-top: -0.5em;
+  top: 50%;
+  right: 8px;
+  margin-top: -0.5em;
 }
+
 .ui-calendar-header .ui-calendar-title {
-    text-align: center;
+  text-align: center;
 }
+
 .ui-calendar-date-panel {
-    width: 100%;
+  width: 100%;
 }
+
 .ui-calendar-date-cell {
-    display: block;
-    text-align: center;
-    line-height: 1.8em;
+  display: block;
+  text-align: center;
+  line-height: 1.8em;
 }
+
 .ui-calendar-date-body .ui-calendar-date-cell {
-    cursor: pointer;
+  cursor: pointer;
 }
+
 .ui-calendar-footer {
-    padding: 8px;
+  padding: 8px;
 }
+
 .ui-calendar-time-label {
-    display: none;
-    font-size: 13px;
+  display: none;
+  font-size: 13px;
 }
+
 .ui-calendar-time-panel {
-    float: left;
+  /*float: left;*/
+  margin-bottom: 8px;
 }
+
 .ui-calendar-footer-action {
-    float: right;
+  float: right;
 }
+
 .ui-calendar-to-today-btn {
-    display: none;
+  display: none;
 }

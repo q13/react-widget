@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T19:18:04+08:00
-* @Last modified time: 2016-08-30T16:46:06+08:00
+* @Last modified time: 2016-09-06T16:09:56+08:00
 */
 
 /**
@@ -61,9 +61,9 @@ class Dropdown extends Widget {
           options[0].selected = true;
         }
       }
-      if (needChange) {
-        props.onOptionsChange(options);
-      }
+    }
+    if (needChange) {
+      props.onOptionsChange(options);
     }
   }
   syncStateFromProps(props) {
