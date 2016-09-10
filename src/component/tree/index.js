@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-07-20T16:54:44+08:00
+* @Last modified time: 2016-09-10T11:24:39+08:00
 */
 
 /**
@@ -120,7 +120,7 @@ class Tree extends Widget {
     const self = this;
     let options_ = Tree.getCloneOptions(this.props.options);
     option = Tree.getOptionFromValue(option.value, options_);
-    option.foldStatus = 'unfold';
+    option.foldedStatus = 'unfolded';
     if (option.children && option.children.length) {
       let loop = function (options) {
         if (options.length > 50) {
@@ -141,7 +141,7 @@ class Tree extends Widget {
               } else {
                 if (isDeepin) { //判定是否做深层次展开
                   options.forEach((itemData) => {
-                    itemData.foldStatus = 'unfold';
+                    itemData.foldedStatus = 'unfolded';
                     if (itemData.children && itemData.children.length) {
                       loop(itemData.children);
                     }
@@ -158,7 +158,7 @@ class Tree extends Widget {
           callback(options_);
           if (isDeepin) { //判定是否做深层次展开
             options.forEach((itemData) => {
-              itemData.foldStatus = 'unfold';
+              itemData.foldedStatus = 'unfolded';
               if (itemData.children && itemData.children.length) {
                 loop(itemData.children);
               }
@@ -178,7 +178,7 @@ class Tree extends Widget {
     const props = this.props;
     const state = this.state;
     let options = Tree.getCloneOptions(props.options);
-    option = Tree.getOptionFromValue(option.value, options)
+    option = Tree.getOptionFromValue(option.value, options);
     option.checkedStatus = (option.checkedStatus === 'checked' ? 'unchecked' : 'checked');
     //反选其它node
     if (props.checkMode === 'single') {
@@ -253,7 +253,7 @@ class Tree extends Widget {
       return;
     }
     let options = Tree.getCloneOptions(props.options);
-    option = Tree.getOptionFromValue(option.value, options)
+    option = Tree.getOptionFromValue(option.value, options);
     option.selectedStatus = (option.selectedStatus === 'selected' ? 'unselected' : 'selected');
     //反选其它node
     if (props.selectMode === 'single') {
@@ -282,20 +282,22 @@ class Tree extends Widget {
     const props = this.props;
     const self = this;
     let options = Tree.getCloneOptions(props.options);
-    option = Tree.getOptionFromValue(option.value, options)
-    option.foldStatus = (option.foldStatus === 'unfold' ? 'fold' : 'unfold');
+    option = Tree.getOptionFromValue(option.value, options);
+    option.foldedStatus = (option.foldedStatus === 'unfolded' ? 'folded' : 'unfolded');
     clearTimeout(this.renderTid);
       // props.onOptionsChange([].concat(options)); //反射
       // return;
-    if (option.foldStatus === 'unfold') { //分时渲染调优性能
+    if (option.foldedStatus === 'unfolded') { //分时渲染调优性能
       this.lazyUnfoldOption(option, (options) => {
         props.onOptionsChange(options); //反射
+        props.onFoldedChange(option);
       });
     } else {
       option.children.forEach((itemData) => {
         itemData.rendered = false;
       });
       props.onOptionsChange([].concat(options)); //反射
+      props.onFoldedChange(option);
     }
   }
   render() {
@@ -314,10 +316,10 @@ class Tree extends Widget {
                 var nodeSelectedCls = itemData.selectedStatus === 'selected' ? `${prefixCls}-node-text-selected` : '';
                 return ((level === 0 || itemData.rendered) ? (<li className={`${prefixCls}-item item-${level}`} key={i}>
                   <div className={`${prefixCls}-node`}>
-                    {(itemData.children && itemData.children.length) ? <span className={`${prefixCls}-node-foldder ${prefixCls}-node-foldder-${itemData.foldStatus || 'fold'}`} onClick={self.handleOptionFold.bind(self, itemData)}>{Tree.getFoldderTextFromStatus(itemData.foldStatus)}</span> : <span className={`${prefixCls}-node-foldder`}></span>}
+                    {(itemData.children && itemData.children.length) ? <span className={`${prefixCls}-node-foldder ${prefixCls}-node-foldder-${itemData.foldedStatus || 'folded'}`} onClick={self.handleOptionFold.bind(self, itemData)}>{Tree.getFoldderTextFromStatus(itemData.foldedStatus)}</span> : <span className={`${prefixCls}-node-foldder`}></span>}
                     {itemData.checkType === 'checkbox' ? <span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}>{Tree.getCheckboxTextFromStatus(itemData.checkedStatus)}</span> : null}
                     <span className={`${prefixCls}-node-text ${nodeSelectedCls}`} title={itemData.text} onClick={self.handleOptionSelect.bind(self, itemData)}>&nbsp;{itemData.text}</span></div>
-                  {(itemData.foldStatus === 'unfold' && itemData.children && itemData.children.length) ? <div className={`${prefixCls}-children`}>
+                  {(itemData.foldedStatus === 'unfolded' && itemData.children && itemData.children.length) ? <div className={`${prefixCls}-children`}>
                     {
                       (function () {
                         return loop(itemData.children, level + 1);
@@ -353,10 +355,10 @@ Tree.getCheckboxTextFromStatus = function (status) {
 Tree.getFoldderTextFromStatus = function (status) {
   var text = '';
   switch (status) {
-    case 'unfold':
+    case 'unfolded':
       text = '－';
     break;
-    case 'fold':
+    case 'folded':
     default:
       text = '＋';
     break;
@@ -405,7 +407,8 @@ Tree.defaultProps = {
   options: [],  //{value, text, checkedStatus, checkType, selectedStatus} checkedStatus取值checked，halfChecked,unchecked(默认) checkType取值none(默认),checkbox
   onOptionsChange: () => {},
   onCheckedChange: () => {},
-  onSelectedChange: () => {}
+  onSelectedChange: () => {},
+  onFoldedChange: () => {}
 };
 
 export default Tree;
