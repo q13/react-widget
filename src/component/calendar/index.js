@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-09-02T14:48:41+08:00
-* @Last modified time: 2016-09-05T16:11:28+08:00
+* @Last modified time: 2016-09-12T15:25:49+08:00
 */
 
 /**
@@ -74,14 +74,14 @@ class Calendar extends Widget {
       }
       //最大日期判断
       if (props.maxDate) {
-        if (!tmpDate.isBefore(props.maxDate, 'day')) {
+        if (tmpDate.isAfter(props.maxDate, 'day')) {
           tmpCls += ` ${prefixCls}-is-out-date`;
           isOutDate = true;
         }
       }
       //最小日期判断
       if (props.minDate) {
-        if (!tmpDate.isAfter(props.minDate, 'day')) {
+        if (tmpDate.isBefore(props.minDate, 'day')) {
           tmpCls += ` ${prefixCls}-is-out-date`;
           isOutDate = true;
         }
