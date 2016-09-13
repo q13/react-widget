@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-09-02T14:48:41+08:00
-* @Last modified time: 2016-09-12T15:25:49+08:00
+* @Last modified time: 2016-09-13T16:41:20+08:00
 */
 
 /**
@@ -391,7 +391,8 @@ class Calendar extends Widget {
 Calendar.defaultProps = {
   initialDate: new Date(),
   maxDate: null,
-  minDate: moment().subtract(1, 'days'),
+  //minDate: moment().subtract(1, 'days'),
+  minDate: null,
   enableYearMonthChange: true, //年份和月份面板切换
   showTime: false, //是否显示时间, true/false or ["hour", "minute", "second"]
   focusChangeWithClick: true, //每次点击date cell，focusDate同时改变
