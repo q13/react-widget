@@ -1,4 +1,9 @@
 /**
+* @Date:   2016-09-13T19:05:50+08:00
+* @Last modified time: 2016-09-14T14:32:20+08:00
+*/
+
+/**
  * Uploader
  * @require Jquery
  */
@@ -18,7 +23,7 @@ class Uploader extends Widget {
   }
   componentDidMount() {}
   componentWillUnmount() {}
-  uploadFile() {
+  plainUpload() {
     const props = this.props;
     const state = this.state;
     const prefixCls = props.prefixCls;
@@ -45,6 +50,13 @@ class Uploader extends Widget {
           ifrEl.remove(); //每次都重新创建
           if (responseData.flag) {
             props.onSuccess(responseData.data);
+            if (props.autoReset) {
+              this.setState({
+                filePath: ''
+              }, () => {
+                props.onChange('');
+              });
+            }
           } else {
             self.setState({
               filePath: ''
@@ -68,26 +80,109 @@ class Uploader extends Widget {
       form.submit();
     }
   }
+  ajaxUpload() {
+    const props = this.props;
+    var fileSelector = this.refs.fileSelector;
+    var files = fileSelector.files;
+    var promiseStore = [];
+    var index = 0;
+    if (files.length) {
+      while(index < files.length) {
+        promiseStore.push(new Promise(function (resolve, reject) {
+          var formData = new FormData();
+          var fileName = files[index].name;
+          formData.append(props.fieldName, files[index]);
+          $.ajax({
+            url: props.url,
+            type: 'POST',
+            dataType: 'json',
+            cache: false,
+            data: formData,
+            processData: false,
+            contentType: false
+          }).done(function(responseData) {
+            if (responseData.flag) {
+              resolve(responseData.data);
+            } else {
+              reject(responseData);
+            }
+          }).fail(function(responseData) {
+            reject({
+              flag: 0,
+              message: fileName + '上传失败'
+            });
+          });
+        }));
+        index++;
+      }
+      Promise.all(promiseStore).then((successDataList) => {
+        props.onSuccess(successDataList.length === 1 ? successDataList[0] : successDataList);
+        if (props.autoReset) {
+          this.setState({
+            filePath: ''
+          }, () => {
+            props.onChange('');
+          });
+        }
+      }).catch((data) => {
+        this.setState({
+          filePath: ''
+        }, () => {
+          props.onChange('');
+        });
+        props.onFailure({
+          flag: 0,
+          message: data.message
+        });
+      });
+    }
+  }
+  uploadShell() {
+    const props = this.props;
+    props.onStart();  //可以用来通知外界
+    if (Uploader.isSupportFileApi()) {
+      this.ajaxUpload();
+    } else {
+      this.plainUpload();
+    }
+  }
   upload() {
     if (this.state.filePath) {
-      this.uploadFile();
+      this.uploadShell();
     }
   }
   handleChange(evt) {
     const props = this.props;
     let value = evt.target.value;
-    if (props.autoUpload) {  //自动上传
-      this.setState({
-        filePath: value
-      }, () => {
-        props.onChange(value);
-        this.uploadFile();
-      });
+    let files = evt.target.files;
+    let validateParams = [];
+    if (files) {
+      let i = 0;
+      while(i < files.length) {
+        validateParams.push(files[i].name);
+        i++;
+      }
+    } else {
+      validateParams = value.split(',');
+    }
+    if (props.onValidate(validateParams) !== false) {
+      if (props.autoUpload) {  //自动上传
+        this.setState({
+          filePath: value
+        }, () => {
+          props.onChange(value);
+          this.uploadShell();
+        });
+      } else {
+        this.setState({
+          filePath: value
+        }, () => {
+          props.onChange(value);
+        });
+      }
     } else {
       this.setState({
-        filePath: value
-      }, () => {
-        props.onChange(value);
+        filePath: ''
       });
     }
   }
@@ -102,7 +197,7 @@ class Uploader extends Widget {
         height: props.height
       }}>
       <form className={`${prefixCls}-form`} action={props.url} ref="form" method="post" encType="multipart/form-data">
-        <input type="file" value={state.filePath} accept={props.accept} name={props.fieldName} className={`${prefixCls}-file`} onChange={this.handleChange.bind(this)} />
+        <input type="file" ref="fileSelector" value={state.filePath} accept={props.accept} name={props.fieldName} className={`${prefixCls}-file`} multiple={props.multiple} onChange={this.handleChange.bind(this)} />
         {!requestData ? null :
             Object.keys(requestData).map((i,x)=>
                 (<input type="hidden" key={x} name={i} value={requestData[i]} />))}
@@ -111,6 +206,14 @@ class Uploader extends Widget {
     </div>);
   }
 }
+Uploader.isSupportFileApi = function () {
+  //判断是否支持FormData对象
+  if (window.FormData) {
+    return true;
+  } else {
+    return false;
+  }
+};
 Uploader.propTypes = {
   requestData: React.PropTypes.object,
   url: React.PropTypes.string,
@@ -119,6 +222,7 @@ Uploader.propTypes = {
   accept: React.PropTypes.string,
   className: React.PropTypes.string,
   onChange: React.PropTypes.func,
+  onStart: React.PropTypes.func,
   onProgress: React.PropTypes.func,
   onSuccess: React.PropTypes.func,
   onFailure: React.PropTypes.func
@@ -131,7 +235,11 @@ Uploader.defaultProps = {
   height: 'auto',
   fieldName: 'file',
   accept: '*',
+  multiple: false,
+  autoReset: false, //true表示在成功上传后清空file
+  onValidate: () => {}, //返回false表示未通过验证，不会进行提交
   onChange: () => {},
+  onStart: () => {},
   onProgress: () => {},
   onSuccess: () => {},
   onFailure: () => {}

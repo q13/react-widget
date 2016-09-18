@@ -1,3 +1,8 @@
+/**
+* @Date:   2016-09-13T19:05:50+08:00
+* @Last modified time: 2016-09-18T13:46:51+08:00
+*/
+
 import React from 'react';
 import {
   Widget
@@ -21,6 +26,7 @@ class GridRow extends Widget {
       const colCls = col.className || '';
       const renderer = col.renderer;
       let width = col.width || 'auto';
+      let style = col.style || {};
       let text = record[col.dataIndex];
 
       let tdProps;
@@ -44,9 +50,9 @@ class GridRow extends Widget {
         notRender = true;
       }
       if (!notRender) {
-        cells.push(<td key={i} colSpan={colSpan} rowSpan={rowSpan} className={`${colCls}`} style={{
+        cells.push(<td key={i} colSpan={colSpan} rowSpan={rowSpan} className={`${colCls}`} style={Object.assign({}, style, {
           width: width
-        }}>
+        })}>
           {text}
         </td>);
       }
