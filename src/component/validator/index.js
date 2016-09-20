@@ -2,7 +2,7 @@
 * @Author: 13
 * @Date:   2016-06-17T16:39:09+08:00
 * @Last modified by:
-* @Last modified time: 2016-07-11T10:20:27+08:00
+* @Last modified time: 2016-09-20T18:23:48+08:00
 */
 
 /**
@@ -200,6 +200,27 @@ class Validator extends Widget {
         diffValueOfFields.push(fieldName);
       }
     }    //验证value有差异的field，只要有一个没通过验证就算没通过
+    //依赖绑定也需要走一遍验证
+    let refFields = [];
+    let fieldKeys = Object.keys(fields);
+    diffValueOfFields.forEach((v) => {
+      let targetFieldName;
+      if (fieldKeys.some((k) => {
+        if ([].concat(fields[k].bindField).some((j) => {
+          if (j === v) {
+            targetFieldName = k;
+            return true;
+          }
+        })) {
+          return true;
+        }
+      })) {
+        refFields.push(targetFieldName);
+      }
+    });
+    //拼接diffValueOfFields
+    diffValueOfFields = diffValueOfFields.concat(refFields);
+
     diffValueOfFields.forEach((fieldName) => {
       validateField(fieldName);
     });
@@ -455,6 +476,9 @@ Validator.getOrderFields = function (fields) {
     }
     if (typeof pv[cv.name].value === 'undefined') {  //默认值
       pv[cv.name].value = '';
+    }
+    if (typeof pv[cv.name].bindField === 'undefined') {  //默认值
+      pv[cv.name].bindField = [];
     }
     return pv;
   }, {});

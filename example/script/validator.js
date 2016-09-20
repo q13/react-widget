@@ -1,4 +1,9 @@
 /**
+* @Date:   2016-06-17T14:29:19+08:00
+* @Last modified time: 2016-09-20T18:20:42+08:00
+*/
+
+/**
  * Validator demo
  */
 import babelPolyfill from 'babel-polyfill';  // enable es6 to es5 transform
@@ -11,9 +16,9 @@ class App extends React.Component{
     super(props);
     var this_ = this;
     this.state = {
-      formFields: {
-        test: {
-          value: 111,
+      formFields: Validator.getOrderFields([{
+          name: 'test',
+          value: '111',
           allowBlank: true,
           rule: [function (v) {
             return v < 111;
@@ -27,8 +32,9 @@ class App extends React.Component{
           },
           message: ['首先要小于111', '然后要小于55']
         },
-        test2: {
-          value: 111,
+        {
+          name: 'test2',
+          value: '111',
           bindField: 'test',
           rule: function (v, test) {
             if (v !== test) {
@@ -38,9 +44,11 @@ class App extends React.Component{
           onValidate: (result) => {
             console.log('2', result);
           }
-        },
-      }
+      }])
     };
+  }
+  componentDidMount() {
+    var result = this.refs.v.di('validate', 'all');
   }
   handleTestChange(evt) {
     this.setState({
@@ -63,7 +71,7 @@ class App extends React.Component{
   render() {
     var formFields = this.state.formFields;
     return (
-      <Validator fields={formFields} onValidate={this.handleValidate.bind(this)} onFieldsChange={this.handleFieldsChange.bind(this)}>
+      <Validator ref="v" fields={formFields} onValidate={this.handleValidate.bind(this)} onFieldsChange={this.handleFieldsChange.bind(this)}>
       <div>
         <div>
           <input type="text" value={formFields.test.value} onChange={this.handleTestChange.bind(this)} />
