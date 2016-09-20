@@ -28598,7 +28598,7 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Author: 13
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-17T16:39:09+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified by:
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-20T18:23:48+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-20T19:54:52+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	
 	/**
@@ -28720,6 +28720,8 @@
 	      });
 	      //拼接diffValueOfFields
 	      diffValueOfFields = diffValueOfFields.concat(refFields);
+	      //去重
+	      diffValueOfFields = Array.from(new Set(diffValueOfFields));
 	
 	      diffValueOfFields.forEach(function (fieldName) {
 	        validateField(fieldName);
