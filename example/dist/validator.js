@@ -1,5 +1,5 @@
 /*!
- * Build at Tue Sep 20 2016 18:06:42 GMT+0800 (China Standard Time)
+ * Build at Thu Sep 22 2016 13:41:18 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -76,7 +76,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-17T14:29:19+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-20T18:20:42+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-22T15:55:57+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	
 	/**
@@ -95,6 +95,7 @@
 	
 	    var this_ = _this;
 	    _this.state = {
+	      addNewFields: false,
 	      formFields: _index2['default'].getOrderFields([{
 	        name: 'test',
 	        value: '111',
@@ -122,6 +123,18 @@
 	        onValidate: function onValidate(result) {
 	          console.log('2', result);
 	        }
+	      }, {
+	        name: 'test3',
+	        value: '223',
+	        bindField: 'test',
+	        rule: function rule(v, test) {
+	          if (v !== '222') {
+	            return '必须是222';
+	          }
+	        },
+	        onValidate: function onValidate(result) {
+	          console.log('3', result);
+	        }
 	      }])
 	    };
 	    return _this;
@@ -130,7 +143,46 @@
 	  _createClass(App, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
-	      var result = this.refs.v.di('validate', 'all');
+	      var _this2 = this;
+	
+	      this.setState({
+	        formFields: _index2['default'].getNewFields({
+	          index: 0,
+	          name: 'test3',
+	          value: '223'
+	        }, this.state.formFields)
+	      }, function () {
+	        var result = _this2.refs.v.di('validate', 'all');
+	        setTimeout(function () {
+	          console.log('Add new fields.');
+	          _this2.setState({
+	            formFields: _index2['default'].getNewFields([{
+	              name: 'test4',
+	              value: '224',
+	              groupName: 'g',
+	              rule: function rule(v) {
+	                if (v !== '224') {
+	                  return '必须是224';
+	                }
+	              }
+	            }, {
+	              name: 'test5',
+	              value: '225',
+	              groupName: 'g',
+	              rule: function rule(v) {
+	                if (v !== '225') {
+	                  return '必须是225';
+	                }
+	              }
+	            }], _this2.state.formFields),
+	            addNewFields: true
+	          }, function () {
+	            var result = _this2.refs.v.di('validate', 'all');
+	            result = _this2.refs.v.di('getValidValue');
+	            console.log(result);
+	          });
+	        }, 3000);
+	      });
 	    }
 	  }, {
 	    key: 'handleTestChange',
@@ -144,6 +196,27 @@
 	    value: function handleTest2Change(evt) {
 	      this.setState({
 	        formFields: _index2['default'].getNewFields(evt.target.value, 'test2', this.state.formFields)
+	      });
+	    }
+	  }, {
+	    key: 'handleTest3Change',
+	    value: function handleTest3Change(evt) {
+	      this.setState({
+	        formFields: _index2['default'].getNewFields(evt.target.value, 'test3', this.state.formFields)
+	      });
+	    }
+	  }, {
+	    key: 'handleTest4Change',
+	    value: function handleTest4Change(evt) {
+	      this.setState({
+	        formFields: _index2['default'].getNewFields(evt.target.value, 'test4', this.state.formFields)
+	      });
+	    }
+	  }, {
+	    key: 'handleTest5Change',
+	    value: function handleTest5Change(evt) {
+	      this.setState({
+	        formFields: _index2['default'].getNewFields(evt.target.value, 'test5', this.state.formFields)
 	      });
 	    }
 	  }, {
@@ -161,6 +234,7 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
+	      var state = this.state;
 	      var formFields = this.state.formFields;
 	      return _react2['default'].createElement(
 	        _index2['default'],
@@ -187,7 +261,41 @@
 	              { className: 'error' },
 	              formFields.test2.isValid === false ? formFields.test2.message : ''
 	            )
-	          )
+	          ),
+	          _react2['default'].createElement(
+	            'div',
+	            null,
+	            _react2['default'].createElement('input', { type: 'text', value: formFields.test3.value, onChange: this.handleTest3Change.bind(this) }),
+	            _react2['default'].createElement(
+	              'span',
+	              { className: 'error' },
+	              formFields.test3.isValid === false ? formFields.test3.message : ''
+	            )
+	          ),
+	          state.addNewFields ? _react2['default'].createElement(
+	            'div',
+	            null,
+	            _react2['default'].createElement(
+	              'div',
+	              null,
+	              _react2['default'].createElement('input', { type: 'text', value: formFields.test4.value, onChange: this.handleTest4Change.bind(this) }),
+	              _react2['default'].createElement(
+	                'span',
+	                { className: 'error' },
+	                formFields.test4.isValid === false ? formFields.test4.message : ''
+	              )
+	            ),
+	            _react2['default'].createElement(
+	              'div',
+	              null,
+	              _react2['default'].createElement('input', { type: 'text', value: formFields.test5.value, onChange: this.handleTest5Change.bind(this) }),
+	              _react2['default'].createElement(
+	                'span',
+	                { className: 'error' },
+	                formFields.test5.isValid === false ? formFields.test5.message : ''
+	              )
+	            )
+	          ) : null
 	        )
 	      );
 	    }
@@ -28598,9 +28706,8 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Author: 13
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-17T16:39:09+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified by:
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-20T19:54:52+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-22T15:55:00+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
-	
 	/**
 	 * 验证组件，多用于表单
 	 */
@@ -28661,22 +28768,27 @@
 	      var props = this.props;
 	      var fields = props.fields;
 	      var values = {};
-	      var isValid = true;
 	      Object.keys(fields).forEach(function (fieldName) {
 	        var value = fields[fieldName].value + '';
 	        if (excludeEmpty) {
 	          if (value) {
-	            values[fields[fieldName].name || fieldName] = value;
+	            if (fields[fieldName].groupName) {
+	              values[fields[fieldName].groupName] = values[fields[fieldName].groupName] || {};
+	              values[fields[fieldName].groupName][fieldName] = value;
+	            } else {
+	              values[fieldName] = value;
+	            }
 	          }
 	        } else {
-	          values[fields[fieldName].name || fieldName] = value;
+	          if (fields[fieldName].groupName) {
+	            values[fields[fieldName].groupName] = values[fields[fieldName].groupName] || {};
+	            values[fields[fieldName].groupName][fieldName] = value;
+	          } else {
+	            values[fieldName] = value;
+	          }
 	        }
 	      });
-	
-	      return {
-	        isValid: this.validate('all').isValid,
-	        values: values
-	      };
+	      return { isValid: this.validate('all').isValid, values: values };
 	    }
 	  }, {
 	    key: 'validate',
@@ -28722,7 +28834,10 @@
 	      diffValueOfFields = diffValueOfFields.concat(refFields);
 	      //去重
 	      diffValueOfFields = Array.from(new Set(diffValueOfFields));
-	
+	      //重排
+	      diffValueOfFields.sort(function (a, b) {
+	        return fields[a].index - fields[b].index;
+	      });
 	      diffValueOfFields.forEach(function (fieldName) {
 	        validateField(fieldName);
 	      });
@@ -28753,9 +28868,7 @@
 	        validateResult.push(fieldValidateResult);
 	      }
 	      //存储新的内部状态
-	      this.setState({
-	        fields: stateFields
-	      });
+	      this.setState({ fields: stateFields });
 	      //过滤出没通过验证的
 	      var validateErrorResult = validateResult.filter(function (itemData) {
 	        return !itemData.isValid;
@@ -28799,7 +28912,6 @@
 	        }
 	      });
 	      //对比fields是否发生了改变，有改变触发反射
-	
 	      if (!(0, _deepEqual2['default'])(newFields, fields)) {
 	        props.onFieldsChange(newFields);
 	      }
@@ -28813,10 +28925,7 @@
 	          pv.message.push(stateFields[cv].message);
 	        }
 	        return pv;
-	      }, {
-	        isValid: true
-	      });
-	
+	      }, { isValid: true });
 	      if (fieldName === 'all' && !(0, _deepEqual2['default'])(state.validateResult, returnData)) {
 	        //validate all才触发
 	        this.setState({
@@ -28831,6 +28940,7 @@
 	    key: 'reset',
 	    value: function reset() {
 	      var props = this.props;
+	      var fields = this.fields;
 	      var newFields = {};
 	      Object.keys(props.fields).forEach(function (k) {
 	        newFields[k] = fields[k];
@@ -28842,7 +28952,6 @@
 	    key: 'render',
 	    value: function render() {
 	      var props = this.props;
-	      var state = this.state;
 	      var prefixCls = props.prefixCls;
 	      return _react2['default'].createElement(
 	        'div',
@@ -29004,7 +29113,6 @@
 	  onFieldsChange: function onFieldsChange() {}, //fields反射
 	  onValidate: function onValidate() {} //任一field的isValid有改变就会触发
 	};
-	
 	//默认验证规则, 局部验证，默认都是true
 	Validator.defaultRule = {
 	  money: function money(v, params) {
@@ -29079,15 +29187,90 @@
 	  } else {
 	    target[key] = value;
 	  }
-	  Object.keys(target).forEach(function (k) {
-	    var v = target[k];
-	    if (typeof v === 'undefined') {
-	      v = '';
-	    }
-	    result[k] = Object.assign({}, result[k], {
-	      value: v
+	  if (Array.isArray(target)) {
+	    //批量更新或添加或删除(index === -1)
+	    target.forEach(function (itemData) {
+	      update(standard(itemData));
 	    });
-	  });
+	  } else {
+	    //标准化
+	    update(standard(target));
+	  }
+	  // Object.keys(target).forEach((k) => {
+	  //   let v = target[k];
+	  //   if (typeof v === 'undefined') {
+	  //     v = '';
+	  //   }
+	  //   result[k] = Object.assign({}, result[k], {
+	  //     value: v
+	  //   });
+	  // });
+	  /**
+	   * 标准化field
+	   * @param  {[type]} field [description]
+	   * @return {[type]}       [description]
+	   */
+	  function standard(field) {
+	    if (field.name) {
+	      field.value = field.value || '';
+	      return field;
+	    } else {
+	      var keys = Object.keys(field);
+	      return Object.assign({}, {
+	        name: keys[0],
+	        value: field[keys[0]]
+	      });
+	    }
+	  }
+	  function update(itemData) {
+	    itemData = standard(itemData);
+	    //看是否需要更新或者删除field
+	    if (typeof itemData.index !== 'undefined') {
+	      if (itemData.index === -1) {
+	        //直接干掉对应field
+	        delete result[itemData.name];
+	        //重排一遍index
+	        var keys = Object.keys(result);
+	        keys.sort(function (a, b) {
+	          return result[a].index - result[b].index;
+	        });
+	        keys.forEach(function (v, i) {
+	          result[v].index = i;
+	        });
+	      } else {
+	        //更新配置项和排序
+	        if (result[itemData.name] && itemData.index === result[itemData.name].index) {
+	          //直接更新配置项
+	          result[itemData.name] = Object.assign({}, result[itemData.name], itemData);
+	        } else {
+	          var _keys = Object.keys(result);
+	          _keys.sort(function (a, b) {
+	            return result[a].index - result[b].index;
+	          });
+	          //先干掉对应的key
+	          _keys = _keys.filter(function (v) {
+	            return v !== itemData.name;
+	          });
+	          //再插入
+	          _keys.splice(itemData.index, 0, itemData.name);
+	          //重排
+	          _keys.forEach(function (v, i) {
+	            result[v].index = i;
+	          });
+	          //更新配置
+	          delete itemData.index;
+	          result[itemData.name] = Object.assign({}, result[itemData.name] || {}, itemData);
+	        }
+	      }
+	    } else {
+	      //直接更新配置
+	      result[itemData.name] = Object.assign({}, result[itemData.name] || {}, itemData);
+	      if (typeof result[itemData.name].index === 'undefined') {
+	        result[itemData.name] = Validator.getStandardField(result[itemData.name]);
+	        result[itemData.name].index = Object.keys(result).length - 1;
+	      }
+	    }
+	  }
 	  return result;
 	  //let newFields = Object.assign({}, result, tmpResult);
 	  //let newFields = Object.assign({}, result);
@@ -29099,36 +29282,42 @@
 	 */
 	Validator.getOrderFields = function (fields) {
 	  return fields.reduce(function (pv, cv, ci) {
-	    pv[cv.name] = Object.assign({}, cv, {
-	      index: ci
-	    });
-	    if (typeof pv[cv.name].allowBlank === 'undefined') {
-	      //默认允许为空
-	      pv[cv.name].allowBlank = true;
-	    }
-	    if (typeof pv[cv.name].rule === 'undefined') {
-	      //添加默认rule
-	      pv[cv.name].rule = [true];
-	    }
-	    if (typeof pv[cv.name].message === 'undefined') {
-	      pv[cv.name].message = [];
-	    }
-	    if (typeof pv[cv.name].ignore === 'undefined') {
-	      //默认验证所有项
-	      pv[cv.name].ignore = false;
-	    }
-	    if (typeof pv[cv.name].value === 'undefined') {
-	      //默认值
-	      pv[cv.name].value = '';
-	    }
-	    if (typeof pv[cv.name].bindField === 'undefined') {
-	      //默认值
-	      pv[cv.name].bindField = [];
-	    }
+	    pv[cv.name] = Object.assign({}, cv, { index: ci });
+	    pv[cv.name] = Validator.getStandardField(pv[cv.name]);
 	    return pv;
 	  }, {});
 	};
-	
+	/**
+	 * 获取标准化的field配置信息
+	 * @param  {[type]} field [description]
+	 * @return {[type]}       [description]
+	 */
+	Validator.getStandardField = function (field) {
+	  if (typeof field.allowBlank === 'undefined') {
+	    //默认允许为空
+	    field.allowBlank = true;
+	  }
+	  if (typeof field.rule === 'undefined') {
+	    //添加默认rule
+	    field.rule = [true];
+	  }
+	  if (typeof field.message === 'undefined') {
+	    field.message = [];
+	  }
+	  if (typeof field.ignore === 'undefined') {
+	    //默认验证所有项
+	    field.ignore = false;
+	  }
+	  if (typeof field.value === 'undefined') {
+	    //默认值
+	    field.value = '';
+	  }
+	  if (typeof field.bindField === 'undefined') {
+	    //默认值
+	    field.bindField = [];
+	  }
+	  return field;
+	};
 	exports['default'] = Validator;
 
 /***/ },
