@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T19:18:04+08:00
-* @Last modified time: 2016-09-06T16:09:56+08:00
+* @Last modified time: 2016-09-23T15:50:02+08:00
 */
 
 /**
@@ -36,7 +36,7 @@ class Dropdown extends Widget {
     let needChange = false;
     if (typeof props.value !== 'undefined') {
       options.forEach((option) => {
-        if (option.value === props.value) {
+        if (option.value == props.value) {
           if (!option.selected) {
             needChange = true;
           }
@@ -189,7 +189,7 @@ class Dropdown extends Widget {
         let newOptions = [].concat(props.options);
         // 更新options下各项的被选择值
         newOptions.forEach((itemData) => {
-          itemData.selected = itemData.value === option.value
+          itemData.selected = itemData.value == option.value
           ? true
           : false;
         });
@@ -214,7 +214,7 @@ class Dropdown extends Widget {
   handleOptionMouseEnter(option) {
     const props = this.props;
     props.onOptionsChange.call(this, [].concat(props.options).map((itemData) => {
-      itemData.hover = (itemData.value === option.value
+      itemData.hover = (itemData.value == option.value
         ? true
         : false);
       return itemData;
@@ -223,7 +223,7 @@ class Dropdown extends Widget {
   handleOptionMouseLeave(option) {
     const props = this.props;
     props.onOptionsChange.call(this, [].concat(props.options).map((itemData) => {
-      itemData.hover = (itemData.value === option.value
+      itemData.hover = (itemData.value == option.value
         ? false
         : itemData.hover);
       return itemData;

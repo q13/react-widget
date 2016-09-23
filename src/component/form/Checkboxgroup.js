@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:08+08:00
-* @Last modified time: 2016-08-30T16:44:02+08:00
+* @Last modified time: 2016-09-23T15:48:56+08:00
 */
 
 /**
@@ -39,7 +39,7 @@ class Checkboxgroup extends Widget {
     if (typeof props.value !== 'undefined') {
       options.forEach((option) => {
         if ([].concat(props.value).some((valueItem) => {
-            return valueItem === option.value;
+            return valueItem == option.value;
           })) {
           if (!option.checked) {
             needChange = true;
