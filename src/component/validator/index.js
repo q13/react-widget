@@ -2,7 +2,7 @@
 * @Author: 13
 * @Date:   2016-06-17T16:39:09+08:00
 * @Last modified by:
-* @Last modified time: 2016-09-23T15:19:53+08:00
+* @Last modified time: 2016-09-23T16:56:23+08:00
 */
 /**
  * 验证组件，多用于表单
@@ -493,12 +493,12 @@ Validator.getNewFields = function(value, key, fields, configMode) {
   }
   if (Array.isArray(target)) { //批量更新或添加或删除(index === -1)
     target.forEach((itemData) => {
-      itemData.value = itemData.value + ''; //强制转成字符串
+      //itemData.value = itemData.value + ''; //强制转成字符串
       update(itemData);
     });
   } else {
     //标准化
-    target.value = target.value + '';
+    //target.value = target.value + '';
     update(target);
   }
   // Object.keys(target).forEach((k) => {
@@ -590,8 +590,6 @@ Validator.getStandardField = function(field) {
   }
   if (typeof field.value === 'undefined') { //默认值
     field.value = '';
-  } else {
-    field.value = field.value + ''; //强制转成字符串
   }
   if (typeof field.bindField === 'undefined') { //默认值
     field.bindField = [];
