@@ -2,7 +2,7 @@
 * @Author: 13
 * @Date:   2016-06-17T16:39:09+08:00
 * @Last modified by:
-* @Last modified time: 2016-09-22T15:55:00+08:00
+* @Last modified time: 2016-09-23T13:51:49+08:00
 */
 /**
  * 验证组件，多用于表单
@@ -450,6 +450,16 @@ Validator.getNewFields = function(value, key, fields) {
     fields = key;
     result = Object.assign({}, fields);
     target = value;
+    //默认target为object，扩展成field array
+    let keys = Object.keys(target);
+    let targetArr = [];
+    keys.forEach((k, i) => {
+      targetArr[i] = {
+        name: k,
+        value: target[k]
+      };
+    });
+    target = targetArr;
   } else {
     target[key] = value;
   }
