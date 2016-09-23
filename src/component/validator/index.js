@@ -2,7 +2,7 @@
 * @Author: 13
 * @Date:   2016-06-17T16:39:09+08:00
 * @Last modified by:
-* @Last modified time: 2016-09-23T13:51:49+08:00
+* @Last modified time: 2016-09-23T15:19:53+08:00
 */
 /**
  * 验证组件，多用于表单
@@ -442,7 +442,15 @@ Validator.defaultRule = {
     }
   }
 };
-Validator.getNewFields = function(value, key, fields) {
+/**
+ * 获取新的fields
+ * @param  {[type]} value      [description]
+ * @param  {[type]} key        [description]
+ * @param  {[type]} fields     [description]
+ * @param  {[type]} configMode full or simple，full表示传入的是完整配置项{name, value, rule...}，simple表示传入的是key:value形式
+ * @return {[type]}            [description]
+ */
+Validator.getNewFields = function(value, key, fields, configMode) {
   var result = Object.assign({}, fields);
   //var result = fields;
   let target = {};
@@ -450,26 +458,48 @@ Validator.getNewFields = function(value, key, fields) {
     fields = key;
     result = Object.assign({}, fields);
     target = value;
-    //默认target为object，扩展成field array
-    let keys = Object.keys(target);
-    let targetArr = [];
-    keys.forEach((k, i) => {
-      targetArr[i] = {
-        name: k,
-        value: target[k]
-      };
-    });
-    target = targetArr;
+    if (Array.isArray(target)) {
+      //configMode没定义，默认array下用完整配置项模式
+      //已定义则根据configMode扩展成完整模式
+      if (typeof configMode !== 'undefined') {
+        if (configMode === 'simple') {
+          target = target.map((itemData) => {
+            let keys = Object.keys(itemData);
+            return {
+              name: keys[0],
+              value: itemData[keys[0]]
+            };
+          });
+        }
+      }
+    } else {  //直接默认是object形式
+      //object配置方式下，如果configMode没定义，默认是simple模式
+      if (typeof configMode === 'undefined' || (typeof configMode !== 'undefined' && configMode === 'simple')) {
+        let keys = Object.keys(target);
+        target = keys.map((name) => {
+          return {
+            name: name,
+            value: target[name]
+          };
+        });
+      }
+    }
   } else {
-    target[key] = value;
+    //多参数模式下肯定是simple模式，不用考虑configMode
+    target = {
+      name: key,
+      value: value
+    };
   }
   if (Array.isArray(target)) { //批量更新或添加或删除(index === -1)
     target.forEach((itemData) => {
-      update(standard(itemData));
+      itemData.value = itemData.value + ''; //强制转成字符串
+      update(itemData);
     });
   } else {
     //标准化
-    update(standard(target));
+    target.value = target.value + '';
+    update(target);
   }
   // Object.keys(target).forEach((k) => {
   //   let v = target[k];
@@ -480,25 +510,7 @@ Validator.getNewFields = function(value, key, fields) {
   //     value: v
   //   });
   // });
-  /**
-   * 标准化field
-   * @param  {[type]} field [description]
-   * @return {[type]}       [description]
-   */
-  function standard(field) {
-    if (field.name) {
-      field.value = field.value || '';
-      return field;
-    } else {
-      let keys = Object.keys(field);
-      return Object.assign({}, {
-        name: keys[0],
-        value: field[keys[0]]
-      });
-    }
-  }
   function update(itemData) {
-    itemData = standard(itemData);
     //看是否需要更新或者删除field
     if (typeof itemData.index !== 'undefined') {
       if (itemData.index === -1) { //直接干掉对应field
@@ -578,6 +590,8 @@ Validator.getStandardField = function(field) {
   }
   if (typeof field.value === 'undefined') { //默认值
     field.value = '';
+  } else {
+    field.value = field.value + ''; //强制转成字符串
   }
   if (typeof field.bindField === 'undefined') { //默认值
     field.bindField = [];
