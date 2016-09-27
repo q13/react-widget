@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-09-13T19:05:50+08:00
-* @Last modified time: 2016-09-14T14:32:20+08:00
+* @Last modified time: 2016-09-27T14:19:53+08:00
 */
 
 /**
@@ -82,6 +82,7 @@ class Uploader extends Widget {
   }
   ajaxUpload() {
     const props = this.props;
+    var requestData = props.requestData || {};
     var fileSelector = this.refs.fileSelector;
     var files = fileSelector.files;
     var promiseStore = [];
@@ -92,6 +93,9 @@ class Uploader extends Widget {
           var formData = new FormData();
           var fileName = files[index].name;
           formData.append(props.fieldName, files[index]);
+          Object.keys(requestData).forEach((k) => {
+            formData.append(k, requestData[k]);
+          });
           $.ajax({
             url: props.url,
             type: 'POST',
@@ -230,6 +234,7 @@ Uploader.propTypes = {
 Uploader.defaultProps = {
   prefixCls: 'ui-uploader',
   className: '',
+  requestData: {},
   autoUpload: true,  //自定上传
   width: 'auto',
   height: 'auto',
