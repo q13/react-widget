@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-09-13T19:05:50+08:00
-* @Last modified time: 2016-09-27T14:19:53+08:00
+* @Last modified time: 2016-10-12T17:50:45+08:00
 */
 
 /**
@@ -160,10 +160,23 @@ class Uploader extends Widget {
     let value = evt.target.value;
     let files = evt.target.files;
     let validateParams = [];
+    let filesResultPromiseList = [];
     if (files) {
       let i = 0;
       while(i < files.length) {
         validateParams.push(files[i].name);
+        if (window.FileReader) {
+          filesResultPromiseList.push(new Promise(function (resolve, reject) {
+            let fr = new FileReader();
+            fr.onload = function (evt) {
+              resolve(evt.target.result);
+            };
+            fr.onerror = function (err) {
+              reject(err);
+            };
+            fr.readAsDataURL(files[i]);
+          }));
+        }
         i++;
       }
     } else {
@@ -174,14 +187,33 @@ class Uploader extends Widget {
         this.setState({
           filePath: value
         }, () => {
-          props.onChange(value);
+          if (filesResultPromiseList.length) {
+            Promise.all(filesResultPromiseList).then(function (results) {
+              if (results.length === 1) {
+                results = results[0];
+              }
+              props.onChange(value, results);
+            }).catch(function () {
+              props.onChange(value);
+            });
+          } else {
+            props.onChange(value);
+          }
           this.uploadShell();
         });
       } else {
         this.setState({
           filePath: value
         }, () => {
-          props.onChange(value);
+          if (filesResultPromiseList.length) {
+            Promise.all(filesResultPromiseList).then(function (results) {
+              props.onChange(value, results);
+            }).catch(function () {
+              props.onChange(value);
+            });
+          } else {
+            props.onChange(value);
+          }
         });
       }
     } else {

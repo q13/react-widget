@@ -1,5 +1,5 @@
 /*!
- * Build at Thu Sep 22 2016 13:41:18 GMT+0800 (China Standard Time)
+ * Build at Wed Oct 12 2016 17:23:18 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -64,7 +64,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _index = __webpack_require__(588);
+	var _index = __webpack_require__(591);
 	
 	var _index2 = _interopRequireDefault(_index);
 	
@@ -28669,7 +28669,10 @@
 /* 585 */,
 /* 586 */,
 /* 587 */,
-/* 588 */
+/* 588 */,
+/* 589 */,
+/* 590 */,
+/* 591 */
 /***/ function(module, exports, __webpack_require__) {
 
 	'use strict';
@@ -28690,7 +28693,7 @@
 	
 	var _reactDom2 = _interopRequireDefault(_reactDom);
 	
-	var _deepEqual = __webpack_require__(589);
+	var _deepEqual = __webpack_require__(592);
 	
 	var _deepEqual2 = _interopRequireDefault(_deepEqual);
 	
@@ -28706,7 +28709,7 @@
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Author: 13
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-17T16:39:09+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified by:
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-22T15:55:00+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-23T16:56:23+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	/**
 	 * 验证组件，多用于表单
@@ -29176,7 +29179,15 @@
 	    }
 	  }
 	};
-	Validator.getNewFields = function (value, key, fields) {
+	/**
+	 * 获取新的fields
+	 * @param  {[type]} value      [description]
+	 * @param  {[type]} key        [description]
+	 * @param  {[type]} fields     [description]
+	 * @param  {[type]} configMode full or simple，full表示传入的是完整配置项{name, value, rule...}，simple表示传入的是key:value形式
+	 * @return {[type]}            [description]
+	 */
+	Validator.getNewFields = function (value, key, fields, configMode) {
 	  var result = Object.assign({}, fields);
 	  //var result = fields;
 	  var target = {};
@@ -29184,17 +29195,50 @@
 	    fields = key;
 	    result = Object.assign({}, fields);
 	    target = value;
+	    if (Array.isArray(target)) {
+	      //configMode没定义，默认array下用完整配置项模式
+	      //已定义则根据configMode扩展成完整模式
+	      if (typeof configMode !== 'undefined') {
+	        if (configMode === 'simple') {
+	          target = target.map(function (itemData) {
+	            var keys = Object.keys(itemData);
+	            return {
+	              name: keys[0],
+	              value: itemData[keys[0]]
+	            };
+	          });
+	        }
+	      }
+	    } else {
+	      //直接默认是object形式
+	      //object配置方式下，如果configMode没定义，默认是simple模式
+	      if (typeof configMode === 'undefined' || typeof configMode !== 'undefined' && configMode === 'simple') {
+	        var keys = Object.keys(target);
+	        target = keys.map(function (name) {
+	          return {
+	            name: name,
+	            value: target[name]
+	          };
+	        });
+	      }
+	    }
 	  } else {
-	    target[key] = value;
+	    //多参数模式下肯定是simple模式，不用考虑configMode
+	    target = {
+	      name: key,
+	      value: value
+	    };
 	  }
 	  if (Array.isArray(target)) {
 	    //批量更新或添加或删除(index === -1)
 	    target.forEach(function (itemData) {
-	      update(standard(itemData));
+	      //itemData.value = itemData.value + ''; //强制转成字符串
+	      update(itemData);
 	    });
 	  } else {
 	    //标准化
-	    update(standard(target));
+	    //target.value = target.value + '';
+	    update(target);
 	  }
 	  // Object.keys(target).forEach((k) => {
 	  //   let v = target[k];
@@ -29205,36 +29249,18 @@
 	  //     value: v
 	  //   });
 	  // });
-	  /**
-	   * 标准化field
-	   * @param  {[type]} field [description]
-	   * @return {[type]}       [description]
-	   */
-	  function standard(field) {
-	    if (field.name) {
-	      field.value = field.value || '';
-	      return field;
-	    } else {
-	      var keys = Object.keys(field);
-	      return Object.assign({}, {
-	        name: keys[0],
-	        value: field[keys[0]]
-	      });
-	    }
-	  }
 	  function update(itemData) {
-	    itemData = standard(itemData);
 	    //看是否需要更新或者删除field
 	    if (typeof itemData.index !== 'undefined') {
 	      if (itemData.index === -1) {
 	        //直接干掉对应field
 	        delete result[itemData.name];
 	        //重排一遍index
-	        var keys = Object.keys(result);
-	        keys.sort(function (a, b) {
+	        var _keys = Object.keys(result);
+	        _keys.sort(function (a, b) {
 	          return result[a].index - result[b].index;
 	        });
-	        keys.forEach(function (v, i) {
+	        _keys.forEach(function (v, i) {
 	          result[v].index = i;
 	        });
 	      } else {
@@ -29243,18 +29269,18 @@
 	          //直接更新配置项
 	          result[itemData.name] = Object.assign({}, result[itemData.name], itemData);
 	        } else {
-	          var _keys = Object.keys(result);
-	          _keys.sort(function (a, b) {
+	          var _keys2 = Object.keys(result);
+	          _keys2.sort(function (a, b) {
 	            return result[a].index - result[b].index;
 	          });
 	          //先干掉对应的key
-	          _keys = _keys.filter(function (v) {
+	          _keys2 = _keys2.filter(function (v) {
 	            return v !== itemData.name;
 	          });
 	          //再插入
-	          _keys.splice(itemData.index, 0, itemData.name);
+	          _keys2.splice(itemData.index, 0, itemData.name);
 	          //重排
-	          _keys.forEach(function (v, i) {
+	          _keys2.forEach(function (v, i) {
 	            result[v].index = i;
 	          });
 	          //更新配置
@@ -29321,12 +29347,12 @@
 	exports['default'] = Validator;
 
 /***/ },
-/* 589 */
+/* 592 */
 /***/ function(module, exports, __webpack_require__) {
 
 	var pSlice = Array.prototype.slice;
-	var objectKeys = __webpack_require__(590);
-	var isArguments = __webpack_require__(591);
+	var objectKeys = __webpack_require__(593);
+	var isArguments = __webpack_require__(594);
 	
 	var deepEqual = module.exports = function (actual, expected, opts) {
 	  if (!opts) opts = {};
@@ -29421,7 +29447,7 @@
 
 
 /***/ },
-/* 590 */
+/* 593 */
 /***/ function(module, exports) {
 
 	exports = module.exports = typeof Object.keys === 'function'
@@ -29436,7 +29462,7 @@
 
 
 /***/ },
-/* 591 */
+/* 594 */
 /***/ function(module, exports) {
 
 	var supportsArgumentsClass = (function(){

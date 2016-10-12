@@ -1,5 +1,5 @@
 /*!
- * Build at Thu Sep 22 2016 13:41:18 GMT+0800 (China Standard Time)
+ * Build at Wed Oct 12 2016 17:23:18 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -28828,7 +28828,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-17T16:39:08+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-08-30T16:44:02+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-23T15:48:56+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	
 	/**
@@ -28879,7 +28879,7 @@
 	      if (typeof props.value !== 'undefined') {
 	        options.forEach(function (option) {
 	          if ([].concat(props.value).some(function (valueItem) {
-	            return valueItem === option.value;
+	            return valueItem == option.value;
 	          })) {
 	            if (!option.checked) {
 	              needChange = true;
