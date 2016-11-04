@@ -76,7 +76,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-10-12T17:20:23+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-10-12T17:52:06+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-10-12T18:52:44+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	
 	// enable es6 to es5 transform
@@ -91,7 +91,8 @@
 	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
 	    _this.state = {
-	      imgSrc: ''
+	      imgSrc: '',
+	      test: 1
 	    };
 	    return _this;
 	  }
@@ -112,7 +113,8 @@
 	          _index2['default'],
 	          { width: '60', height: '60', autoUpload: false, onChange: function onChange(value, results) {
 	              _this2.setState({
-	                imgSrc: results
+	                imgSrc: results,
+	                test: 2
 	              });
 	            } },
 	          _react2['default'].createElement(

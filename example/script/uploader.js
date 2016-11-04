@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-10-12T17:20:23+08:00
-* @Last modified time: 2016-10-12T17:52:06+08:00
+* @Last modified time: 2016-10-12T18:52:44+08:00
 */
 
 import babelPolyfill from 'babel-polyfill';  // enable es6 to es5 transform
@@ -12,7 +12,8 @@ class App extends React.Component{
   constructor(props) {
     super(props);
     this.state = {
-      imgSrc: ''
+      imgSrc: '',
+      test: 1
     };
   }
   componentDidMount() {
@@ -22,7 +23,8 @@ class App extends React.Component{
     return (<div>
       <Uploader width="60" height="60" autoUpload={false} onChange={(value, results) => {
         this.setState({
-          imgSrc: results
+          imgSrc: results,
+          test: 2
         });
       }}>
         <button type="button">上传</button>
