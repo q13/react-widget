@@ -314,8 +314,9 @@ class Tree extends Widget {
               options.map((itemData, i) => {
                 //var nodeCheckedCls = '';  //节点选中状态：空/半选/全选
                 var nodeSelectedCls = itemData.selectedStatus === 'selected' ? `${prefixCls}-node-text-selected` : '';
+                var nodeCls = itemData.className || '';
                 return ((level === 0 || itemData.rendered) ? (<li className={`${prefixCls}-item item-${level}`} key={i}>
-                  <div className={`${prefixCls}-node`}>
+                  <div className={`${prefixCls}-node ${nodeCls}`}>
                     {(itemData.children && itemData.children.length) ? <span className={`${prefixCls}-node-foldder ${prefixCls}-node-foldder-${itemData.foldedStatus || 'folded'}`} onClick={self.handleOptionFold.bind(self, itemData)}>{Tree.getFoldderTextFromStatus(itemData.foldedStatus)}</span> : <span className={`${prefixCls}-node-foldder`}></span>}
                     {itemData.checkType === 'checkbox' ? <span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}>{Tree.getCheckboxTextFromStatus(itemData.checkedStatus)}</span> : null}
                     <span className={`${prefixCls}-node-text ${nodeSelectedCls}`} title={itemData.text} onClick={self.handleOptionSelect.bind(self, itemData)}>&nbsp;{itemData.text}</span></div>
