@@ -27,7 +27,7 @@ class AutoComplete extends Dropdown {
     const props = this.props;
     let text = escapeRegExp(evt.target.value.trim());
     this.setState({
-      text: text
+      text: evt.target.value
     }, () => {
       // 更新props文本内容
       clearTimeout(this.queryTid);
