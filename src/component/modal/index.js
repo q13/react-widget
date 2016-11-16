@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-24T13:59:13+08:00
-* @Last modified time: 2016-09-01T18:16:58+08:00
+* @Last modified time: 2016-11-16T16:45:45+08:00
 */
 
 import {Widget} from "../component.js";
@@ -86,7 +86,7 @@ class Modal extends Widget {
       width: props.width,
       height: props.height
     };
-    if (props.visible) {
+    if (props.visible && props.visible !== prevProps.visible) {
       if (modalStore.length > 1) {
         tempModalStore = modalStore.filter((itemData, i) => {
           if (itemData.index !== this.index) {
