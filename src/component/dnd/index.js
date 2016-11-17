@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-08-25T11:12:41+08:00
-* @Last modified time: 2016-09-01T18:25:48+08:00
+* @Last modified time: 2016-11-17T15:49:15+08:00
 */
 /**
  * Drag and drop
@@ -40,7 +40,7 @@ Object.assign(Dnd.prototype, {
     this.onStart = this.options.onStart;
     this.onMove = this.options.onMove;
     this.onStop = this.options.onStop;
-    this.handler = this.options.handler ? $(this.options.handler) : this.core;
+    this.handler = this.options.handler ? $(this.options.handler, this.core) : this.core;
     this.container = this.options.container ? $(this.options.container) : null;
     //保持原来的定位方式，设置绝对定位
     this.originPosition = this.core.css('position');
