@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-09-10T11:24:39+08:00
+* @Last modified time: 2016-11-18T15:26:18+08:00
 */
 
 /**
@@ -177,6 +177,9 @@ class Tree extends Widget {
   handleOptionCheck(option) {
     const props = this.props;
     const state = this.state;
+    if (option.disabled) {
+      return;
+    }
     let options = Tree.getCloneOptions(props.options);
     option = Tree.getOptionFromValue(option.value, options);
     option.checkedStatus = (option.checkedStatus === 'checked' ? 'unchecked' : 'checked');
@@ -252,6 +255,9 @@ class Tree extends Widget {
     if (props.selectMode === 'none') {
       return;
     }
+    if (option.disabled) {
+      return;
+    }
     let options = Tree.getCloneOptions(props.options);
     option = Tree.getOptionFromValue(option.value, options);
     option.selectedStatus = (option.selectedStatus === 'selected' ? 'unselected' : 'selected');
@@ -280,7 +286,6 @@ class Tree extends Widget {
   }
   handleOptionFold(option) {
     const props = this.props;
-    const self = this;
     let options = Tree.getCloneOptions(props.options);
     option = Tree.getOptionFromValue(option.value, options);
     option.foldedStatus = (option.foldedStatus === 'unfolded' ? 'folded' : 'unfolded');
@@ -315,11 +320,16 @@ class Tree extends Widget {
                 //var nodeCheckedCls = '';  //节点选中状态：空/半选/全选
                 var nodeSelectedCls = itemData.selectedStatus === 'selected' ? `${prefixCls}-node-text-selected` : '';
                 var nodeCls = itemData.className || '';
+                var textSuffix = '';
+                if (itemData.disabled) {
+                  nodeCls += ` ${prefixCls}-node-disabled`;
+                  textSuffix += '-禁用';
+                }
                 return ((level === 0 || itemData.rendered) ? (<li className={`${prefixCls}-item item-${level}`} key={i}>
                   <div className={`${prefixCls}-node ${nodeCls}`}>
                     {(itemData.children && itemData.children.length) ? <span className={`${prefixCls}-node-foldder ${prefixCls}-node-foldder-${itemData.foldedStatus || 'folded'}`} onClick={self.handleOptionFold.bind(self, itemData)}>{Tree.getFoldderTextFromStatus(itemData.foldedStatus)}</span> : <span className={`${prefixCls}-node-foldder`}></span>}
                     {itemData.checkType === 'checkbox' ? <span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}>{Tree.getCheckboxTextFromStatus(itemData.checkedStatus)}</span> : null}
-                    <span className={`${prefixCls}-node-text ${nodeSelectedCls}`} title={itemData.text} onClick={self.handleOptionSelect.bind(self, itemData)}>&nbsp;{itemData.text}</span></div>
+                    <span className={`${prefixCls}-node-text ${nodeSelectedCls}`} title={itemData.text + textSuffix} onClick={self.handleOptionSelect.bind(self, itemData)}>&nbsp;{itemData.text}</span></div>
                   {(itemData.foldedStatus === 'unfolded' && itemData.children && itemData.children.length) ? <div className={`${prefixCls}-children`}>
                     {
                       (function () {
@@ -405,7 +415,7 @@ Tree.defaultProps = {
   checkMode: 'multi', //multi or single or none
   selectMode: 'single', //multi or single or none
   unfoldMode: 'none', // none or all
-  options: [],  //{value, text, checkedStatus, checkType, selectedStatus} checkedStatus取值checked，halfChecked,unchecked(默认) checkType取值none(默认),checkbox
+  options: [],  //{value, text, checkedStatus, checkType, selectedStatus, disabled} checkedStatus取值checked，halfChecked,unchecked(默认) checkType取值none(默认),checkbox
   onOptionsChange: () => {},
   onCheckedChange: () => {},
   onSelectedChange: () => {},
