@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T19:18:04+08:00
-* @Last modified time: 2016-09-23T15:50:02+08:00
+* @Last modified time: 2016-11-18T18:57:34+08:00
 */
 
 /**
@@ -258,8 +258,12 @@ Dropdown.renderPanel = function(cpt, callback) {
   const state = cpt.state;
 
   let appearAnimateCls = (state.panelStyle.display === 'block' ? `${props.prefixCls}-panel-transition-appear` : '');
+  let panelCls = '';
+  if (props.className) {
+    panelCls += `${props.prefixCls}-panel-` + props.className;
+  }
   ReactDom.render(
-    <div className={`${props.prefixCls}-panel ${props.prefixCls}-panel-${cpt.instanceId} ${appearAnimateCls}`} style={state.panelStyle} key={`${cpt.instanceId}`}>
+    <div className={`${props.prefixCls}-panel ${panelCls} ${props.prefixCls}-panel-${cpt.instanceId} ${appearAnimateCls}`} style={state.panelStyle} key={`${cpt.instanceId}`}>
     {props.getDefaultPanelTemplate.call(cpt)}
   </div>, panelContainer, () => {
     callback && callback();
