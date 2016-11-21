@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T19:18:04+08:00
-* @Last modified time: 2016-11-18T18:57:34+08:00
+* @Last modified time: 2016-11-21T17:10:32+08:00
 */
 
 /**
@@ -379,7 +379,7 @@ Dropdown.defaultProps = {
             optionCls += ` ${props.prefixCls}-options-item-hover`;
           }
           return (
-            <li key={`${x}-${option.value}`} title={option.text} className={`${props.prefixCls}-options-item ${optionCls}`} onMouseEnter={this.handleOptionMouseEnter.bind(this, option)} onMouseLeave={this.handleOptionMouseLeave.bind(this, option)} onClick={this.handleOptionClick.bind(this, option)}>
+            <li key={`${x}-${option.value}`} title={option.text} className={`${props.prefixCls}-options-item ${optionCls}`} onMouseEnter_={this.handleOptionMouseEnter.bind(this, option)} onMouseLeave_={this.handleOptionMouseLeave.bind(this, option)} onClick={this.handleOptionClick.bind(this, option)}>
               {option.text}
             </li>
           );
