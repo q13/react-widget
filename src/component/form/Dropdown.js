@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T19:18:04+08:00
-* @Last modified time: 2016-11-21T17:10:32+08:00
+* @Last modified time: 2016-11-22T14:36:28+08:00
 */
 
 /**
@@ -79,6 +79,11 @@ class Dropdown extends Widget {
   componentWillMount() {
     if (!panelContainer) { //不存在panel容器，动态创建
       panelContainer = $(`<div class="${Dropdown.defaultProps.prefixCls}-panel-manager"></div>`);
+      panelContainer.on('mouseenter', `.${Dropdown.defaultProps.prefixCls}-options-item`, function () {
+        $(this).addClass(`${Dropdown.defaultProps.prefixCls}-options-item-hover`);
+      }).on('mouseleave', `.${Dropdown.defaultProps.prefixCls}-options-item`, function () {
+        $(this).removeClass(`${Dropdown.defaultProps.prefixCls}-options-item-hover`);
+      });
       panelContainer.appendTo('body');
       panelContainer = panelContainer[0];
     }
