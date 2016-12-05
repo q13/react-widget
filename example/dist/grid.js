@@ -1,5 +1,5 @@
 /*!
- * Build at Mon Nov 07 2016 13:55:03 GMT+0800 (China Standard Time)
+ * Build at Mon Dec 05 2016 15:13:25 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -75,99 +75,139 @@
 	function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                * Grid demo
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                */
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-17T14:29:19+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-12-05T15:27:54+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
+	/**
+	 * Grid demo
+	 */
 	// enable es6 to es5 transform
 	
 	
 	var App = function (_React$Component) {
-	    _inherits(App, _React$Component);
+	  _inherits(App, _React$Component);
 	
-	    function App(props) {
-	        _classCallCheck(this, App);
+	  function App(props) {
+	    _classCallCheck(this, App);
 	
-	        var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
+	    var _this = _possibleConstructorReturn(this, (App.__proto__ || Object.getPrototypeOf(App)).call(this, props));
 	
-	        _this.state = {
-	            currentPage: 1,
-	            sortDataIndex: ''
-	        };
-	        return _this;
+	    _this.state = {
+	      currentPage: 1,
+	      sortDataIndex: ''
+	    };
+	    return _this;
+	  }
+	
+	  _createClass(App, [{
+	    key: "render",
+	    value: function render() {
+	      var columns = [{
+	        text: _react2["default"].createElement(
+	          "div",
+	          { onClick: this.sortHandle.bind(this) },
+	          "表头↑↓"
+	        ),
+	        dataIndex: 'a',
+	        colSpan: 2,
+	        width: 200
+	      }, {
+	        id: '123',
+	        text: '表头2',
+	        dataIndex: 'b',
+	        colSpan: 0,
+	        width: 500,
+	        sort: 'asc',
+	        renderer: function renderer(o, row, index) {
+	          var obj = {
+	            content: o,
+	            props: {}
+	          };
+	          if (index === 0) {
+	            obj.props.rowSpan = 2;
+	          }
+	          if (index === 1) {
+	            obj.props.rowSpan = 0;
+	          }
+	          return obj;
+	        }
+	      }, {
+	        text: '表头3',
+	        dataIndex: 'c',
+	        width: 200
+	      }, {
+	        text: '操作',
+	        dataIndex: '',
+	        width: 300,
+	        renderer: function renderer() {
+	          return _react2["default"].createElement(
+	            "a",
+	            { href: "#" },
+	            "操作"
+	          );
+	        }
+	      }];
+	      var data = this.state.gridData;
+	      return _react2["default"].createElement(
+	        "div",
+	        null,
+	        _react2["default"].createElement(_index2["default"], { useFixedHeader: false, columns: columns, data: data, onPageChange: this.onPageChange.bind(this) }),
+	        _react2["default"].createElement(
+	          "button",
+	          { onClick: this.handleSearch.bind(this) },
+	          "search"
+	        )
+	      );
 	    }
+	  }, {
+	    key: "onPageChange",
+	    value: function onPageChange(obj) {
+	      console.log(obj);
+	      this.setState({
+	        gridData: {
+	          pageSize: 10,
+	          currentPage: obj.currentPage,
+	          total: 63,
+	          rows: [{
+	            a: Math.random()
+	          }, {
+	            a: 'cdd',
+	            b: 'edd'
+	          }, {
+	            a: '1333',
+	            c: 'eee',
+	            d: 2
+	          }]
+	        }
+	      });
+	    }
+	  }, {
+	    key: "sortHandle",
+	    value: function sortHandle() {}
+	  }, {
+	    key: "handleSearch",
+	    value: function handleSearch(sort) {
+	      this.setState({
+	        gridData: {
+	          pageSize: 10,
+	          currentPage: 1,
+	          total: 63,
+	          rows: [{
+	            a: Math.random()
+	          }, {
+	            a: 'cdd',
+	            b: 'edd'
+	          }, {
+	            a: '1333',
+	            c: 'eee',
+	            d: 2
+	          }]
+	        }
+	      });
+	    }
+	  }]);
 	
-	    _createClass(App, [{
-	        key: "render",
-	        value: function render() {
-	            var columns = [{
-	                text: _react2["default"].createElement(
-	                    "div",
-	                    { onClick: this.sortHandle.bind(this) },
-	                    "表头↑↓"
-	                ), dataIndex: 'a', colSpan: 2, width: 200
-	            }, { id: '123', text: '表头2', dataIndex: 'b', colSpan: 0, width: 500, sort: 'asc', renderer: function renderer(o, row, index) {
-	                    var obj = {
-	                        content: o,
-	                        props: {}
-	                    };
-	                    if (index === 0) {
-	                        obj.props.rowSpan = 2;
-	                    }
-	                    if (index === 1) {
-	                        obj.props.rowSpan = 0;
-	                    }
-	                    return obj;
-	                } }, { text: '表头3', dataIndex: 'c', width: 200 }, {
-	                text: '操作', dataIndex: '', width: 300, renderer: function renderer() {
-	                    return _react2["default"].createElement(
-	                        "a",
-	                        { href: "#" },
-	                        "操作"
-	                    );
-	                }
-	            }];
-	            var data = this.state.gridData;
-	            return _react2["default"].createElement(
-	                "div",
-	                null,
-	                _react2["default"].createElement(_index2["default"], { useFixedHeader: false, columns: columns, data: data, onPageChange: this.onPageChange.bind(this) }),
-	                _react2["default"].createElement(
-	                    "button",
-	                    { onClick: this.handleSearch.bind(this) },
-	                    "search"
-	                )
-	            );
-	        }
-	    }, {
-	        key: "onPageChange",
-	        value: function onPageChange(obj) {
-	            console.log(obj);
-	            this.setState({
-	                gridData: {
-	                    pageSize: 10,
-	                    currentPage: obj.currentPage,
-	                    total: 63,
-	                    rows: [{ a: Math.random() }, { a: 'cdd', b: 'edd' }, { a: '1333', c: 'eee', d: 2 }]
-	                }
-	            });
-	        }
-	    }, {
-	        key: "sortHandle",
-	        value: function sortHandle() {}
-	    }, {
-	        key: "handleSearch",
-	        value: function handleSearch(sort) {
-	            this.setState({
-	                gridData: {
-	                    pageSize: 10,
-	                    currentPage: 1,
-	                    total: 63,
-	                    rows: [{ a: Math.random() }, { a: 'cdd', b: 'edd' }, { a: '1333', c: 'eee', d: 2 }]
-	                }
-	            });
-	        }
-	    }]);
-	
-	    return App;
+	  return App;
 	}(_react2["default"].Component);
 	
 	_reactDom2["default"].render(_react2["default"].createElement(App, null), document.getElementById("container"));
@@ -28531,7 +28571,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-23T19:18:04+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-23T15:50:02+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-11-22T14:36:28+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	
 	/**
@@ -28622,6 +28662,11 @@
 	      if (!panelContainer) {
 	        //不存在panel容器，动态创建
 	        panelContainer = $('<div class="' + Dropdown.defaultProps.prefixCls + '-panel-manager"></div>');
+	        panelContainer.on('mouseenter', '.' + Dropdown.defaultProps.prefixCls + '-options-item', function () {
+	          $(this).addClass(Dropdown.defaultProps.prefixCls + '-options-item-hover');
+	        }).on('mouseleave', '.' + Dropdown.defaultProps.prefixCls + '-options-item', function () {
+	          $(this).removeClass(Dropdown.defaultProps.prefixCls + '-options-item-hover');
+	        });
 	        panelContainer.appendTo('body');
 	        panelContainer = panelContainer[0];
 	      }
@@ -28825,9 +28870,13 @@
 	  var state = cpt.state;
 	
 	  var appearAnimateCls = state.panelStyle.display === 'block' ? props.prefixCls + '-panel-transition-appear' : '';
+	  var panelCls = '';
+	  if (props.className) {
+	    panelCls += props.prefixCls + '-panel-' + props.className;
+	  }
 	  _reactDom2['default'].render(_react2['default'].createElement(
 	    'div',
-	    { className: props.prefixCls + '-panel ' + props.prefixCls + '-panel-' + cpt.instanceId + ' ' + appearAnimateCls, style: state.panelStyle, key: '' + cpt.instanceId },
+	    { className: props.prefixCls + '-panel ' + panelCls + ' ' + props.prefixCls + '-panel-' + cpt.instanceId + ' ' + appearAnimateCls, style: state.panelStyle, key: '' + cpt.instanceId },
 	    props.getDefaultPanelTemplate.call(cpt)
 	  ), panelContainer, function () {
 	    callback && callback();
@@ -28949,7 +28998,7 @@
 	        }
 	        return _react2['default'].createElement(
 	          'li',
-	          { key: x + '-' + option.value, title: option.text, className: props.prefixCls + '-options-item ' + optionCls, onMouseEnter: _this5.handleOptionMouseEnter.bind(_this5, option), onMouseLeave: _this5.handleOptionMouseLeave.bind(_this5, option), onClick: _this5.handleOptionClick.bind(_this5, option) },
+	          { key: x + '-' + option.value, title: option.text, className: props.prefixCls + '-options-item ' + optionCls, onMouseEnter_: _this5.handleOptionMouseEnter.bind(_this5, option), onMouseLeave_: _this5.handleOptionMouseLeave.bind(_this5, option), onClick: _this5.handleOptionClick.bind(_this5, option) },
 	          option.text
 	        );
 	      })

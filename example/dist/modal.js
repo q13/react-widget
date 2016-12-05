@@ -1,5 +1,5 @@
 /*!
- * Build at Mon Nov 07 2016 13:55:03 GMT+0800 (China Standard Time)
+ * Build at Mon Dec 05 2016 15:13:25 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -29028,7 +29028,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-24T13:59:13+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-01T18:16:58+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-11-16T16:45:45+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	
 	//渲染到body下
@@ -29132,7 +29132,7 @@
 	        width: props.width,
 	        height: props.height
 	      };
-	      if (props.visible) {
+	      if (props.visible && props.visible !== prevProps.visible) {
 	        if (modalStore.length > 1) {
 	          tempModalStore = modalStore.filter(function (itemData, i) {
 	            if (itemData.index !== _this4.index) {
@@ -29373,7 +29373,7 @@
 	
 	var isIE = document.all ? true : false; /**
 	                                        * @Date:   2016-08-25T11:12:41+08:00
-	                                        * @Last modified time: 2016-09-01T18:25:48+08:00
+	                                        * @Last modified time: 2016-11-17T15:49:15+08:00
 	                                        */
 	/**
 	 * Drag and drop
@@ -29411,7 +29411,7 @@
 	    this.onStart = this.options.onStart;
 	    this.onMove = this.options.onMove;
 	    this.onStop = this.options.onStop;
-	    this.handler = this.options.handler ? $(this.options.handler) : this.core;
+	    this.handler = this.options.handler ? $(this.options.handler, this.core) : this.core;
 	    this.container = this.options.container ? $(this.options.container) : null;
 	    //保持原来的定位方式，设置绝对定位
 	    this.originPosition = this.core.css('position');

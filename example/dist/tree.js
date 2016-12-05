@@ -1,5 +1,5 @@
 /*!
- * Build at Mon Nov 07 2016 13:55:03 GMT+0800 (China Standard Time)
+ * Build at Mon Dec 05 2016 15:13:25 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -28843,7 +28843,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-17T16:39:09+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-10T11:24:39+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-11-18T15:26:18+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	
 	/**
@@ -29053,6 +29053,9 @@
 	    value: function handleOptionCheck(option) {
 	      var props = this.props;
 	      var state = this.state;
+	      if (option.disabled) {
+	        return;
+	      }
 	      var options = Tree.getCloneOptions(props.options);
 	      option = Tree.getOptionFromValue(option.value, options);
 	      option.checkedStatus = option.checkedStatus === 'checked' ? 'unchecked' : 'checked';
@@ -29139,6 +29142,9 @@
 	      if (props.selectMode === 'none') {
 	        return;
 	      }
+	      if (option.disabled) {
+	        return;
+	      }
 	      var options = Tree.getCloneOptions(props.options);
 	      option = Tree.getOptionFromValue(option.value, options);
 	      option.selectedStatus = option.selectedStatus === 'selected' ? 'unselected' : 'selected';
@@ -29169,7 +29175,6 @@
 	    key: 'handleOptionFold',
 	    value: function handleOptionFold(option) {
 	      var props = this.props;
-	      var self = this;
 	      var options = Tree.getCloneOptions(props.options);
 	      option = Tree.getOptionFromValue(option.value, options);
 	      option.foldedStatus = option.foldedStatus === 'unfolded' ? 'folded' : 'unfolded';
@@ -29209,6 +29214,11 @@
 	              //var nodeCheckedCls = '';  //节点选中状态：空/半选/全选
 	              var nodeSelectedCls = itemData.selectedStatus === 'selected' ? prefixCls + '-node-text-selected' : '';
 	              var nodeCls = itemData.className || '';
+	              var textSuffix = '';
+	              if (itemData.disabled) {
+	                nodeCls += ' ' + prefixCls + '-node-disabled';
+	                textSuffix += '-禁用';
+	              }
 	              return level === 0 || itemData.rendered ? _react2['default'].createElement(
 	                'li',
 	                { className: prefixCls + '-item item-' + level, key: i },
@@ -29227,7 +29237,7 @@
 	                  ) : null,
 	                  _react2['default'].createElement(
 	                    'span',
-	                    { className: prefixCls + '-node-text ' + nodeSelectedCls, title: itemData.text, onClick: self.handleOptionSelect.bind(self, itemData) },
+	                    { className: prefixCls + '-node-text ' + nodeSelectedCls, title: itemData.text + textSuffix, onClick: self.handleOptionSelect.bind(self, itemData) },
 	                    ' ',
 	                    itemData.text
 	                  )
@@ -29319,7 +29329,7 @@
 	  checkMode: 'multi', //multi or single or none
 	  selectMode: 'single', //multi or single or none
 	  unfoldMode: 'none', // none or all
-	  options: [], //{value, text, checkedStatus, checkType, selectedStatus} checkedStatus取值checked，halfChecked,unchecked(默认) checkType取值none(默认),checkbox
+	  options: [], //{value, text, checkedStatus, checkType, selectedStatus, disabled} checkedStatus取值checked，halfChecked,unchecked(默认) checkType取值none(默认),checkbox
 	  onOptionsChange: function onOptionsChange() {},
 	  onCheckedChange: function onCheckedChange() {},
 	  onSelectedChange: function onSelectedChange() {},

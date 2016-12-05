@@ -1,5 +1,5 @@
 /*!
- * Build at Mon Nov 07 2016 13:55:03 GMT+0800 (China Standard Time)
+ * Build at Mon Dec 05 2016 15:13:25 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -27880,7 +27880,7 @@
 	      var props = this.props;
 	      var text = escapeRegExp(evt.target.value.trim());
 	      this.setState({
-	        text: text
+	        text: evt.target.value
 	      }, function () {
 	        // 更新props文本内容
 	        clearTimeout(_this2.queryTid);
@@ -40052,7 +40052,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-23T19:18:04+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-23T15:50:02+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-11-22T14:36:28+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	
 	/**
@@ -40143,6 +40143,11 @@
 	      if (!panelContainer) {
 	        //不存在panel容器，动态创建
 	        panelContainer = $('<div class="' + Dropdown.defaultProps.prefixCls + '-panel-manager"></div>');
+	        panelContainer.on('mouseenter', '.' + Dropdown.defaultProps.prefixCls + '-options-item', function () {
+	          $(this).addClass(Dropdown.defaultProps.prefixCls + '-options-item-hover');
+	        }).on('mouseleave', '.' + Dropdown.defaultProps.prefixCls + '-options-item', function () {
+	          $(this).removeClass(Dropdown.defaultProps.prefixCls + '-options-item-hover');
+	        });
 	        panelContainer.appendTo('body');
 	        panelContainer = panelContainer[0];
 	      }
@@ -40346,9 +40351,13 @@
 	  var state = cpt.state;
 	
 	  var appearAnimateCls = state.panelStyle.display === 'block' ? props.prefixCls + '-panel-transition-appear' : '';
+	  var panelCls = '';
+	  if (props.className) {
+	    panelCls += props.prefixCls + '-panel-' + props.className;
+	  }
 	  _reactDom2['default'].render(_react2['default'].createElement(
 	    'div',
-	    { className: props.prefixCls + '-panel ' + props.prefixCls + '-panel-' + cpt.instanceId + ' ' + appearAnimateCls, style: state.panelStyle, key: '' + cpt.instanceId },
+	    { className: props.prefixCls + '-panel ' + panelCls + ' ' + props.prefixCls + '-panel-' + cpt.instanceId + ' ' + appearAnimateCls, style: state.panelStyle, key: '' + cpt.instanceId },
 	    props.getDefaultPanelTemplate.call(cpt)
 	  ), panelContainer, function () {
 	    callback && callback();
@@ -40470,7 +40479,7 @@
 	        }
 	        return _react2['default'].createElement(
 	          'li',
-	          { key: x + '-' + option.value, title: option.text, className: props.prefixCls + '-options-item ' + optionCls, onMouseEnter: _this5.handleOptionMouseEnter.bind(_this5, option), onMouseLeave: _this5.handleOptionMouseLeave.bind(_this5, option), onClick: _this5.handleOptionClick.bind(_this5, option) },
+	          { key: x + '-' + option.value, title: option.text, className: props.prefixCls + '-options-item ' + optionCls, onMouseEnter_: _this5.handleOptionMouseEnter.bind(_this5, option), onMouseLeave_: _this5.handleOptionMouseLeave.bind(_this5, option), onClick: _this5.handleOptionClick.bind(_this5, option) },
 	          option.text
 	        );
 	      })

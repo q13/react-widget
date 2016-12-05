@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-07-11T14:20:03+08:00
-* @Last modified time: 2016-09-05T11:24:41+08:00
+* @Last modified time: 2016-12-05T15:49:50+08:00
 */
 /**
  * Grid组件实现
@@ -56,13 +56,14 @@ class Grid extends Widget {
     }
   }
   getColGroup() {
-    let cols = [];
-    cols = cols.concat(this.props.columns.map((c, i) => {
-      return <col key={i} style={{
-        width: c.width
-      }}></col>;
-    }));
-    return <colgroup>{cols}</colgroup>;
+    // let cols = [];
+    // cols = cols.concat(this.props.columns.map((c, i) => {
+    //   return <col key={i} style={{
+    //     width: c.width
+    //   }}></col>;
+    // }));
+    // return <colgroup>{cols}</colgroup>;
+    return null;
   }
   alignHeaderColWidth() {
     const props = this.props;
