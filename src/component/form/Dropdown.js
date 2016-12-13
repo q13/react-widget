@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T19:18:04+08:00
-* @Last modified time: 2016-11-22T14:36:28+08:00
+* @Last modified time: 2016-12-13T18:55:33+08:00
 */
 
 /**
@@ -286,6 +286,7 @@ Dropdown.getPanelStyle = function(baseSelector, panelSelector) {
     baseHeight = baseEl.outerHeight(),
     baseWidth = baseEl.outerWidth(),
     panelHeight = panelEl.outerHeight(),
+    panelVisibleHeight = 0,
     panelWidth = panelEl.outerWidth(),
     winHeight = winEl.height(),
     winWidth = winEl.width(),
@@ -306,11 +307,12 @@ Dropdown.getPanelStyle = function(baseSelector, panelSelector) {
 
     style.maxHeight = baseOffset.top - winScrollTop + 'px';
     panelHeight = panelEl.outerHeight(); //重新获取面板高度
+    panelVisibleHeight = Math.min(panelHeight, parseFloat(style.maxHeight));
 
-    if (baseOffset.top + baseHeight + panelHeight - winScrollTop <= winHeight) {
+    if (baseOffset.top + baseHeight + panelVisibleHeight - winScrollTop <= winHeight) {
       style.top = baseOffset.top + baseHeight + 'px';
     } else {
-      style.top = baseOffset.top - panelHeight + 1 + 'px';
+      style.top = baseOffset.top - panelVisibleHeight + 1 + 'px';
     }
   } else { //否则永远从下方显示
     //设置面板最大高度
