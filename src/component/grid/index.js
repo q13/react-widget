@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-07-11T14:20:03+08:00
-* @Last modified time: 2016-12-05T15:49:50+08:00
+* @Last modified time: 2016-12-20T16:50:50+08:00
 */
 /**
  * Grid组件实现
@@ -24,6 +24,10 @@ class Grid extends Widget {
       props.onBodyScroll(rowRange);
     });
     this.alignHeaderColWidth();
+    //页面resize后重新计算
+    $(window).resize(() => {
+      this.alignHeaderColWidth();
+    });
   }
   componentDidUpdate(prevProps, prevState) {
     this.alignHeaderColWidth();
