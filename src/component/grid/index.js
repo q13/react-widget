@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-07-11T14:20:03+08:00
-* @Last modified time: 2016-12-26T11:38:40+08:00
+* @Last modified time: 2016-12-26T16:42:45+08:00
 */
 /**
  * Grid组件实现
@@ -74,18 +74,33 @@ class Grid extends Widget {
   updateFixedHeaderColWidth() {
     const props = this.props;
     if (props.useFixedHeader) {
+      let noData = props.data.total === 0 || props.data.rows.length === 0;
       let $tds = $('tr:first', this.refs.tbody).find('td');
       //let factor = ($(this.refs.tbody).height() - $(this.refs.body).height()) > 10 ? 0 : 0.5;
-      $('th', this.refs.thead).each(function (i) {
-        let rectValue = $tds.eq(i)[0].getBoundingClientRect();
-        let w = rectValue.width ? rectValue.width : (rectValue.right - rectValue.left);
+      let $ths = $('th', this.refs.thead);
+      if (noData) {
+        $(this.refs.thead).closest('table').width($tds.width() + 2);
+      } else {
+        $(this.refs.thead).closest('table').css({
+          width: 'auto'
+        });
+      }
+      $ths.each(function (i) {
+        let w = 0;
+        if (!noData) {
+          let rectValue = $tds.eq(i)[0].getBoundingClientRect();
+          w = rectValue.width ? rectValue.width : (rectValue.right - rectValue.left);
+          w = (w - 1) + 'px';
+        } else {
+          w = 100 / $ths.length + '%';
+        }
         //jquery Width方法精度不够
         $(this).css({
           paddingLeft: 0,
           paddingRight: 0,
           marginLeft: 0,
           marginRight: 0,
-          width: (w - 1) + 'px'
+          width: w
         });
       });
     }
