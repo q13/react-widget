@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-07-11T14:20:03+08:00
-* @Last modified time: 2016-12-20T16:50:50+08:00
+* @Last modified time: 2016-12-26T11:38:40+08:00
 */
 /**
  * Grid组件实现
@@ -23,14 +23,16 @@ class Grid extends Widget {
       let rowRange = self.getVisibleRowRangeOnScroll();
       props.onBodyScroll(rowRange);
     });
-    this.alignHeaderColWidth();
+    this.updateFixedHeaderColWidth();
     //页面resize后重新计算
     $(window).resize(() => {
-      this.alignHeaderColWidth();
+      this.updateFixedHeaderColWidth();
     });
   }
   componentDidUpdate(prevProps, prevState) {
-    this.alignHeaderColWidth();
+    if (prevProps.data !== this.props.data) {
+      this.updateFixedHeaderColWidth();
+    }
   }
   componentWillUnmount() {
     const props = this.props;
@@ -69,13 +71,22 @@ class Grid extends Widget {
     // return <colgroup>{cols}</colgroup>;
     return null;
   }
-  alignHeaderColWidth() {
+  updateFixedHeaderColWidth() {
     const props = this.props;
     if (props.useFixedHeader) {
-      let $tds = $('tr', this.refs.tbody).eq(0).find('td');
-      let factor = ($(this.refs.tbody).height() - $(this.refs.body).height()) > 10 ? 0 : 1;
+      let $tds = $('tr:first', this.refs.tbody).find('td');
+      //let factor = ($(this.refs.tbody).height() - $(this.refs.body).height()) > 10 ? 0 : 0.5;
       $('th', this.refs.thead).each(function (i) {
-        $(this).width($tds.eq(i).width() + factor);
+        let rectValue = $tds.eq(i)[0].getBoundingClientRect();
+        let w = rectValue.width ? rectValue.width : (rectValue.right - rectValue.left);
+        //jquery Width方法精度不够
+        $(this).css({
+          paddingLeft: 0,
+          paddingRight: 0,
+          marginLeft: 0,
+          marginRight: 0,
+          width: (w - 1) + 'px'
+        });
       });
     }
   }
