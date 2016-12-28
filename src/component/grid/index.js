@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-07-11T14:20:03+08:00
-* @Last modified time: 2016-12-26T16:42:45+08:00
+* @Last modified time: 2016-12-28T16:26:46+08:00
 */
 /**
  * Grid组件实现
@@ -23,7 +23,9 @@ class Grid extends Widget {
       let rowRange = self.getVisibleRowRangeOnScroll();
       props.onBodyScroll(rowRange);
     });
-    this.updateFixedHeaderColWidth();
+    setTimeout(() => {
+      this.updateFixedHeaderColWidth();
+    }, 0);
     //页面resize后重新计算
     $(window).resize(() => {
       this.updateFixedHeaderColWidth();
@@ -40,7 +42,7 @@ class Grid extends Widget {
   }
   getThs() {
     return this.props.columns.map((c, i) => {
-      return <th key={i} className={c.className || ''}>{c.text}</th>;
+      return <th key={i} className={c.className || ''} data-index={c.dataIndex}>{c.text}</th>;
     });
   }
   getRowsByData(data) {
@@ -61,23 +63,13 @@ class Grid extends Widget {
       return rst;
     }
   }
-  getColGroup() {
-    // let cols = [];
-    // cols = cols.concat(this.props.columns.map((c, i) => {
-    //   return <col key={i} style={{
-    //     width: c.width
-    //   }}></col>;
-    // }));
-    // return <colgroup>{cols}</colgroup>;
-    return null;
-  }
   updateFixedHeaderColWidth() {
     const props = this.props;
     if (props.useFixedHeader) {
       let noData = props.data.total === 0 || props.data.rows.length === 0;
       let $tds = $('tr:first', this.refs.tbody).find('td');
       //let factor = ($(this.refs.tbody).height() - $(this.refs.body).height()) > 10 ? 0 : 0.5;
-      let $ths = $('th', this.refs.thead);
+      let $ths = $('th[data-index]', this.refs.thead);
       if (noData) {
         $(this.refs.thead).closest('table').width($tds.width() + 2);
       } else {
@@ -87,15 +79,16 @@ class Grid extends Widget {
       }
       $ths.each(function (i) {
         let w = 0;
+        let $th = $(this);
         if (!noData) {
-          let rectValue = $tds.eq(i)[0].getBoundingClientRect();
+          let rectValue = $tds.filter('[data-index="' + $th.data('index') + '"]').get(0).getBoundingClientRect();
           w = rectValue.width ? rectValue.width : (rectValue.right - rectValue.left);
-          w = (w - 1) + 'px';
+          w = (w) + 'px';
         } else {
           w = 100 / $ths.length + '%';
         }
         //jquery Width方法精度不够
-        $(this).css({
+        $th.css({
           paddingLeft: 0,
           paddingRight: 0,
           marginLeft: 0,
@@ -142,18 +135,24 @@ class Grid extends Widget {
   render() {
     const props = this.props;
     const prefixCls = props.prefixCls;
-    const ths = this.getThs();
     const rows = this.getRowsByData(props.data.rows || []);
     let className = props.prefixCls;
     if (props.className) {
       className += ' ' + props.className;
     }
     let headerTable = null;
-    let thead = (
-      <thead className={`${prefixCls}-thead`} ref="thead">
-        <tr>{ths}</tr>
-      </thead>
-    );
+    let thead = null;
+    if (props.header) {
+      thead = (<thead className={`${prefixCls}-thead`} ref="thead">
+        {props.header.props.children}
+      </thead>);
+    } else {
+      thead = (
+        <thead className={`${prefixCls}-thead`} ref="thead">
+          <tr>{this.getThs()}</tr>
+        </thead>
+      );
+    }
     if (props.useFixedHeader) {
       headerTable = (
         <div className={`${prefixCls}-header`} style={{
@@ -163,7 +162,6 @@ class Grid extends Widget {
             tableLayout: 'fixed',
             width: 'auto'
           }}>
-            {this.getColGroup()}
             {thead}
           </table>
         </div>
@@ -180,7 +178,6 @@ class Grid extends Widget {
         {headerTable}
         <div className={`${prefixCls}-body`} ref="body">
           <table cellPadding="0" cellSpacing="0">
-            {this.getColGroup()}
             {thead}
             <tbody className={`${prefixCls}-tbody`} ref="tbody">
               {rows}
@@ -205,6 +202,7 @@ Grid.defaultProps = {
     pageSize: 10,
     rows: []
   },
+  header: false, //支持自定义表格头，多用于组合单元格头展示
   useFixedHeader: false,
   columns: [],
   prefixCls: 'ui-grid',

@@ -1,5 +1,5 @@
 /*!
- * Build at Mon Dec 05 2016 15:13:25 GMT+0800 (China Standard Time)
+ * Build at Wed Dec 28 2016 15:10:37 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -40052,7 +40052,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-23T19:18:04+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-11-22T14:36:28+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-12-13T18:55:33+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	
 	/**
@@ -40375,6 +40375,7 @@
 	      baseHeight = baseEl.outerHeight(),
 	      baseWidth = baseEl.outerWidth(),
 	      panelHeight = panelEl.outerHeight(),
+	      panelVisibleHeight = 0,
 	      panelWidth = panelEl.outerWidth(),
 	      winHeight = winEl.height(),
 	      winWidth = winEl.width(),
@@ -40396,11 +40397,12 @@
 	
 	    style.maxHeight = baseOffset.top - winScrollTop + 'px';
 	    panelHeight = panelEl.outerHeight(); //重新获取面板高度
+	    panelVisibleHeight = Math.min(panelHeight, parseFloat(style.maxHeight));
 	
-	    if (baseOffset.top + baseHeight + panelHeight - winScrollTop <= winHeight) {
+	    if (baseOffset.top + baseHeight + panelVisibleHeight - winScrollTop <= winHeight) {
 	      style.top = baseOffset.top + baseHeight + 'px';
 	    } else {
-	      style.top = baseOffset.top - panelHeight + 1 + 'px';
+	      style.top = baseOffset.top - panelVisibleHeight + 1 + 'px';
 	    }
 	  } else {
 	    //否则永远从下方显示

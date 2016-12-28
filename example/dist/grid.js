@@ -1,5 +1,5 @@
 /*!
- * Build at Mon Dec 05 2016 15:13:25 GMT+0800 (China Standard Time)
+ * Build at Wed Dec 28 2016 15:10:37 GMT+0800 (China Standard Time)
  * By~雅座前端开发组
  */
 /******/ (function(modules) { // webpackBootstrap
@@ -76,7 +76,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-17T14:29:19+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-12-05T15:27:54+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-12-28T16:38:14+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	/**
 	 * Grid demo
@@ -105,7 +105,7 @@
 	      var columns = [{
 	        text: _react2["default"].createElement(
 	          "div",
-	          { onClick: this.sortHandle.bind(this) },
+	          { onClick: this.handleSort.bind(this) },
 	          "表头↑↓"
 	        ),
 	        dataIndex: 'a',
@@ -137,7 +137,7 @@
 	        width: 200
 	      }, {
 	        text: '操作',
-	        dataIndex: '',
+	        dataIndex: 'd',
 	        width: 300,
 	        renderer: function renderer() {
 	          return _react2["default"].createElement(
@@ -151,7 +151,43 @@
 	      return _react2["default"].createElement(
 	        "div",
 	        null,
-	        _react2["default"].createElement(_index2["default"], { useFixedHeader: false, columns: columns, data: data, onPageChange: this.onPageChange.bind(this) }),
+	        _react2["default"].createElement(_index2["default"], { header: _react2["default"].createElement(
+	            "thead",
+	            null,
+	            _react2["default"].createElement(
+	              "tr",
+	              null,
+	              _react2["default"].createElement(
+	                "th",
+	                { colSpan: "2" },
+	                "1 + 2"
+	              ),
+	              _react2["default"].createElement(
+	                "th",
+	                { rowSpan: "2", "data-index": "c" },
+	                "表头3"
+	              ),
+	              _react2["default"].createElement(
+	                "th",
+	                { rowSpan: "2", "data-index": "d" },
+	                "表头4"
+	              )
+	            ),
+	            _react2["default"].createElement(
+	              "tr",
+	              null,
+	              _react2["default"].createElement(
+	                "th",
+	                { "data-index": "a", onClick: this.handleSort.bind(this) },
+	                "表头1 ↑↓"
+	              ),
+	              _react2["default"].createElement(
+	                "th",
+	                { "data-index": "b" },
+	                "表头2"
+	              )
+	            )
+	          ), useFixedHeader: false, columns: columns, data: data, onPageChange: this.onPageChange.bind(this) }),
 	        _react2["default"].createElement(
 	          "button",
 	          { onClick: this.handleSearch.bind(this) },
@@ -169,12 +205,17 @@
 	          currentPage: obj.currentPage,
 	          total: 63,
 	          rows: [{
-	            a: Math.random()
+	            a: Math.random(),
+	            b: 'test',
+	            c: 'c1',
+	            d: 'd1'
 	          }, {
 	            a: 'cdd',
-	            b: 'edd'
+	            c: 'edd',
+	            d: 'd2'
 	          }, {
 	            a: '1333',
+	            b: 'b3',
 	            c: 'eee',
 	            d: 2
 	          }]
@@ -182,8 +223,32 @@
 	      });
 	    }
 	  }, {
-	    key: "sortHandle",
-	    value: function sortHandle() {}
+	    key: "handleSort",
+	    value: function handleSort() {
+	      console.log('Sort');
+	      this.setState({
+	        gridData: {
+	          pageSize: 10,
+	          currentPage: 1,
+	          total: 63,
+	          rows: [{
+	            a: Math.random(),
+	            b: 'test',
+	            c: 'c1',
+	            d: 'd1'
+	          }, {
+	            a: '1333',
+	            b: 'b3',
+	            c: 'eee',
+	            d: 2
+	          }, {
+	            a: 'cdd',
+	            c: 'edd',
+	            d: 'd2'
+	          }]
+	        }
+	      });
+	    }
 	  }, {
 	    key: "handleSearch",
 	    value: function handleSearch(sort) {
@@ -193,12 +258,17 @@
 	          currentPage: 1,
 	          total: 63,
 	          rows: [{
-	            a: Math.random()
+	            a: Math.random(),
+	            b: 'test',
+	            c: 'c1',
+	            d: 'd1'
 	          }, {
 	            a: 'cdd',
-	            b: 'edd'
+	            c: 'edd',
+	            d: 'd2'
 	          }, {
 	            a: '1333',
+	            b: 'b3',
 	            c: 'eee',
 	            d: 2
 	          }]
@@ -28571,7 +28641,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-23T19:18:04+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-11-22T14:36:28+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-12-13T18:55:33+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	
 	/**
@@ -28894,6 +28964,7 @@
 	      baseHeight = baseEl.outerHeight(),
 	      baseWidth = baseEl.outerWidth(),
 	      panelHeight = panelEl.outerHeight(),
+	      panelVisibleHeight = 0,
 	      panelWidth = panelEl.outerWidth(),
 	      winHeight = winEl.height(),
 	      winWidth = winEl.width(),
@@ -28915,11 +28986,12 @@
 	
 	    style.maxHeight = baseOffset.top - winScrollTop + 'px';
 	    panelHeight = panelEl.outerHeight(); //重新获取面板高度
+	    panelVisibleHeight = Math.min(panelHeight, parseFloat(style.maxHeight));
 	
-	    if (baseOffset.top + baseHeight + panelHeight - winScrollTop <= winHeight) {
+	    if (baseOffset.top + baseHeight + panelVisibleHeight - winScrollTop <= winHeight) {
 	      style.top = baseOffset.top + baseHeight + 'px';
 	    } else {
-	      style.top = baseOffset.top - panelHeight + 1 + 'px';
+	      style.top = baseOffset.top - panelVisibleHeight + 1 + 'px';
 	    }
 	  } else {
 	    //否则永远从下方显示
@@ -29415,7 +29487,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-07-11T14:20:03+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-05T11:24:41+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-12-28T16:26:46+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	/**
 	 * Grid组件实现
@@ -29434,6 +29506,8 @@
 	  _createClass(Grid, [{
 	    key: 'componentDidMount',
 	    value: function componentDidMount() {
+	      var _this2 = this;
+	
 	      var self = this;
 	      var props = this.props;
 	      //注册滚动事件
@@ -29441,12 +29515,20 @@
 	        var rowRange = self.getVisibleRowRangeOnScroll();
 	        props.onBodyScroll(rowRange);
 	      });
-	      this.alignHeaderColWidth();
+	      setTimeout(function () {
+	        _this2.updateFixedHeaderColWidth();
+	      }, 0);
+	      //页面resize后重新计算
+	      $(window).resize(function () {
+	        _this2.updateFixedHeaderColWidth();
+	      });
 	    }
 	  }, {
 	    key: 'componentDidUpdate',
 	    value: function componentDidUpdate(prevProps, prevState) {
-	      this.alignHeaderColWidth();
+	      if (prevProps.data !== this.props.data) {
+	        this.updateFixedHeaderColWidth();
+	      }
 	    }
 	  }, {
 	    key: 'componentWillUnmount',
@@ -29460,7 +29542,7 @@
 	      return this.props.columns.map(function (c, i) {
 	        return _react2['default'].createElement(
 	          'th',
-	          { key: i, className: c.className || '' },
+	          { key: i, className: c.className || '', 'data-index': c.dataIndex },
 	          c.text
 	        );
 	      });
@@ -29494,32 +29576,42 @@
 	      }
 	    }
 	  }, {
-	    key: 'getColGroup',
-	    value: function getColGroup() {
-	      var cols = [];
-	      cols = cols.concat(this.props.columns.map(function (c, i) {
-	        return _react2['default'].createElement('col', { key: i, style: {
-	            width: c.width
-	          } });
-	      }));
-	      return _react2['default'].createElement(
-	        'colgroup',
-	        null,
-	        cols
-	      );
-	    }
-	  }, {
-	    key: 'alignHeaderColWidth',
-	    value: function alignHeaderColWidth() {
-	      var _this2 = this;
+	    key: 'updateFixedHeaderColWidth',
+	    value: function updateFixedHeaderColWidth() {
+	      var _this3 = this;
 	
 	      var props = this.props;
 	      if (props.useFixedHeader) {
 	        (function () {
-	          var $tds = $('tr', _this2.refs.tbody).eq(0).find('td');
-	          var factor = $(_this2.refs.tbody).height() - $(_this2.refs.body).height() > 10 ? 0 : 1;
-	          $('th', _this2.refs.thead).each(function (i) {
-	            $(this).width($tds.eq(i).width() + factor);
+	          var noData = props.data.total === 0 || props.data.rows.length === 0;
+	          var $tds = $('tr:first', _this3.refs.tbody).find('td');
+	          //let factor = ($(this.refs.tbody).height() - $(this.refs.body).height()) > 10 ? 0 : 0.5;
+	          var $ths = $('th[data-index]', _this3.refs.thead);
+	          if (noData) {
+	            $(_this3.refs.thead).closest('table').width($tds.width() + 2);
+	          } else {
+	            $(_this3.refs.thead).closest('table').css({
+	              width: 'auto'
+	            });
+	          }
+	          $ths.each(function (i) {
+	            var w = 0;
+	            var $th = $(this);
+	            if (!noData) {
+	              var rectValue = $tds.filter('[data-index="' + $th.data('index') + '"]').get(0).getBoundingClientRect();
+	              w = rectValue.width ? rectValue.width : rectValue.right - rectValue.left;
+	              w = w + 'px';
+	            } else {
+	              w = 100 / $ths.length + '%';
+	            }
+	            //jquery Width方法精度不够
+	            $th.css({
+	              paddingLeft: 0,
+	              paddingRight: 0,
+	              marginLeft: 0,
+	              marginRight: 0,
+	              width: w
+	            });
 	          });
 	        })();
 	      }
@@ -29566,26 +29658,34 @@
 	  }, {
 	    key: 'render',
 	    value: function render() {
-	      var _this3 = this;
+	      var _this4 = this;
 	
 	      var props = this.props;
 	      var prefixCls = props.prefixCls;
-	      var ths = this.getThs();
 	      var rows = this.getRowsByData(props.data.rows || []);
 	      var className = props.prefixCls;
 	      if (props.className) {
 	        className += ' ' + props.className;
 	      }
 	      var headerTable = null;
-	      var thead = _react2['default'].createElement(
-	        'thead',
-	        { className: prefixCls + '-thead', ref: 'thead' },
-	        _react2['default'].createElement(
-	          'tr',
-	          null,
-	          ths
-	        )
-	      );
+	      var thead = null;
+	      if (props.header) {
+	        thead = _react2['default'].createElement(
+	          'thead',
+	          { className: prefixCls + '-thead', ref: 'thead' },
+	          props.header.props.children
+	        );
+	      } else {
+	        thead = _react2['default'].createElement(
+	          'thead',
+	          { className: prefixCls + '-thead', ref: 'thead' },
+	          _react2['default'].createElement(
+	            'tr',
+	            null,
+	            this.getThs()
+	          )
+	        );
+	      }
 	      if (props.useFixedHeader) {
 	        headerTable = _react2['default'].createElement(
 	          'div',
@@ -29598,7 +29698,6 @@
 	                tableLayout: 'fixed',
 	                width: 'auto'
 	              } },
-	            this.getColGroup(),
 	            thead
 	          )
 	        );
@@ -29619,7 +29718,6 @@
 	          _react2['default'].createElement(
 	            'table',
 	            { cellPadding: '0', cellSpacing: '0' },
-	            this.getColGroup(),
 	            thead,
 	            _react2['default'].createElement(
 	              'tbody',
@@ -29629,9 +29727,9 @@
 	          )
 	        ),
 	        props.pagination && paginationProps.pageSize !== Number.MAX_VALUE ? _react2['default'].createElement(_pagination2['default'], _extends({}, paginationProps, { onPageChange: function onPageChange(currentPage) {
-	            props.onPageChange.call(_this3, currentPage);
+	            props.onPageChange.call(_this4, currentPage);
 	          }, onPageSizeChange: function onPageSizeChange(pageSize) {
-	            props.onPageSizeChange.call(_this3, pageSize);
+	            props.onPageSizeChange.call(_this4, pageSize);
 	          } })) : null
 	      );
 	    }
@@ -29647,6 +29745,7 @@
 	    pageSize: 10,
 	    rows: []
 	  },
+	  header: false, //支持自定义表格头，多用于组合单元格头展示
 	  useFixedHeader: false,
 	  columns: [],
 	  prefixCls: 'ui-grid',
@@ -29684,7 +29783,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-09-13T19:05:50+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-09-18T13:46:51+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-12-28T16:20:11+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	
 	var GridRow = function (_Widget) {
@@ -29742,7 +29841,7 @@
 	        if (!notRender) {
 	          cells.push(_react2['default'].createElement(
 	            'td',
-	            { key: i, colSpan: colSpan, rowSpan: rowSpan, className: '' + colCls, style: Object.assign({}, style, {
+	            { key: i, colSpan: colSpan, rowSpan: rowSpan, className: '' + colCls, 'data-index': col.dataIndex, style: Object.assign({}, style, {
 	                width: width
 	              }) },
 	            text

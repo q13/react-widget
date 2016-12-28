@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T14:29:19+08:00
-* @Last modified time: 2016-12-05T15:27:54+08:00
+* @Last modified time: 2016-12-28T16:38:14+08:00
 */
 /**
  * Grid demo
@@ -20,7 +20,7 @@ class App extends React.Component {
   render() {
     var columns = [
       {
-        text: <div onClick={this.sortHandle.bind(this)}>表头↑↓</div>,
+        text: <div onClick={this.handleSort.bind(this)}>表头↑↓</div>,
         dataIndex: 'a',
         colSpan: 2,
         width: 200
@@ -50,7 +50,7 @@ class App extends React.Component {
         width: 200
       }, {
         text: '操作',
-        dataIndex: '',
+        dataIndex: 'd',
         width: 300,
         renderer: function() {
           return <a href="#">操作</a>
@@ -60,7 +60,12 @@ class App extends React.Component {
     var data = this.state.gridData;
     return (
       <div>
-        <Grid useFixedHeader={false} columns={columns} data={data} onPageChange={this.onPageChange.bind(this)}/>
+        <Grid header={
+          <thead>
+            <tr><th colSpan="2">1 + 2</th><th rowSpan="2" data-index="c">表头3</th><th rowSpan="2" data-index="d">表头4</th></tr>
+            <tr><th data-index="a" onClick={this.handleSort.bind(this)}>表头1 ↑↓</th><th data-index="b">表头2</th></tr>
+          </thead>
+        } useFixedHeader={false} columns={columns} data={data} onPageChange={this.onPageChange.bind(this)}/>
         <button onClick={this.handleSearch.bind(this)}>search</button>
       </div>
     )
@@ -74,20 +79,51 @@ class App extends React.Component {
         total: 63,
         rows: [
           {
-            a: Math.random()
+            a: Math.random(),
+            b: 'test',
+            c: 'c1',
+            d: 'd1'
           }, {
             a: 'cdd',
-            b: 'edd'
+            c: 'edd',
+            d: 'd2'
           }, {
             a: '1333',
+            b: 'b3',
             c: 'eee',
             d: 2
           }
         ]
       }
+    });
+  }
+  handleSort() {
+    console.log('Sort')
+    this.setState({
+      gridData: {
+        pageSize: 10,
+        currentPage: 1,
+        total: 63,
+        rows: [
+          {
+            a: Math.random(),
+            b: 'test',
+            c: 'c1',
+            d: 'd1'
+          }, {
+            a: '1333',
+            b: 'b3',
+            c: 'eee',
+            d: 2
+          }, {
+            a: 'cdd',
+            c: 'edd',
+            d: 'd2'
+          }
+        ]
+      }
     })
   }
-  sortHandle() {}
   handleSearch(sort) {
     this.setState({
       gridData: {
@@ -96,12 +132,17 @@ class App extends React.Component {
         total: 63,
         rows: [
           {
-            a: Math.random()
+            a: Math.random(),
+            b: 'test',
+            c: 'c1',
+            d: 'd1'
           }, {
             a: 'cdd',
-            b: 'edd'
+            c: 'edd',
+            d: 'd2'
           }, {
             a: '1333',
+            b: 'b3',
             c: 'eee',
             d: 2
           }

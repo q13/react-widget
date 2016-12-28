@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-09-13T19:05:50+08:00
-* @Last modified time: 2016-09-18T13:46:51+08:00
+* @Last modified time: 2016-12-28T16:20:11+08:00
 */
 
 import React from 'react';
@@ -50,7 +50,7 @@ class GridRow extends Widget {
         notRender = true;
       }
       if (!notRender) {
-        cells.push(<td key={i} colSpan={colSpan} rowSpan={rowSpan} className={`${colCls}`} style={Object.assign({}, style, {
+        cells.push(<td key={i} colSpan={colSpan} rowSpan={rowSpan} className={`${colCls}`} data-index={col.dataIndex} style={Object.assign({}, style, {
           width: width
         })}>
           {text}
