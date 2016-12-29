@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-07-11T14:20:03+08:00
-* @Last modified time: 2016-12-28T16:26:46+08:00
+* @Last modified time: 2016-12-29T15:51:28+08:00
 */
 /**
  * Grid组件实现
@@ -83,7 +83,7 @@ class Grid extends Widget {
         if (!noData) {
           let rectValue = $tds.filter('[data-index="' + $th.data('index') + '"]').get(0).getBoundingClientRect();
           w = rectValue.width ? rectValue.width : (rectValue.right - rectValue.left);
-          w = (w) + 'px';
+          w = (w - 1) + 'px';
         } else {
           w = 100 / $ths.length + '%';
         }

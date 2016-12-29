@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T14:29:19+08:00
-* @Last modified time: 2016-12-28T16:38:14+08:00
+* @Last modified time: 2016-12-28T18:36:11+08:00
 */
 /**
  * Grid demo
@@ -62,10 +62,11 @@ class App extends React.Component {
       <div>
         <Grid header={
           <thead>
+            <tr><th>11</th><th>22</th><th>33</th><th>44</th></tr>
             <tr><th colSpan="2">1 + 2</th><th rowSpan="2" data-index="c">表头3</th><th rowSpan="2" data-index="d">表头4</th></tr>
             <tr><th data-index="a" onClick={this.handleSort.bind(this)}>表头1 ↑↓</th><th data-index="b">表头2</th></tr>
           </thead>
-        } useFixedHeader={false} columns={columns} data={data} onPageChange={this.onPageChange.bind(this)}/>
+        } useFixedHeader={true} columns={columns} data={data} onPageChange={this.onPageChange.bind(this)}/>
         <button onClick={this.handleSearch.bind(this)}>search</button>
       </div>
     )

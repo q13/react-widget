@@ -76,7 +76,7 @@
 	
 	function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; } /**
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Date:   2016-06-17T14:29:19+08:00
-	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-12-28T16:38:14+08:00
+	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               * @Last modified time: 2016-12-28T18:36:11+08:00
 	                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               */
 	/**
 	 * Grid demo
@@ -159,6 +159,30 @@
 	              null,
 	              _react2["default"].createElement(
 	                "th",
+	                null,
+	                "11"
+	              ),
+	              _react2["default"].createElement(
+	                "th",
+	                null,
+	                "22"
+	              ),
+	              _react2["default"].createElement(
+	                "th",
+	                null,
+	                "33"
+	              ),
+	              _react2["default"].createElement(
+	                "th",
+	                null,
+	                "44"
+	              )
+	            ),
+	            _react2["default"].createElement(
+	              "tr",
+	              null,
+	              _react2["default"].createElement(
+	                "th",
 	                { colSpan: "2" },
 	                "1 + 2"
 	              ),
@@ -187,7 +211,7 @@
 	                "表头2"
 	              )
 	            )
-	          ), useFixedHeader: false, columns: columns, data: data, onPageChange: this.onPageChange.bind(this) }),
+	          ), useFixedHeader: true, columns: columns, data: data, onPageChange: this.onPageChange.bind(this) }),
 	        _react2["default"].createElement(
 	          "button",
 	          { onClick: this.handleSearch.bind(this) },
