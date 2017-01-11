@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-23T19:18:04+08:00
-* @Last modified time: 2016-12-13T18:55:33+08:00
+* @Last modified time: 2017-01-11T11:43:56+08:00
 */
 
 /**
@@ -94,6 +94,7 @@ class Dropdown extends Widget {
     this.nextTick(() => {
       this.syncStateFromProps(this.props);
     });
+    this.panelContainer = panelContainer;
     $('body').on('mousedown.Dropdown' + this.instanceId, (evt) => {
       if (Dropdown.activeInstanceId === this.instanceId) {
         if (!Dropdown.isInContainer(evt.target, [ReactDom.findDOMNode(this), panelContainer])) {
@@ -119,6 +120,7 @@ class Dropdown extends Widget {
     }
     $('body').off('mousedown.Dropdown' + this.instanceId);
     this.instanceId = null;
+    this.panelContainer = null;
   }
   componentDidUpdate(prevProps, prevState) {
     this.adaptOptions();
