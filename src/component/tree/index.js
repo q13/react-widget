@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2016-11-18T15:26:18+08:00
+* @Last modified time: 2017-02-16T12:14:17+08:00
 */
 
 /**
@@ -324,6 +324,9 @@ class Tree extends Widget {
                 if (itemData.disabled) {
                   nodeCls += ` ${prefixCls}-node-disabled`;
                   textSuffix += '-禁用';
+                }
+                if (itemData.checkType === 'checkbox') {
+                  nodeCls += ` ${prefixCls}-node-with-checkbox`;
                 }
                 return ((level === 0 || itemData.rendered) ? (<li className={`${prefixCls}-item item-${level}`} key={i}>
                   <div className={`${prefixCls}-node ${nodeCls}`}>
