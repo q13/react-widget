@@ -1,6 +1,6 @@
 /**
 * @Date:   2016-06-17T16:39:09+08:00
-* @Last modified time: 2017-02-16T12:14:17+08:00
+* @Last modified time: 2017-02-22T18:04:02+08:00
 */
 
 /**
@@ -332,7 +332,7 @@ class Tree extends Widget {
                   <div className={`${prefixCls}-node ${nodeCls}`}>
                     {(itemData.children && itemData.children.length) ? <span className={`${prefixCls}-node-foldder ${prefixCls}-node-foldder-${itemData.foldedStatus || 'folded'}`} onClick={self.handleOptionFold.bind(self, itemData)}>{Tree.getFoldderTextFromStatus(itemData.foldedStatus)}</span> : <span className={`${prefixCls}-node-foldder`}></span>}
                     {itemData.checkType === 'checkbox' ? <span className={`${prefixCls}-node-checkbox ${prefixCls}-node-checkbox-${itemData.checkedStatus || 'unchecked'}`} onClick={self.handleOptionCheck.bind(self, itemData)}>{Tree.getCheckboxTextFromStatus(itemData.checkedStatus)}</span> : null}
-                    <span className={`${prefixCls}-node-text ${nodeSelectedCls}`} title={itemData.text + textSuffix} onClick={self.handleOptionSelect.bind(self, itemData)}>&nbsp;{itemData.text}</span></div>
+                    <span className={`${prefixCls}-node-text ${nodeSelectedCls}`} title={itemData.text + textSuffix} onClick={self.handleOptionSelect.bind(self, itemData)}>&nbsp;{props.getDefaultNodeTemplate(itemData)}</span></div>
                   {(itemData.foldedStatus === 'unfolded' && itemData.children && itemData.children.length) ? <div className={`${prefixCls}-children`}>
                     {
                       (function () {
@@ -408,6 +408,7 @@ Tree.propTypes = {
   selectMode: React.PropTypes.string,
   unfoldMode: React.PropTypes.any,
   options: React.PropTypes.array,
+  getDefaultNodeTemplate: React.PropTypes.func,
   onOptionsChange: React.PropTypes.func,
   onCheckedChange: React.PropTypes.func,
   onSelectedChange: React.PropTypes.func
@@ -419,6 +420,9 @@ Tree.defaultProps = {
   selectMode: 'single', //multi or single or none
   unfoldMode: 'none', // none or all
   options: [],  //{value, text, checkedStatus, checkType, selectedStatus, disabled} checkedStatus取值checked，halfChecked,unchecked(默认) checkType取值none(默认),checkbox
+  getDefaultNodeTemplate: function (node) {
+    return <span>{node.text}</span>;
+  },
   onOptionsChange: () => {},
   onCheckedChange: () => {},
   onSelectedChange: () => {},
