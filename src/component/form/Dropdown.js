@@ -274,9 +274,9 @@ Dropdown.renderPanel = function(cpt, callback) {
     {props.getDefaultPanelTemplate.call(cpt)}
   </div>, panelContainer, () => {
     callback && callback();
-    Dropdown.scrollToSelectedItem(props.options.findIndex((itemData) => {
-      return itemData.selected;
-    }));
+    // Dropdown.scrollToSelectedItem(props.options.findIndex((itemData) => {
+    //   return itemData.selected;
+    // }));
   });
 };
 
