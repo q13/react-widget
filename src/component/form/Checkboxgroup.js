@@ -83,7 +83,7 @@ class Checkboxgroup extends Widget {
                className={ Checkboxgroup.getOptionClass(prefixCls, option, x, props) }
                onClick={ this.handleOptionClick.bind(this, x) }>
             <i className="icon-handler"></i>
-            <span className="text">{ option.text }</span>
+            <span className="text" title={option.text}>{ option.text }</span>
           </div>
         ))
       }

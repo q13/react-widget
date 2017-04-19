@@ -85,7 +85,7 @@ class Radiogroup extends Widget {
                className={ Radiogroup.getOptionClass(prefixCls, option, x, options, props) }
                onClick={ this.handleOptionClick.bind(this, x) }>
             <i className="icon-handler"></i>
-            <span className="text">{ option.text }</span>
+            <span className="text" title={option.text}>{ option.text }</span>
           </div>
         ))
       }
