@@ -9,10 +9,10 @@ var webpack = require("webpack"),
     fs = require("fs"),
     fsExtra = require("fs-extra"),
     walk = require("walk"),
-    MemoryFS = require("memory-fs"),
-    autoprefixer = require('autoprefixer'),
-    cssnext = require('cssnext'),
-    postcssImport = require('postcss-import');
+    MemoryFS = require("memory-fs");
+    // autoprefixer = require('autoprefixer'),
+    // cssnext = require('postcss-cssnext'),
+    // postcssImport = require('postcss-import');
 
 const SRC_PATH = path.normalize(__dirname + "/../example/script");
 const OUTPUT_PATH = path.normalize(__dirname + "/../example/dist");
@@ -71,40 +71,47 @@ function main() {
                 chunkFilename: "[id].js"
             },
             "module": {
-                loaders: [{
+                rules: [{
                     test: /\.css$/,
-                    loader: "style!css?sourceMap!postcss",
+                    // loader: "style!css?sourceMap!postcss",
+                    use: [
+                        "style-loader",
+                        "css-loader",
+                        "postcss-loader"
+                    ]
                 }, {
-                    test: /\.js?$/,
+                    test: /\.jsx?$/,
                     exclude: /(node_modules|bower_components)/,
-                    loader: 'babel',
-                    query: {
-                        presets: ["es2015", "react", "stage-0"],
-                        "plugins": ["transform-es3-member-expression-literals", "transform-es3-property-literals"]
-                    }
+                    use: [{
+                        loader: 'babel-loader',
+                        options: {
+                            presets: [["es2015",{"modules": false}], "react", "stage-0"]
+                        }
+                    }]
                 }, {
                     test: /\.(gif|png|svg|jpe?g)(\?.*)?$/,
-                    loader: 'url',
-                    query: {
-                        limit: 10240, //10k下图片data url
-                        name: "image/[hash].[ext]"
-                    }
+                    use: {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 10240, //10k下图片data url
+                            name: "image/[hash].[ext]"
+                        }
+                    }                    
                 }]
             },
-            postcss: function() {
-                return [postcssImport({
-                    addDependencyTo: webpack
-                }), autoprefixer({
-                    browsers: "last 2 versions"
-                }), cssnext({
-                    browsers: "last 2 versions"
-                })];
-            },
-            "plugins": [new webpack.BannerPlugin('Build at ' + new Date() + '\nBy~雅座前端开发组', {
-                "entryOnly": true
-            })],
-            "debug": true,
-            "devtool": "source-map"
+            plugins: [
+                new webpack.BannerPlugin({
+                    banner: 'Build at ' + new Date() + '\nBy~雅座前端开发组', 
+                    entryOnly: true
+                })
+            ],
+            // debug: true,
+            devtool: "source-map"
+            // plugins: [//开发环境开启sourceMap
+            //     new UglifyJsPlugin({
+            //         sourceMap: true
+            //     })
+            // ]
         };
         let compiler = webpack(config)
         compiler.outputFileSystem = memFs;
