@@ -1,64 +1,23 @@
 {
-  "_args": [
-    [
-      {
-        "raw": "react-widget@latest",
-        "scope": null,
-        "escapedName": "react-widget",
-        "name": "react-widget",
-        "rawSpec": "latest",
-        "spec": "latest",
-        "type": "tag"
-      },
-      "D:\\code\\v4\\branch\\public\\viewport"
-    ]
-  ],
-  "_from": "react-widget@latest",
-  "_id": "react-widget@2.6.2",
-  "_inCache": true,
-  "_location": "/react-widget",
-  "_nodeVersion": "6.2.1",
-  "_npmOperationalInternal": {
-    "host": "packages-18-east.internal.npmjs.com",
-    "tmp": "tmp/react-widget-2.6.2.tgz_1492591096571_0.2887271591462195"
-  },
-  "_npmUser": {
-    "name": "q13",
-    "email": "qsimon13@gmail.com"
-  },
-  "_npmVersion": "3.9.3",
-  "_phantomChildren": {
-    "core-js": "2.4.1",
-    "envify": "3.4.1",
-    "loose-envify": "1.3.1",
-    "promise": "7.1.1",
-    "regenerator-runtime": "0.10.5",
-    "ua-parser-js": "0.7.12"
-  },
-  "_requested": {
-    "raw": "react-widget@latest",
-    "scope": null,
-    "escapedName": "react-widget",
     "name": "react-widget",
-    "rawSpec": "latest",
-    "spec": "latest",
-    "type": "tag"
-  },
-  "_requiredBy": [
-    "/"
-  ],
-  "_resolved": "https://registry.npmjs.org/react-widget/-/react-widget-2.6.2.tgz",
-  "_shasum": "a1304c0ade7dac60b4f7e26bcc4c2053a8f3a126",
-  "_shrinkwrap": null,
-  "_spec": "react-widget@latest",
-  "_where": "D:\\code\\v4\\branch\\public\\viewport",
-  "author": {
-    "name": "q13"
-  },
-  "bugs": {
-    "url": "https://github.com/q13/react-component/issues"
-  },
-  "dependencies": {
+    "version": "2.6.2",
+    "description": "Some component base on React framework.",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "server": "node ./bin/server.js",
+        "example": "node ./bin/example.js"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/MingNeo/react-widget.git"
+    },
+    "keywords": [
+        "ui",
+        "component",
+        "react"
+    ],
+    "dependencies": {
     "babel-polyfill": "^6.23.0",
     "deep-equal": "^1.0.1",
     "immutable": "^3.8.1",
@@ -69,8 +28,7 @@
     "react-dom": "^15.5.4",
     "react-mixin": "^3.0.5"
   },
-  "description": "Some component base on React framework.",
-  "devDependencies": {
+    "devDependencies": {
     "autoprefixer": "^7.0.1",
     "babel-core": "^6.24.1",
     "babel-loader": "^7.0.0",
@@ -93,38 +51,10 @@
     "walk": "^2.3.9",
     "webpack": "^2.5.1"
   },
-  "directories": {},
-  "dist": {
-    "shasum": "a1304c0ade7dac60b4f7e26bcc4c2053a8f3a126",
-    "tarball": "https://registry.npmjs.org/react-widget/-/react-widget-2.6.2.tgz"
-  },
-  "gitHead": "3d3bdbdcebfdb485f5f0411bd5a7e0e773282d45",
-  "homepage": "https://github.com/q13/react-component#readme",
-  "keywords": [
-    "ui",
-    "component",
-    "react"
-  ],
-  "license": "ISC",
-  "main": "index.js",
-  "maintainers": [
-    {
-      "name": "q13",
-      "email": "qsimon13@gmail.com"
-    }
-  ],
-  "name": "react-widget",
-  "optionalDependencies": {},
-  "readme": "ERROR: No README data found!",
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/q13/react-component.git"
-  },
-  "scripts": {
-    "example": "node ./bin/example.js",
-    "testexam": "webpack --watch --config bin/webpack.example.js",
-    "server": "node ./bin/server.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "version": "2.6.2"
+    "author": "q13",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/q13/react-component/issues"
+    },
+    "homepage": "https://github.com/q13/react-component#readme"
 }
