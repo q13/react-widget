@@ -3,6 +3,7 @@
  * @require jQuery
  */
 import React from 'react';
+import PropTypes from "prop-types";
 import {
     Widget
 } from '../component.js';
@@ -232,14 +233,14 @@ class Pagination extends Widget {
 }
 
 Pagination.propTypes = {
-  prefixCls: React.PropTypes.string,
-  className: React.PropTypes.string,
-  currentPage: React.PropTypes.number, // 当前页
-  total: React.PropTypes.number,   // 记录总条数
-  pageSize: React.PropTypes.number,// 每页条数
-  pages: React.PropTypes.number,   // 显示页码数
-  onPageChange: React.PropTypes.func,   // 翻页后回调
-  onPageSizeChange: React.PropTypes.func,  //pageSize反射
+  prefixCls: PropTypes.string,
+  className: PropTypes.string,
+  currentPage: PropTypes.number, // 当前页
+  total: PropTypes.number,   // 记录总条数
+  pageSize: PropTypes.number,// 每页条数
+  pages: PropTypes.number,   // 显示页码数
+  onPageChange: PropTypes.func,   // 翻页后回调
+  onPageSizeChange: PropTypes.func,  //pageSize反射
 };
 Pagination.defaultProps = {
   prefixCls: 'ui-pagination',

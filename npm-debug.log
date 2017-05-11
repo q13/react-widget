@@ -1,145 +1,63 @@
 0 info it worked if it ends with ok
 1 verbose cli [ 'C:\\Program Files\\nodejs\\node.exe',
 1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
-1 verbose cli   'publish' ]
-2 info using npm@3.9.3
-3 info using node@v6.2.1
-4 verbose publish [ '.' ]
-5 silly cache add args [ '.', null ]
-6 verbose cache add spec .
-7 silly cache add parsed spec Result {
-7 silly cache add   raw: '.',
-7 silly cache add   scope: null,
-7 silly cache add   name: null,
-7 silly cache add   rawSpec: '.',
-7 silly cache add   spec: 'C:\\Users\\13\\Project\\react-widget',
-7 silly cache add   type: 'directory' }
-8 verbose addLocalDirectory C:\Users\13\AppData\Roaming\npm-cache\react-widget\2.6.1\package.tgz not in flight; packing
-9 verbose correctMkdir C:\Users\13\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
-10 info lifecycle react-widget@2.6.1~prepublish: react-widget@2.6.1
-11 silly lifecycle react-widget@2.6.1~prepublish: no script for prepublish, continuing
-12 verbose tar pack [ 'C:\\Users\\13\\AppData\\Roaming\\npm-cache\\react-widget\\2.6.1\\package.tgz',
-12 verbose tar pack   'C:\\Users\\13\\Project\\react-widget' ]
-13 verbose tarball C:\Users\13\AppData\Roaming\npm-cache\react-widget\2.6.1\package.tgz
-14 verbose folder C:\Users\13\Project\react-widget
-15 verbose addLocalTarball adding from inside cache C:\Users\13\AppData\Roaming\npm-cache\react-widget\2.6.1\package.tgz
-16 verbose correctMkdir C:\Users\13\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
-17 silly cache afterAdd react-widget@2.6.1
-18 verbose afterAdd C:\Users\13\AppData\Roaming\npm-cache\react-widget\2.6.1\package\package.json not in flight; writing
-19 verbose correctMkdir C:\Users\13\AppData\Roaming\npm-cache correctMkdir not in flight; initializing
-20 verbose afterAdd C:\Users\13\AppData\Roaming\npm-cache\react-widget\2.6.1\package\package.json written
-21 silly publish { name: 'react-widget',
-21 silly publish   version: '2.6.1',
-21 silly publish   description: 'Some component base on React framework.',
-21 silly publish   main: 'index.js',
-21 silly publish   scripts:
-21 silly publish    { test: 'echo "Error: no test specified" && exit 1',
-21 silly publish      server: 'node ./bin/server.js',
-21 silly publish      example: 'node ./bin/example.js' },
-21 silly publish   repository:
-21 silly publish    { type: 'git',
-21 silly publish      url: 'git+https://github.com/q13/react-component.git' },
-21 silly publish   keywords: [ 'ui', 'component', 'react' ],
-21 silly publish   dependencies:
-21 silly publish    { react: '0.14.3',
-21 silly publish      'react-dom': '0.14.3',
-21 silly publish      'react-addons-pure-render-mixin': '0.14.3',
-21 silly publish      'react-addons-css-transition-group': '0.14.3',
-21 silly publish      'react-mixin': '3.0.3',
-21 silly publish      immutable: 'latest',
-21 silly publish      'deep-equal': '~1.0.1',
-21 silly publish      'babel-polyfill': 'latest',
-21 silly publish      moment: '~2.10.6' },
-21 silly publish   devDependencies:
-21 silly publish    { connect: '~3.4.0',
-21 silly publish      'serve-static': '~1.10.0',
-21 silly publish      webpack: '1.12.9',
-21 silly publish      'babel-loader': 'latest',
-21 silly publish      'babel-core': 'latest',
-21 silly publish      'babel-preset-es2015': 'latest',
-21 silly publish      'babel-preset-react': 'latest',
-21 silly publish      'babel-preset-stage-0': 'latest',
-21 silly publish      'babel-plugin-transform-es3-property-literals': 'latest',
-21 silly publish      'babel-plugin-transform-es3-member-expression-literals': 'latest',
-21 silly publish      'style-loader': 'latest',
-21 silly publish      'css-loader': 'latest',
-21 silly publish      'cssnext-loader': 'latest',
-21 silly publish      'postcss-loader': 'latest',
-21 silly publish      cssnext: 'latest',
-21 silly publish      autoprefixer: 'latest',
-21 silly publish      'file-loader': 'latest',
-21 silly publish      'url-loader': 'latest',
-21 silly publish      'postcss-import': 'latest',
-21 silly publish      walk: '2.3.9',
-21 silly publish      commander: '2.9.0',
-21 silly publish      'fs-extra': '0.26.2',
-21 silly publish      'memory-fs': '0.3.0',
-21 silly publish      'uglify-js': '2.5.0' },
-21 silly publish   author: { name: 'q13' },
-21 silly publish   license: 'ISC',
-21 silly publish   bugs: { url: 'https://github.com/q13/react-component/issues' },
-21 silly publish   homepage: 'https://github.com/q13/react-component#readme',
-21 silly publish   readme: '# react-widget\r\nSome component base on React framework.\r\n',
-21 silly publish   readmeFilename: 'README.md',
-21 silly publish   gitHead: 'e57d91448f62f2dfd49a0654a02436f5206e1489',
-21 silly publish   _id: 'react-widget@2.6.1',
-21 silly publish   _shasum: '1943a5958bc4b8730d4fb845b5e12324a4af718a',
-21 silly publish   _from: '.' }
-22 verbose getPublishConfig undefined
-23 silly mapToRegistry name react-widget
-24 silly mapToRegistry using default registry
-25 silly mapToRegistry registry http://registry.npmjs.org/
-26 silly mapToRegistry data Result {
-26 silly mapToRegistry   raw: 'react-widget',
-26 silly mapToRegistry   scope: null,
-26 silly mapToRegistry   name: 'react-widget',
-26 silly mapToRegistry   rawSpec: '',
-26 silly mapToRegistry   spec: 'latest',
-26 silly mapToRegistry   type: 'tag' }
-27 silly mapToRegistry uri http://registry.npmjs.org/react-widget
-28 verbose publish registryBase http://registry.npmjs.org/
-29 silly publish uploading C:\Users\13\AppData\Roaming\npm-cache\react-widget\2.6.1\package.tgz
-30 verbose request uri http://registry.npmjs.org/react-widget
-31 verbose request sending authorization for write operation
-32 info attempt registry request try #1 at 16:27:43
-33 verbose request using bearer token for auth
-34 verbose request id be65a785902074ee
-35 http request PUT http://registry.npmjs.org/react-widget
-36 http 403 http://registry.npmjs.org/react-widget
-37 verbose headers { 'content-type': 'application/json',
-37 verbose headers   'cache-control': 'max-age=300',
-37 verbose headers   'content-length': '95',
-37 verbose headers   'accept-ranges': 'bytes',
-37 verbose headers   date: 'Wed, 19 Apr 2017 08:33:05 GMT',
-37 verbose headers   via: '1.1 varnish',
-37 verbose headers   connection: 'close',
-37 verbose headers   'x-served-by': 'cache-nrt6128-NRT',
-37 verbose headers   'x-cache': 'MISS',
-37 verbose headers   'x-cache-hits': '0',
-37 verbose headers   'x-timer': 'S1492590467.744112,VS0,VE318476',
-37 verbose headers   vary: 'Accept-Encoding' }
-38 verbose request invalidating C:\Users\13\AppData\Roaming\npm-cache\registry.npmjs.org\react-widget on PUT
-39 error publish Failed PUT 403
-40 verbose stack Error: "You cannot publish over the previously published version 2.6.1." : react-widget
-40 verbose stack     at makeError (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:264:12)
-40 verbose stack     at CachingRegistryClient.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:252:14)
-40 verbose stack     at Request._callback (C:\Program Files\nodejs\node_modules\npm\node_modules\npm-registry-client\lib\request.js:172:14)
-40 verbose stack     at Request.self.callback (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:200:22)
-40 verbose stack     at emitTwo (events.js:106:13)
-40 verbose stack     at Request.emit (events.js:191:7)
-40 verbose stack     at Request.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:1067:10)
-40 verbose stack     at emitOne (events.js:101:20)
-40 verbose stack     at Request.emit (events.js:188:7)
-40 verbose stack     at IncomingMessage.<anonymous> (C:\Program Files\nodejs\node_modules\npm\node_modules\request\request.js:988:12)
-41 verbose statusCode 403
-42 verbose pkgid react-widget
-43 verbose cwd C:\Users\13\Project\react-widget
-44 error Windows_NT 10.0.15063
-45 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "publish"
-46 error node v6.2.1
-47 error npm  v3.9.3
-48 error code E403
-49 error "You cannot publish over the previously published version 2.6.1." : react-widget
-50 error If you need help, you may report this error at:
-50 error     <https://github.com/npm/npm/issues>
-51 verbose exit [ 1, true ]
+1 verbose cli   'login' ]
+2 info using npm@3.10.10
+3 info using node@v6.10.2
+4 verbose adduser before first PUT { _id: 'org.couchdb.user:mingreneo',
+4 verbose adduser   name: 'mingreneo',
+4 verbose adduser   password: 'XXXXX',
+4 verbose adduser   email: 'mingrenjbdtx@gmail.com',
+4 verbose adduser   type: 'user',
+4 verbose adduser   roles: [],
+4 verbose adduser   date: '2017-05-11T09:41:53.755Z' }
+5 verbose request uri https://registry.npmjs.org/-/user/org.couchdb.user:mingreneo
+6 verbose request new user, so can't send auth
+7 info attempt registry request try #1 at 17:41:53
+8 verbose request id 1f0b60594fef105c
+9 http request PUT https://registry.npmjs.org/-/user/org.couchdb.user:mingreneo
+10 info retry will retry, error on last attempt: Error: tunneling socket could not be established, cause=socket hang up
+11 info attempt registry request try #2 at 17:42:04
+12 http request PUT https://registry.npmjs.org/-/user/org.couchdb.user:mingreneo
+13 info retry will retry, error on last attempt: Error: tunneling socket could not be established, cause=socket hang up
+14 info attempt registry request try #3 at 17:43:04
+15 http request PUT https://registry.npmjs.org/-/user/org.couchdb.user:mingreneo
+16 verbose request invalidating C:\Users\klose\AppData\Roaming\npm-cache\registry.npmjs.org\-\user\org.couchdb.user_3Amingreneo on PUT
+17 verbose adduser back [ { Error: tunneling socket could not be established, cause=socket hang up
+17 verbose adduser       at ClientRequest.onError (C:\Program Files\nodejs\node_modules\npm\node_modules\request\node_modules\tunnel-agent\index.js:176:17)
+17 verbose adduser       at ClientRequest.g (events.js:291:16)
+17 verbose adduser       at emitOne (events.js:96:13)
+17 verbose adduser       at ClientRequest.emit (events.js:188:7)
+17 verbose adduser       at Socket.socketOnEnd (_http_client.js:345:9)
+17 verbose adduser       at emitNone (events.js:91:20)
+17 verbose adduser       at Socket.emit (events.js:185:7)
+17 verbose adduser       at endReadableNT (_stream_readable.js:974:12)
+17 verbose adduser       at _combinedTickCallback (internal/process/next_tick.js:80:11)
+17 verbose adduser       at process._tickCallback (internal/process/next_tick.js:104:9) code: 'ECONNRESET' },
+17 verbose adduser   undefined,
+17 verbose adduser   undefined ]
+18 verbose stack Error: tunneling socket could not be established, cause=socket hang up
+18 verbose stack     at ClientRequest.onError (C:\Program Files\nodejs\node_modules\npm\node_modules\request\node_modules\tunnel-agent\index.js:176:17)
+18 verbose stack     at ClientRequest.g (events.js:291:16)
+18 verbose stack     at emitOne (events.js:96:13)
+18 verbose stack     at ClientRequest.emit (events.js:188:7)
+18 verbose stack     at Socket.socketOnEnd (_http_client.js:345:9)
+18 verbose stack     at emitNone (events.js:91:20)
+18 verbose stack     at Socket.emit (events.js:185:7)
+18 verbose stack     at endReadableNT (_stream_readable.js:974:12)
+18 verbose stack     at _combinedTickCallback (internal/process/next_tick.js:80:11)
+18 verbose stack     at process._tickCallback (internal/process/next_tick.js:104:9)
+19 verbose cwd D:\code\git\react-widget
+20 error Windows_NT 10.0.14393
+21 error argv "C:\\Program Files\\nodejs\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "login"
+22 error node v6.10.2
+23 error npm  v3.10.10
+24 error code ECONNRESET
+25 error network tunneling socket could not be established, cause=socket hang up
+26 error network This is most likely not a problem with npm itself
+26 error network and is related to network connectivity.
+26 error network In most cases you are behind a proxy or have bad network settings.
+26 error network
+26 error network If you are behind a proxy, please make sure that the
+26 error network 'proxy' config is set properly.  See: 'npm help config'
+27 verbose exit [ 1, true ]

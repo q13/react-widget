@@ -9,6 +9,7 @@
 import {Widget} from "../component.js";
 import React from 'react';
 import ReactDom from 'react-dom';
+import PropTypes from "prop-types";
 import style from './form.css';
 
 var panelContainer;
@@ -350,16 +351,16 @@ Dropdown.scrollToSelectedItem = function(currentSelectedIndex) {
   panelEl && panelEl.is(':visible') && panelEl.scrollTop($('.' + Dropdown.defaultProps.prefixCls + 'options-item', panelEl).outerHeight() * (currentSelectedIndex + 1) - panelEl.height());
 };
 Dropdown.propTypes = {
-  prefixCls: React.PropTypes.string,
-  className: React.PropTypes.string,
-  value: React.PropTypes.string,
-  disabled: React.PropTypes.bool,
-  placeholder: React.PropTypes.string,
-  autoSelectFirstOption: React.PropTypes.bool,
-  options: React.PropTypes.array,
-  onChange: React.PropTypes.func,
-  onOptionsChange: React.PropTypes.func,
-  getDefaultPanelTemplate: React.PropTypes.func
+  prefixCls: PropTypes.string,
+  className: PropTypes.string,
+  value: PropTypes.string,
+  disabled: PropTypes.bool,
+  placeholder: PropTypes.string,
+  autoSelectFirstOption: PropTypes.bool,
+  options: PropTypes.array,
+  onChange: PropTypes.func,
+  onOptionsChange: PropTypes.func,
+  getDefaultPanelTemplate: PropTypes.func
 };
 Dropdown.defaultProps = {
   prefixCls: 'ui-form-dropdown',

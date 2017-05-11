@@ -4,6 +4,7 @@
 */
 
 import React from 'react';
+import PropTypes from "prop-types";
 import {
   Widget
 } from '../component.js';
@@ -61,9 +62,9 @@ class GridRow extends Widget {
   }
 }
 GridRow.propTypes = {
-  onBeforeDestroy: React.PropTypes.func,
-  record: React.PropTypes.object,
-  prefixCls: React.PropTypes.string,
+  onBeforeDestroy: PropTypes.func,
+  record: PropTypes.object,
+  prefixCls: PropTypes.string,
 };
 GridRow.defaultProps = {
   onBeforeDestroy: () => {
