@@ -389,7 +389,7 @@ Dropdown.defaultProps = {
             optionCls += ` ${props.prefixCls}-options-item-hover`;
           }
           return (
-            <li key={`${x}-${option.value}`} title={option.text} className={`${props.prefixCls}-options-item ${optionCls}`} onMouseEnter_={this.handleOptionMouseEnter.bind(this, option)} onMouseLeave_={this.handleOptionMouseLeave.bind(this, option)} onClick={this.handleOptionClick.bind(this, option)}>
+            <li key={`${x}-${option.value}`} title={option.text} className={`${props.prefixCls}-options-item ${optionCls}`} onClick={this.handleOptionClick.bind(this, option)}>
               {option.text}
             </li>
           );
