@@ -66,7 +66,7 @@ class App extends React.Component {
             <tr><th colSpan="2">1 + 2</th><th rowSpan="2" data-index="c">表头3</th><th rowSpan="2" data-index="d">表头4</th></tr>
             <tr><th data-index="a" onClick={this.handleSort.bind(this)}>表头1 ↑↓</th><th data-index="b">表头2</th></tr>
           </thead>
-        } useFixedHeader={true} columns={columns} data={data} onPageChange={this.onPageChange.bind(this)}/>
+        } useFixedHeader={true} columns={columns} data={data} model="simple" onPageChange={this.onPageChange.bind(this)}/>
         <button onClick={this.handleSearch.bind(this)}>search</button>
       </div>
     )

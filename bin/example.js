@@ -8,11 +8,7 @@ var webpack = require("webpack"),
     path = require("path"),
     fs = require("fs"),
     fsExtra = require("fs-extra"),
-    walk = require("walk"),
     MemoryFS = require("memory-fs");
-    // autoprefixer = require('autoprefixer'),
-    // cssnext = require('postcss-cssnext'),
-    // postcssImport = require('postcss-import');
 
 const SRC_PATH = path.normalize(__dirname + "/../example/script");
 const OUTPUT_PATH = path.normalize(__dirname + "/../example/dist");
@@ -30,8 +26,7 @@ function main() {
     fsExtra.ensureDirSync(path.normalize(OUTPUT_PATH + "/image"));
 
     let memFs = new MemoryFS();
-    //console.log(entryFilePath);
-    //console.log(cacheStore);
+    
     (function exe(dir, done) {
         var results = [];
         fs.readdir(dir, function(err, list) {
