@@ -5,7 +5,7 @@ import babelPolyfill from "babel-polyfill";  // enable es6 to es5 transform
 import React from "react";
 import ReactDom from "react-dom";
 import moment from "moment";
-import DateInput from "../../src/component/form/DateInput.js";
+import { DateInput } from "../../index.js";
 let value = "2015-12-03";
 function runner () {
     ReactDom.render(<div style={{

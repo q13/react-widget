@@ -4,7 +4,7 @@
 import babelPolyfill from "babel-polyfill";  // enable es6 to es5 transform
 import React from "react";
 import ReactDom from "react-dom";
-import AutoComplete from "../../src/component/autocomplete/index.js";
+import { AutoComplete } from "../../index.js";
 
 let allOptions = [
   {selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container").toString() },
