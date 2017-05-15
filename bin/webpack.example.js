@@ -98,7 +98,7 @@ module.exports = {
         noInfo: false,
         stats: 'minimal',
         inline: true, //监控js变化
-        hot:true,
+        // hot:true,
         contentBase:path.join(__dirname + "/../example")
     }
 }

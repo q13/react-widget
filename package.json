@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node ./bin/server.js",
     "example": "webpack --config bin/webpack.example.js -p",
-    "example-dev": "webpack-dev-server --watch --hot --inline --config bin/webpack.example.js"
+    "example-dev": "webpack-dev-server --watch --inline --config bin/webpack.example.js --output-public-path=/dist/"
   },
   "repository": {
     "type": "git",
