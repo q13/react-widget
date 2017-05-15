@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node ./bin/server.js",
-    "example-dev": "webpack-dev-server --progress --watch --config bin/webpack.example.js",
-    "example": "node ./bin/example.js"
+    "example": "webpack --watch --config bin/webpack.example.js",
+    "example-dev-server": "webpack --watch --config bin/webpack.example.js"
   },
   "repository": {
     "type": "git",
