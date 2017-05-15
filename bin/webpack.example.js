@@ -40,7 +40,7 @@ getEntry(SRC_PATH).forEach(filePath => {
 module.exports = {
     entry: entryObj,
     context: SRC_PATH,
-    devtool: 'cheap-module',
+    devtool: 'eval',
 
     output: {
         path: path.join(__dirname, '/../example/dist'),
@@ -82,11 +82,12 @@ module.exports = {
             banner: 'Build at ' + new Date() + '\nBy~雅座前端开发组', 
             entryOnly: true
         }),
-        new webpack.optimize.UglifyJsPlugin({
-            compress: {
-                warnings: false
-            }
-        })
+        // 压缩
+        // new webpack.optimize.UglifyJsPlugin({
+        //     compress: {
+        //         warnings: false
+        //     }
+        // })
     ],
 
     // 开发server

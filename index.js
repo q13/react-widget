@@ -150,14 +150,14 @@ const antD = {
 let IntervalEnhance = (type)  => class extends React.Component {
     constructor(props) {
         super(props);
-    }
-    render() {
         let isSimple = this.props.model === "simple",
             isAnt    = this.props.model === "ant";
-        const Comp = !this.props.model || !(isSimple || isAnt)
+        this.Comp = !this.props.model || !(isSimple || isAnt)
             ? RWidget[type] ? RWidget[type] : antD[type] 
             : isSimple ? RWidget[type] : antD[type];
-
+    }
+    render() {
+        const Comp = this.Comp;
         return Comp ? <Comp {...this.props} /> : null
     }
 }
