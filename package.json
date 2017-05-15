@@ -19,15 +19,16 @@
     "react"
   ],
   "dependencies": {
+    "antd": "^2.10.1",
     "babel-polyfill": "6.23.0",
     "deep-equal": "1.0.1",
     "immutable": "3.8.1",
     "moment": "2.18.1",
+    "prop-types": "15.5.9",
     "react": "15.5.4",
     "react-addons-css-transition-group": "15.5.2",
     "react-addons-pure-render-mixin": "15.5.2",
     "react-dom": "15.5.4",
-    "prop-types": "15.5.9",
     "react-mixin": "3.0.5"
   },
   "devDependencies": {
@@ -43,6 +44,7 @@
     "express": "^4.15.2",
     "file-loader": "0.11.1",
     "fs-extra": "3.0.1",
+    "gulp": "^3.9.1",
     "memory-fs": "0.4.1",
     "postcss-cssnext": "2.10.0",
     "postcss-import": "9.1.0",

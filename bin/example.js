@@ -156,13 +156,13 @@ function main() {
                                     fs.writeFileSync(imageFilePath, memFs.readFileSync(filePath), {
                                         "mode": 0o777
                                     });
-                                    console.info("Info: " + imageFilePath + " build success!\n");
+                                    console.info("Info: " + imageFilePath + " build success! "+ getFormatTime(new Date()) +"\n");
                                 }
                             } else {
                                 fs.writeFileSync(filePath, memFs.readFileSync(filePath), {
                                     "mode": 0o777
                                 });
-                                console.info("Info: " + filePath + " build success!\n");
+                                console.info("Info: " + filePath + " build success!"+ getFormatTime(new Date()) +"\n");
                             }
                         });
                     }));
@@ -170,6 +170,10 @@ function main() {
             }
         });
     }));
+}
+
+function getFormatTime(date) {
+    return date.getHours() + ":" + date.getMinutes() + ":" + date.getSeconds()
 }
 main();
 exports.main = main;
