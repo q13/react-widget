@@ -17,8 +17,6 @@ import RwUploader from "./src/component/uploader";
 import RwTree from "./src/component/tree";
 import RwDnd from "./src/component/dnd";
 
-import { asyncComponent } from 'react-async-component';
-
 import {
     Affix as AntAffix,
     Anchor as AntAnchor,
