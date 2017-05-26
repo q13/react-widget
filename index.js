@@ -17,6 +17,8 @@ import RwUploader from "./src/component/uploader";
 import RwTree from "./src/component/tree";
 import RwDnd from "./src/component/dnd";
 
+import { asyncComponent } from 'react-async-component';
+
 import {
     Affix as AntAffix,
     Anchor as AntAnchor,
@@ -70,6 +72,7 @@ import {
     Upload as AntUpload,
     version as Antversion	
 } from "antd";
+
 
 const RWidget = {
     Grid:RwGrid,
@@ -142,6 +145,8 @@ const antD = {
     version: Antversion
 }
 
+// const antD = {}
+
 /**
  * 使用react高阶组件进行包装 根据model参数返回ant组件或者react-widget组件
  * model === "ant" 使用ant组件；model === "simple" || !model 使用react-widget组件
@@ -152,6 +157,7 @@ let IntervalEnhance = (type)  => class extends React.Component {
         super(props);
         let isSimple = this.props.model === "simple",
             isAnt    = this.props.model === "ant";
+
         this.Comp = !this.props.model || !(isSimple || isAnt)
             ? RWidget[type] ? RWidget[type] : antD[type] 
             : isSimple ? RWidget[type] : antD[type];

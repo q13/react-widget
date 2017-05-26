@@ -10,6 +10,8 @@ var webpack = require("webpack"),
     walk = require("walk"),
     MemoryFS = require("memory-fs");
 
+var HappyPack = require('happypack');
+
 const SRC_PATH = path.normalize(__dirname + "/../example/script");
 // const OUTPUT_PATH = path.normalize(__dirname + "/../example/dist");
 
@@ -37,10 +39,9 @@ getEntry(SRC_PATH).forEach(filePath => {
     entryObj[path.parse(filePath).name] = filePath;
 })
 
-module.exports = {
+const config = {
     entry: entryObj,
     context: SRC_PATH,
-    devtool: 'eval',
 
     output: {
         path: path.join(__dirname, '/../example/dist'),
@@ -60,8 +61,9 @@ module.exports = {
         }, {
             test: /\.jsx?$/,
             exclude: /(node_modules|bower_components|asset)/,
+            // loaders:[ 'happypack/loader' ]
             use: [{
-                loader: 'babel-loader',
+                loader: 'babel-loader?cacheDirectory',
                 options: {
                     presets: [["es2015",{"modules": false}], "react", "stage-0"]
                 }
@@ -82,6 +84,18 @@ module.exports = {
             banner: 'Build at ' + new Date() + '\nBy~雅座前端开发组', 
             entryOnly: true
         }),
+        // new HappyPack({
+        //     loaders: [{
+        //         path: 'babel-loader',
+        //         query: {
+        //             // plugins: [
+        //             // 'transform-runtime',
+        //             // ],
+        //             presets: [[ 'es2015', { modules: false }], 'react', 'stage-0'],
+        //             cacheDirectory: false
+        //         }
+        //     }]
+        // })
         // 压缩
         // new webpack.optimize.UglifyJsPlugin({
         //     compress: {
@@ -102,3 +116,13 @@ module.exports = {
         contentBase:path.join(__dirname + "/../example")
     }
 }
+
+if(process.env.NODE_ENV == "development") {
+    config.plugins.push(
+        new webpack.DefinePlugin({
+            'process.env.NODE_ENV': JSON.stringify('production')
+        })
+    );
+    config.devtool = "cheap-module-eval-source-map";
+}
+module.exports = config;
