@@ -19,7 +19,7 @@
     "react"
   ],
   "dependencies": {
-    "antd": "^2.10.1",
+    "antd": "^2.10.2",
     "babel-polyfill": "6.23.0",
     "deep-equal": "1.0.1",
     "immutable": "3.8.1",
