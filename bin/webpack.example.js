@@ -46,8 +46,8 @@ const config = {
     output: {
         path: path.join(__dirname, '/../example/dist'),
         filename: '[name].js',
-        sourceMapFilename: '[name].map',
-        chunkFilename: "[id].js"
+        sourceMapFilename: '[name].map'
+        // chunkFilename: "[id].js"
     },
 
     module: {
@@ -120,7 +120,7 @@ const config = {
 if(process.env.NODE_ENV == "development") {
     config.plugins.push(
         new webpack.DefinePlugin({
-            'process.env.NODE_ENV': JSON.stringify('production')
+            'process.env.NODE_ENV': JSON.stringify('development')
         })
     );
     config.devtool = "cheap-module-eval-source-map";

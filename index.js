@@ -143,40 +143,30 @@ const antD = {
     version: Antversion
 }
 
-// const antD = {}
-
 /**
  * 使用react高阶组件进行包装 根据model参数返回ant组件或者react-widget组件
  * model === "ant" 使用ant组件；model === "simple" || !model 使用react-widget组件
  * 未使用model属性时默认先去react-widget中寻找同名组件
  */
-let IntervalEnhance = (type)  => class extends React.Component {
-    constructor(props) {
-        super(props);
-        let isSimple = this.props.model === "simple",
-            isAnt    = this.props.model === "ant";
+let IntervalEnhance = (type)  => (props) =>  {
+    let isSimple = props.model === "simple",
+        isAnt    = props.model === "ant";
 
-        this.Comp = !this.props.model || !(isSimple || isAnt)
-            ? RWidget[type] ? RWidget[type] : antD[type] 
-            : isSimple ? RWidget[type] : antD[type];
-    }
-    render() {
-        const Comp = this.Comp;
-        return Comp ? <Comp {...this.props} /> : null
-    }
+    const Comp = !props.model || !(isSimple || isAnt)
+        ? RWidget[type] ? RWidget[type] : antD[type] 
+        : isSimple ? RWidget[type] : antD[type];
+    return Comp ? <Comp {...props} ></Comp> : null
 }
 
 // 同名模块
-let Calendar = IntervalEnhance("Calendar"),
+export let Calendar = IntervalEnhance("Calendar"),
     Modal = IntervalEnhance("Modal"),
     Dropdown = IntervalEnhance("Dropdown"),
     AutoComplete = IntervalEnhance("AutoComplete"),
     Tree = IntervalEnhance("Tree");
 
-Tree.prototype.TreeNode = antD.Tree.TreeNode;
-
 // react-widget
-let Grid = IntervalEnhance("Grid"),
+export let Grid = IntervalEnhance("Grid"),
     Validation = IntervalEnhance("Validation"),
     Validator = IntervalEnhance("Validator"),
     DateInput = IntervalEnhance("DateInput"),
@@ -187,7 +177,7 @@ let Grid = IntervalEnhance("Grid"),
     Dnd = IntervalEnhance("Dnd");
 
 // antD
-let Affix = IntervalEnhance("Affix"),
+export let Affix = IntervalEnhance("Affix"),
     Anchor = IntervalEnhance("Anchor"),
     Alert = IntervalEnhance("Alert"),
     BackTop = IntervalEnhance("BackTop"),
@@ -234,70 +224,36 @@ let Affix = IntervalEnhance("Affix"),
     Upload = IntervalEnhance("Upload"),
     version = IntervalEnhance("version");
 
-export {
-    // 同名模块
-    Calendar,
-    Modal,
-    Dropdown,
-    AutoComplete,
-    Tree,
-
-    // react-widget
-    Grid,
-    Validation,
-    Validator,
-    DateInput,
-    Checkboxgroup,
-    Radiogroup,
-    ColorInput,
-    Uploader,
-    Dnd,
-
-    // antD
-    Affix,
-    Anchor,
-    Alert,
-    BackTop,
-    Badge,
-    Breadcrumb,
-    Button,
-    Card,
-    Collapse,
-    Carousel,
-    Cascader,
-    Checkbox,
-    Col,
-    DatePicker,
-    Form,
-    Icon,
-    Input,
-    InputNumber,
-    Layout,
-    LocaleProvider,
-    message,
-    Menu,
-    notification,
-    Pagination,
-    Popconfirm,
-    Popover,
-    Progress,
-    Radio,
-    Rate,
-    Row,
-    Select,
-    Slider,
-    Spin,
-    Steps,
-    Switch,
-    Table,
-    Transfer,
-    TreeSelect,
-    Tabs,
-    Tag,
-    TimePicker,
-    Timeline,
-    Tooltip,
-    Mention,
-    Upload,
-    version
-};
+Dropdown.Item = AntDropdown.Item;
+Menu.Divider = AntMenu.Divider;
+Menu.Item = AntMenu.Item;
+Menu.SubMenu = AntMenu.SubMenu;
+Menu.ItemGroup = AntMenu.ItemGroup;
+Anchor.Link = AntAnchor.Link;
+AutoComplete.Option = AntAutoComplete.Option;
+AutoComplete.OptGroup = AntAutoComplete.OptGroup;
+Breadcrumb.Item = AntBreadcrumb.Item;
+Collapse.Panel = AntCollapse.Panel;
+Dropdown.Button = AntDropdown.Button;
+Input.Group = AntInput.Group;
+Input.Search = AntInput.Search;
+Layout.Sider = AntLayout.Sider;
+Mention.getMentions = AntMention.getMentions;
+Mention.Nav = AntMention.Nav;
+Mention.toString = AntMention.toString;
+Mention.toContentState = AntMention.toEditorState;
+Notation.warn = AntNotation.warn;
+Select.Option = AntSelect.Option;
+Select.OptGroup = AntSelect.OptGroup;
+Steps.Step = AntSteps.Step;
+Tag.CheckableTag = AntTag.CheckableTag;
+Timeline.Item = AntTimeline.Item;
+Transfer.List = AntTransfer.List;
+Transfer.Operation = AntTransfer.Operation;
+Transfer.Search = AntTransfer.Search;
+Tree.TreeNode = AntTree.TreeNode;
+TreeSelect.TreeNode = AntTreeSelect.TreeNode;
+TreeSelect.SHOW_ALL = AntTreeSelect.SHOW_ALL;
+TreeSelect.SHOW_PARENT = AntTreeSelect.SHOW_PARENT;
+TreeSelect.SHOW_CHILD = AntTreeSelect.SHOW_CHILD;
+Upload.Dragger = AntUpload.Dragger;
