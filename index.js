@@ -173,7 +173,7 @@ let Calendar = IntervalEnhance("Calendar"),
     AutoComplete = IntervalEnhance("AutoComplete"),
     Tree = IntervalEnhance("Tree");
 
-Tree.TreeNode = antD.Tree.TreeNode;
+Tree.prototype.TreeNode = antD.Tree.TreeNode;
 
 // react-widget
 let Grid = IntervalEnhance("Grid"),
