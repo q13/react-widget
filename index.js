@@ -224,6 +224,28 @@ export let Affix = IntervalEnhance("Affix"),
     Upload = IntervalEnhance("Upload"),
     version = IntervalEnhance("version");
 
+// widget属性
+Checkboxgroup.getOptionClass = RwCheckboxgroup.getOptionClass;
+Dropdown.activeInstanceId = RwDropdown.activeInstanceId;
+Dropdown.renderPanel = RwDropdown.renderPanel;
+Dropdown.instanceId = RwDropdown.instanceId;
+Dropdown.getPanelStyle = RwDropdown.getPanelStyle;
+Dropdown.isInContainer = RwDropdown.isInContainer;
+Dropdown.scrollToSelectedItem = RwDropdown.scrollToSelectedItem;
+Radiogroup.getOptionClass = RwRadiogroup.getOptionClass;
+Modal.ajustModalZIndex = RwModal.ajustModalZIndex;
+Modal.BASE_Z_INDEX = RwModal.BASE_Z_INDEX;
+Tree.getCheckboxTextFromStatus = RwTree.getCheckboxTextFromStatus;
+Tree.getFoldderTextFromStatus = RwTree.getFoldderTextFromStatus;
+Tree.getCloneOptions = RwTree.getCloneOptions;
+Tree.getOptionFromValue = RwTree.getOptionFromValue;
+Uploader.isSupportFileApi = RwUploader.isSupportFileApi;
+Validation.defaultRule = RwValidation.defaultRule;
+Validator.defaultRule = RwValidator.defaultRule;
+Validator.getNewFields = RwValidator.getNewFields;
+Validator.getOrderFields = RwValidator.getOrderFields;
+Validator.getStandardField = RwValidator.getStandardField;
+// antD属性
 Dropdown.Item = AntDropdown.Item;
 Menu.Divider = AntMenu.Divider;
 Menu.Item = AntMenu.Item;
