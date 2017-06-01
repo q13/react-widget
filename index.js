@@ -45,7 +45,6 @@ import {
     Menu as AntMenu,
     Modal as AntModal,
     notification as Antnotification,
-    Notation as AntNotation,
     Pagination as AntPagination,
     Popconfirm as AntPopconfirm,
     Popover as AntPopover,
@@ -118,7 +117,6 @@ const antD = {
     Menu: AntMenu,
     Modal: AntModal,
     notification: Antnotification,
-    Notation:AntNotation,
     Pagination: AntPagination,
     Popconfirm: AntPopconfirm,
     Popover: AntPopover,
@@ -202,7 +200,6 @@ export let Affix = IntervalEnhance("Affix"),
     message = IntervalEnhance("message"),
     Menu = IntervalEnhance("Menu"),
     notification = IntervalEnhance("notification"),
-    Notation = IntervalEnhance("Notation"),
     Pagination = IntervalEnhance("Pagination"),
     Popconfirm = IntervalEnhance("Popconfirm"),
     Popover = IntervalEnhance("Popover"),
@@ -267,7 +264,6 @@ Mention.getMentions = AntMention.getMentions;
 Mention.Nav = AntMention.Nav;
 Mention.toString = AntMention.toString;
 Mention.toContentState = AntMention.toEditorState;
-Notation.warn = AntNotation.warn;
 Select.Option = AntSelect.Option;
 Select.OptGroup = AntSelect.OptGroup;
 Steps.Step = AntSteps.Step;
