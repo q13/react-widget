@@ -6,6 +6,7 @@
 import {Widget} from "../component.js";
 import React from 'react';
 import ReactDom from 'react-dom';
+import PropTypes from "prop-types";
 import Dnd from '../dnd/index.js';
 import uiStyle from './index.css';
 
@@ -190,22 +191,22 @@ class Modal extends Widget {
 }
 
 Modal.propTypes = {
-  prefixCls: React.PropTypes.string,
-  className: React.PropTypes.string,
-  isLocal: React.PropTypes.bool,
-  centerFixed: React.PropTypes.bool,
-  width: React.PropTypes.any,
-  height: React.PropTypes.any,
-  visible: React.PropTypes.bool,
-  title: React.PropTypes.string,
-  ddSelector: React.PropTypes.string,
-  closeText: React.PropTypes.string,
-  submitText: React.PropTypes.string,
-  submitOption: React.PropTypes.string,
-  closeOption: React.PropTypes.string,
-  onVisibleChange: React.PropTypes.func,
-  onCloseClick: React.PropTypes.func,
-  onSubmitClick: React.PropTypes.func
+  prefixCls: PropTypes.string,
+  className: PropTypes.string,
+  isLocal: PropTypes.bool,
+  centerFixed: PropTypes.bool,
+  width: PropTypes.any,
+  height: PropTypes.any,
+  visible: PropTypes.bool,
+  title: PropTypes.string,
+  ddSelector: PropTypes.string,
+  closeText: PropTypes.string,
+  submitText: PropTypes.string,
+  submitOption: PropTypes.string,
+  closeOption: PropTypes.string,
+  onVisibleChange: PropTypes.func,
+  onCloseClick: PropTypes.func,
+  onSubmitClick: PropTypes.func
 };
 Modal.defaultProps = {
   prefixCls: 'ui-modal',

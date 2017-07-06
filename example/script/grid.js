@@ -8,7 +8,8 @@
 import babelPolyfill from "babel-polyfill"; // enable es6 to es5 transform
 import React from "react";
 import ReactDom from "react-dom";
-import Grid from "../../src/component/grid/index.js";
+// import Grid from "../../src/component/grid/index.js";
+import { Grid } from "../../index.js";
 class App extends React.Component {
   constructor(props) {
     super(props);

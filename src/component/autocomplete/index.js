@@ -12,6 +12,7 @@ import {
 import moment from 'moment';
 import React from 'react';
 import ReactDom from 'react-dom';
+import PropTypes from "prop-types";
 import Dropdown from '../form/Dropdown.js';
 import style from './autocomplete.css';
 
@@ -65,9 +66,9 @@ class AutoComplete extends Dropdown {
   }
 }
 AutoComplete.propTypes = Object.assign({
-  onTextChange: React.PropTypes.func,
-  minQueryLength: React.PropTypes.number,
-  delayQueryTime: React.PropTypes.number
+  onTextChange: PropTypes.func,
+  minQueryLength: PropTypes.number,
+  delayQueryTime: PropTypes.number
 }, Dropdown.propTypes);
 
 AutoComplete.defaultProps = Object.assign({

@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import PropTypes from "prop-types";
 import style from './colorpicker.css';
 
 let instanceId = 0;
@@ -306,10 +307,10 @@ class ColorPicker extends React.Component{
   }
 }
 ColorPicker.propTypes = {
-  prefixCls: React.PropTypes.string,
-  className: React.PropTypes.string,
-  color: React.PropTypes.string,
-  onChange: React.PropTypes.func,
+  prefixCls: PropTypes.string,
+  className: PropTypes.string,
+  color: PropTypes.string,
+  onChange: PropTypes.func,
 };
 ColorPicker.defaultProps = {
   prefixCls: 'ui-colorpicker',
