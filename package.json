@@ -4,7 +4,6 @@
   "description": "Some component base on React framework.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "server": "node ./bin/server.js",
     "example": "SET NODE_ENV=production&& webpack --config bin/webpack.example.js -p",
     "example-dev": "SET NODE_ENV=development&& webpack-dev-server --watch --inline --config bin/webpack.example.js --output-public-path=/dist/"
@@ -19,7 +18,6 @@
     "react"
   ],
   "dependencies": {
-    "antd": "^2.10.2",
     "babel-polyfill": "6.23.0",
     "deep-equal": "1.0.1",
     "immutable": "3.8.1",
