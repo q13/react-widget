@@ -10,6 +10,7 @@
 import {Widget} from "../component.js";
 import React from 'react';
 import ReactDom from 'react-dom';
+import PropTypes from "prop-types";
 import equal from 'deep-equal';
 class Validator extends Widget {
   constructor(props) {
@@ -358,10 +359,10 @@ class Validator extends Widget {
   }
 }
 Validator.propTypes = {
-  prefixCls: React.PropTypes.string,
-  className: React.PropTypes.string,
-  fields: React.PropTypes.object,
-  onRulesChange: React.PropTypes.func
+  prefixCls: PropTypes.string,
+  className: PropTypes.string,
+  fields: PropTypes.object,
+  onRulesChange: PropTypes.func
 };
 Validator.defaultProps = {
   prefixCls: 'ui-validator',

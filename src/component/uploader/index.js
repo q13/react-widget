@@ -12,6 +12,7 @@ import {
 } from "../component.js";
 import React from 'react';
 import ReactDom from 'react-dom';
+import PropTypes from "prop-types";
 import style from './uploader.css';
 
 class Uploader extends Widget {
@@ -251,17 +252,17 @@ Uploader.isSupportFileApi = function () {
   }
 };
 Uploader.propTypes = {
-  requestData: React.PropTypes.object,
-  url: React.PropTypes.string,
-  text: React.PropTypes.string,
-  fieldName: React.PropTypes.string,
-  accept: React.PropTypes.string,
-  className: React.PropTypes.string,
-  onChange: React.PropTypes.func,
-  onStart: React.PropTypes.func,
-  onProgress: React.PropTypes.func,
-  onSuccess: React.PropTypes.func,
-  onFailure: React.PropTypes.func
+  requestData: PropTypes.object,
+  url: PropTypes.string,
+  text: PropTypes.string,
+  fieldName: PropTypes.string,
+  accept: PropTypes.string,
+  className: PropTypes.string,
+  onChange: PropTypes.func,
+  onStart: PropTypes.func,
+  onProgress: PropTypes.func,
+  onSuccess: PropTypes.func,
+  onFailure: PropTypes.func
 };
 Uploader.defaultProps = {
   prefixCls: 'ui-uploader',

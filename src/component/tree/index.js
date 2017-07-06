@@ -12,6 +12,7 @@ import {
 } from "../component.js";
 import React from 'react';
 import ReactDom from 'react-dom';
+import PropTypes from "prop-types";
 import style from './tree.css';
 
 class Tree extends Widget {
@@ -402,16 +403,16 @@ Tree.getOptionFromValue = function (value, options) {
   return option;
 };
 Tree.propTypes = {
-  prefixCls: React.PropTypes.string,
-  className: React.PropTypes.string,
-  checkMode: React.PropTypes.string,
-  selectMode: React.PropTypes.string,
-  unfoldMode: React.PropTypes.any,
-  options: React.PropTypes.array,
-  getDefaultNodeTemplate: React.PropTypes.func,
-  onOptionsChange: React.PropTypes.func,
-  onCheckedChange: React.PropTypes.func,
-  onSelectedChange: React.PropTypes.func
+  prefixCls: PropTypes.string,
+  className: PropTypes.string,
+  checkMode: PropTypes.string,
+  selectMode: PropTypes.string,
+  unfoldMode: PropTypes.any,
+  options: PropTypes.array,
+  getDefaultNodeTemplate: PropTypes.func,
+  onOptionsChange: PropTypes.func,
+  onCheckedChange: PropTypes.func,
+  onSelectedChange: PropTypes.func
 };
 Tree.defaultProps = {
   prefixCls: 'ui-tree',

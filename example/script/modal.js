@@ -4,7 +4,7 @@
 import babelPolyfill from "babel-polyfill";  // enable es6 to es5 transform
 import React from "react";
 import ReactDOM from "react-dom";
-import Modal from "../../src/component/modal/index.js";
+import { Modal } from "../../index.js";
 // import "./modal.css";
 
 var pageContainer = document.getElementById("container");

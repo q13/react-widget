@@ -6,7 +6,7 @@
 import babelPolyfill from 'babel-polyfill';  // enable es6 to es5 transform
 import React from 'react';
 import ReactDom from 'react-dom';
-import Uploader from '../../src/component/uploader/index.js';
+import { Uploader } from "../../index.js";
 
 class App extends React.Component{
   constructor(props) {

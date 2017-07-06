@@ -9,7 +9,7 @@
 import babelPolyfill from 'babel-polyfill';  // enable es6 to es5 transform
 import React from 'react';
 import ReactDom from 'react-dom';
-import Validator from '../../src/component/validator/index.js';
+import { Validator } from "../../index.js";
 
 class App extends React.Component{
   constructor(props) {

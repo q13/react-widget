@@ -4,7 +4,7 @@
 import babelPolyfill from "babel-polyfill";  // enable es6 to es5 transform
 import React from "react";
 import ReactDom from "react-dom";
-import Dropdown from "../../src/component/form/Dropdown.js";
+import { Dropdown } from "../../index.js";
 
 let allOptions = [
   {selected: false, disabled: false, text: 'parent instance', value: document.getElementById("container").toString() },

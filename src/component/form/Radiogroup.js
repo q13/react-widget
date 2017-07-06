@@ -11,6 +11,7 @@ import {
 } from "../component.js";
 import React from 'react';
 import ReactDom from 'react-dom';
+import PropTypes from "prop-types";
 import style from './form.css';
 
 class Radiogroup extends Widget {
@@ -103,13 +104,13 @@ Radiogroup.getOptionClass = function(prefixCls, option, x, options, props) {
   return classString;
 };
 Radiogroup.propTypes = {
-  prefixCls: React.PropTypes.string,
-  className: React.PropTypes.string,
-  options: React.PropTypes.array,
-  disabled: React.PropTypes.bool,
-  value: React.PropTypes.any,
-  onChange: React.PropTypes.func,
-  onOptionsChange: React.PropTypes.func,
+  prefixCls: PropTypes.string,
+  className: PropTypes.string,
+  options: PropTypes.array,
+  disabled: PropTypes.bool,
+  value: PropTypes.any,
+  onChange: PropTypes.func,
+  onOptionsChange: PropTypes.func,
 };
 Radiogroup.defaultProps = {
   prefixCls: 'ui-form-radiogroup',

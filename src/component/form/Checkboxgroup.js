@@ -11,6 +11,7 @@ import {
 } from "../component.js";
 import React from 'react';
 import ReactDom from 'react-dom';
+import PropTypes from "prop-types";
 import style from './form.css';
 
 class Checkboxgroup extends Widget {
@@ -101,12 +102,12 @@ Checkboxgroup.getOptionClass = function(prefixCls, option, x, props) {
   return classString;
 };
 Checkboxgroup.propTypes = {
-  prefixCls: React.PropTypes.string,
-  className: React.PropTypes.string,
-  options: React.PropTypes.array,
-  disabled: React.PropTypes.bool,
-  onChange: React.PropTypes.func,
-  onOptionsChange: React.PropTypes.func,
+  prefixCls: PropTypes.string,
+  className: PropTypes.string,
+  options: PropTypes.array,
+  disabled: PropTypes.bool,
+  onChange: PropTypes.func,
+  onOptionsChange: PropTypes.func,
 };
 Checkboxgroup.defaultProps = {
   prefixCls: 'ui-form-checkboxgroup',

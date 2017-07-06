@@ -4,7 +4,7 @@
 import babelPolyfill from 'babel-polyfill';  // enable es6 to es5 transform
 import React from 'react';
 import ReactDom from 'react-dom';
-import Tree from '../../src/component/tree/index.js';
+import { Tree } from "../../index.js";
 
 class App extends React.Component {
   constructor(props) {

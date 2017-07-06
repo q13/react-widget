@@ -4,7 +4,7 @@
 import babelPolyfill from "babel-polyfill";  // enable es6 to es5 transform
 import React from "react";
 import ReactDom from "react-dom";
-import Validation from "../../src/component/validation/index.js";
+import { Validation } from "../../index.js";
 
 function run(v, trigger) {
     ReactDom.render(
