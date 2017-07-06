@@ -1,6 +1,6 @@
 /**
  * @Date:   2016-06-17T16:39:08+08:00
- * @Last modified time: 2017-07-06T16:58:46+08:00
+ * @Last modified time: 2017-07-06T17:46:33+08:00
  */
 
 /**
@@ -171,7 +171,7 @@ class DateInput extends Widget {
 
   render() {
     const props = this.props;
-    const prefixCls = props.prefixCls;
+    //const prefixCls = props.prefixCls;
     let otherCls = '';
     if (props.disabled) {
       otherCls += `${prefixCls}-input-state-disabled`;
