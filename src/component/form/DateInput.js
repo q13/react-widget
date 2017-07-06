@@ -1,6 +1,6 @@
 /**
  * @Date:   2016-06-17T16:39:08+08:00
- * @Last modified time: 2016-07-07T17:59:46+08:00
+ * @Last modified time: 2017-07-06T16:58:46+08:00
  */
 
 /**
@@ -176,7 +176,8 @@ class DateInput extends Widget {
     if (props.disabled) {
       otherCls += `${prefixCls}-input-state-disabled`;
     }
-    return (<input {...props} className={`${prefixCls}` + ` ${prefixCls}-` + this.cptId + ' ' + (props.className || '') + ' ' + otherCls}
+    let {prefixCls, calendarProps, ...validProps} = props;
+    return (<input {...validProps} className={`${prefixCls}` + ` ${prefixCls}-` + this.cptId + ' ' + (props.className || '') + ' ' + otherCls}
                    type="text" ref="input" value={props.value === 'Invalid date' ? '' : props.value} readOnly={true} onClick={this.handleClick.bind(this)}/>);
   }
 }
